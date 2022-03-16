@@ -1,2 +1,9 @@
-# Military-Project
-Application to study methods of network planning and management in the technological processes for A.F. Mozhaysky Military-Space Academy
+# Использование метода сетевого планирования и управления в технологических процессах эксплуатации космических средств
+
+| ФИО       | Роль в проекте                     |
+|-----------|------------------------------------|
+| Мариничев И. А. | ʕಠᴥಠʔ |
+| ... | U・ᴥ・U |
+| ... | ฅ(^◕ᴥ◕^)ฅ |
+| ... | ／(=･ x ･=)＼ |
+| ... | ( ´(00)ˋ ) |
