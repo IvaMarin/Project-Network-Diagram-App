@@ -1,7 +1,7 @@
 import sys
 import numpy as np
 
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QLabel, QDockWidget, QVBoxLayout, QGridLayout
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QLabel, QDockWidget, QVBoxLayout, QGridLayout, QAction
 from PyQt5.QtGui import QPainter, QImage, QColor
 from PyQt5.QtCore import Qt, QRect, QPointF
 
@@ -101,11 +101,11 @@ class Display(QWidget):
 
         # смотрим на все вершины и проверяем не нажали ли на них ПКМ
         # если да, то добавляем в marked
-        # окно чувствительности 20x20
+        # окно чувствительности rxr
         for i in range(self.cntPoints):
             if ((event.button() == Qt.RightButton) and 
-                (event.pos().x() >= self.points[i].x() - 20 and event.pos().x() <= self.points[i].x() + 20 and
-                 event.pos().y() >= self.points[i].y() - 20 and event.pos().y() <= self.points[i].y() + 20)):
+                (event.pos().x() >= self.points[i].x() - self.r and event.pos().x() <= self.points[i].x() + self.r and
+                 event.pos().y() >= self.points[i].y() - self.r and event.pos().y() <= self.points[i].y() + self.r)):
                 self.marked = np.append(self.marked, i)
                 break
   
@@ -115,10 +115,10 @@ class Display(QWidget):
     def mouseMoveEvent(self, event):
         # смотрим на все вершины и проверяем не двигают ли их
         # если да, то добавляем новые координаты в points
-        # окно чувствительности 20x20
+        # окно чувствительности rxr
         for i in range(self.cntPoints):
-            if (event.pos().x() >= self.points[i].x() - 20 and event.pos().x() <= self.points[i].x() + 20 and
-                event.pos().y() >= self.points[i].y() - 20 and event.pos().y() <= self.points[i].y() + 20):
+            if (event.pos().x() >= self.points[i].x() - self.r and event.pos().x() <= self.points[i].x() + self.r and
+                event.pos().y() >= self.points[i].y() - self.r and event.pos().y() <= self.points[i].y() + self.r):
                 self.points[i] = event.pos()
                 break
                         
@@ -158,6 +158,20 @@ class MainWindow(QMainWindow):
         display = Display()
         self.setCentralWidget(display)
 
+        exitAction = QAction('Выход', self)
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('Закрыть приложение')
+        exitAction.triggered.connect(self.close)
+
+        panelAction = dock.toggleViewAction()
+        panelAction.setStatusTip('Справка')
+        panelAction.setShortcut('Ctrl+I')
+        panelAction.setStatusTip('Открыть меню справки')
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&Файл')
+        fileMenu.addAction(panelAction)
+        fileMenu.addAction(exitAction)
 
         self.image = QImage(self.size(), QImage.Format_RGB32)
         self.image.fill(Qt.white)
