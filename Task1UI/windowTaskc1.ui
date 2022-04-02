@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>2143</width>
+    <height>1258</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>2143</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="actionNewFile"/>
+    <addaction name="actionOpenFile"/>
+    <addaction name="actionSaveFile"/>
+    <addaction name="actionSaveFileAs"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Справка</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Редактор</string>
+    </property>
+    <addaction name="actionForward"/>
+    <addaction name="actionBackward"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionbtnAddNode"/>
+   <addaction name="actionbtnRemoveNode"/>
+   <addaction name="actionbtnRemoveNodeConnection"/>
+   <addaction name="actionbtnMoveNode"/>
+   <addaction name="actionbtnConnectNode"/>
+   <addaction name="separator"/>
+   <addaction name="actionbtnInfo"/>
+   <addaction name="actionbtnHome"/>
+   <addaction name="actionbtnZoomIn"/>
+   <addaction name="actionbtnZoomOut"/>
+  </widget>
+  <action name="actionNewFile">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/file.png</normaloff>resources/iconePack/file.png</iconset>
+   </property>
+   <property name="text">
+    <string>Новый файл</string>
+   </property>
+   <property name="toolTip">
+    <string>Создать новый файл</string>
+   </property>
+  </action>
+  <action name="actionOpenFile">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/write.png</normaloff>resources/iconePack/write.png</iconset>
+   </property>
+   <property name="text">
+    <string>Открыть файл</string>
+   </property>
+  </action>
+  <action name="actionSaveFile">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/save.png</normaloff>resources/iconePack/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </action>
+  <action name="actionSaveFileAs">
+   <property name="text">
+    <string>Сохранить как</string>
+   </property>
+  </action>
+  <action name="actionForward">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/forward.png</normaloff>resources/iconePack/forward.png</iconset>
+   </property>
+   <property name="text">
+    <string>Вперед        Ctrl+Y</string>
+   </property>
+  </action>
+  <action name="actionBackward">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/reply.png</normaloff>resources/iconePack/reply.png</iconset>
+   </property>
+   <property name="text">
+    <string>Назад          Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionbtnAddNode">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/add-new.png</normaloff>resources/iconePack/add-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnAddNode</string>
+   </property>
+   <property name="toolTip">
+    <string>Добавить узел</string>
+   </property>
+  </action>
+  <action name="actionbtnRemoveNode">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/trash.png</normaloff>resources/iconePack/trash.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnRemoveNode</string>
+   </property>
+   <property name="toolTip">
+    <string>Удалить выбранный элемент</string>
+   </property>
+  </action>
+  <action name="actionbtnMoveNode">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/file_hand.svg</normaloff>resources/iconePack/file_hand.svg</iconset>
+   </property>
+   <property name="text">
+    <string>btnMoveNode</string>
+   </property>
+   <property name="toolTip">
+    <string>Передвинуть элемент</string>
+   </property>
+  </action>
+  <action name="actionbtnConnectNode">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/file_addArrow.svg</normaloff>resources/iconePack/file_addArrow.svg</iconset>
+   </property>
+   <property name="text">
+    <string>btnConnectNode</string>
+   </property>
+   <property name="toolTip">
+    <string>Соединить узлы</string>
+   </property>
+  </action>
+  <action name="actionbtnInfo">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/attachment.png</normaloff>resources/iconePack/attachment.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnInfo</string>
+   </property>
+   <property name="toolTip">
+    <string>Подсказка</string>
+   </property>
+  </action>
+  <action name="actionbtnHome">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/home.png</normaloff>resources/iconePack/home.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnHome</string>
+   </property>
+   <property name="toolTip">
+    <string>Перейти к выбору заданий</string>
+   </property>
+  </action>
+  <action name="actionbtnRemoveNodeConnection">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/deletNODECONNECT.png</normaloff>resources/iconePack/deletNODECONNECT.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnRemoveNodeСonnection</string>
+   </property>
+   <property name="toolTip">
+    <string>Удаление узла и его связей</string>
+   </property>
+  </action>
+  <action name="actionbtnZoomIn">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/zoom-in.png</normaloff>resources/iconePack/zoom-in.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnZoomIn</string>
+   </property>
+   <property name="toolTip">
+    <string>Увеличить изображение</string>
+   </property>
+  </action>
+  <action name="actionbtnZoomOut">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/zoom-out.png</normaloff>resources/iconePack/zoom-out.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnZoomOut</string>
+   </property>
+   <property name="toolTip">
+    <string>Уменьшить изображение</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
