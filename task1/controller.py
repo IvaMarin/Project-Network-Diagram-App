@@ -1,33 +1,33 @@
-# Controller составляющая MVC (Граф)
+# Controller Г±Г®Г±ГІГ ГўГ«ГїГѕГ№Г Гї MVC (ГѓГ°Г Гґ)
 import graph_model as gm
 
-# добавить вершину по нажатию; параметры: объект "граф", событие, кнопка
+# Г¤Г®ГЎГ ГўГЁГІГј ГўГҐГ°ГёГЁГ­Гі ГЇГ® Г­Г Г¦Г ГІГЁГѕ ГЇГ Г°Г Г¬ГҐГІГ°Г»: Г®ГЎГєГҐГЄГІ "ГЈГ°Г Гґ", Г±Г®ГЎГ»ГІГЁГҐ, ГЄГ­Г®ГЇГЄГ 
 def CAddPoint(graph, event, but):
-	# если нажата кнопка
+	# ГҐГ±Г«ГЁ Г­Г Г¦Г ГІГ  ГЄГ­Г®ГЇГЄГ 
 	if event.button() == but:
-		graph.AddPoint(event.pos().x(), event.pos().y()) # добавить вершину
+		graph.AddPoint(event.pos().x(), event.pos().y()) # Г¤Г®ГЎГ ГўГЁГІГј ГўГҐГ°ГёГЁГ­Гі
 
-# удалить вершину по нажатию; параметры: объект "граф", событие, кнопка
+# ГіГ¤Г Г«ГЁГІГј ГўГҐГ°ГёГЁГ­Гі ГЇГ® Г­Г Г¦Г ГІГЁГѕ; ГЇГ Г°Г Г¬ГҐГІГ°Г»: Г®ГЎГєГҐГЄГІ "ГЈГ°Г Гґ", Г±Г®ГЎГ»ГІГЁГҐ, ГЄГ­Г®ГЇГЄГ 
 def CDeletePoint(graph, event, but):
-	# если нажата кнопка
+	# ГҐГ±Г«ГЁ Г­Г Г¦Г ГІГ  ГЄГ­Г®ГЇГЄГ 
 	if event.button() == but:
-		graph.DeletePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # удалить вершину
+		graph.DeletePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # ГіГ¤Г Г«ГЁГІГј ГўГҐГ°ГёГЁГ­Гі
 
-# связать вершины по нажатию; параметры: объект "граф", событие, кнопка
+# Г±ГўГїГ§Г ГІГј ГўГҐГ°ГёГЁГ­Г» ГЇГ® Г­Г Г¦Г ГІГЁГѕ; ГЇГ Г°Г Г¬ГҐГІГ°Г»: Г®ГЎГєГҐГЄГІ "ГЈГ°Г Гґ", Г±Г®ГЎГ»ГІГЁГҐ, ГЄГ­Г®ГЇГЄГ 
 def CConnectPoints(graph, event, but):
-	# если нажата кнопка
+	# ГҐГ±Г«ГЁ Г­Г Г¦Г ГІГ  ГЄГ­Г®ГЇГЄГ 
 	if event.button() == but:
-		graph.ConnectPoints(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # связать вершины
+		graph.ConnectPoints(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # Г±ГўГїГ§Г ГІГј ГўГҐГ°ГёГЁГ­Г»
 
-# удалить связь между вершинами по нажатию; параметры: объект "граф", событие, кнопка
+# ГіГ¤Г Г«ГЁГІГј Г±ГўГїГ§Гј Г¬ГҐГ¦Г¤Гі ГўГҐГ°ГёГЁГ­Г Г¬ГЁ ГЇГ® Г­Г Г¦Г ГІГЁГѕ; ГЇГ Г°Г Г¬ГҐГІГ°Г»: Г®ГЎГєГҐГЄГІ "ГЈГ°Г Гґ", Г±Г®ГЎГ»ГІГЁГҐ, ГЄГ­Г®ГЇГЄГ 
 def CDeleteConnection(graph, event, but):
-	# если нажата кнопка
+	# ГҐГ±Г«ГЁ Г­Г Г¦Г ГІГ  ГЄГ­Г®ГЇГЄГ 
 	if event.button() == but:
 		graph.DeleteConnection(graph.IsCursorOnPoint(event.pos().x(), event.pos().y()),
-									  graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # удалить связь между вершинами
+									  graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # ГіГ¤Г Г«ГЁГІГј Г±ГўГїГ§Гј Г¬ГҐГ¦Г¤Гі ГўГҐГ°ГёГЁГ­Г Г¬ГЁ
 
-# переместить вершину по нажатию; параметры: объект "граф", событие, кнопка
+# ГЇГҐГ°ГҐГ¬ГҐГ±ГІГЁГІГј ГўГҐГ°ГёГЁГ­Гі ГЇГ® Г­Г Г¦Г ГІГЁГѕ; ГЇГ Г°Г Г¬ГҐГІГ°Г»: Г®ГЎГєГҐГЄГІ "ГЈГ°Г Гґ", Г±Г®ГЎГ»ГІГЁГҐ, ГЄГ­Г®ГЇГЄГ 
 def CDeleteConnection(graph, event, but):
-	# если нажата кнопка
+	# ГҐГ±Г«ГЁ Г­Г Г¦Г ГІГ  ГЄГ­Г®ГЇГЄГ 
 	if event.button() == but:
-		graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y(), event.pos().x(), event.pos().y())) # переместить вершину
+		graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y(), event.pos().x(), event.pos().y())) # ГЇГҐГ°ГҐГ¬ГҐГ±ГІГЁГІГј ГўГҐГ°ГёГЁГ­Гі
