@@ -1,33 +1,33 @@
-# Controller ñîñòàâëÿþùàÿ MVC (Ãðàô)
+# Controller составляющая MVC (Граф)
 import graph_model as gm
 
-# äîáàâèòü âåðøèíó ïî íàæàòèþ ïàðàìåòðû: îáúåêò "ãðàô", ñîáûòèå, êíîïêà
+# добавить вершину по нажатию; параметры: объект "граф", событие, кнопка
 def CAddPoint(graph, event, but):
-	# åñëè íàæàòà êíîïêà
+	# если нажата кнопка
 	if event.button() == but:
-		graph.AddPoint(event.pos().x(), event.pos().y()) # äîáàâèòü âåðøèíó
+		graph.AddPoint(event.pos().x(), event.pos().y()) # добавить вершину
 
-# óäàëèòü âåðøèíó ïî íàæàòèþ; ïàðàìåòðû: îáúåêò "ãðàô", ñîáûòèå, êíîïêà
+# удалить вершину по нажатию; параметры: объект "граф", событие, кнопка
 def CDeletePoint(graph, event, but):
-	# åñëè íàæàòà êíîïêà
+	# если нажата кнопка
 	if event.button() == but:
-		graph.DeletePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # óäàëèòü âåðøèíó
+		graph.DeletePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # удалить вершину
 
-# ñâÿçàòü âåðøèíû ïî íàæàòèþ; ïàðàìåòðû: îáúåêò "ãðàô", ñîáûòèå, êíîïêà
+# связать вершины по нажатию; параметры: объект "граф", событие, кнопка
 def CConnectPoints(graph, event, but):
-	# åñëè íàæàòà êíîïêà
+	# если нажата кнопка
 	if event.button() == but:
-		graph.ConnectPoints(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # ñâÿçàòü âåðøèíû
+		graph.ConnectPoints(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # связать вершины
 
-# óäàëèòü ñâÿçü ìåæäó âåðøèíàìè ïî íàæàòèþ; ïàðàìåòðû: îáúåêò "ãðàô", ñîáûòèå, êíîïêà
+# удалить связь между вершинами по нажатию; параметры: объект "граф", событие, кнопка
 def CDeleteConnection(graph, event, but):
-	# åñëè íàæàòà êíîïêà
+	# если нажата кнопка
 	if event.button() == but:
 		graph.DeleteConnection(graph.IsCursorOnPoint(event.pos().x(), event.pos().y()),
-									  graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # óäàëèòü ñâÿçü ìåæäó âåðøèíàìè
+									  graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # удалить связь между вершинами
 
-# ïåðåìåñòèòü âåðøèíó ïî íàæàòèþ; ïàðàìåòðû: îáúåêò "ãðàô", ñîáûòèå, êíîïêà
+# переместить вершину по нажатию; параметры: объект "граф", событие, кнопка
 def CDeleteConnection(graph, event, but):
-	# åñëè íàæàòà êíîïêà
+	# если нажата кнопка
 	if event.button() == but:
-		graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y(), event.pos().x(), event.pos().y())) # ïåðåìåñòèòü âåðøèíó
+		graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y(), event.pos().x(), event.pos().y())) # переместить вершину
