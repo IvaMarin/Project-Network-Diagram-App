@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1671</width>
-    <height>1253</height>
+    <width>2143</width>
+    <height>1258</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1671</width>
+     <width>2143</width>
      <height>21</height>
     </rect>
    </property>
@@ -33,12 +33,10 @@
     <addaction name="actionSaveFileAs"/>
     <addaction name="separator"/>
    </widget>
-   <widget class="QMenu" name="menuHelp">
+   <widget class="QMenu" name="menu_2">
     <property name="title">
      <string>Справка</string>
     </property>
-    <addaction name="actionHelpTask"/>
-    <addaction name="actionHelpProgram"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -47,16 +45,9 @@
     <addaction name="actionForward"/>
     <addaction name="actionBackward"/>
    </widget>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>Настройки</string>
-    </property>
-    <addaction name="actionSetting"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuHelp"/>
-   <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -75,7 +66,6 @@
    <addaction name="actionbtnMoveNode"/>
    <addaction name="actionbtnConnectNode"/>
    <addaction name="separator"/>
-   <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
    <addaction name="actionbtnHome"/>
    <addaction name="actionbtnZoomIn"/>
@@ -135,12 +125,6 @@
    </property>
   </action>
   <action name="actionbtnAddNode">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/iconePack/add-new.png</normaloff>resources/iconePack/add-new.png</iconset>
@@ -153,9 +137,6 @@
    </property>
   </action>
   <action name="actionbtnRemoveNode">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/iconePack/trash.png</normaloff>resources/iconePack/trash.png</iconset>
@@ -168,9 +149,6 @@
    </property>
   </action>
   <action name="actionbtnMoveNode">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/iconePack/file_hand.svg</normaloff>resources/iconePack/file_hand.svg</iconset>
@@ -183,9 +161,6 @@
    </property>
   </action>
   <action name="actionbtnConnectNode">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/iconePack/file_addArrow.svg</normaloff>resources/iconePack/file_addArrow.svg</iconset>
@@ -218,13 +193,10 @@
     <string>btnHome</string>
    </property>
    <property name="toolTip">
-    <string>Перейти к выбору заданий / В меню</string>
+    <string>Перейти к выбору заданий</string>
    </property>
   </action>
   <action name="actionbtnRemoveNodeConnection">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/iconePack/deletNODECONNECT.png</normaloff>resources/iconePack/deletNODECONNECT.png</iconset>
@@ -237,12 +209,6 @@
    </property>
   </action>
   <action name="actionbtnZoomIn">
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/iconePack/zoom-in.png</normaloff>resources/iconePack/zoom-in.png</iconset>
@@ -252,9 +218,6 @@
    </property>
    <property name="toolTip">
     <string>Увеличить изображение</string>
-   </property>
-   <property name="autoRepeat">
-    <bool>true</bool>
    </property>
   </action>
   <action name="actionbtnZoomOut">
@@ -267,33 +230,6 @@
    </property>
    <property name="toolTip">
     <string>Уменьшить изображение</string>
-   </property>
-  </action>
-  <action name="actionHelpTask">
-   <property name="text">
-    <string>Справка по заданию</string>
-   </property>
-  </action>
-  <action name="actionHelpProgram">
-   <property name="text">
-    <string>Справка по программе </string>
-   </property>
-  </action>
-  <action name="actionSetting">
-   <property name="text">
-    <string>Настройки программы</string>
-   </property>
-  </action>
-  <action name="actionbtnCheck">
-   <property name="icon">
-    <iconset>
-     <normaloff>resources/iconePack/check-mark.png</normaloff>resources/iconePack/check-mark.png</iconset>
-   </property>
-   <property name="text">
-    <string>btnCheck</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Проверить задание&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
  </widget>
