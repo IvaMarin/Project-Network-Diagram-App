@@ -20,7 +20,7 @@ class Graph:
     # добавить вершину; параметры: координата х, координата у
     def AddPoint(self, x, y):
         # для каждой вершины (вне зависимости от существования)
-        for i in range(self.PointsIsVisible):
+        for i in range(len(self.PointsIsVisible)):
             # если вершина не существует
             if self.PointsIsVisible[i] == False:
                 self.PointsIsVisible[i] = True  # сделать вершину существующей
@@ -29,8 +29,8 @@ class Graph:
                 self.AmountPoints += 1  # инкрементировать количество вершин (?)
                 return
         # если не было не существующей вершины
-        self.PointsIsVisible = np.append(True)
-        self.CoordCentrePoint = np.append([x, y])  # добавить координаты центра вершины графа
+        np.append(self.PointsIsVisible, True)
+        np.append(self.CoordCentrePoint , [x, y])  # добавить координаты центра вершины графа
         self.AmountPoints += 1  # инкрементировать количество вершин (?)
 
     # находится ли курсор на вершине; параметры: координата курсора х, координата курсора у

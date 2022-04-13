@@ -1,7 +1,7 @@
 import sys
 
-from task1 import WindowOne as wOne
-from task2 import WindowTwo as wTwo
+from BNG.src.python.task1 import WindowOne as wOne
+from BNG.src.python.task2 import WindowTwo as wTwo
 
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QIcon

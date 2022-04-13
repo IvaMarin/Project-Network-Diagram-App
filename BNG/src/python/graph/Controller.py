@@ -1,5 +1,5 @@
 # Controller составляющая MVC (Граф)
-import GraphModel as gm
+from BNG.src.python.graph import GraphModel as graph_model
 
 # добавить вершину по нажатию; параметры: объект "граф", событие, кнопка
 def CAddPoint(graph, event, but):
