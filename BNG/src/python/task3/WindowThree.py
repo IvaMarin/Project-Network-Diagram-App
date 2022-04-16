@@ -2,7 +2,7 @@ from PyQt5.QtCore import QRect
 from PyQt5.QtWidgets import QMainWindow, QApplication
 
 
-class WindowTwo(QMainWindow):
+class Window(QMainWindow):
     """Main WindowOne."""
 
     def __init__(self, parent=None):

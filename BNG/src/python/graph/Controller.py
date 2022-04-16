@@ -1,11 +1,11 @@
 # Controller составляющая MVC (Граф)
-from BNG.src.python.graph import GraphModel as graph_model
+from BNG.src.python.graph import GraphModel as graph
 
 # добавить вершину по нажатию; параметры: объект "граф", событие, кнопка
 def CAddPoint(graph, event, but):
-	# если нажата кнопка
+	# если нажата кнопка <- добавить проверку на нахождение в поле
 	if event.button() == but:
-		graph.AddPoint(event.pos().x(), event.pos().y()) # добавить вершину
+		graph.AddPoint(event.pos().x(), event.pos().y(), event) # добавить вершину
 
 # удалить вершину по нажатию; параметры: объект "граф", событие, кнопка
 def CDeletePoint(graph, event, but):
@@ -23,11 +23,10 @@ def CConnectPoints(graph, event, but):
 def CDeleteConnection(graph, event, but):
 	# если нажата кнопка
 	if event.button() == but:
-		graph.DeleteConnection(graph.IsCursorOnPoint(event.pos().x(), event.pos().y()),
-									  graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # удалить связь между вершинами
+		graph.DeleteConnection(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # удалить связь между вершинами
 
 # переместить вершину по нажатию; параметры: объект "граф", событие, кнопка
-def CDeleteConnection(graph, event, but):
+def CMovePoint(graph, event):
 	# если нажата кнопка
-	if event.button() == but:
-		graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y(), event.pos().x(), event.pos().y())) # переместить вершину
+	#if event.button() == but:
+		graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y()), event.pos().x(), event.pos().y()) # переместить вершину

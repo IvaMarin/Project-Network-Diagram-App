@@ -7,13 +7,13 @@ from BNG.src.python.graph import Paint
 
 import numpy as np
 
-from PyQt5.QtCore import Qt, QRect, QPointF
+from PyQt5.QtCore import Qt, QRect, QPointF, QSize
 from PyQt5.QtGui import QPainter, QColor, QIcon, QPolygonF
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QToolBar, QAction
 
 
 
-class WindowOne(QMainWindow):
+class Window(QMainWindow):
     """Main WindowOne."""
 
     def __init__(self, parent=None):
@@ -55,11 +55,13 @@ class WindowOne(QMainWindow):
         menuToolBar = QToolBar("Файл", self)
         self.addToolBar(menuToolBar)
         menuToolBar.setMovable(False)
+        menuToolBar.setIconSize(QSize(30, 30))  # тут установить размер как часть системного окна
         menuToolBar.addAction(self.newFileAction)
         menuToolBar.addAction(self.checkFileAction)
         menuToolBar.addAction(self.helpTeacherAction)
 
         editToolBar = QToolBar("Правка", self)
+        editToolBar.setIconSize(QSize(30, 30))
         editToolBar.setMovable(False)
         self.addToolBar(Qt.LeftToolBarArea, editToolBar)
         editToolBar.addAction(self.addNodeAction)
@@ -82,21 +84,32 @@ class WindowOne(QMainWindow):
 
 
     def addNode(self):
+        ledIcons = [1, 0, 0, 0, 0]
+        self.setCheckables(ledIcons)
         self.centralWidget.functionAble = "Добавить вершину"
 
     def addArrow(self):
+        ledIcons = [0, 1, 0, 0, 0]
+        self.setCheckables(ledIcons)
         self.centralWidget.functionAble = "Добавить связь"
 
     def removeArrow(self):
+        ledIcons = [0, 0, 1, 0, 0]
+        self.setCheckables(ledIcons)
         self.centralWidget.functionAble = "Удалить вершину"
 
     def removeLineArrow(self):
+        ledIcons = [0, 0, 0, 1, 0]
+        self.setCheckables(ledIcons)
         self.centralWidget.functionAble = "Удалить связь"
 
     def moveNode(self):
+        ledIcons = [0, 0, 0, 0, 1]
+        self.setCheckables(ledIcons)
         self.centralWidget.functionAble = "Переместить вершины"
 
     def makeNewFile(self):
+
         self.centralWidget.functionAble = "Новый файл"
 
     def _connectAction(self):
@@ -105,3 +118,11 @@ class WindowOne(QMainWindow):
         self.removeAction.triggered.connect(self.removeArrow)
         self.moveAction.triggered.connect(self.moveNode)
         self.newFileAction.triggered.connect(self.makeNewFile)
+        self.removeLineAction.triggered.connect(self.removeLineArrow)
+
+    def setCheckables(self, ledIcons):
+        self.addNodeAction.setCheckable(ledIcons[0])
+        self.addArrowAction.setCheckable(ledIcons[1])
+        self.removeAction.setCheckable(ledIcons[2])
+        self.removeLineAction.setCheckable(ledIcons[3])
+        self.moveAction.setCheckable(ledIcons[4])
