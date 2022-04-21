@@ -1,7 +1,7 @@
 import sys, math
 import numpy as np
 
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QLabel, QDockWidget, QVBoxLayout, QGridLayout, QAction
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QLabel, QDockWidget, QVBoxLayout, QGridLayout, QAction, QPushButton, QMessageBox
 from PyQt5.QtGui import QPainter, QImage, QColor, QCursor, QPolygonF
 from PyQt5.QtCore import Qt, QRect, QPointF
 
@@ -42,6 +42,59 @@ def calculate_arrow_points(start_point = QPointF, end_point = QPointF, radius = 
     except (ZeroDivisionError, Exception):
         return None
 
+# функции для определения точек пересечения отрезков
+def onSegment(p, q, r):
+    if ( (q.x() <= max(p.x(), r.x())) and (q.x() >= min(p.x(), r.x())) and
+           (q.y() <= max(p.y(), r.y())) and (q.y() >= min(p.y(), r.y()))):
+        return True
+    return False
+ 
+def orientation(p, q, r):
+    val = (float(q.y() - p.y()) * (r.x() - q.x())) - (float(q.x() - p.x()) * (r.y() - q.y()))
+    if (val > 0):
+        return 1
+    elif (val < 0):
+        return 2
+    else:
+        return 0
+ 
+def doIntersect(p1,q1,p2,q2):
+    o1 = orientation(p1, q1, p2)
+    o2 = orientation(p1, q1, q2)
+    o3 = orientation(p2, q2, p1)
+    o4 = orientation(p2, q2, q1)
+ 
+    if ((o1 != o2) and (o3 != o4)):
+        return True
+    if ((o1 == 0) and onSegment(p1, p2, q1)):
+        return True
+    if ((o2 == 0) and onSegment(p1, q2, q1)):
+        return True
+    if ((o3 == 0) and onSegment(p2, p1, q2)):
+        return True
+    if ((o4 == 0) and onSegment(p2, q1, q2)):
+        return True
+    return False
+
+# функция для опредения координат точки пересечения 
+# и проверки на то ,что точка пересечения не является лишь вершиной графа
+def find_point_and_check(p1,q1,p2,q2):
+    if (q1.y() - p1.y() != 0): 
+        q = (q1.x() - p1.x()) / (p1.y() - q1.y());   
+        sn = (p2.x() - q2.x()) + (p2.y() - q2.y()) * q 
+        if (not sn): 
+            return False 
+        fn = (p2.x() - p1.x()) + (p2.y() - p1.y()) * q 
+        n = fn / sn
+    else:
+        if (not(p2.y() - q2.y())): 
+            return False 
+        n = (p2.y() - p1.y()) / (p2.y() - q2.y()) 
+    dot = (p2.x() + (q2.x() - p2.x()) * n, p2.y() + (q2.y() - p2.y()) * n ) # точка пересечения
+    if (dot[0] != p1.x() and dot[0] != q1.x() and dot[0] != p2.x() and dot[0] != q2.x() and
+        dot[1] != p1.y() and dot[1] != q1.y() and dot[1] != p2.y() and dot[1] != q2.y()):
+        return True
+
 
 
 # класс, реализующий виджет 'Справка'
@@ -63,6 +116,8 @@ class Instructions(QWidget):
         self.label_8 = QLabel("*ПКМ - правая кнопка мыши")
         self.label_9 = QLabel("*СКМ - средняя кнопка мыши")
 
+        self.button = QPushButton("Проверить")
+
         self.grid = QGridLayout()
 
         self.grid.addWidget(self.label_1)
@@ -74,14 +129,15 @@ class Instructions(QWidget):
         self.grid.addWidget(self.label_7)
         self.grid.addWidget(self.label_8)
         self.grid.addWidget(self.label_9)
+        self.grid.addWidget(self.button)
 
 
         self.stretchLout = QVBoxLayout()
         self.stretchLout.addStretch()
-        self.grid.addLayout(self.stretchLout, 9, 0)
+        self.grid.addLayout(self.stretchLout, 10, 0)
         self.setLayout(self.grid)
 
-
+    
 
 # класс, реализующий виджет для создания графа
 class Display(QWidget):
@@ -195,7 +251,110 @@ class Display(QWidget):
 
         self.update()
 
+    def check(self, Points, ConnectedPoints):
+        # параметры, которые должны быть получены из вариантов
+        correct_number_of_nodes = 10
+        correct_connections = [ (0, 1),
+                                (0, 2),
+                                (0, 3),
+                                (1, 2), 
+                                (1, 4), 
+                                (2, 5), 
+                                (2, 7), 
+                                (3, 4), 
+                                (3, 6), 
+                                (4, 5),
+                                (4, 6), 
+                                (5, 7),
+                                (5, 8),
+                                (6, 8),
+                                (7, 9), 
+                                (8, 9) ]
 
+        msg = QMessageBox()
+        cnt = 0
+        do_intersect = False
+        error_string = ""
+        correct = True
+        no_warnings = True
+        for i in range(self.cntPoints):
+            # считаем число точек 
+            if (Points[i][1] == True):
+                cnt += 1
+            # и заодно проверяем не находятся ли точки слишком близко
+            for j in range(self.cntPoints):
+                if ((not do_intersect) and j != i and (Points[j][0].x() + self.r >= Points[i][0].x() - self.r and 
+                                                       Points[j][0].x() - self.r <= Points[i][0].x() + self.r and
+                                                       Points[j][0].y() + self.r >= Points[i][0].y() - self.r and 
+                                                       Points[j][0].y() - self.r <= Points[i][0].y() + self.r)):
+                    msg.setIcon(QMessageBox.Warning)
+                    msg.setText("Внимание!")
+                    msg.setInformativeText("Некоторые вершины находятся слишком близко друг к другу.")
+                    msg.setWindowTitle("Результат")
+                    msg.exec_()
+                    no_warnings = False
+                    do_intersect = True # нужно, чтобы остановить вывод других warning-ов
+                    break
+
+        if (cnt != correct_number_of_nodes):
+            error_string += "Неверное число вершин.\n"
+            correct = False
+
+        # считаем число связей
+        cnt = len(correct_connections)
+        if (len(ConnectedPoints) % 2 == 0):
+            cur_cnt = len(ConnectedPoints)/2
+        else:
+            cur_cnt = (len(ConnectedPoints) - 1)/2
+
+        if cnt != cur_cnt:
+            error_string += "Неверное число связей.\n"
+            correct = False
+
+        for i in range(0, len(ConnectedPoints), 2):
+            if (i + 1 < len(ConnectedPoints) and (Points[ConnectedPoints[i]][1] == True and Points[ConnectedPoints[i+1]][1])):
+                if (ConnectedPoints[i], ConnectedPoints[i+1]) in correct_connections:
+                    cnt -= 1
+      
+        if (cnt != 0):
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Ошибка!")
+            error_string += "Неверные связи.\n"
+            correct = False
+            msg.setInformativeText(error_string)
+            msg.setWindowTitle("Результат")
+            msg.exec_()
+
+        # в случае если все проверки были пройдены, проверим на пересечение рёбер
+        if (correct and no_warnings):
+            do_intersect = False
+            for i in correct_connections:
+                for j in correct_connections:
+                    p1 = QPointF(self.points[i[0]][0].x(), self.points[i[0]][0].y())
+                    q1 = QPointF(self.points[i[1]][0].x(), self.points[i[1]][0].y())
+                    p2 = QPointF(self.points[j[0]][0].x(), self.points[j[0]][0].y())
+                    q2 = QPointF(self.points[j[1]][0].x(), self.points[j[1]][0].y())  
+                    if ((not do_intersect) and (j != i) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
+                        msg.setIcon(QMessageBox.Warning)
+                        msg.setText("Внимание!")
+                        msg.setInformativeText("Граф построен верно, но рёбра не должны пересекаться.")
+                        msg.setWindowTitle("Результат")
+                        msg.exec_()
+                        do_intersect = True
+                        correct = False
+                        no_warnings = False
+                        break
+                if(do_intersect):
+                    break
+
+        if (correct and no_warnings):
+            msg.setIcon(QMessageBox.Information)
+            msg.setText("Отлично!")
+            msg.setInformativeText("Всё верно.")
+            msg.setWindowTitle("Результат")
+            msg.exec_()
+        
+        
 
 # класс, реализующий окно приложения
 class MainWindow(QMainWindow):
@@ -221,12 +380,13 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Редактор графов')
 
         manual = Instructions()
+        manual.button.clicked.connect(self.call_check)
         dock = QDockWidget("Справка")
         dock.setWidget(manual)
         self.addDockWidget(Qt.RightDockWidgetArea, dock)
 
-        display = Display()
-        self.setCentralWidget(display)
+        self.display = Display()
+        self.setCentralWidget(self.display)
 
         exitAction = QAction('Выход', self)
         exitAction.setShortcut('Ctrl+Q')
@@ -247,6 +407,9 @@ class MainWindow(QMainWindow):
         self.image.fill(Qt.white)
 
         self.show()
+
+    def call_check(self):
+        self.display.check(self.display.points, self.display.marked)
 
 
 
