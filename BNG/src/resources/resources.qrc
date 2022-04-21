@@ -1,0 +1,21 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file alias="file_new.svg">file_new.svg</file>
+    <file alias="file_help.svg">file_help.svg</file>
+    <file alias="file_check.svg">file_check.svg</file>
+    <file alias="file_instruction.svg">file_instruction.svg</file>
+
+    <file alias="file_addNode.svg">file_addNode.svg</file>
+    <file alias="file_addArrow.svg">file_addArrow.svg</file>
+    <file alias="file_remove.svg">file_remove.svg</file>
+    <file alias="file_removeLine.svg">file_removeLine.svg</file>
+    <file alias="file_hand.svg">file_hand.svg</file>
+
+    <file alias="file_one.svg">file_one.svg</file>
+    <file alias="file_two.svg">file_two.svg</file>
+    <file alias="file_three.svg">file_three.svg</file>
+    <file alias="file_four.svg">file_four.svg</file>
+    <file alias="file_five.svg">file_five.svg</file>
+    <file alias="file_six.svg">file_six.svg</file>
+</qresource>
+</RCC>

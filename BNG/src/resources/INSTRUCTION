@@ -1,0 +1,3 @@
+При добавлении файлов .svg из директории src выполнить команду
+
+pyrcc5 -o resources/qrc_resources.py resources/resources.qrc
