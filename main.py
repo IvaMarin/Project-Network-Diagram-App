@@ -114,6 +114,142 @@ class Window2(QMainWindow):
         #self._connectAction()
 
 
+#////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Window3(QMainWindow):
+
+
+    def __init__(self, parent=None):
+        """Initializer."""
+        super().__init__(parent)
+
+        self.ui = Ui_MainWindow1()
+        self.ui.setupUi(self)
+        #self.initUI()
+
+
+        self.setWindowTitle("Задача №3")
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        width = int(sizeWindow.width() - sizeWindow.width() / 5)
+        height = int(sizeWindow.height() - sizeWindow.height() / 5)
+        # вписываем во весь экран
+        self.resize(width, height)
+
+        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+
+        # self.centralWidget = Display()
+        # self.setCentralWidget(self.centralWidget)
+
+        # self._connectAction()
+
+
+    ##################################################################################
+    ##################################################################################
+
+
+#////////////////////////////////  КЛАСС ОКНА ЧЕТВЁРТОГО ЗАДАНИЯ  /////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Window4(QMainWindow):
+
+
+    def __init__(self, parent=None):
+        """Initializer."""
+        super().__init__(parent)
+
+        self.ui = Ui_MainWindow1()
+        self.ui.setupUi(self)
+        #self.initUI()
+
+
+        self.setWindowTitle("Задача №4")
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        width = int(sizeWindow.width() - sizeWindow.width() / 5)
+        height = int(sizeWindow.height() - sizeWindow.height() / 5)
+        # вписываем во весь экран
+        self.resize(width, height)
+
+        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+
+        # self.centralWidget = Display()
+        # self.setCentralWidget(self.centralWidget)
+
+        # self._connectAction()
+
+
+    ##################################################################################
+    ##################################################################################
+
+
+#////////////////////////////////  КЛАСС ОКНА ПЯТОЕ ЗАДАНИЯ  ////////////////////////////////////
+#////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Window5(QMainWindow):
+
+
+    def __init__(self, parent=None):
+        """Initializer."""
+        super().__init__(parent)
+
+        self.ui = Ui_MainWindow1()
+        self.ui.setupUi(self)
+        #self.initUI()
+
+
+        self.setWindowTitle("Задача №5")
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        width = int(sizeWindow.width() - sizeWindow.width() / 5)
+        height = int(sizeWindow.height() - sizeWindow.height() / 5)
+        # вписываем во весь экран
+        self.resize(width, height)
+
+        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+
+        # self.centralWidget = Display()
+        # self.setCentralWidget(self.centralWidget)
+
+        # self._connectAction()
+
+
+    ##################################################################################
+    ##################################################################################
+
+
+#////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Window6(QMainWindow):
+
+
+    def __init__(self, parent=None):
+        """Initializer."""
+        super().__init__(parent)
+
+        self.ui = Ui_MainWindow1()
+        self.ui.setupUi(self)
+        #self.initUI()
+
+
+        self.setWindowTitle("Задача №6")
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        width = int(sizeWindow.width() - sizeWindow.width() / 5)
+        height = int(sizeWindow.height() - sizeWindow.height() / 5)
+        # вписываем во весь экран
+        self.resize(width, height)
+
+        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+
+        # self.centralWidget = Display()
+        # self.setCentralWidget(self.centralWidget)
+
+        # self._connectAction()
+
+
+    ##################################################################################
+    ##################################################################################
+
+
 #////////////////////////////////////  КЛАСС ОКНА МЕНЮ  ///////////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -144,21 +280,33 @@ class WindowMenu(QMainWindow):
         self._connectAction()
 
     def _connectAction(self):
-        self.ui.btnTask1.clicked.connect(lambda: self.openTask1())
-        self.ui.btnTask2.clicked.connect(lambda: self.openTask2())
+        self.ui.btnTask1.clicked.connect(lambda: self.openTask(1))
+        self.ui.btnTask2.clicked.connect(lambda: self.openTask(2))
+        self.ui.btnTask3.clicked.connect(lambda: self.openTask(3))
+        self.ui.btnTask4.clicked.connect(lambda: self.openTask(4))
+        self.ui.btnTask5.clicked.connect(lambda: self.openTask(5))
+        self.ui.btnTask6.clicked.connect(lambda: self.openTask(6))
 
         #self.ui.actionbtnAddNode.triggered.connect(self.addNode)
 
-    def openTask1 (self):
+    def openTask (self, num):
         #self.ui = Ui_MainWindow()
         #self.ui.setupUi(self)
         #MainWindow1 = Window()
-        MainWindow1.show()
+        if num == 1:
+            MainWindow1.show()
+        elif num == 2:
+            MainWindow2.show()
+        elif num == 3:
+            MainWindow3.show()
+        elif num == 4:
+            MainWindow4.show()
+        elif num == 5:
+            MainWindow5.show()
+        else:
+            MainWindow6.show()
         #WindowT1 = Window()
         #WindowT1.show()
-
-    def openTask2 (self):
-        MainWindow2.show()
 
 # //////////////////////////////////////////////////////////////////////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,6 +323,10 @@ if __name__ == "__main__":
     MainWindow = WindowMenu()
     MainWindow1 = Window1()
     MainWindow2 = Window2()
+    MainWindow3 = Window3()
+    MainWindow4 = Window4()
+    MainWindow5 = Window5()
+    MainWindow6 = Window6()
     # ui = Ui_MainWindow()
     # ui.setupUi(MainWindow)
     MainWindow.show()
