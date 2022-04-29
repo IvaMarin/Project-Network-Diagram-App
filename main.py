@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, Q
 from MainMenu import Ui_MainMenu
 from windowTask1 import Ui_MainWindow1
 from windowTask2 import Ui_MainWindow2
+from windowTask6 import Ui_MainWindow6
 from Display import Display
 
 import graph_model as gm
@@ -226,7 +227,7 @@ class Window6(QMainWindow):
         """Initializer."""
         super().__init__(parent)
 
-        self.ui = Ui_MainWindow1()
+        self.ui = Ui_MainWindow6()
         self.ui.setupUi(self)
         #self.initUI()
 
