@@ -168,52 +168,7 @@ class Ui_MainWindow1(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        #self.setWindowTitle("Задача №1")
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        width = int(sizeWindow.width() - sizeWindow.width() / 5)
-        height = int(sizeWindow.height() - sizeWindow.height() / 5)
-        # вписываем во весь экран
-        MainWindow.resize(width, height)
 
-        MainWindow.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
-
-        self.centralWidget = Display()
-        MainWindow.setCentralWidget(self.centralWidget)
-
-        self._connectAction()
-    def addNode(self):
-        self.centralWidget.functionAble = "Добавить вершину"
-        self.actionbtnConnectNode.setChecked(False)
-        self.actionbtnRemoveNodeConnection.setChecked(False)
-        self.actionbtnMoveNode.setChecked(False)
-
-    def addArrow(self):
-        self.centralWidget.functionAble = "Добавить связь"
-        self.actionbtnAddNode.setChecked(False)
-        self.actionbtnRemoveNodeConnection.setChecked(False)
-        self.actionbtnMoveNode.setChecked(False)
-
-    def removeArrow(self):
-        self.centralWidget.functionAble = "Удалить связь"
-        self.actionbtnConnectNode.setChecked(False)
-        self.actionbtnAddNode.setChecked(False)
-        self.actionbtnMoveNode.setChecked(False)
-
-    def moveNode(self):
-        self.centralWidget.functionAble = "Переместить вершины"
-        self.actionbtnConnectNode.setChecked(False)
-        self.actionbtnAddNode.setChecked(False)
-        self.actionbtnRemoveNodeConnection.setChecked(False)
-
-    def makeNewFile(self):
-        self.centralWidget.functionAble = "Новый файл"
-
-    def _connectAction(self):
-        self.actionbtnAddNode.triggered.connect(self.addNode)
-        self.actionbtnConnectNode.triggered.connect(self.addArrow)
-        self.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
-        self.actionbtnMoveNode.triggered.connect(self.moveNode)
-        #self.ui.toolBar.actionbtnAddNode.triggered.connect(self.makeNewFile)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
