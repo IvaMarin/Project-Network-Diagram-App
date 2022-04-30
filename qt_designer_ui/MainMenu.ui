@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1341</width>
-    <height>999</height>
+    <width>1528</width>
+    <height>930</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,6 +46,9 @@
        </item>
        <item>
         <widget class="QTableWidget" name="tableVar">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="cursor" stdset="0">
           <cursorShape>ArrowCursor</cursorShape>
          </property>
@@ -67,23 +70,29 @@
          <property name="autoScrollMargin">
           <number>16</number>
          </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::EditKeyPressed</set>
+         </property>
          <property name="gridStyle">
           <enum>Qt::SolidLine</enum>
          </property>
          <property name="rowCount">
-          <number>16</number>
+          <number>20</number>
          </property>
          <property name="columnCount">
-          <number>6</number>
+          <number>5</number>
          </property>
+         <attribute name="horizontalHeaderVisible">
+          <bool>true</bool>
+         </attribute>
          <attribute name="horizontalHeaderCascadingSectionResizes">
-          <bool>false</bool>
+          <bool>true</bool>
          </attribute>
          <attribute name="horizontalHeaderMinimumSectionSize">
-          <number>27</number>
+          <number>60</number>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>202</number>
+          <number>293</number>
          </attribute>
          <attribute name="horizontalHeaderHighlightSections">
           <bool>true</bool>
@@ -95,13 +104,16 @@
           <bool>true</bool>
          </attribute>
          <attribute name="verticalHeaderVisible">
-          <bool>false</bool>
+          <bool>true</bool>
          </attribute>
          <attribute name="verticalHeaderCascadingSectionResizes">
-          <bool>false</bool>
+          <bool>true</bool>
+         </attribute>
+         <attribute name="verticalHeaderMinimumSectionSize">
+          <number>24</number>
          </attribute>
          <attribute name="verticalHeaderDefaultSectionSize">
-          <number>33</number>
+          <number>35</number>
          </attribute>
          <attribute name="verticalHeaderShowSortIndicator" stdset="0">
           <bool>false</bool>
@@ -125,16 +137,10 @@
          <row/>
          <row/>
          <row/>
-         <column>
-          <property name="text">
-           <string>№ П/П</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-         </column>
+         <row/>
+         <row/>
+         <row/>
+         <row/>
          <column>
           <property name="text">
            <string>Шифр работы</string>
@@ -187,6 +193,19 @@
            </font>
           </property>
          </column>
+         <item row="0" column="0">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="flags">
+           <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+          </property>
+         </item>
+         <item row="0" column="1">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>
@@ -274,7 +293,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1341</width>
+     <width>1528</width>
      <height>21</height>
     </rect>
    </property>
