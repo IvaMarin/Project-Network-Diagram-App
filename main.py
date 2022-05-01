@@ -1,7 +1,7 @@
 import sys, math
 import numpy as np
 
-
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt, QRect, QPointF
 from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
@@ -11,6 +11,8 @@ from windowTask1 import Ui_MainWindow1
 from windowTask2 import Ui_MainWindow2
 from windowTask6 import Ui_MainWindow6
 from Display import Display
+from login import Ui_login
+from WinsDialog import winSigReport
 
 import graph_model as gm
 
@@ -278,36 +280,70 @@ class WindowMenu(QMainWindow):
         #self.centralWidget = Display()
         #self.setCentralWidget(self.centralWidget)
 
+        self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
+        self.name = "Иван"      # данные о студенте проинициализированы
+        self.surname = "Иванов" # данные о студенте проинициализированы
+        self.numGroup = "001"   # данные о студенте проинициализированы
+
         self._connectAction()
 
     def _connectAction(self):
-        self.ui.btnTask1.clicked.connect(lambda: self.openTask(1))
-        self.ui.btnTask2.clicked.connect(lambda: self.openTask(2))
-        self.ui.btnTask3.clicked.connect(lambda: self.openTask(3))
-        self.ui.btnTask4.clicked.connect(lambda: self.openTask(4))
-        self.ui.btnTask5.clicked.connect(lambda: self.openTask(5))
-        self.ui.btnTask6.clicked.connect(lambda: self.openTask(6))
-
+        self.ui.btnTask1.clicked.connect(lambda: self.openTask(self.ui.btnTask1.text()))
+        self.ui.btnTask2.clicked.connect(lambda: self.openTask(self.ui.btnTask2.text()))
+        self.ui.btnTask3.clicked.connect(lambda: self.openTask(self.ui.btnTask3.text()))
+        self.ui.btnTask4.clicked.connect(lambda: self.openTask(self.ui.btnTask4.text()))
+        self.ui.btnTask5.clicked.connect(lambda: self.openTask(self.ui.btnTask5.text()))
+        self.ui.btnTask6.clicked.connect(lambda: self.openTask(self.ui.btnTask6.text()))
+        self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
+        self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         #self.ui.actionbtnAddNode.triggered.connect(self.addNode)
 
-    def openTask (self, num):
+
+
+    #def SigReport(self):
+        #app = QtWidgets.QApplication(sys.argv)
+
+
+
+        #login = QtWidgets.QDialog()
+        #ui = Ui_login()
+        #ui.setupUi(login)
+        #login.show()
+        #login.exec_()
+        #sys.exit(app.exec_())
+
+    def openTask (self, numTask):
         #self.ui = Ui_MainWindow()
         #self.ui.setupUi(self)
         #MainWindow1 = Window()
-        if num == 1:
+        if numTask == "Задание 1":
             MainWindow1.show()
-        elif num == 2:
+        elif numTask == "Задание 2":
             MainWindow2.show()
-        elif num == 3:
+        elif numTask == "Задание 3":
             MainWindow3.show()
-        elif num == 4:
+        elif numTask == "Задание 4":
             MainWindow4.show()
-        elif num == 5:
+        elif numTask == "Задание 5":
             MainWindow5.show()
-        else:
+        elif numTask == "Задание 6":
             MainWindow6.show()
         #WindowT1 = Window()
         #WindowT1.show()
+
+    def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
+
+        rowPosition = self.ui.tableVar.rowCount() # генерируем строку в таблице для записи в нее чиселок
+        self.ui.tableVar.insertRow(rowPosition) #   вставляем в таблицу "строку таблицы"
+
+        #  Add text to the row
+        for i in range (self.ui.tableVar.columnCount() - 1): # -1 потому что колонка "Прим." пустая
+            #self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.name)) #  заполняем "строку таблицы"
+            #self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.surname)) #              каждую ячейку
+            #self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.numGroup)) #             кроме "Прим."
+            self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.numGroup)) #
+
+            #print(self.name, self.surname, self.numGroup)
 
 # //////////////////////////////////////////////////////////////////////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////////////////////////
