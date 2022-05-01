@@ -37,7 +37,8 @@ class winSigReport(QtWidgets.QDialog):
     def saveData(self): # сохраняем имя фамилию и № группы полученные в этом диалоговом окне
         self.mainMenu.name = self.ui.lineEditName.text()        # сохраняем в класс WindowMenu имя
         self.mainMenu.surname = self.ui.lineEditSurname.text()  # сохраняем в класс WindowMenu фамилию
-        self.mainMenu.numGroup = self.ui.lineEditNumGroup.text()# сохраняем в класс WindowMenu группу
+        self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()# сохраняем в класс WindowMenu группу
+        self.mainMenu.numGroup = self.ui.lineEditGroup.text()  # сохраняем в класс WindowMenu группу
         # WindowMenu это класс окна Меню
 
         self.close()
