@@ -6,23 +6,7 @@ from PyQt5.QtCore import Qt, QRect, QPointF
 from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
 
-from MainMenu import Ui_MainMenu
-from windowTask1 import Ui_MainWindow1
-from windowTask2 import Ui_MainWindow2
-from windowTask6 import Ui_MainWindow6
-from Display import Display
 from login import Ui_login
-
-import graph_model as gm
-
-
-#app = QtWidgets.QApplication(sys.argv)
-        #login = QtWidgets.QDialog()
-        #ui = Ui_login()
-        #ui.setupUi(login)
-        #login.show()
-        #login.exec_()
-        #sys.exit(app.exec_())
 
 
 

@@ -11,7 +11,6 @@ from windowTask1 import Ui_MainWindow1
 from windowTask2 import Ui_MainWindow2
 from windowTask6 import Ui_MainWindow6
 from Display import Display
-from login import Ui_login
 from WinsDialog import winSigReport
 
 import graph_model as gm
@@ -265,8 +264,6 @@ class WindowMenu(QMainWindow):
 
         self.ui = Ui_MainMenu()
         self.ui.setupUi(self)
-        #self.initUI()
-
 
         self.setWindowTitle("Меню")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -299,23 +296,7 @@ class WindowMenu(QMainWindow):
         #self.ui.actionbtnAddNode.triggered.connect(self.addNode)
 
 
-
-    #def SigReport(self):
-        #app = QtWidgets.QApplication(sys.argv)
-
-
-
-        #login = QtWidgets.QDialog()
-        #ui = Ui_login()
-        #ui.setupUi(login)
-        #login.show()
-        #login.exec_()
-        #sys.exit(app.exec_())
-
     def openTask (self, numTask):
-        #self.ui = Ui_MainWindow()
-        #self.ui.setupUi(self)
-        #MainWindow1 = Window()
         if numTask == "Задание 1":
             MainWindow1.show()
         elif numTask == "Задание 2":
@@ -328,8 +309,6 @@ class WindowMenu(QMainWindow):
             MainWindow5.show()
         elif numTask == "Задание 6":
             MainWindow6.show()
-        #WindowT1 = Window()
-        #WindowT1.show()
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
 
@@ -341,17 +320,11 @@ class WindowMenu(QMainWindow):
             #self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.name)) #  заполняем "строку таблицы"
             #self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.surname)) #              каждую ячейку
             #self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.numGroup)) #             кроме "Прим."
-            self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.numGroup)) #
+            self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem("CHECK")) #
 
-            #print(self.name, self.surname, self.numGroup)
 
 # //////////////////////////////////////////////////////////////////////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////////////////////////
-
-    #MainWindow = Window()
-    #ui = Ui_MainWindow()
-    #ui.setupUi(MainWindow)
-    #MainWindow.show()
 
 
 if __name__ == "__main__":
@@ -364,9 +337,6 @@ if __name__ == "__main__":
     MainWindow4 = Window4()
     MainWindow5 = Window5()
     MainWindow6 = Window6()
-    # ui = Ui_MainWindow()
-    # ui.setupUi(MainWindow)
     MainWindow.show()
-    #MainWindow1.show()
 
     sys.exit(app.exec_())
