@@ -1,7 +1,6 @@
 from enum import Enum
 import numpy as np
 
-from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QPointF
 
 # функции для определения точек пересечения отрезков
@@ -57,14 +56,20 @@ def find_point_and_check(p1,q1,p2,q2):
         dot[1] != p1.y() and dot[1] != q1.y() and dot[1] != p2.y() and dot[1] != q2.y()):
         return True
 
+# SO_CLOSE - вершины слишком близко
+# WRONG_COUNT_OF_NODES - неверное количество вершин
+# WRONG_COUNT_OF_CONNECTIONS - неверное количество связей
+# WRONG_CONNECTIONS - неверные связи
+# EDGES_INTERSECT - связи пересекаются
 class Mistake(Enum):
     SO_CLOSE = 1
     WRONG_COUNT_OF_NODES = 2
     WRONG_COUNT_OF_CONNECTIONS = 3
+    WRONG_CONNECTIONS = 4
+    EDGES_INTERSECT = 5
 
 # checker
-def check(Graph, CorrectAdjacencyMatrix):
-    msg = QMessageBox()
+def checkTask1(Graph, CorrectAdjacencyMatrix):
     do_intersect = False
     correct = True
     no_warnings = True
@@ -103,46 +108,35 @@ def check(Graph, CorrectAdjacencyMatrix):
     if CorrectCountOfConnections != CurrentCountOfConnections:
         mistakes = np.append(mistakes, Mistake(3))
 
-    if len(Graph.AdjacencyMatrix) >= len(CorrectAdjacencyMatrix):
+    if len(Graph.AdjacencyMatrix) <= len(CorrectAdjacencyMatrix):
         for i in range(len(Graph.AdjacencyMatrix)):
             for j in range(len(Graph.AdjacencyMatrix[i])):
-                if Graph.AdjacencyMatrix[i][j] == 1:
-                    CorrectCountOfConnections += 1
-
-    if (cnt != 0):
-        msg.setIcon(QMessageBox.Critical)
-        msg.setText("Ошибка!")
-        error_string += "Неверные связи.\n"
-        correct = False
-        msg.setInformativeText(error_string)
-        msg.setWindowTitle("Результат")
-        msg.exec_()
+                if Graph.AdjacencyMatrix[i][j] != CorrectAdjacencyMatrix[i][j]:
+                    mistakes = np.append(mistakes, Mistake(4))
+                    break
+    else:
+        for i in range(len(CorrectAdjacencyMatrix)):
+            for j in range(len(CorrectAdjacencyMatrix)):
+                if Graph.AdjacencyMatrix[i][j] != CorrectAdjacencyMatrix[i][j]:
+                    mistakes = np.append(mistakes, Mistake(4))
+                    break
 
     # в случае если все проверки были пройдены, проверим на пересечение рёбер
-    if (correct and no_warnings):
+    if (len(mistakes) == 0):
         do_intersect = False
-        for i in correct_connections:
-            for j in correct_connections:
-                p1 = QPointF(self.points[i[0]][0].x(), self.points[i[0]][0].y())
-                q1 = QPointF(self.points[i[1]][0].x(), self.points[i[1]][0].y())
-                p2 = QPointF(self.points[j[0]][0].x(), self.points[j[0]][0].y())
-                q2 = QPointF(self.points[j[1]][0].x(), self.points[j[1]][0].y())  
-                if ((not do_intersect) and (j != i) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
-                    msg.setIcon(QMessageBox.Warning)
-                    msg.setText("Внимание!")
-                    msg.setInformativeText("Граф построен верно, но рёбра не должны пересекаться.")
-                    msg.setWindowTitle("Результат")
-                    msg.exec_()
-                    do_intersect = True
-                    correct = False
-                    no_warnings = False
+        for r1 in CorrectAdjacencyMatrix:
+            for c1 in CorrectAdjacencyMatrix:
+                for r2 in CorrectAdjacencyMatrix:
+                    for c2 in CorrectAdjacencyMatrix:
+                        p1 = QPointF(Graph.Points[r1][0],Graph.Points[r1][1])
+                        q1 = QPointF(Graph.Points[c1][0],Graph.Points[c1][1])
+                        p2 = QPointF(Graph.Points[r2][0],Graph.Points[r2][1])
+                        q2 = QPointF(Graph.Points[c2][0],Graph.Points[c2][1])
+                        if ((not do_intersect) and (j != i) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
+                            mistakes = np.append(mistakes, Mistake(5))
+                            do_intersect = True
+                            correct = False
+                            no_warnings = False
+                            break
+                if(do_intersect):
                     break
-            if(do_intersect):
-                break
-
-    if (correct and no_warnings):
-        msg.setIcon(QMessageBox.Information)
-        msg.setText("Отлично!")
-        msg.setInformativeText("Всё верно.")
-        msg.setWindowTitle("Результат")
-        msg.exec_()
