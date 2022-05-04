@@ -34,7 +34,7 @@ class Ui_MainWindow1(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow1.setStatusBar(self.statusbar)
         self.toolBar = QtWidgets.QToolBar(MainWindow1)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.toolBar.sizePolicy().hasHeightForWidth())
@@ -88,7 +88,7 @@ class Ui_MainWindow1(object):
         self.actionbtnMoveNode = QtWidgets.QAction(MainWindow1)
         self.actionbtnMoveNode.setCheckable(True)
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap("resources/iconePack/file_hand.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon7.addPixmap(QtGui.QPixmap("resources/iconePack/axis_arrow_icon_138909.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionbtnMoveNode.setIcon(icon7)
         font = QtGui.QFont()
         font.setPointSize(8)
@@ -189,7 +189,7 @@ class Ui_MainWindow1(object):
         self.actionbtnAddNode.setText(_translate("MainWindow1", "btnAddNode"))
         self.actionbtnAddNode.setToolTip(_translate("MainWindow1", "Добавить узел"))
         self.actionbtnRemoveNode.setText(_translate("MainWindow1", "btnRemoveNode"))
-        self.actionbtnRemoveNode.setToolTip(_translate("MainWindow1", "Удалить выбранный элемент"))
+        self.actionbtnRemoveNode.setToolTip(_translate("MainWindow1", "Удаление узла и связей"))
         self.actionbtnMoveNode.setText(_translate("MainWindow1", "btnMoveNode"))
         self.actionbtnMoveNode.setToolTip(_translate("MainWindow1", "Передвинуть элемент"))
         self.actionbtnConnectNode.setText(_translate("MainWindow1", "btnConnectNode"))
@@ -199,7 +199,7 @@ class Ui_MainWindow1(object):
         self.actionbtnHome.setText(_translate("MainWindow1", "btnHome"))
         self.actionbtnHome.setToolTip(_translate("MainWindow1", "Перейти к выбору заданий / В меню"))
         self.actionbtnRemoveNodeConnection.setText(_translate("MainWindow1", "btnRemoveNodeСonnection"))
-        self.actionbtnRemoveNodeConnection.setToolTip(_translate("MainWindow1", "Удаление узла и его связей"))
+        self.actionbtnRemoveNodeConnection.setToolTip(_translate("MainWindow1", "Удаление связей"))
         self.actionbtnZoomIn.setText(_translate("MainWindow1", "btnZoomIn"))
         self.actionbtnZoomIn.setToolTip(_translate("MainWindow1", "Увеличить изображение"))
         self.actionbtnZoomOut.setText(_translate("MainWindow1", "btnZoomOut"))
@@ -211,4 +211,11 @@ class Ui_MainWindow1(object):
         self.actionbtnCheck.setToolTip(_translate("MainWindow1", "<html><head/><body><p>Проверить задание</p></body></html>"))
 
 
-
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow1 = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow1()
+    ui.setupUi(MainWindow1)
+    MainWindow1.show()
+    sys.exit(app.exec_())

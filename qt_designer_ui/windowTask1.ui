@@ -61,7 +61,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -187,7 +187,7 @@
     <string>btnRemoveNode</string>
    </property>
    <property name="toolTip">
-    <string>Удалить выбранный элемент</string>
+    <string>Удаление узла и связей</string>
    </property>
   </action>
   <action name="actionbtnMoveNode">
@@ -196,7 +196,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>resources/iconePack/file_hand.svg</normaloff>resources/iconePack/file_hand.svg</iconset>
+     <normaloff>resources/iconePack/axis_arrow_icon_138909.png</normaloff>resources/iconePack/axis_arrow_icon_138909.png</iconset>
    </property>
    <property name="text">
     <string>btnMoveNode</string>
@@ -264,7 +264,7 @@
     <string>btnRemoveNodeСonnection</string>
    </property>
    <property name="toolTip">
-    <string>Удаление узла и его связей</string>
+    <string>Удаление связей</string>
    </property>
   </action>
   <action name="actionbtnZoomIn">
