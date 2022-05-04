@@ -69,6 +69,12 @@ class Window1(QMainWindow):
         self.ui.actionbtnAddNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
 
+    def removeNode(self):
+        self.centralWidget.functionAble = "Удалить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+
     def moveNode(self):
         self.centralWidget.functionAble = "Переместить вершины"
         self.ui.actionbtnConnectNode.setChecked(False)
@@ -83,6 +89,7 @@ class Window1(QMainWindow):
         self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
         self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow) # названия actionbtnRemoveNodeConnection и actionbtnRemoveNode надо поменять местами или иконки поменять местами
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
+        self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         #self.ui.toolBar.actionbtnAddNode.triggered.connect(self.makeNewFile)
     ##################################################################################
     ##################################################################################
