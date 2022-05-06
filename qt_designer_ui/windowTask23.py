@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindow2(object):
+class Ui_MainWindow1(object):
     def setupUi(self, MainWindow1):
         MainWindow1.setObjectName("MainWindow1")
         MainWindow1.resize(1308, 1253)
@@ -205,3 +205,13 @@ class Ui_MainWindow2(object):
         self.actionSetting.setText(_translate("MainWindow1", "Настройки программы"))
         self.actionbtnCheck.setText(_translate("MainWindow1", "btnCheck"))
         self.actionbtnCheck.setToolTip(_translate("MainWindow1", "<html><head/><body><p>Проверить задание</p></body></html>"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow1 = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow1()
+    ui.setupUi(MainWindow1)
+    MainWindow1.show()
+    sys.exit(app.exec_())

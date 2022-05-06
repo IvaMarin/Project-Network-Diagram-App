@@ -12,9 +12,12 @@ from openpyxl import load_workbook
 from MainMenu import Ui_MainMenu
 from windowTask1 import Ui_MainWindow1
 from windowTask2 import Ui_MainWindow2
+from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
 from Display import Display
 from WinsDialog import winSigReport
+from Color import Color
+from task2CheckForm import task2CheckForm
 
 import graph_model as gm
 
@@ -107,11 +110,26 @@ class Window2(QMainWindow):
     def __init__(self, parent=None):
         """Initializer."""
         super().__init__(parent)
+        
+        # Создаём компоновщик
+        self.layout = QtWidgets.QHBoxLayout()
+        # Добавляем виджет отрисовки в компоновщик
+        self.layout.addWidget(Display())
+        # Создаём виджет таблицы и добавляем его в компоновщик
+        self.table = QWidget()
+        self.table.ui = Ui_tableTask2Widget()
+        self.table.ui.setupUi(self.table)
+        self.layout.addWidget(self.table)
+        # Задаём растяжение объектов в компоновщике
+        self.layout.setStretch(0, 1)
+        # Задаём компоновку виджету
+        self.widget = QWidget()
+        self.widget.setLayout(self.layout)
 
         self.ui = Ui_MainWindow2()
         self.ui.setupUi(self)
-        #self.initUI()
-
+        # Присваиваем виджет с компоновкой окну
+        self.setCentralWidget(self.widget)
 
         self.setWindowTitle("Задача №2")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -123,7 +141,12 @@ class Window2(QMainWindow):
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
 
-        #self._connectAction()
+        self.checkForm = task2CheckForm(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
+
+        self._connectAction()
+
+    def _connectAction(self):
+        self.table.ui.tableCheckButton.clicked.connect(self.checkForm.exec)
 
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
@@ -136,9 +159,20 @@ class Window3(QMainWindow):
         """Initializer."""
         super().__init__(parent)
 
-        self.ui = Ui_MainWindow1()
+        # Создаём компоновщик
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(Color('blue'))
+        layout.addWidget(Color('red'))
+        # Задаём компоновку виджету
+        widget = QWidget()
+        widget.setLayout(layout)
+
+
+
+        self.ui = Ui_MainWindow2()
         self.ui.setupUi(self)
-        #self.initUI()
+        # Присваиваем виджет с компоновкой окну
+        self.setCentralWidget(widget)
 
 
         self.setWindowTitle("Задача №3")
@@ -170,9 +204,20 @@ class Window4(QMainWindow):
         """Initializer."""
         super().__init__(parent)
 
-        self.ui = Ui_MainWindow1()
+        # Создаём компоновщик
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(Color('blue'))
+        layout.addWidget(Color('red'))
+        # Задаём компоновку виджету
+        widget = QWidget()
+        widget.setLayout(layout)
+
+
+
+        self.ui = Ui_MainWindow2()
         self.ui.setupUi(self)
-        #self.initUI()
+        # Присваиваем виджет с компоновкой окну
+        self.setCentralWidget(widget)
 
 
         self.setWindowTitle("Задача №4")
@@ -204,9 +249,20 @@ class Window5(QMainWindow):
         """Initializer."""
         super().__init__(parent)
 
-        self.ui = Ui_MainWindow1()
+        # Создаём компоновщик
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(Color('blue'))
+        layout.addWidget(Color('red'))
+        # Задаём компоновку виджету
+        widget = QWidget()
+        widget.setLayout(layout)
+
+
+
+        self.ui = Ui_MainWindow2()
         self.ui.setupUi(self)
-        #self.initUI()
+        # Присваиваем виджет с компоновкой окну
+        self.setCentralWidget(widget)
 
 
         self.setWindowTitle("Задача №5")
@@ -238,9 +294,21 @@ class Window6(QMainWindow):
         """Initializer."""
         super().__init__(parent)
 
+        # Создаём компоновщик
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(Color('white'))
+        layout.addWidget(Color('blue'))
+        layout.addWidget(Color('red'))
+        # Задаём компоновку виджету
+        widget = QWidget()
+        widget.setLayout(layout)
+
+
+
         self.ui = Ui_MainWindow6()
         self.ui.setupUi(self)
-        #self.initUI()
+        # Присваиваем виджет с компоновкой окну
+        self.setCentralWidget(widget)
 
 
         self.setWindowTitle("Задача №6")

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'windowTask23.ui'
+# Form implementation generated from reading ui file 'windowTask22.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindow2(object):
+class Ui_MainWindow1(object):
     def setupUi(self, MainWindow1):
         MainWindow1.setObjectName("MainWindow1")
         MainWindow1.resize(1308, 1253)
@@ -19,27 +19,6 @@ class Ui_MainWindow2(object):
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.widget = QtWidgets.QWidget(self.centralwidget)
-        self.widget.setObjectName("widget")
-        self.horizontalLayout.addWidget(self.widget)
-        self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setFrameShape(QtWidgets.QFrame.Box)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame.setObjectName("frame")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame)
-        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.tableWidget = QtWidgets.QTableWidget(self.frame)
-        self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(0)
-        self.tableWidget.setRowCount(0)
-        self.verticalLayout.addWidget(self.tableWidget)
-        self.pushButton = QtWidgets.QPushButton(self.frame)
-        self.pushButton.setObjectName("pushButton")
-        self.verticalLayout.addWidget(self.pushButton)
-        self.verticalLayout.setStretch(0, 10000)
-        self.horizontalLayout.addWidget(self.frame)
-        self.horizontalLayout.setStretch(0, 10)
         MainWindow1.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow1)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1308, 26))
@@ -53,6 +32,12 @@ class Ui_MainWindow2(object):
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
         MainWindow1.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow1)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow1.setStatusBar(self.statusbar)
+        self.toolBar_2 = QtWidgets.QToolBar(MainWindow1)
+        self.toolBar_2.setObjectName("toolBar_2")
+        MainWindow1.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar_2)
         self.actionNewFile = QtWidgets.QAction(MainWindow1)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("resources/iconePack/file.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -170,11 +155,11 @@ class Ui_MainWindow2(object):
     def retranslateUi(self, MainWindow1):
         _translate = QtCore.QCoreApplication.translate
         MainWindow1.setWindowTitle(_translate("MainWindow1", "Задание 1"))
-        self.pushButton.setText(_translate("MainWindow1", "PushButton"))
         self.menuFile.setTitle(_translate("MainWindow1", "Файл"))
         self.menuHelp.setTitle(_translate("MainWindow1", "Справка"))
         self.menuEdit.setTitle(_translate("MainWindow1", "Редактор"))
         self.menu.setTitle(_translate("MainWindow1", "Настройки"))
+        self.toolBar_2.setWindowTitle(_translate("MainWindow1", "toolBar_2"))
         self.actionNewFile.setText(_translate("MainWindow1", "Новый файл"))
         self.actionNewFile.setToolTip(_translate("MainWindow1", "Создать новый файл"))
         self.actionOpenFile.setText(_translate("MainWindow1", "Открыть файл"))
@@ -205,3 +190,13 @@ class Ui_MainWindow2(object):
         self.actionSetting.setText(_translate("MainWindow1", "Настройки программы"))
         self.actionbtnCheck.setText(_translate("MainWindow1", "btnCheck"))
         self.actionbtnCheck.setToolTip(_translate("MainWindow1", "<html><head/><body><p>Проверить задание</p></body></html>"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow1 = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow1()
+    ui.setupUi(MainWindow1)
+    MainWindow1.show()
+    sys.exit(app.exec_())
