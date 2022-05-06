@@ -140,3 +140,4 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
                             break
                 if(do_intersect):
                     break
+    return mistakes
