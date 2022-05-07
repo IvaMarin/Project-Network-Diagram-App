@@ -93,9 +93,14 @@ class Window1(QMainWindow):
         self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow) # названия actionbtnRemoveNodeConnection и actionbtnRemoveNode надо поменять местами или иконки поменять местами
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
+        self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         #self.ui.toolBar.actionbtnAddNode.triggered.connect(self.makeNewFile)
     ##################################################################################
     ##################################################################################
+
+    def backMainMenu(self):
+        MainWindow.show()
+
 
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
