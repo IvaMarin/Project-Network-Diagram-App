@@ -48,6 +48,10 @@ class Window1(QMainWindow):
         self.centralWidget = Display()
         self.setCentralWidget(self.centralWidget)
 
+        
+
+
+
         self._connectAction()
 
 
@@ -87,6 +91,11 @@ class Window1(QMainWindow):
     def makeNewFile(self):
         self.centralWidget.functionAble = "Новый файл"
 
+    def taskCheck(self):
+        mistakes = self.centralWidget.checkEvent()
+        self.checkForm1 = task2CheckForm(self, mistakes)
+        self.checkForm1.exec_()
+
     def _connectAction(self):
         self.ui.actionbtnAddNode.triggered.connect(self.addNode)
         self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
@@ -94,7 +103,7 @@ class Window1(QMainWindow):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
-        #self.ui.toolBar.actionbtnAddNode.triggered.connect(self.makeNewFile)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
     ##################################################################################
     ##################################################################################
 
@@ -146,12 +155,13 @@ class Window2(QMainWindow):
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
 
-        self.checkForm = task2CheckForm(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
+        # self.checkForm = task2CheckForm(self) # диалоговое окно для проврки задания
 
         self._connectAction()
 
     def _connectAction(self):
-        self.table.ui.tableCheckButton.clicked.connect(self.checkForm.exec)
+        pass
+        # self.table.ui.tableCheckButton.clicked.connect(self.checkForm.exec)
 
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////

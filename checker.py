@@ -76,7 +76,7 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
     CountOfNodes = 0
     CurrentCountOfConnections = 0
     CorrectCountOfConnections = 0
-    mistakes = np.empty((0)) # массив ошибок
+    mistakes = [] # массив ошибок
     for i in range(len(Graph.Points)):
         # считаем число точек
         if (Graph.Points[i][0] != None):
@@ -87,11 +87,11 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
                                                    Graph.Points[j][0] - Graph.RadiusPoint <= Graph.Points[i][0] + Graph.RadiusPoint and
                                                    Graph.Points[j][1] + Graph.RadiusPoint >= Graph.Points[i][1] - Graph.RadiusPoint and 
                                                    Graph.Points[j][1] - Graph.RadiusPoint <= Graph.Points[i][1] + Graph.RadiusPoint)):
-                mistakes = np.append(mistakes, Mistake(1))
+                mistakes.append(1)
                 break
 
     if (CountOfNodes != len(CorrectAdjacencyMatrix)):
-        mistakes = np.append(mistakes, Mistake(2))
+        mistakes.append(2)
 
     # считаем число связей в графе студента
     for i in range(len(Graph.AdjacencyMatrix)):
@@ -100,25 +100,25 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
                 CurrentCountOfConnections += 1
 
     # считаем число связей в правильном графе
-    for i in range(len(Graph.AdjacencyMatrix)):
-        for j in range(len(Graph.AdjacencyMatrix[i])):
-            if Graph.AdjacencyMatrix[i][j] == 1:
+    for i in range(len(CorrectAdjacencyMatrix)):
+        for j in range(len(CorrectAdjacencyMatrix[i])):
+            if CorrectAdjacencyMatrix[i][j] == 1:
                 CorrectCountOfConnections += 1
 
     if CorrectCountOfConnections != CurrentCountOfConnections:
-        mistakes = np.append(mistakes, Mistake(3))
+        mistakes.append(3)
 
     if len(Graph.AdjacencyMatrix) <= len(CorrectAdjacencyMatrix):
         for i in range(len(Graph.AdjacencyMatrix)):
             for j in range(len(Graph.AdjacencyMatrix[i])):
                 if Graph.AdjacencyMatrix[i][j] != CorrectAdjacencyMatrix[i][j]:
-                    mistakes = np.append(mistakes, Mistake(4))
+                    mistakes.append(4)
                     break
     else:
         for i in range(len(CorrectAdjacencyMatrix)):
             for j in range(len(CorrectAdjacencyMatrix)):
                 if Graph.AdjacencyMatrix[i][j] != CorrectAdjacencyMatrix[i][j]:
-                    mistakes = np.append(mistakes, Mistake(4))
+                    mistakes.append(4)
                     break
 
     # в случае если все проверки были пройдены, проверим на пересечение рёбер
@@ -133,7 +133,7 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
                         p2 = QPointF(Graph.Points[r2][0],Graph.Points[r2][1])
                         q2 = QPointF(Graph.Points[c2][0],Graph.Points[c2][1])
                         if ((not do_intersect) and (j != i) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
-                            mistakes = np.append(mistakes, Mistake(5))
+                            mistakes.append(5)
                             do_intersect = True
                             correct = False
                             no_warnings = False
