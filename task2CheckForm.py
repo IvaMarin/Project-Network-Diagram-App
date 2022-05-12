@@ -34,11 +34,11 @@ class task2CheckForm(QtWidgets.QDialog):
 
 
         for i in range(len(mistakes)):
-            if mistakes[i] == 1: self.ui.toolButton.setChecked(False)
-            if mistakes[i] == 2: self.ui.toolButton_2.setChecked(False)
-            if mistakes[i] == 3: self.ui.toolButton_3.setChecked(False)
-            if mistakes[i] == 4: self.ui.toolButton_4.setChecked(False)
-            if mistakes[i] == 5: self.ui.toolButton_5.setChecked(False)
+            if mistakes[i] == 1: self.ui.toolButton.setChecked(True)
+            if mistakes[i] == 2: self.ui.toolButton_2.setChecked(True)
+            if mistakes[i] == 3: self.ui.toolButton_3.setChecked(True)
+            if mistakes[i] == 4: self.ui.toolButton_4.setChecked(True)
+            if mistakes[i] == 5: self.ui.toolButton_5.setChecked(True)
 
 
     def _connectAction(self):
