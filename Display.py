@@ -12,6 +12,8 @@ from PyQt5.QtCore import Qt, QRect
 import controller as control
 import graph_model as gm
 
+import checker
+
 # функция для вычисления точек полигона стрелки
 def calculate_arrow_points(start_point, end_point, radius=30):
     try:
@@ -48,6 +50,17 @@ def calculate_arrow_points(start_point, end_point, radius=30):
         return None
 
 graph = gm.Graph(60) # объект граф
+
+CorrectAdjacencyMatrix1 = np.array([[0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                                    [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+                                    [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
+                                    [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+                                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+                                    [0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+                                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
 class Display(QWidget):
 
@@ -122,3 +135,7 @@ class Display(QWidget):
             control.CMovePoint(graph, event)
 
         self.update()
+        
+    def checkEvent(self):
+        mistakes = checker.checkTask1(graph, CorrectAdjacencyMatrix1)
+        return mistakes
