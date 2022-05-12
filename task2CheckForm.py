@@ -3,10 +3,10 @@ import numpy as np
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt, QRect, QPointF
-from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction, QMessageBox
+from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QPixmap
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
 
-from task2CheckUi import Ui_task2CheckUi
+from task2CheckUi2 import Ui_task2CheckUi
 
 
 
@@ -20,7 +20,6 @@ class task2CheckForm(QtWidgets.QDialog):
         self.ui.setupUi(self) # инициализация ui окна (присвоение конкретных пар-ов)
         self.mainMenu = root  # сохраняем нашего родителя
 
-        msg = QMessageBox()
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
         width = int(sizeWindow.width() - (sizeWindow.width() * 2) / 3)      # выставляем ширину окна
@@ -32,13 +31,16 @@ class task2CheckForm(QtWidgets.QDialog):
 
         self._connectAction() # ф-ия связи с эл-тами окна
 
+        correct = QPixmap("resources/iconePack/check.png")
+        incorrect = QPixmap("resources/iconePack/crossRed.png")
+
 
         for i in range(len(mistakes)):
-            if mistakes[i] == 1: self.ui.toolButton.setChecked(True)
-            if mistakes[i] == 2: self.ui.toolButton_2.setChecked(True)
-            if mistakes[i] == 3: self.ui.toolButton_3.setChecked(True)
-            if mistakes[i] == 4: self.ui.toolButton_4.setChecked(True)
-            if mistakes[i] == 5: self.ui.toolButton_5.setChecked(True)
+            if mistakes[i] == 1: self.ui.label.setPixmap(incorrect)
+            if mistakes[i] == 2: self.ui.label_2.setPixmap(incorrect)
+            if mistakes[i] == 3: self.ui.label_3.setPixmap(incorrect)
+            if mistakes[i] == 4: self.ui.label_4.setPixmap(incorrect)
+            if mistakes[i] == 5: self.ui.label_6.setPixmap(incorrect)
 
 
     def _connectAction(self):
