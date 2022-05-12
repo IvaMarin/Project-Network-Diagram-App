@@ -92,6 +92,7 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
 
     if (CountOfNodes != len(CorrectAdjacencyMatrix)):
         mistakes.append(2)
+        mistakes.append(4)
 
     # считаем число связей в графе студента
     for i in range(len(Graph.AdjacencyMatrix)):
@@ -107,6 +108,7 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
 
     if CorrectCountOfConnections != CurrentCountOfConnections:
         mistakes.append(3)
+        mistakes.append(4)
 
     if len(Graph.AdjacencyMatrix) <= len(CorrectAdjacencyMatrix):
         for i in range(len(Graph.AdjacencyMatrix)):
