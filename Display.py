@@ -2,7 +2,7 @@ import sys, math
 import numpy as np
 
 
-from PyQt5.QtCore import Qt, QRect, QPointF
+from PyQt5.QtCore import Qt, QRect, QPointF, QLineF
 from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
 
@@ -49,6 +49,26 @@ def calculate_arrow_points(start_point, end_point, radius=30):
     except (ZeroDivisionError, Exception):
         return None
 
+
+# создание сетки 
+def createGrid(x0=0, y0=0, step=50, vertical=True, horizontal=True):
+    sizeWindow = QRect(QApplication.desktop().screenGeometry())
+    lines = []
+
+    if vertical:
+        number_vertical_lines = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
+        for i in range(number_vertical_lines):
+            lines.append(QLineF(x0, 0, x0, sizeWindow.height()))
+            x0 = x0 + step
+
+    if horizontal:
+        number_horizontal_lines = (sizeWindow.height() - y0) // step + 1;  # количество горизонтальных линий
+        for i in range(number_horizontal_lines):
+            lines.append(QLineF(0, y0, sizeWindow.width(), y0))
+            y0 = y0 + step
+
+    return lines
+
 graph = gm.Graph(60) # объект граф
 
 CorrectAdjacencyMatrix1 = np.array([[0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
@@ -74,6 +94,12 @@ class Display(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
+
+        # отрисовка сетки
+        painter.setPen(QColor(0, 0, 255, 90))
+        lines = createGrid(0, 0, 50, True, True)
+        painter.drawLines(lines)
+
         painter.setPen(QColor(0, 0, 0))
         # painter.setRenderHint(painter.Antialiasing)
 
