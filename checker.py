@@ -1,4 +1,3 @@
-from enum import Enum
 import numpy as np
 
 from PyQt5.QtCore import QPointF
@@ -38,61 +37,55 @@ def doIntersect(p1,q1,p2,q2):
     return False
 
 # функция для опредения координат точки пересечения 
-# и проверки на то ,что точка пересечения не является лишь вершиной графа
+# и проверки на то, не является ли точка пересечения лишь вершиной графа
 def find_point_and_check(p1,q1,p2,q2):
     if (q1.y() - p1.y() != 0): 
         q = (q1.x() - p1.x()) / (p1.y() - q1.y());   
         sn = (p2.x() - q2.x()) + (p2.y() - q2.y()) * q 
-        if (not sn): 
-            return False 
+        # if (not sn): 
+        #     return False 
         fn = (p2.x() - p1.x()) + (p2.y() - p1.y()) * q 
         n = fn / sn
     else:
-        if (not(p2.y() - q2.y())): 
-            return False 
+        # if (not(p2.y() - q2.y())): 
+        #     return False 
         n = (p2.y() - p1.y()) / (p2.y() - q2.y()) 
     dot = (p2.x() + (q2.x() - p2.x()) * n, p2.y() + (q2.y() - p2.y()) * n ) # точка пересечения
     if (dot[0] != p1.x() and dot[0] != q1.x() and dot[0] != p2.x() and dot[0] != q2.x() and
         dot[1] != p1.y() and dot[1] != q1.y() and dot[1] != p2.y() and dot[1] != q2.y()):
         return True
 
-# SO_CLOSE - вершины слишком близко
-# WRONG_COUNT_OF_NODES - неверное количество вершин
-# WRONG_COUNT_OF_CONNECTIONS - неверное количество связей
-# WRONG_CONNECTIONS - неверные связи
-# EDGES_INTERSECT - связи пересекаются
-class Mistake(Enum):
-    SO_CLOSE = 1
-    WRONG_COUNT_OF_NODES = 2
-    WRONG_COUNT_OF_CONNECTIONS = 3
-    WRONG_CONNECTIONS = 4
-    EDGES_INTERSECT = 5
-
-# checker
+# проверка первого задания
 def checkTask1(Graph, CorrectAdjacencyMatrix):
-    do_intersect = False
-    correct = True
-    no_warnings = True
     CountOfNodes = 0
     CurrentCountOfConnections = 0
     CorrectCountOfConnections = 0
-    mistakes = [] # массив ошибок
+    mistakes = [] # список ошибок:
+                  #     1 - вершины слишком близко
+                  #     2 - неверное количество вершин
+                  #     3 - неверное количество связей
+                  #     4 - неверные связи
+                  #     5 - связи пересекаются
+
+    do_intersect = False
     for i in range(len(Graph.Points)):
         # считаем число точек
         if (not np.isnan(Graph.Points[i][0])):
             CountOfNodes += 1
+
         # и заодно проверяем не находятся ли точки слишком близко
-        for j in range(len(Graph.Points)):
-            if ((not do_intersect) and j != i and (Graph.Points[j][0] + Graph.RadiusPoint >= Graph.Points[i][0] - Graph.RadiusPoint and 
-                                                   Graph.Points[j][0] - Graph.RadiusPoint <= Graph.Points[i][0] + Graph.RadiusPoint and
-                                                   Graph.Points[j][1] + Graph.RadiusPoint >= Graph.Points[i][1] - Graph.RadiusPoint and 
-                                                   Graph.Points[j][1] - Graph.RadiusPoint <= Graph.Points[i][1] + Graph.RadiusPoint)):
-                mistakes.append(1)
-                break
-    
+        if (not do_intersect):
+            for j in range(len(Graph.Points)):
+                if (j != i and (Graph.Points[j][0] + Graph.RadiusPoint >= Graph.Points[i][0] - Graph.RadiusPoint and 
+                                Graph.Points[j][0] - Graph.RadiusPoint <= Graph.Points[i][0] + Graph.RadiusPoint and
+                                Graph.Points[j][1] + Graph.RadiusPoint >= Graph.Points[i][1] - Graph.RadiusPoint and 
+                                Graph.Points[j][1] - Graph.RadiusPoint <= Graph.Points[i][1] + Graph.RadiusPoint)):
+                    mistakes.append(1)
+                    do_intersect = True
+                    break
+
     if (CountOfNodes != len(CorrectAdjacencyMatrix)):
         mistakes.append(2)
-        mistakes.append(4)
 
     # считаем число связей в графе студента
     for i in range(len(Graph.AdjacencyMatrix)):
@@ -109,37 +102,31 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
     if CorrectCountOfConnections != CurrentCountOfConnections:
         mistakes.append(3)
         mistakes.append(4)
-
-    if len(Graph.AdjacencyMatrix) <= len(CorrectAdjacencyMatrix):
+    elif (len(Graph.AdjacencyMatrix) == len(CorrectAdjacencyMatrix[i])):
+        wrong_connections = False
         for i in range(len(Graph.AdjacencyMatrix)):
             for j in range(len(Graph.AdjacencyMatrix[i])):
                 if Graph.AdjacencyMatrix[i][j] != CorrectAdjacencyMatrix[i][j]:
+                    wrong_connections = True
                     mistakes.append(4)
                     break
+            if (wrong_connections):
+                break
     else:
-        for i in range(len(CorrectAdjacencyMatrix)):
-            for j in range(len(CorrectAdjacencyMatrix)):
-                if Graph.AdjacencyMatrix[i][j] != CorrectAdjacencyMatrix[i][j]:
-                    mistakes.append(4)
-                    break
+        mistakes.append(4)
 
-    # в случае если все проверки были пройдены, проверим на пересечение рёбер
-    if (len(mistakes) == 0):
-        do_intersect = False
-        for r1 in CorrectAdjacencyMatrix:
-            for c1 in CorrectAdjacencyMatrix:
-                for r2 in CorrectAdjacencyMatrix:
-                    for c2 in CorrectAdjacencyMatrix:
-                        p1 = QPointF(Graph.Points[r1][0],Graph.Points[r1][1])
-                        q1 = QPointF(Graph.Points[c1][0],Graph.Points[c1][1])
-                        p2 = QPointF(Graph.Points[r2][0],Graph.Points[r2][1])
-                        q2 = QPointF(Graph.Points[c2][0],Graph.Points[c2][1])
-                        if ((not do_intersect) and (j != i) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
-                            mistakes.append(5)
-                            do_intersect = True
-                            correct = False
-                            no_warnings = False
-                            break
-                if(do_intersect):
-                    break
+    # проверим на пересечение рёбер
+    for i, row1 in enumerate(Graph.AdjacencyMatrix):
+        for j, col1 in enumerate(row1):
+            if col1 == 1:
+                for k, row2 in enumerate(Graph.AdjacencyMatrix):
+                    for l, col2 in enumerate(row2):
+                        if col2 == 1:
+                            p1 = QPointF(Graph.Points[i][0],Graph.Points[i][1])
+                            q1 = QPointF(Graph.Points[j][0],Graph.Points[j][1])
+                            p2 = QPointF(Graph.Points[k][0],Graph.Points[k][1])
+                            q2 = QPointF(Graph.Points[l][0],Graph.Points[l][1])
+                            if (((i, j) != (k, l)) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
+                                mistakes.append(5)
+                                return mistakes
     return mistakes
