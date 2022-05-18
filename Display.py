@@ -3,7 +3,7 @@ import numpy as np
 
 
 from PyQt5.QtCore import Qt, QRect, QPointF, QLineF
-from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF
+from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QPen
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -121,19 +121,16 @@ class Display(QWidget):
                                      (int)(graph.Points[j][0]),
                                      (int)(graph.Points[j][1]))
 
-                    # обеспечиваем закрашивание вершин графа
-        painter.setBrush(QColor(0, 0, 0))
-
         # отрисовка вершин и цифр
-        offset = [-2.5, 5]
-        # по всем вершинам
         for i in range(len(graph.Points)):
             # если вершина существует
             if (not np.isnan(graph.Points[i][0])):
-                painter.drawEllipse(graph.Points[i][0]-graph.RadiusPoint/2, graph.Points[i][1]-graph.RadiusPoint/2, graph.RadiusPoint, graph.RadiusPoint)
-                painter.setPen(QColor("white"))
+                painter.setPen(QPen(QColor("black"), 2.5))
+                painter.setBrush(QColor("white")) # обеспечиваем закрашивание вершин графа
+                painter.drawEllipse(graph.Points[i][0]-graph.RadiusPoint/2, graph.Points[i][1]-graph.RadiusPoint/2, 
+                                    graph.RadiusPoint, graph.RadiusPoint)
+                offset = [-(5*len(str(i+1)) - 2.5), 5] # определим смещение по длине строки номера вершины
                 painter.drawText(graph.Points[i][0] + offset[0], graph.Points[i][1] + offset[1], f'{i+1}')
-                painter.setPen(QColor(0, 0, 0))
 
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
