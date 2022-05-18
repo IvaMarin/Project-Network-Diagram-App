@@ -1,21 +1,29 @@
-import sys, math
+import math
 import numpy as np
 
-
 from PyQt5.QtCore import Qt, QRect, QPointF, QLineF
-from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QPen
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
-
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt, QRect
+from PyQt5.QtGui import QPainter, QColor, QPolygonF, QPen
+from PyQt5.QtWidgets import QApplication, QWidget
 
 import controller as control
 import graph_model as gm
-
 import checker
 
+# матрица смежности соответствующая варианту 1, 
+# в дальнейшемй нужно заменить на считывание из файла
+CorrectAdjacencyMatrix1 = np.array([[0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+                                    [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+                                    [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
+                                    [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+                                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+                                    [0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+                                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+
 # функция для вычисления точек полигона стрелки
-def calculate_arrow_points(start_point, end_point, radius=30):
+def calculate_arrow_points(start_point, end_point, radius):
     try:
         arrow_height = 10
         arrow_width = 10
@@ -49,7 +57,6 @@ def calculate_arrow_points(start_point, end_point, radius=30):
     except (ZeroDivisionError, Exception):
         return None
 
-
 # создание сетки 
 def createGrid(x0=0, y0=0, step=50, vertical=True, horizontal=True):
     sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -71,62 +78,47 @@ def createGrid(x0=0, y0=0, step=50, vertical=True, horizontal=True):
 
 graph = gm.Graph(60) # объект граф
 
-CorrectAdjacencyMatrix1 = np.array([[0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-                                    [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
-                                    [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-                                    [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
-                                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-                                    [0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
-                                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
-
 class Display(QWidget):
 
     def __init__(self):
         super().__init__()
         self.functionAble = "Добавить вершину"
-        self.initUI()
-
-    def initUI(self):
         self.TempPoints = np.empty(0) # массив временно выделенных вершин
 
     def paintEvent(self, event):
         painter = QPainter(self)
+        painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
 
         # отрисовка сетки
         painter.setPen(QColor(0, 0, 255, 90))
         lines = createGrid(0, 0, 50, True, True)
         painter.drawLines(lines)
 
-        painter.setPen(QColor(0, 0, 0))
-        # painter.setRenderHint(painter.Antialiasing)
-
-        painter.setPen(QColor(0, 0, 0))
+        painter.setPen(QColor("black"))
         painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
-        # по матрицу смежности
+        painter.setBrush(QColor("black"))
+
+        # отрисовка стрелок
         for i in range(len(graph.AdjacencyMatrix)):
             for j in range(len(graph.AdjacencyMatrix)):
                 # если существует связь
-                if (graph.AdjacencyMatrix[i][j] != 0):
-                    triangle_source = calculate_arrow_points(graph.Points[i], graph.Points[j])
+                if (graph.AdjacencyMatrix[i][j] != 0 and 
+                    (not np.isnan(graph.Points[i][0])) and
+                    (not np.isnan(graph.Points[j][0]))):
+                    triangle_source = calculate_arrow_points(graph.Points[i], graph.Points[j], graph.RadiusPoint/2)
                     if triangle_source is not None:
-                        painter.setBrush(QColor(0, 0, 0))
                         painter.drawPolygon(triangle_source)
-                        painter.setPen(QColor(0, 0, 0))
-                        painter.setPen(Qt.PenStyle.SolidLine)
                         painter.drawLine((int)(graph.Points[i][0]),
-                                     (int)(graph.Points[i][1]),
-                                     (int)(graph.Points[j][0]),
-                                     (int)(graph.Points[j][1]))
+                                         (int)(graph.Points[i][1]),
+                                         (int)(graph.Points[j][0]),
+                                         (int)(graph.Points[j][1]))
 
         # отрисовка вершин и цифр
+        painter.setPen(QPen(QColor("black"), 2.5))
+        painter.setBrush(QColor("white")) # обеспечиваем закрашивание вершин графа
         for i in range(len(graph.Points)):
             # если вершина существует
             if (not np.isnan(graph.Points[i][0])):
-                painter.setPen(QPen(QColor("black"), 2.5))
-                painter.setBrush(QColor("white")) # обеспечиваем закрашивание вершин графа
                 painter.drawEllipse(graph.Points[i][0]-graph.RadiusPoint/2, graph.Points[i][1]-graph.RadiusPoint/2, 
                                     graph.RadiusPoint, graph.RadiusPoint)
                 offset = [-(5*len(str(i+1)) - 2.5), 5] # определим смещение по длине строки номера вершины
@@ -136,18 +128,23 @@ class Display(QWidget):
         # нажатие на ЛКМ
         if (self.functionAble == "Добавить вершину"):
             control.CAddPoint(graph, event, Qt.LeftButton)
+
         elif (self.functionAble == "Добавить связь"):
             self.TempPoints = np.append(self.TempPoints, graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # добавить в массив выбранных вершин
             # если число выбранных вершин 2
             if len(self.TempPoints) == 2:
-                control.CConnectPoints(graph, event, Qt.LeftButton, self.TempPoints)
+                # проверка, если пользователь случайно нажал дважды по одной и той же вершине
+                if (self.TempPoints[0] != self.TempPoints[1]):
+                    control.CConnectPoints(graph, event, Qt.LeftButton, self.TempPoints)
                 self.TempPoints = np.empty(0) # очистить массив
+
         elif (self.functionAble == "Удалить связь"):
             self.TempPoints = np.append(self.TempPoints, graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # добавить в массив выбранных вершин
             # если число выбранных вершин 2
             if len(self.TempPoints) == 2:
                 control.CDeleteConnection(graph, event, Qt.LeftButton, self.TempPoints)
                 self.TempPoints = np.empty(0) # очистить массив
+    
         elif (self.functionAble == "Удалить вершину"):
             control.CDeletePoint(graph, event, Qt.LeftButton)
 
