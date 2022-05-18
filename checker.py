@@ -79,7 +79,7 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
     mistakes = [] # массив ошибок
     for i in range(len(Graph.Points)):
         # считаем число точек
-        if (Graph.Points[i][0] != None):
+        if (not np.isnan(Graph.Points[i][0])):
             CountOfNodes += 1
         # и заодно проверяем не находятся ли точки слишком близко
         for j in range(len(Graph.Points)):
@@ -89,7 +89,7 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
                                                    Graph.Points[j][1] - Graph.RadiusPoint <= Graph.Points[i][1] + Graph.RadiusPoint)):
                 mistakes.append(1)
                 break
-
+    
     if (CountOfNodes != len(CorrectAdjacencyMatrix)):
         mistakes.append(2)
         mistakes.append(4)
