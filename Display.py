@@ -132,7 +132,7 @@ class Display(QWidget):
             if (not np.isnan(graph.Points[i][0])):
                 painter.drawEllipse(graph.Points[i][0]-graph.RadiusPoint/2, graph.Points[i][1]-graph.RadiusPoint/2, graph.RadiusPoint, graph.RadiusPoint)
                 painter.setPen(QColor("white"))
-                painter.drawText(graph.Points[i][0] + offset[0], graph.Points[i][1] + offset[1], f'{i}')
+                painter.drawText(graph.Points[i][0] + offset[0], graph.Points[i][1] + offset[1], f'{i+1}')
                 painter.setPen(QColor(0, 0, 0))
 
     def mousePressEvent(self, event):
