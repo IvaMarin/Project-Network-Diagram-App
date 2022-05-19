@@ -126,7 +126,7 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
                             q1 = QPointF(Graph.Points[j][0],Graph.Points[j][1])
                             p2 = QPointF(Graph.Points[k][0],Graph.Points[k][1])
                             q2 = QPointF(Graph.Points[l][0],Graph.Points[l][1])
-                            if (((i, j) != (k, l)) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
+                            if (((i, j) != (k, l)) and ((i, j) != (l, k)) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
                                 mistakes.append(5)
                                 return mistakes
     return mistakes
