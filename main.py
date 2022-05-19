@@ -15,6 +15,7 @@ from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
 from Display import Display
 from Display import Display2
+from Display import Display3
 from WinsDialog import winSigReport
 from Color import Color
 from task2CheckForm import task2CheckForm
@@ -144,7 +145,7 @@ class Window2(QMainWindow):
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 class Window3(QMainWindow):
 
-    def __init__(self, parent=None):
+    """ def __init__(self, parent=None):
         super().__init__(parent)
 
         # Создаём компоновщик
@@ -171,7 +172,79 @@ class Window3(QMainWindow):
 
         # self.centralWidget = Display()
         # self.setCentralWidget(self.centralWidget)
-        # self._connectAction()
+        # self._connectAction() """
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.ui = Ui_MainWindow1()
+        self.ui.setupUi(self)
+
+        self.setWindowTitle("Задача №3")
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        width = int(sizeWindow.width() - sizeWindow.width() / 5)
+        height = int(sizeWindow.height() - sizeWindow.height() / 5)
+        # вписываем во весь экран
+        self.resize(width, height)
+
+        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+
+        self.centralWidget = Display3(0, 0, 75, [0, 0, 255, 200], False)
+        self.setCentralWidget(self.centralWidget)
+
+        self._connectAction()
+
+    def addNode(self):
+        self.centralWidget.functionAble = "Добавить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+
+    def addArrow(self):
+        self.centralWidget.functionAble = "Добавить связь"
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+
+    def removeArrow(self):
+        self.centralWidget.functionAble = "Удалить связь"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+
+    def removeNode(self):
+        self.centralWidget.functionAble = "Удалить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+
+    def moveNode(self):
+        self.centralWidget.functionAble = "Переместить вершины"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+
+    def makeNewFile(self):
+        self.centralWidget.functionAble = "Новый файл"
+
+    def taskCheck(self):
+        mistakes = self.centralWidget.checkEvent()
+        self.checkForm1 = task2CheckForm(self, mistakes)
+        self.checkForm1.exec_()
+
+    def _connectAction(self):
+        self.ui.actionbtnAddNode.triggered.connect(self.addNode)
+        self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
+        self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow) # названия actionbtnRemoveNodeConnection и actionbtnRemoveNode надо поменять местами или иконки поменять местами
+        self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
+        self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
+        self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+
+    def backMainMenu(self):
+        MainWindow.show()
+
+    
 
 
 #////////////////////////////////  КЛАСС ОКНА ЧЕТВЁРТОГО ЗАДАНИЯ  /////////////////////////////////
