@@ -1,13 +1,12 @@
-import sys, math, os
-import numpy as np
-
+import sys, os
 import openpyxl
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt, QRect, QPointF
-from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
-
 from openpyxl import load_workbook
+
+
+from PyQt5 import QtWidgets
+from PyQt5.QtCore import QRect
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
+
 
 from MainMenu import Ui_MainMenu
 from windowTask1 import Ui_MainWindow1
@@ -15,26 +14,21 @@ from windowTask2 import Ui_MainWindow2
 from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
 from Display import Display
+from Display import Display2
 from WinsDialog import winSigReport
 from Color import Color
 from task2CheckForm import task2CheckForm
 
-import graph_model as gm
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
-
 class Window1(QMainWindow):
 
-
     def __init__(self, parent=None):
-        """Initializer."""
         super().__init__(parent)
 
         self.ui = Ui_MainWindow1()
         self.ui.setupUi(self)
-        #self.initUI()
-
 
         self.setWindowTitle("Задача №1")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -48,15 +42,7 @@ class Window1(QMainWindow):
         self.centralWidget = Display()
         self.setCentralWidget(self.centralWidget)
 
-        
-
-
-
         self._connectAction()
-
-
-    ##################################################################################
-    ##################################################################################
 
     def addNode(self):
         self.centralWidget.functionAble = "Добавить вершину"
@@ -104,31 +90,22 @@ class Window1(QMainWindow):
         self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
-    ##################################################################################
-    ##################################################################################
 
     def backMainMenu(self):
         MainWindow.show()
 
 
-#//////////////////////////////////////////////////////////////////////////////////////////////////
-#//////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 #////////////////////////////////  КЛАСС ОКНА ВТОРОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
-
 class Window2(QMainWindow):
 
-
     def __init__(self, parent=None):
-        """Initializer."""
         super().__init__(parent)
         
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
-        self.layout.addWidget(Display())
+        self.layout.addWidget(Display2())
         # Создаём виджет таблицы и добавляем его в компоновщик
         self.table = QWidget()
         self.table.ui = Ui_tableTask2Widget()
@@ -154,7 +131,6 @@ class Window2(QMainWindow):
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
-
         # self.checkForm = task2CheckForm(self) # диалоговое окно для проврки задания
 
         self._connectAction()
@@ -166,12 +142,9 @@ class Window2(QMainWindow):
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
-
 class Window3(QMainWindow):
 
-
     def __init__(self, parent=None):
-        """Initializer."""
         super().__init__(parent)
 
         # Создаём компоновщик
@@ -182,13 +155,10 @@ class Window3(QMainWindow):
         widget = QWidget()
         widget.setLayout(layout)
 
-
-
         self.ui = Ui_MainWindow2()
         self.ui.setupUi(self)
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(widget)
-
 
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -201,22 +171,14 @@ class Window3(QMainWindow):
 
         # self.centralWidget = Display()
         # self.setCentralWidget(self.centralWidget)
-
         # self._connectAction()
-
-
-    ##################################################################################
-    ##################################################################################
 
 
 #////////////////////////////////  КЛАСС ОКНА ЧЕТВЁРТОГО ЗАДАНИЯ  /////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
-
 class Window4(QMainWindow):
 
-
     def __init__(self, parent=None):
-        """Initializer."""
         super().__init__(parent)
 
         # Создаём компоновщик
@@ -227,13 +189,10 @@ class Window4(QMainWindow):
         widget = QWidget()
         widget.setLayout(layout)
 
-
-
         self.ui = Ui_MainWindow2()
         self.ui.setupUi(self)
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(widget)
-
 
         self.setWindowTitle("Задача №4")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -246,22 +205,14 @@ class Window4(QMainWindow):
 
         # self.centralWidget = Display()
         # self.setCentralWidget(self.centralWidget)
-
         # self._connectAction()
-
-
-    ##################################################################################
-    ##################################################################################
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЯТОЕ ЗАДАНИЯ  ////////////////////////////////////
 #////////////////////////////////////////////////////////////////////////////////////////////////
-
 class Window5(QMainWindow):
 
-
     def __init__(self, parent=None):
-        """Initializer."""
         super().__init__(parent)
 
         # Создаём компоновщик
@@ -272,13 +223,10 @@ class Window5(QMainWindow):
         widget = QWidget()
         widget.setLayout(layout)
 
-
-
         self.ui = Ui_MainWindow2()
         self.ui.setupUi(self)
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(widget)
-
 
         self.setWindowTitle("Задача №5")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -291,22 +239,14 @@ class Window5(QMainWindow):
 
         # self.centralWidget = Display()
         # self.setCentralWidget(self.centralWidget)
-
         # self._connectAction()
-
-
-    ##################################################################################
-    ##################################################################################
 
 
 #////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
-
 class Window6(QMainWindow):
 
-
     def __init__(self, parent=None):
-        """Initializer."""
         super().__init__(parent)
 
         # Создаём компоновщик
@@ -318,13 +258,10 @@ class Window6(QMainWindow):
         widget = QWidget()
         widget.setLayout(layout)
 
-
-
         self.ui = Ui_MainWindow6()
         self.ui.setupUi(self)
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(widget)
-
 
         self.setWindowTitle("Задача №6")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -337,22 +274,14 @@ class Window6(QMainWindow):
 
         # self.centralWidget = Display()
         # self.setCentralWidget(self.centralWidget)
-
         # self._connectAction()
-
-
-    ##################################################################################
-    ##################################################################################
 
 
 #////////////////////////////////////  КЛАСС ОКНА МЕНЮ  ///////////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
-
 class WindowMenu(QMainWindow):
-    """Main Window."""
 
     def __init__(self, parent=None):
-        """Initializer."""
         super().__init__(parent)
 
         self.ui = Ui_MainMenu()
@@ -367,8 +296,8 @@ class WindowMenu(QMainWindow):
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
-        #self.centralWidget = Display()
-        #self.setCentralWidget(self.centralWidget)
+        # self.centralWidget = Display()
+        # self.setCentralWidget(self.centralWidget)
 
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.name = "Иван"      # данные о студенте проинициализированы
@@ -389,7 +318,6 @@ class WindowMenu(QMainWindow):
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         #self.ui.actionbtnAddNode.triggered.connect(self.addNode)
 
-
     def openTask (self, numTask):
         if numTask == "Задание 1":
             MainWindow1.show()
@@ -405,8 +333,8 @@ class WindowMenu(QMainWindow):
             MainWindow6.show()
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
-        #load_workbook(filename= "/resources/variants/В1.xlsx")
-        #book = openpyxl.open("/resources/variants/В1.xlsx", read_only=True)
+        # load_workbook(filename= "/resources/variants/В1.xlsx")
+        # book = openpyxl.open("/resources/variants/В1.xlsx", read_only=True)
 
 
         fileName = "В" + self.numINGroup + ".xlsx" # выбираем нужную табличку по названию
@@ -416,13 +344,13 @@ class WindowMenu(QMainWindow):
         sheet = book.active # active - выбирает номер страницы в книге без параметров (по умолчанию) первая страница
 
         # check = sheet.max_row
-        #for i in range(1, sheet.max_row + 1):  # Начинаем c 1 строки, так как если начнем с 0 вылетит ошибка
+        # for i in range(1, sheet.max_row + 1):  # Начинаем c 1 строки, так как если начнем с 0 вылетит ошибка
         #    for j in range(0, sheet.max_column):  # Проходимся по кол-ву столбцов
         #        print(sheet[sheet[ i ][ j ].coordinate].value, end=" ")  # Выводим в консоль каждый элемент в каждой строке
         #    print()  # Перенос на новую строку
 
         ###################################### +/- рабочие алгосы ###################################################################
-        ###################  не выводит первые 4 строки в таблицу(баг)  ############################################################################################
+        ###################  не выводит первые 4 строки в таблицу(баг)  #############################################################
         countColumns = 0
         tabelVar = []
 
@@ -432,21 +360,21 @@ class WindowMenu(QMainWindow):
                 rowVar.append(cell.value)
             tabelVar.append(rowVar)
 
-        for list in tabelVar:
-            print(list)
+        # for list in tabelVar:
+        #     print(list)
 
         for list in tabelVar:
             rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
             self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы"
             for item in list:
                 if countColumns > 0:
-                    print(item, end=" ")
+                    # print(item, end=" ")
                     self.ui.tableVar.setItem(rowPosition, countColumns - 1, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы", каждую ячейку
                 countColumns = countColumns + 1
             countColumns = 0
-            print()
+            # print()
 
-        #for row in sheet.iter_rows(sheet.min_row+1, sheet.max_row):
+        # for row in sheet.iter_rows(sheet.min_row+1, sheet.max_row):
         #    rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
         #    self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы"
 
@@ -457,39 +385,28 @@ class WindowMenu(QMainWindow):
         #        countColumns = countColumns + 1
         #    countColumns = 0
         #    print()
-######################################################################################################################################
-######################################################################################################################################
 
-
-        #for numStr in range(1,sheet.max_row):
+        # for numStr in range(1,sheet.max_row):
         #    rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
         #    self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы"
-#
         #    for numCol in range (1,sheet.max_column):
         #        self.ui.tableVar.setItem(rowPosition, numCol - 1, QtWidgets.QTableWidgetItem(sheet[numStr][numCol].value)) #  заполняем "строку таблицы", каждую ячейку
 
+        #    print(sheet[str][0].value)
 
+        #    pageBook[str][0]:
 
-            #print(sheet[str][0].value)
+        #    for i in range(1, sheet.max_row + 1)  # Начинаем c 1 строки, так как если начнем с 0 вылетит ошибка
+        #       for j in range(0, sheet.max_column)  # Проходимся по кол-ву столбцов
+        #           print(sheet[sheet[ i ][ j ].coordinate], end=" ")  # Выводим в консоль каждый элемент в каждой строке
+        #       print()  # Перенос на новую строку
 
-            # pageBook[str][0]:
-
-            #for i in range(1, sheet.max_row + 1)  # Начинаем c 1 строки, так как если начнем с 0 вылетит ошибка
-            #for j in range(0, sheet.max_column)  # Проходимся по кол-ву столбцов
-            #    print(sheet[sheet[ i ][ j ].coordinate], end=" ")  # Выводим в консоль каждый элемент в каждой строке
-            #print()  # Перенос на новую строку
-
-
-            #  Add text to the row
-            #for i in range (self.ui.tableVar.columnCount() - 1): # -1 потому что колонка "Прим." пустая
-                #self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.name)) #  заполняем "строку таблицы", каждую ячейку
-                #self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.surname)) #
-                #self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.numGroup)) #             кроме "Прим."
-                #self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem("CHECK")) #
-
-
-# //////////////////////////////////////////////////////////////////////////////////////////////////
-# //////////////////////////////////////////////////////////////////////////////////////////////////
+        #      Add text to the row
+        #     for i in range (self.ui.tableVar.columnCount() - 1): # -1 потому что колонка "Прим." пустая
+        #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.name)) #  заполняем "строку таблицы", каждую ячейку
+        #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.surname)) #
+        #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.numGroup)) #             кроме "Прим."
+        #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem("CHECK")) #
 
 
 if __name__ == "__main__":

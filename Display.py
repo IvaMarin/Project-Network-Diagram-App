@@ -1,4 +1,3 @@
-import math
 import numpy as np
 
 from PyQt5.QtCore import Qt, QRect, QPointF, QLineF
@@ -31,7 +30,7 @@ def calculate_arrow_points(start_point, end_point, radius):
         dx = start_point[0] - end_point[0]
         dy = start_point[1] - end_point[1]
 
-        length = math.sqrt(dx ** 2 + dy ** 2)
+        length = np.sqrt(dx ** 2 + dy ** 2)
 
         # нормализуем
         norm_x, norm_y = dx / length, dy / length
@@ -159,3 +158,95 @@ class Display(QWidget):
     def checkEvent(self):
         mistakes = checker.checkTask1(graph, CorrectAdjacencyMatrix1)
         return mistakes
+
+
+class Display2(Display):
+
+    def __init__(self):
+        super().__init__()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
+
+        # отрисовка сетки
+        painter.setPen(QColor(0, 0, 255, 90))
+        lines = createGrid(0, 0, 50, True, True)
+        painter.drawLines(lines)
+
+        painter.setPen(QColor("black"))
+        painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
+        painter.setBrush(QColor("black"))
+
+        # отрисовка стрелок
+        scaler = 1.5
+        radius = graph.RadiusPoint * scaler
+        for i in range(len(graph.AdjacencyMatrix)):
+            for j in range(len(graph.AdjacencyMatrix)):
+                # если существует связь
+                if (graph.AdjacencyMatrix[i][j] != 0 and 
+                    (not np.isnan(graph.Points[i][0])) and
+                    (not np.isnan(graph.Points[j][0]))):
+                    triangle_source = calculate_arrow_points(graph.Points[i], graph.Points[j], radius/2)
+                    if triangle_source is not None:
+                        painter.drawPolygon(triangle_source)
+                        painter.drawLine((int)(graph.Points[i][0]),
+                                         (int)(graph.Points[i][1]),
+                                         (int)(graph.Points[j][0]),
+                                         (int)(graph.Points[j][1]))
+                        # определим где отрисовать вес ребра/стрелки
+                        cos_sign = graph.Points[j][0] - graph.Points[i][0]
+                        sin_sign = graph.Points[j][1] - graph.Points[i][1]
+                        offset = 10
+                        if ((cos_sign > 0 and sin_sign > 0) or (cos_sign < 0 and sin_sign < 0)):
+                            x = ((int)(graph.Points[i][0]) + (int)(graph.Points[j][0])) / 2 + offset
+                        else:
+                            x = ((int)(graph.Points[i][0]) + (int)(graph.Points[j][0])) / 2 - offset
+                        y = ((int)(graph.Points[i][1]) + (int)(graph.Points[j][1])) / 2 - offset
+
+                        # сюда нужно передать парметр веса для i-го ребра
+                        weight = 'w'
+                        painter.drawText(x, y, f'{weight}')
+
+        # отрисовка вершин и цифр
+        painter.setPen(QPen(QColor("black"), 2.5))
+        painter.setBrush(QColor("white")) # обеспечиваем закрашивание вершин графа
+        for i in range(len(graph.Points)):
+            # если вершина существует
+            if (not np.isnan(graph.Points[i][0])):
+                x, y = graph.Points[i]
+                
+                painter.drawEllipse(x-radius/2, y-radius/2, radius, radius)
+
+                line_off = (radius/2) * np.cos(np.pi/4)
+
+                painter.drawLine(x-line_off, y-line_off, x+line_off, y+line_off)
+                painter.drawLine(x-line_off, y+line_off, x+line_off, y-line_off)
+                
+                # сюда нужно передавать три параметра для секторов i-ой вершины
+                t_p = 't^p'
+                t_n = 't^n'
+                R = 'R'
+
+                x_off = -(5*len(str(t_p)) - 2.5) # по оси x определим смещение по длине строки
+                y_off = 5                        # по оси y смещение не зависист от длины строки 
+                painter.drawText(x-line_off+x_off/2, y+y_off, f'{t_p}')
+
+                x_off = -(5*len(str(t_n)) - 2.5) # по оси x определим смещение по длине строки
+                painter.drawText(x+line_off+1.5*x_off, y+y_off, f'{t_n}')
+
+                x_off = -(5*len(str(i+1)) - 2.5) # по оси x определим смещение по длине строки
+                painter.drawText(x+x_off, y-line_off+1.5*y_off, f'{i+1}')
+
+                x_off = -(5*len(str(R)) - 2.5)   # по оси x определим смещение по длине строки
+                painter.drawText(x+x_off, y+line_off, f'{R}')
+
+    # забираем у пользователя возможность что-то двигать/нажимать
+    def mousePressEvent(self, event):
+        pass
+    def mouseMoveEvent(self, event):
+        pass
+
+    # тут должна быть проверка для второго задания
+    def checkEvent(self):
+        pass
