@@ -18,10 +18,10 @@ def CAddPointGrid(graph, event, but, GridBegin, GridStep, FixedY):
 			if event.pos().x() <= GridBegin+i*GridStep:
 				wasFinded = True # найден промежуток
 		XonGrid = GridBegin
-		# если расстояние от курсора до левой ближайшей границы сетки меньше или равно чем до правой
-		if abs(event.pos().x() - GridBegin+(i-1)*GridStep) <= abs(event.pos().x() - GridBegin+i*GridStep):
+		# если курсор в диапозоне одной лини
+		if abs(event.pos().x() >= GridBegin+(i-3/2)*GridStep) and abs(event.pos().x() < GridBegin+(i-1/2)*GridStep):
 			XonGrid = GridBegin+(i-1)*GridStep
-		else:
+		elif abs(event.pos().x() >= GridBegin+(i-1/2)*GridStep) and abs(event.pos().x() < GridBegin+(i+3/2)*GridStep):
 			XonGrid = GridBegin+i*GridStep
 		# если указана фиксированная координата по y
 		if FixedY != None:
@@ -61,12 +61,11 @@ def CMovePointGrid(graph, event, GridBegin, GridStep, FixedY):
 		if event.pos().x() <= GridBegin+i*GridStep:
 			wasFinded = True # найден промежуток
 	XonGrid = GridBegin
-	# если расстояние от курсора до левой ближайшей границы сетки меньше или равно чем до правой
-	if abs(event.pos().x() - GridBegin+(i-1)*GridStep) <= abs(event.pos().x() - GridBegin+i*GridStep):
-		XonGrid = GridBegin+(i-1)*GridStep
-	else:
+	# если курсор в диапозоне одной лини
+	if abs(event.pos().x() >= GridBegin+(i-3/2)*GridStep) and abs(event.pos().x() < GridBegin+(i-1/2)*GridStep):
+			XonGrid = GridBegin+(i-1)*GridStep
+	elif abs(event.pos().x() >= GridBegin+(i-1/2)*GridStep) and abs(event.pos().x() < GridBegin+(i+3/2)*GridStep):
 		XonGrid = GridBegin+i*GridStep
-	# если указана фиксированная координата по y
 	if FixedY != None:
 		graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y()), XonGrid, FixedY) # переместить вершину
 		return
