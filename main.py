@@ -473,7 +473,7 @@ class WindowMenu(QMainWindow):
         self.name = "Иван"      # данные о студенте проинициализированы
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
-        self.numINGroup = "20"  # данные о студенте проинициализированы
+        self.numINGroup = "9"  # данные о студенте проинициализированы
 
         self._connectAction()
 
