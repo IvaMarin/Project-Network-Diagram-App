@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow1</class>
- <widget class="QMainWindow" name="MainWindow1">
+ <class>MainWindow3</class>
+ <widget class="QMainWindow" name="MainWindow3">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1669</width>
+    <width>1603</width>
     <height>1253</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Задание 1</string>
+   <string>Задание 3</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -19,7 +19,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1669</width>
+     <width>1603</width>
      <height>21</height>
     </rect>
    </property>
@@ -86,6 +86,7 @@
    <addaction name="actionbtnRemoveNodeConnection"/>
    <addaction name="actionbtnMoveNode"/>
    <addaction name="actionbtnConnectNode"/>
+   <addaction name="actionbtnDottedConnectNode"/>
    <addaction name="separator"/>
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
@@ -325,6 +326,24 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Проверить задание&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionbtnDottedConnectNode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/arrowsDotted.png</normaloff>resources/iconePack/arrowsDotted.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnDottedConnectNode</string>
+   </property>
+   <property name="toolTip">
+    <string>Соединение узлов пунктиром</string>
    </property>
   </action>
  </widget>

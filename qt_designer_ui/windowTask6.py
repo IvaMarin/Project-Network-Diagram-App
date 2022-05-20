@@ -34,6 +34,7 @@ class Ui_MainWindow6(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow6.setStatusBar(self.statusbar)
         self.toolBar = QtWidgets.QToolBar(MainWindow6)
+        self.toolBar.setIconSize(QtCore.QSize(47, 42))
         self.toolBar.setObjectName("toolBar")
         MainWindow6.addToolBar(QtCore.Qt.LeftToolBarArea, self.toolBar)
         self.actionNewFile = QtWidgets.QAction(MainWindow6)
