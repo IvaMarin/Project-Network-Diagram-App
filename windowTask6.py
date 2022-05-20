@@ -34,6 +34,7 @@ class Ui_MainWindow6(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow6.setStatusBar(self.statusbar)
         self.toolBar = QtWidgets.QToolBar(MainWindow6)
+        self.toolBar.setIconSize(QtCore.QSize(47, 42))
         self.toolBar.setObjectName("toolBar")
         MainWindow6.addToolBar(QtCore.Qt.LeftToolBarArea, self.toolBar)
         self.actionNewFile = QtWidgets.QAction(MainWindow6)
@@ -149,12 +150,3 @@ class Ui_MainWindow6(object):
         self.actionbtnInfo.setText(_translate("MainWindow6", "btnInfo"))
         self.actionbtnInfo.setToolTip(_translate("MainWindow6", "Подсказка"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow6 = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow6()
-    ui.setupUi(MainWindow6)
-    MainWindow6.show()
-    sys.exit(app.exec_())

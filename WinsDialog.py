@@ -3,7 +3,7 @@ import numpy as np
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt, QRect, QPointF
-from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF
+from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QIntValidator
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
 
 from login import Ui_login
@@ -19,6 +19,9 @@ class winSigReport(QtWidgets.QDialog):
         self.ui = Ui_login() # инициализация ui
         self.ui.setupUi(self) # инициализация ui окна (присвоение конкретных пар-ов)
         self.mainMenu = root  # сохраняем нашего родителя
+
+        self.ui.lineEditNumINGroup.setValidator(QIntValidator())
+        self.ui.lineEditNumINGroup.setMaxLength(2)
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
         width = int(sizeWindow.width() - (sizeWindow.width() * 2) / 3)      # выставляем ширину окна
