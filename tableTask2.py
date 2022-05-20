@@ -18,10 +18,11 @@ class Ui_tableTask2Widget(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.tableWidget = QtWidgets.QTableWidget(tableTask2Widget)
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(2)
-        self.tableWidget.setRowCount(16)
-        self.tableWidget.setMinimumWidth(280)
-        self.tableWidget.setHorizontalHeaderLabels(["Ранний срок", "Поздний срок"])
+        self.tableWidget.setColumnCount(1)
+        self.tableWidget.setRowCount(50)
+        self.tableWidget.setMinimumWidth(175)
+        self.tableWidget.setMaximumWidth(175)
+        self.tableWidget.setHorizontalHeaderLabels(["Ранний срок"]) #, "Поздний срок"
         self.verticalLayout.addWidget(self.tableWidget)
         self.tableCheckButton = QtWidgets.QPushButton(tableTask2Widget)
         self.tableCheckButton.setObjectName("tableCheckButton")
@@ -33,5 +34,5 @@ class Ui_tableTask2Widget(object):
     def retranslateUi(self, tableTask2Widget):
         _translate = QtCore.QCoreApplication.translate
         tableTask2Widget.setWindowTitle(_translate("tableTask2Widget", "Form"))
-        self.tableCheckButton.setText(_translate("tableTask2Widget", "Проверить"))
+        self.tableCheckButton.setText(_translate("tableTask2Widget", "Заполнить"))
 

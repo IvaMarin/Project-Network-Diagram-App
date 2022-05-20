@@ -38,7 +38,7 @@ class Window1(QMainWindow):
         # вписываем во весь экран
         self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+        self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
         self.centralWidget = Display()
         self.setCentralWidget(self.centralWidget)
@@ -108,10 +108,20 @@ class Window2(QMainWindow):
         # Добавляем виджет отрисовки в компоновщик
         self.layout.addWidget(Display2())
         # Создаём виджет таблицы и добавляем его в компоновщик
+        self.layout2 = QtWidgets.QVBoxLayout()
         self.table = QWidget()
         self.table.ui = Ui_tableTask2Widget()
         self.table.ui.setupUi(self.table)
-        self.layout.addWidget(self.table)
+        self.table2 = QWidget()
+        self.table2.ui = Ui_tableTask2Widget()
+        self.table2.ui.setupUi(self.table2)
+        self.table2.ui.tableWidget.setHorizontalHeaderLabels(["Поздний срок"])
+        self.layout2.addWidget(self.table)
+        self.layout2.addWidget(self.table2)
+        self.widget2 = QWidget()
+        self.widget2.setLayout(self.layout2)
+        
+        self.layout.addWidget(self.widget2)
         # Задаём растяжение объектов в компоновщике
         self.layout.setStretch(0, 1)
         # Задаём компоновку виджету
@@ -125,14 +135,15 @@ class Window2(QMainWindow):
 
         self.setWindowTitle("Задача №2")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        width = int(sizeWindow.width() - sizeWindow.width() / 5)
+        width = int(sizeWindow.width() - sizeWindow.width() / 5 + 280)
         height = int(sizeWindow.height() - sizeWindow.height() / 5)
         # вписываем во весь экран
         self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+        self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
         # self.checkForm = task2CheckForm(self) # диалоговое окно для проврки задания
+
 
         self._connectAction()
 
@@ -187,7 +198,7 @@ class Window3(QMainWindow):
         # вписываем во весь экран
         self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+        self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
         self.centralWidget = Display3(0, 0, 75, [0, 0, 255, 200], False)
         self.setCentralWidget(self.centralWidget)
@@ -367,7 +378,7 @@ class WindowMenu(QMainWindow):
         # вписываем во весь экран
         self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+        self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
         # self.centralWidget = Display()
         # self.setCentralWidget(self.centralWidget)
