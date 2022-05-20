@@ -291,31 +291,91 @@ class Window4(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        # Создаём компоновщик
-        layout = QtWidgets.QVBoxLayout()
-        layout.addWidget(Color('blue'))
-        layout.addWidget(Color('red'))
-        # Задаём компоновку виджету
-        widget = QWidget()
-        widget.setLayout(layout)
-
-        self.ui = Ui_MainWindow2()
+        self.ui = Ui_MainWindow3()
         self.ui.setupUi(self)
-        # Присваиваем виджет с компоновкой окну
-        self.setCentralWidget(widget)
 
-        self.setWindowTitle("Задача №4")
+        self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         width = int(sizeWindow.width() - sizeWindow.width() / 5)
         height = int(sizeWindow.height() - sizeWindow.height() / 5)
         # вписываем во весь экран
         self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+        self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
-        # self.centralWidget = Display()
-        # self.setCentralWidget(self.centralWidget)
-        # self._connectAction()
+        self.centralWidget = Display3(0, 0, 75, [0, 0, 255, 200], False)
+        self.setCentralWidget(self.centralWidget)
+
+        self._connectAction()
+
+    def addNode(self):
+        self.centralWidget.functionAble = "Добавить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def addArrow(self):
+        self.centralWidget.functionAble = "Добавить связь"
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def addDottedArrow(self):
+        self.centralWidget.functionAble = "Добавить пунктирную связь"
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def removeArrow(self):
+        self.centralWidget.functionAble = "Удалить связь"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def removeNode(self):
+        self.centralWidget.functionAble = "Удалить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+
+    def moveNode(self):
+        self.centralWidget.functionAble = "Переместить вершины"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def makeNewFile(self):
+        self.centralWidget.functionAble = "Новый файл"
+
+    def taskCheck(self):
+        mistakes = self.centralWidget.checkEvent()
+        self.checkForm1 = task2CheckForm(self, mistakes)
+        self.checkForm1.exec_()
+
+    def _connectAction(self):
+        self.ui.actionbtnAddNode.triggered.connect(self.addNode)
+        self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
+        self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
+        self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
+        self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
+        self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+
+    def backMainMenu(self):
+        MainWindow.show()
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЯТОЕ ЗАДАНИЯ  ////////////////////////////////////
