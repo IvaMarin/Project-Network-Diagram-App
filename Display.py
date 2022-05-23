@@ -131,7 +131,10 @@ class Display(QWidget):
             if (not np.isnan(graph.Points[i][0])):
                 painter.drawEllipse(graph.Points[i][0]-graph.RadiusPoint/2, graph.Points[i][1]-graph.RadiusPoint/2, 
                                     graph.RadiusPoint, graph.RadiusPoint)
-                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5), 5*font_size/8] # определим смещение по длине строки номера вершины
+                if len(str(i+1)) < 2:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+                else:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(graph.Points[i][0] + offset[0], graph.Points[i][1] + offset[1], f'{i+1}')
 
     def mousePressEvent(self, event):
