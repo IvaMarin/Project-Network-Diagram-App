@@ -1,7 +1,7 @@
 import numpy as np
 
 from PyQt5.QtCore import Qt, QRect, QPointF, QLineF
-from PyQt5.QtGui import QPainter, QColor, QPolygonF, QPen
+from PyQt5.QtGui import QPainter, QColor, QPolygonF, QPen, QFont
 from PyQt5.QtWidgets import QApplication, QWidget
 
 import controller as control
@@ -102,6 +102,9 @@ class Display(QWidget):
         painter.drawLines(self.lines)
 
         painter.setPen(QColor("black"))
+        font = "Arial"
+        font_size = 14
+        painter.setFont(QFont(font, font_size))
         painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
         painter.setBrush(QColor("black"))
 
@@ -128,7 +131,7 @@ class Display(QWidget):
             if (not np.isnan(graph.Points[i][0])):
                 painter.drawEllipse(graph.Points[i][0]-graph.RadiusPoint/2, graph.Points[i][1]-graph.RadiusPoint/2, 
                                     graph.RadiusPoint, graph.RadiusPoint)
-                offset = [-(5*len(str(i+1)) - 2.5), 5] # определим смещение по длине строки номера вершины
+                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5), 5*font_size/8] # определим смещение по длине строки номера вершины
                 painter.drawText(graph.Points[i][0] + offset[0], graph.Points[i][1] + offset[1], f'{i+1}')
 
     def mousePressEvent(self, event):
@@ -183,6 +186,9 @@ class Display2(Display):
         painter.drawLines(lines)
 
         painter.setPen(QColor("black"))
+        font = "Arial"
+        font_size = 12
+        painter.setFont(QFont(font, font_size))
         painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
         painter.setBrush(QColor("black"))
 
@@ -206,7 +212,7 @@ class Display2(Display):
                         cos_sign = graph.Points[j][0] - graph.Points[i][0]
                         sin_sign = graph.Points[j][1] - graph.Points[i][1]
                         offset = 10
-                        if ((cos_sign > 0 and sin_sign > 0) or (cos_sign < 0 and sin_sign < 0)):
+                        if ((cos_sign >= 0 and sin_sign >= 0) or (cos_sign <= 0 and sin_sign <= 0)):
                             x = ((int)(graph.Points[i][0]) + (int)(graph.Points[j][0])) / 2 + offset
                         else:
                             x = ((int)(graph.Points[i][0]) + (int)(graph.Points[j][0])) / 2 - offset
@@ -232,22 +238,22 @@ class Display2(Display):
                 painter.drawLine(x-line_off, y+line_off, x+line_off, y-line_off)
                 
                 # сюда нужно передавать три параметра для секторов i-ой вершины
-                t_p = 't^p'
-                t_n = 't^n'
-                R = 'R'
-
-                x_off = -(5*len(str(t_p)) - 2.5) # по оси x определим смещение по длине строки
-                y_off = 5                        # по оси y смещение не зависист от длины строки 
+                t_p = '0'
+                t_n = '0'
+                R = '0'
+                
+                x_off = -(5*len(str(t_p))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
+                y_off = 5*font_size/8                          # по оси y смещение не зависист от длины строки 
                 painter.drawText(x-line_off+x_off/2, y+y_off, f'{t_p}')
 
-                x_off = -(5*len(str(t_n)) - 2.5) # по оси x определим смещение по длине строки
+                x_off = -(5*len(str(t_n))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
                 painter.drawText(x+line_off+1.5*x_off, y+y_off, f'{t_n}')
 
-                x_off = -(5*len(str(i+1)) - 2.5) # по оси x определим смещение по длине строки
+                x_off = -(5*len(str(i+1))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
                 painter.drawText(x+x_off, y-line_off+1.5*y_off, f'{i+1}')
 
-                x_off = -(5*len(str(R)) - 2.5)   # по оси x определим смещение по длине строки
-                painter.drawText(x+x_off, y+line_off, f'{R}')
+                x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
+                painter.drawText(x+x_off, y+line_off+0.5*y_off, f'{R}')
 
     # забираем у пользователя возможность что-то двигать/нажимать
     def mousePressEvent(self, event):
