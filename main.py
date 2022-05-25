@@ -1,4 +1,5 @@
 import sys, os
+import numpy
 import openpyxl
 from openpyxl import load_workbook
 
@@ -14,12 +15,10 @@ from windowTask3 import Ui_MainWindow3
 from windowTask2 import Ui_MainWindow2
 from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
-from Display import Display
-from Display import Display2
-from Display import Display3
+import Display
 from WinsDialog import winSigReport
 from Color import Color
-from task2CheckForm import task2CheckForm
+from task1CheckForm import task1CheckForm
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -41,7 +40,7 @@ class Window1(QMainWindow):
 
         self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
-        self.centralWidget = Display()
+        self.centralWidget = Display.Display()
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -87,7 +86,7 @@ class Window1(QMainWindow):
 
     def taskCheck(self):
         mistakes = self.centralWidget.checkEvent()
-        self.checkForm1 = task2CheckForm(self, mistakes)
+        self.checkForm1 = task1CheckForm(self, mistakes)
         self.checkForm1.exec_()
 
     def _connectAction(self):
@@ -113,17 +112,18 @@ class Window2(QMainWindow):
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
-        self.layout.addWidget(Display2())
+        self.DisplayObj = Display.Display2()
+        self.layout.addWidget(self.DisplayObj)
         # Создаём виджет таблицы и добавляем его в компоновщик
         self.layout2 = QtWidgets.QVBoxLayout()
-        self.table = QWidget()
-        self.table.ui = Ui_tableTask2Widget()
-        self.table.ui.setupUi(self.table)
+        self.table1 = QWidget()
+        self.table1.ui = Ui_tableTask2Widget()
+        self.table1.ui.setupUi(self.table1)
         self.table2 = QWidget()
         self.table2.ui = Ui_tableTask2Widget()
         self.table2.ui.setupUi(self.table2)
         self.table2.ui.tableWidget.setHorizontalHeaderLabels(["Поздний срок"])
-        self.layout2.addWidget(self.table)
+        self.layout2.addWidget(self.table1)
         self.layout2.addWidget(self.table2)
         self.widget2 = QWidget()
         self.widget2.setLayout(self.layout2)
@@ -149,14 +149,36 @@ class Window2(QMainWindow):
 
         self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
-        # self.checkForm = task2CheckForm(self) # диалоговое окно для проврки задания
+        
+
+        # self.checkForm = task1CheckForm(self) # диалоговое окно для проврки задания
 
 
         self._connectAction()
 
-    def _connectAction(self):
+    def show(self):
+        super().show()
+        self.cnt = len(Display.graph.Points)
+        self.table1.ui.tableWidget.setRowCount(self.cnt)
+        self.table2.ui.tableWidget.setRowCount(self.cnt)
+
+
+    def table1Check(self):
+        for row in range(self.table1.ui.tableWidget.rowCount()):
+            Display.graph.tp = numpy.append(Display.graph.tp, int(self.table1.ui.tableWidget.item(row, 0).text()))
+        print (Display.graph.tp)
+
+    def table2Check(self):
+        for row in range(self.table2.ui.tableWidget.rowCount()):
+            Display.graph.tn = numpy.append(Display.graph.tn, int(self.table2.ui.tableWidget.item(row, 0).text()))
+        print (Display.graph.tn)
+
+    def taskCheck(self):
         pass
-        # self.table.ui.tableCheckButton.clicked.connect(self.checkForm.exec)
+
+    def _connectAction(self):
+        self.table1.ui.tableCheckButton.clicked.connect(self.table1Check)
+        self.table2.ui.tableCheckButton.clicked.connect(self.table2Check)
 
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
@@ -207,7 +229,7 @@ class Window3(QMainWindow):
 
         self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
-        self.centralWidget = Display3(0, 0, 75, [0, 0, 255, 200], False)
+        self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -265,7 +287,7 @@ class Window3(QMainWindow):
 
     def taskCheck(self):
         mistakes = self.centralWidget.checkEvent()
-        self.checkForm1 = task2CheckForm(self, mistakes)
+        self.checkForm1 = task1CheckForm(self, mistakes)
         self.checkForm1.exec_()
 
     def _connectAction(self):
@@ -303,7 +325,7 @@ class Window4(QMainWindow):
 
         self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
-        self.centralWidget = Display3(0, 0, 75, [0, 0, 255, 200], False)
+        self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -361,7 +383,7 @@ class Window4(QMainWindow):
 
     def taskCheck(self):
         mistakes = self.centralWidget.checkEvent()
-        self.checkForm1 = task2CheckForm(self, mistakes)
+        self.checkForm1 = task1CheckForm(self, mistakes)
         self.checkForm1.exec_()
 
     def _connectAction(self):
