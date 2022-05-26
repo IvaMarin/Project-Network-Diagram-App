@@ -164,14 +164,18 @@ class Window2(QMainWindow):
 
 
     def table1Check(self):
+        Display.graph.tp = numpy.empty((0))
         for row in range(self.table1.ui.tableWidget.rowCount()):
             Display.graph.tp = numpy.append(Display.graph.tp, int(self.table1.ui.tableWidget.item(row, 0).text()))
-        print (Display.graph.tp)
+        # print (Display.graph.tp)
+        self.update()
 
     def table2Check(self):
+        Display.graph.tn = numpy.empty((0))
         for row in range(self.table2.ui.tableWidget.rowCount()):
             Display.graph.tn = numpy.append(Display.graph.tn, int(self.table2.ui.tableWidget.item(row, 0).text()))
-        print (Display.graph.tn)
+        # print (Display.graph.tn)
+        self.update()
 
     def taskCheck(self):
         pass
