@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1528</width>
+    <width>1685</width>
     <height>936</height>
    </rect>
   </property>
@@ -89,10 +89,10 @@
           <bool>true</bool>
          </attribute>
          <attribute name="horizontalHeaderMinimumSectionSize">
-          <number>60</number>
+          <number>70</number>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>293</number>
+          <number>362</number>
          </attribute>
          <attribute name="horizontalHeaderHighlightSections">
           <bool>true</bool>
@@ -110,7 +110,7 @@
           <bool>true</bool>
          </attribute>
          <attribute name="verticalHeaderMinimumSectionSize">
-          <number>24</number>
+          <number>25</number>
          </attribute>
          <attribute name="verticalHeaderDefaultSectionSize">
           <number>35</number>
@@ -127,7 +127,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
          </column>
@@ -137,7 +137,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
          </column>
@@ -147,7 +147,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
          </column>
@@ -157,7 +157,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
          </column>
@@ -167,7 +167,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>16</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -189,6 +189,11 @@
       <layout class="QGridLayout" name="gridLayout">
        <item row="3" column="2">
         <widget class="QPushButton" name="btnTask3">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Задание 3</string>
          </property>
@@ -196,6 +201,11 @@
        </item>
        <item row="5" column="2">
         <widget class="QPushButton" name="btnTask5">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Задание 5</string>
          </property>
@@ -203,6 +213,11 @@
        </item>
        <item row="2" column="2">
         <widget class="QPushButton" name="btnTask2">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Задание 2</string>
          </property>
@@ -210,6 +225,11 @@
        </item>
        <item row="4" column="2">
         <widget class="QPushButton" name="btnTask4">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Задание 4</string>
          </property>
@@ -217,6 +237,11 @@
        </item>
        <item row="6" column="2">
         <widget class="QPushButton" name="btnTask6">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Задание 6</string>
          </property>
@@ -224,6 +249,11 @@
        </item>
        <item row="1" column="2">
         <widget class="QPushButton" name="btnTask1">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Задание 1</string>
          </property>
@@ -231,6 +261,11 @@
        </item>
        <item row="1" column="3">
         <widget class="QPushButton" name="btnPrint">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Печать</string>
          </property>
@@ -238,6 +273,11 @@
        </item>
        <item row="2" column="3">
         <widget class="QPushButton" name="btnGenVar">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Генерация вариантов</string>
          </property>
@@ -245,6 +285,11 @@
        </item>
        <item row="3" column="3">
         <widget class="QPushButton" name="btnReportSign">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Подписать отчет</string>
          </property>
@@ -260,7 +305,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1528</width>
+     <width>1685</width>
      <height>21</height>
     </rect>
    </property>
