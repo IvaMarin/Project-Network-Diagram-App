@@ -11,9 +11,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_task2CheckUi(object):
+class Ui_task1CheckUi(object):
     def setupUi(self, task2CheckForm):
-        task2CheckForm.setObjectName("task2CheckForm")
+        task2CheckForm.setObjectName("task1CheckForm")
         task2CheckForm.resize(451, 585)
         self.gridLayout = QtWidgets.QGridLayout(task2CheckForm)
         self.gridLayout.setObjectName("gridLayout")
