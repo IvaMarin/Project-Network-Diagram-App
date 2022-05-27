@@ -1,12 +1,14 @@
+from logging import critical
 import sys, os
 import numpy
 import openpyxl
 from openpyxl import load_workbook
+import types
 
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QRect
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox
 
 
 from MainMenu import Ui_MainMenu
@@ -149,6 +151,12 @@ class Window2(QMainWindow):
 
         self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
+        # Создаём окно для ошибки заполнения таблицы
+        self.msg = QMessageBox()
+        self.msg.setWindowTitle("Ошибка!")
+        self.msg.setText("Заполните все поля таблицы!")
+        self.msg.setIcon(QMessageBox.Critical)
+        self.msg.setStandardButtons(QMessageBox.Ok)
         
 
         # self.checkForm = task1CheckForm(self) # диалоговое окно для проврки задания
@@ -157,6 +165,7 @@ class Window2(QMainWindow):
         self._connectAction()
 
     def show(self):
+        # При вызове окна обновляется кол-во вершин графа
         super().show()
         self.cnt = len(Display.graph.Points)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
@@ -164,16 +173,30 @@ class Window2(QMainWindow):
 
 
     def table1Check(self):
+        # Обнуляем данные в модели
         Display.graph.tp = numpy.empty((0))
+        # Считываем новые
         for row in range(self.table1.ui.tableWidget.rowCount()):
-            Display.graph.tp = numpy.append(Display.graph.tp, int(self.table1.ui.tableWidget.item(row, 0).text()))
+            # Проверка на пустую ячейку
+            if type(self.table1.ui.tableWidget.item(row, 0)) == QtWidgets.QTableWidgetItem and self.table1.ui.tableWidget.item(row, 0).text() != '': 
+                # Добавление значения
+                Display.graph.tp = numpy.append(Display.graph.tp, int(self.table1.ui.tableWidget.item(row, 0).text()))
+            else:
+                # При ошибке вызываем окно
+                self.msg.show()
+                break
         # print (Display.graph.tp)
         self.update()
 
     def table2Check(self):
+        # То же самое для второй таблицы
         Display.graph.tn = numpy.empty((0))
         for row in range(self.table2.ui.tableWidget.rowCount()):
-            Display.graph.tn = numpy.append(Display.graph.tn, int(self.table2.ui.tableWidget.item(row, 0).text()))
+            if type(self.table2.ui.tableWidget.item(row, 0)) == QtWidgets.QTableWidgetItem and self.table2.ui.tableWidget.item(row, 0).text() != '':
+                Display.graph.tn = numpy.append(Display.graph.tn, int(self.table2.ui.tableWidget.item(row, 0).text()))
+            else:
+                self.msg.show()
+                break
         # print (Display.graph.tn)
         self.update()
 
