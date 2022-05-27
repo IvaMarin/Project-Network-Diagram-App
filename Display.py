@@ -131,7 +131,10 @@ class Display(QWidget):
             if (not np.isnan(graph.Points[i][0])):
                 painter.drawEllipse(graph.Points[i][0]-graph.RadiusPoint/2, graph.Points[i][1]-graph.RadiusPoint/2, 
                                     graph.RadiusPoint, graph.RadiusPoint)
-                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5), 5*font_size/8] # определим смещение по длине строки номера вершины
+                if len(str(i+1)) < 2:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+                else:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(graph.Points[i][0] + offset[0], graph.Points[i][1] + offset[1], f'{i+1}')
 
     def mousePressEvent(self, event):
@@ -237,11 +240,21 @@ class Display2(Display):
                 painter.drawLine(x-line_off, y-line_off, x+line_off, y+line_off)
                 painter.drawLine(x-line_off, y+line_off, x+line_off, y-line_off)
                 
-                # сюда нужно передавать три параметра для секторов i-ой вершины
-                t_p = '0'
-                t_n = '0'
-                R = '0'
-                
+                if (graph.tp.size > i):
+                    t_p = str(int(graph.tp[i]))
+                else:
+                    t_p = '0'
+
+                if (graph.tn.size > i):
+                    t_n = str(int(graph.tn[i]))
+                else:
+                    t_n = '0'
+
+                if (graph.tn.size > i and graph.tp.size > i):
+                    R = str(int(graph.tn[i]) - int(graph.tp[i]))
+                else:
+                    R = '0'
+
                 x_off = -(5*len(str(t_p))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
                 y_off = 5*font_size/8                          # по оси y смещение не зависист от длины строки 
                 painter.drawText(x-line_off+x_off/2, y+y_off, f'{t_p}')
