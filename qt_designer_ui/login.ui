@@ -22,7 +22,11 @@
     </widget>
    </item>
    <item row="2" column="2">
-    <widget class="QLineEdit" name="lineEditNumINGroup"/>
+    <widget class="QLineEdit" name="lineEditNumINGroup">
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="labelNumGroup">
@@ -49,7 +53,11 @@
     </widget>
    </item>
    <item row="0" column="2">
-    <widget class="QLineEdit" name="lineEditSurname"/>
+    <widget class="QLineEdit" name="lineEditSurname">
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+    </widget>
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="labelGroup">
@@ -59,7 +67,11 @@
     </widget>
    </item>
    <item row="3" column="2">
-    <widget class="QLineEdit" name="lineEditGroup"/>
+    <widget class="QLineEdit" name="lineEditGroup">
+     <property name="inputMethodHints">
+      <set>Qt::ImhNone</set>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

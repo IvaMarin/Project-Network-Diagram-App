@@ -22,6 +22,7 @@ class winSigReport(QtWidgets.QDialog):
 
         self.ui.lineEditNumINGroup.setValidator(QIntValidator())
         self.ui.lineEditNumINGroup.setMaxLength(2)
+        self.ui.lineEditNumINGroup.setMaxLength(8)
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
         width = int(sizeWindow.width() - (sizeWindow.width() * 2) / 3)      # выставляем ширину окна
