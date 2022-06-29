@@ -21,6 +21,7 @@ import Display
 from WinsDialog import winSigReport
 from Color import Color
 from task1CheckForm import task1CheckForm
+import graph_model as gm
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -255,8 +256,9 @@ class Window3(QMainWindow):
         self.resize(width, height)
 
         self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
+        graph3 = gm.Graph(60)
 
-        self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False)
+        self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False, graph3)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()

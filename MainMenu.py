@@ -187,12 +187,3 @@ class Ui_MainMenu(object):
         self.btnGenVar.setText(_translate("MainMenu", "Генерация вариантов"))
         self.btnReportSign.setText(_translate("MainMenu", "Подписать отчет"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainMenu = QtWidgets.QMainWindow()
-    ui = Ui_MainMenu()
-    ui.setupUi(MainMenu)
-    MainMenu.show()
-    sys.exit(app.exec_())
