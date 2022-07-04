@@ -205,9 +205,14 @@ class Window2(QMainWindow):
     def taskCheck(self):
         pass
 
+    def backMainMenu(self):
+        MainWindow.show()
+        self.close()
+
     def _connectAction(self):
         self.table1.ui.tableCheckButton.clicked.connect(self.table1Check)
         self.table2.ui.tableCheckButton.clicked.connect(self.table2Check)
+        self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
 
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////

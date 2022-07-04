@@ -59,7 +59,7 @@ class Ui_MainWindow2(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.toolBar.sizePolicy().hasHeightForWidth())
         self.toolBar.setSizePolicy(sizePolicy)
-        self.toolBar.setIconSize(QtCore.QSize(42, 35))
+        self.toolBar.setIconSize(QtCore.QSize(47, 42))
         self.toolBar.setObjectName("toolBar")
         MainWindow1.addToolBar(QtCore.Qt.LeftToolBarArea, self.toolBar)
         self.actionbtnAddNode = QtWidgets.QAction(MainWindow1)
@@ -193,6 +193,7 @@ class Ui_MainWindow2(object):
         self.toolBar.addAction(self.actionbtnCritPath)
         self.toolBar.addAction(self.actionbtnZoomIn)
         self.toolBar.addAction(self.actionbtnZoomOut)
+        self.toolBar.addAction(self.actionbtnHome)
 
         self.retranslateUi(MainWindow1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow1)
