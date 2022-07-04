@@ -22,10 +22,11 @@ class winSigReport(QtWidgets.QDialog):
 
         self.ui.lineEditNumINGroup.setValidator(QIntValidator())
         self.ui.lineEditNumINGroup.setMaxLength(2)
+        self.ui.lineEditNumINGroup.setMaxLength(15)
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
-        width = int(sizeWindow.width() - (sizeWindow.width() * 2) / 3)      # выставляем ширину окна
-        height = int(sizeWindow.height() - (sizeWindow.height() * 2) / 3)   # выставляем длину окна
+        width = int(sizeWindow.width() - (sizeWindow.width()) / 3)      # выставляем ширину окна
+        height = int(sizeWindow.height() - (sizeWindow.height()) / 3)   # выставляем длину окна
         # присваиваем параметры длины и ширины окну
         self.resize(width, height)
 
@@ -38,6 +39,7 @@ class winSigReport(QtWidgets.QDialog):
         #self.ui.lineEditName
 
     def saveData(self): # сохраняем имя фамилию и № группы полученные в этом диалоговом окне
+        #if
         self.mainMenu.name = self.ui.lineEditName.text()        # сохраняем в класс WindowMenu имя
         self.mainMenu.surname = self.ui.lineEditSurname.text()  # сохраняем в класс WindowMenu фамилию
         self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()# сохраняем в класс WindowMenu группу
