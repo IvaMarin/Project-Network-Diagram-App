@@ -4,7 +4,7 @@ import numpy as np
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt, QRect, QPointF
 from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QIntValidator
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction, QMessageBox
 
 from login import Ui_login
 
@@ -33,6 +33,20 @@ class winSigReport(QtWidgets.QDialog):
         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
         self._connectAction() # ф-ия связи с эл-тами окна
+
+        quit = QAction("Quit", self)
+        quit.triggered.connect(self.closeEvent)
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("Вы уверены,что хотите закрыть программу?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
     def _connectAction(self):
         self.ui.btnSignLab.clicked.connect(lambda: self.saveData()) # прописываем действие по кнопке
