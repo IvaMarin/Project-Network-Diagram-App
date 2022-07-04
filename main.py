@@ -8,7 +8,7 @@ import types
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QRect
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction
 
 
 from MainMenu import Ui_MainMenu
@@ -47,6 +47,21 @@ class Window1(QMainWindow):
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
+
+        quit = QAction("Quit", self)
+        quit.triggered.connect(self.closeEvent)
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("Вы уверены,что хотите закрыть программу?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
 
     def addNode(self):
         self.centralWidget.functionAble = "Добавить вершину"
@@ -159,12 +174,24 @@ class Window2(QMainWindow):
         self.msg.setText("Заполните все поля таблицы!")
         self.msg.setIcon(QMessageBox.Critical)
         self.msg.setStandardButtons(QMessageBox.Ok)
-        
 
         # self.checkForm = task1CheckForm(self) # диалоговое окно для проврки задания
 
-
         self._connectAction()
+
+        quit = QAction("Quit", self)
+        quit.triggered.connect(self.closeEvent)
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("Вы уверены,что хотите закрыть программу?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
     def show(self):
         # При вызове окна обновляется кол-во вершин графа
@@ -269,6 +296,20 @@ class Window3(QMainWindow):
 
         self._connectAction()
 
+        quit = QAction("Quit", self)
+        quit.triggered.connect(self.closeEvent)
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("Вы уверены,что хотите закрыть программу?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
     def addNode(self):
         self.centralWidget.functionAble = "Добавить вершину"
         self.ui.actionbtnConnectNode.setChecked(False)
@@ -365,6 +406,20 @@ class Window4(QMainWindow):
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
+
+        quit = QAction("Quit", self)
+        quit.triggered.connect(self.closeEvent)
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("Вы уверены,что хотите закрыть программу?Вы уверены,что хотите закрыть программу?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
     def addNode(self):
         self.centralWidget.functionAble = "Добавить вершину"
@@ -468,6 +523,20 @@ class Window5(QMainWindow):
 
         self._connectAction()
 
+        quit = QAction("Quit", self)
+        quit.triggered.connect(self.closeEvent)
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("Вы уверены,что хотите закрыть программу?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
         # self.centralWidget = Display()
         # self.setCentralWidget(self.centralWidget)
         # self._connectAction()
@@ -512,6 +581,20 @@ class Window6(QMainWindow):
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
         self._connectAction()
+
+        quit = QAction("Quit", self)
+        quit.triggered.connect(self.closeEvent)
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("Вы уверены,что хотите закрыть программу?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
         # self.centralWidget = Display()
         # self.setCentralWidget(self.centralWidget)
@@ -563,6 +646,20 @@ class WindowMenu(QMainWindow):
         self.winSigReport.exec_()
 
         self._connectAction()
+
+        quit = QAction("Quit", self)
+        quit.triggered.connect(self.closeEvent)
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("Вы уверены,что хотите закрыть программу?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
     def _connectAction(self):
         self.ui.btnTask1.clicked.connect(lambda: self.openTask(self.ui.btnTask1.text()))
@@ -649,7 +746,7 @@ class WindowMenu(QMainWindow):
         countColumns = 0
         tabelVar = []
 
-        for row in sheet.iter_rows(sheet.min_row+1, sheet.max_row):
+        for row in sheet.iter_rows(sheet.min_row+1, sheet.max_row):# подкачиваем данные из xlsx файла
             rowVar = []
             for cell in row:
                 rowVar.append(cell.value)
@@ -659,8 +756,6 @@ class WindowMenu(QMainWindow):
         #     print(list)
 
         self.ui.tableVar.setRowCount(0) # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
-
-
 
         for list in tabelVar:
             rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
