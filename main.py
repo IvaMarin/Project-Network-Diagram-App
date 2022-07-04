@@ -103,6 +103,7 @@ class Window1(QMainWindow):
 
     def backMainMenu(self):
         MainWindow.show()
+        self.close()
 
 
 #////////////////////////////////  КЛАСС ОКНА ВТОРОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -331,6 +332,7 @@ class Window3(QMainWindow):
 
     def backMainMenu(self):
         MainWindow.show()
+        self.close()
 
     
 
@@ -345,7 +347,7 @@ class Window4(QMainWindow):
         self.ui = Ui_MainWindow3()
         self.ui.setupUi(self)
 
-        self.setWindowTitle("Задача №3")
+        self.setWindowTitle("Задача №4")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         width = int(sizeWindow.width() - sizeWindow.width() / 5)
         height = int(sizeWindow.height() - sizeWindow.height() / 5)
@@ -427,6 +429,7 @@ class Window4(QMainWindow):
 
     def backMainMenu(self):
         MainWindow.show()
+        self.close()
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЯТОЕ ЗАДАНИЯ  ////////////////////////////////////
@@ -444,7 +447,7 @@ class Window5(QMainWindow):
         widget = QWidget()
         widget.setLayout(layout)
 
-        self.ui = Ui_MainWindow2()
+        self.ui = Ui_MainWindow3()
         self.ui.setupUi(self)
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(widget)
@@ -458,9 +461,19 @@ class Window5(QMainWindow):
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
+        self._connectAction()
+
         # self.centralWidget = Display()
         # self.setCentralWidget(self.centralWidget)
         # self._connectAction()
+
+    def _connectAction(self):
+        self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+
+
+    def backMainMenu(self):
+        MainWindow.show()
+        self.close()
 
 
 #////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -493,9 +506,18 @@ class Window6(QMainWindow):
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
+        self._connectAction()
+
         # self.centralWidget = Display()
         # self.setCentralWidget(self.centralWidget)
         # self._connectAction()
+
+    def _connectAction(self):
+        self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+
+    def backMainMenu(self):
+        MainWindow.show()
+        self.close()
 
 
 #////////////////////////////////////  КЛАСС ОКНА МЕНЮ  ///////////////////////////////////////////
@@ -521,10 +543,19 @@ class WindowMenu(QMainWindow):
         # self.setCentralWidget(self.centralWidget)
 
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
+        self.MainWindow1 = None #Window1(self)
+        self.MainWindow2 = None #Window2(self)
+        self.MainWindow3 = None #Window3(self)
+        self.MainWindow4 = None #Window4(self)
+        self.MainWindow5 = None #Window5(self)
+        self.MainWindow6 = None #Window6(self)
+
         self.name = "Иван"      # данные о студенте проинициализированы
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы
+
+        self.winSigReport.exec_()
 
         self._connectAction()
 
@@ -538,7 +569,44 @@ class WindowMenu(QMainWindow):
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         #self.ui.actionbtnAddNode.triggered.connect(self.addNode)
+    """
+    def openMainWindow1(self):
+        if not self.MainWindow1:
+            self.MainWindow1 = Window1(self)
+        self.MainWindow1.show()
+        self.hide()
+        #self.close()
 
+    def openMainWindow2(self):
+        if not self.MainWindow2:
+            self.MainWindow2 = Window2(self)
+        self.MainWindow2.show()
+        self.hide()
+
+    def openMainWindow3(self):
+        if not self.MainWindow3:
+            self.MainWindow3 = Window3(self)
+        self.MainWindow3.show()
+        self.hide()
+
+    def openMainWindow4(self):
+        if not self.MainWindow4:
+            self.MainWindow4 = Window4(self)
+        self.MainWindow4.show()
+        self.hide()
+
+    def openMainWindow5(self):
+        if not self.MainWindow5:
+            self.MainWindow5 = Window5(self)
+        self.MainWindow5.show()
+        self.hide()
+
+    def openMainWindow6(self):
+        if not self.MainWindow6:
+            self.MainWindow6 = Window6(self)
+        self.MainWindow6.show()
+        self.hide()
+    """
     def openTask (self, numTask):
         if numTask == "Задание 1":
             MainWindow1.show()
@@ -552,6 +620,7 @@ class WindowMenu(QMainWindow):
             MainWindow5.show()
         elif numTask == "Задание 6":
             MainWindow6.show()
+        self.hide()
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
         # load_workbook(filename= "/resources/variants/В1.xlsx")
@@ -583,6 +652,10 @@ class WindowMenu(QMainWindow):
 
         # for list in tabelVar:
         #     print(list)
+
+        self.ui.tableVar.setRowCount(0) # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
+
+
 
         for list in tabelVar:
             rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
@@ -640,6 +713,7 @@ if __name__ == "__main__":
     MainWindow4 = Window4()
     MainWindow5 = Window5()
     MainWindow6 = Window6()
+
     MainWindow.show()
 
     sys.exit(app.exec_())

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1685</width>
-    <height>936</height>
+    <height>864</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,26 +24,6 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="labelWelcome">
-         <property name="lineWidth">
-          <number>5</number>
-         </property>
-         <property name="midLineWidth">
-          <number>5</number>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'Times New Roman'; font-size:20pt; color:#000000;&quot;&gt;ПРАКТИЧЕСКОЕ ЗАНЯТИЕ № 3&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'Times New Roman'; font-size:20pt; color:#000000;&quot;&gt;ИСПОЛЬЗОВАНИЕ МЕТОДА СЕТЕВОГО ПЛАНИРОВАНИЯ И УПРАВЛЕНИЯ В &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'Times New Roman'; font-size:20pt; color:#000000;&quot;&gt;ТЕХНОЛОГИЧЕСКИХ ПРОЦЕССАХ ЭКСПЛУАТАЦИИ КОСМИЧЕСКИХ СРЕДСТВ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="Dialoglabel">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Окно для показа сообщений пользователю &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
        <item>
         <widget class="QTableWidget" name="tableVar">
          <property name="enabled">
@@ -187,11 +167,35 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="2">
+        <widget class="QPushButton" name="btnTask1">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Задание 1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QPushButton" name="btnTask4">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Задание 4</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="2">
         <widget class="QPushButton" name="btnTask3">
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <property name="text">
@@ -199,11 +203,23 @@
          </property>
         </widget>
        </item>
+       <item row="6" column="2">
+        <widget class="QPushButton" name="btnTask6">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Задание 6</string>
+         </property>
+        </widget>
+       </item>
        <item row="5" column="2">
         <widget class="QPushButton" name="btnTask5">
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <property name="text">
@@ -215,7 +231,7 @@
         <widget class="QPushButton" name="btnTask2">
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <property name="text">
@@ -223,59 +239,35 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="2">
-        <widget class="QPushButton" name="btnTask4">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Задание 4</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="2">
-        <widget class="QPushButton" name="btnTask6">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Задание 6</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QPushButton" name="btnTask1">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Задание 1</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="3">
-        <widget class="QPushButton" name="btnPrint">
+        <widget class="QPushButton" name="pushButton">
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <property name="text">
-          <string>Печать</string>
+          <string>Предпросмотр отчета</string>
          </property>
         </widget>
        </item>
        <item row="2" column="3">
+        <widget class="QPushButton" name="btnPrint">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Печать отчета</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
         <widget class="QPushButton" name="btnGenVar">
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <property name="text">
@@ -283,15 +275,15 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="3">
+       <item row="4" column="3">
         <widget class="QPushButton" name="btnReportSign">
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <property name="text">
-          <string>Подписать отчет</string>
+          <string>Данные о студенте</string>
          </property>
         </widget>
        </item>
