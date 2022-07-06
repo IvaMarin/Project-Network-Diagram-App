@@ -18,7 +18,7 @@ from windowTask2 import Ui_MainWindow2
 from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
 import Display
-from WinsDialog import winSigReport
+from WinsDialog import winSigReport,winLogin
 from Color import Color
 from task1CheckForm import task1CheckForm
 import graph_model as gm
@@ -627,24 +627,23 @@ class WindowMenu(QMainWindow):
 
         self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
-        # self.centralWidget = Display()
-        # self.setCentralWidget(self.centralWidget)
-
-        self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
-        self.MainWindow1 = None #Window1(self)
-        self.MainWindow2 = None #Window2(self)
-        self.MainWindow3 = None #Window3(self)
-        self.MainWindow4 = None #Window4(self)
-        self.MainWindow5 = None #Window5(self)
-        self.MainWindow6 = None #Window6(self)
-
         self.name = "Иван"      # данные о студенте проинициализированы
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы
 
-        self.winSigReport.exec_()
+        # self.centralWidget = Display()
+        # self.setCentralWidget(self.centralWidget)
 
+        self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
+        self.startWindow.exec_() # его запуск в отдельном потоке
+        self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
+        #self.MainWindow1 = None #Window1(self)
+        #self.MainWindow2 = None #Window2(self)
+        #self.MainWindow3 = None #Window3(self)
+        #self.MainWindow4 = None #Window4(self)
+        #self.MainWindow5 = None #Window5(self)
+        #self.MainWindow6 = None #Window6(self)
         self._connectAction()
 
         quit = QAction("Quit", self)
