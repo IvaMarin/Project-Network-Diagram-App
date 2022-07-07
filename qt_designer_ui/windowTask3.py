@@ -107,6 +107,7 @@ class Ui_MainWindow3(object):
         self.actionbtnInfo.setIcon(icon9)
         self.actionbtnInfo.setObjectName("actionbtnInfo")
         self.actionbtnHome = QtWidgets.QAction(MainWindow3)
+        self.actionbtnHome.setCheckable(True)
         icon10 = QtGui.QIcon()
         icon10.addPixmap(QtGui.QPixmap("resources/iconePack/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionbtnHome.setIcon(icon10)

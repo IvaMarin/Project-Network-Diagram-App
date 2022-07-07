@@ -65,6 +65,7 @@ class Ui_MainWindow6(object):
         self.actionBackward.setIcon(icon4)
         self.actionBackward.setObjectName("actionBackward")
         self.actionbtnHome = QtWidgets.QAction(MainWindow6)
+        self.actionbtnHome.setCheckable(True)
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap("resources/iconePack/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionbtnHome.setIcon(icon5)
@@ -150,3 +151,12 @@ class Ui_MainWindow6(object):
         self.actionbtnInfo.setText(_translate("MainWindow6", "btnInfo"))
         self.actionbtnInfo.setToolTip(_translate("MainWindow6", "Подсказка"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow6 = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow6()
+    ui.setupUi(MainWindow6)
+    MainWindow6.show()
+    sys.exit(app.exec_())
