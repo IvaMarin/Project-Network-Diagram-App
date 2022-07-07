@@ -648,9 +648,7 @@ class WindowMenu(QMainWindow):
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы
-
-        # self.centralWidget = Display()
-        # self.setCentralWidget(self.centralWidget)
+        self.closeProgFlag = False # если true, startWindow закрыли и хотят выйти из программы, если false startWindow из программы выйти не хотят
 
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow.exec_() # его запуск в отдельном потоке
@@ -665,17 +663,22 @@ class WindowMenu(QMainWindow):
 
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
+        if self.closeProgFlag:
+            sys.exit()
 
     def closeEvent(self, event):
-        close = QMessageBox()
-        close.setText("Вы уверены,что хотите закрыть программу?")
-        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-        close = close.exec()
-
-        if close == QMessageBox.Yes:
+        if self.closeProgFlag:
             event.accept()
         else:
-            event.ignore()
+            close = QMessageBox()
+            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close = close.exec()
+
+            if close == QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()
 
     def _connectAction(self):
         self.ui.btnTask1.clicked.connect(lambda: self.openTask(self.ui.btnTask1.text()))
@@ -741,9 +744,6 @@ class WindowMenu(QMainWindow):
         self.hide()
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
-        # load_workbook(filename= "/resources/variants/В1.xlsx")
-        # book = openpyxl.open("/resources/variants/В1.xlsx", read_only=True)
-
 
         fileName = "В" + self.numINGroup + ".xlsx" # выбираем нужную табличку по названию
         # файлик с таблицой должен называться "В" + номер студента по списку + ".xlsx" (расширение файла)
@@ -757,8 +757,6 @@ class WindowMenu(QMainWindow):
         #        print(sheet[sheet[ i ][ j ].coordinate].value, end=" ")  # Выводим в консоль каждый элемент в каждой строке
         #    print()  # Перенос на новую строку
 
-        ###################################### +/- рабочие алгосы ###################################################################
-        ###################  не выводит первые 4 строки в таблицу(баг)  #############################################################
         countColumns = 0
         tabelVar = []
 
@@ -831,5 +829,4 @@ if __name__ == "__main__":
     MainWindow6 = Window6()
 
     MainWindow.show()
-
     sys.exit(app.exec_())
