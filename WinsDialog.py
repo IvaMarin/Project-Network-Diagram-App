@@ -40,13 +40,10 @@ class winSigReport(QtWidgets.QDialog):
 
         self._connectAction() # ф-ия связи с эл-тами окна
 
-
     def _connectAction(self):
         self.ui.btnSignLab.clicked.connect(lambda: self.saveData()) # прописываем действие по кнопке
-        #self.ui.lineEditName
 
     def saveData(self): # сохраняем имя фамилию и № группы полученные в этом диалоговом окне
-        #if
         self.mainMenu.name = self.ui.lineEditName.text()        # сохраняем в класс WindowMenu имя
         self.mainMenu.surname = self.ui.lineEditSurname.text()  # сохраняем в класс WindowMenu фамилию
         self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()# сохраняем в класс WindowMenu группу
@@ -79,22 +76,22 @@ class winLogin(QtWidgets.QDialog):
 
         self._connectAction() # ф-ия связи с эл-тами окна
 
-        quit = QAction("Quit", self)
-        quit.triggered.connect(self.closeEvent)
+        quit = QAction("Quit", self) # событие выхода
+        quit.triggered.connect(self.closeEvent) # если событие выхода срабатывает то вызывается closeEvent
 
     def closeEvent(self, event):
-        if self.ui.btnSignLab.isChecked():
-            event.accept()
-        else:
-            close = QMessageBox()
-            close.setText("Вы уверены,что хотите закрыть программу?")
-            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-            close = close.exec()
-
-            if close == QMessageBox.Yes:
-                event.accept()
-            else:
-                event.ignore()
+        if self.ui.btnSignLab.isChecked(): # если closeEvent вызван и при этом нажата кнопка подписи отчета
+            event.accept() # то не выводим диалоговое окно подтверждения ивента
+        else: # иначе формируем окно подтверждения ивента (т.е QMessageBox)
+            self.mainMenu.closeProgFlag = True # означает что после закрытия диалогового окна должно закрыться mainMenu
+            close = QMessageBox() #
+            close.setText("Вы уверены,что хотите закрыть программу?") #
+            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel) #
+            close = close.exec() #
+            if close == QMessageBox.Yes: # если нажали да
+                event.accept() # подтверждаем ивент
+            else: # иначе игнорируем
+                event.ignore() #
 
 
     def _connectAction(self):
