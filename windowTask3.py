@@ -107,6 +107,7 @@ class Ui_MainWindow3(object):
         self.actionbtnInfo.setIcon(icon9)
         self.actionbtnInfo.setObjectName("actionbtnInfo")
         self.actionbtnHome = QtWidgets.QAction(MainWindow3)
+        self.actionbtnHome.setCheckable(True)
         icon10 = QtGui.QIcon()
         icon10.addPixmap(QtGui.QPixmap("resources/iconePack/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionbtnHome.setIcon(icon10)
@@ -221,3 +222,11 @@ class Ui_MainWindow3(object):
         self.actionbtnDottedConnectNode.setToolTip(_translate("MainWindow3", "Соединение узлов пунктиром"))
 
 
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow3 = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow3()
+    ui.setupUi(MainWindow3)
+    MainWindow3.show()
+    sys.exit(app.exec_())

@@ -52,15 +52,19 @@ class Window1(QMainWindow):
         quit.triggered.connect(self.closeEvent)
 
     def closeEvent(self, event):
-        close = QMessageBox()
-        close.setText("Вы уверены,что хотите закрыть программу?")
-        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-        close = close.exec()
-
-        if close == QMessageBox.Yes:
+        if self.ui.actionbtnHome.isChecked():
+            self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
-            event.ignore()
+            close = QMessageBox()
+            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close = close.exec()
+
+            if close == QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()
 
 
     def addNode(self):
@@ -183,15 +187,19 @@ class Window2(QMainWindow):
         quit.triggered.connect(self.closeEvent)
 
     def closeEvent(self, event):
-        close = QMessageBox()
-        close.setText("Вы уверены,что хотите закрыть программу?")
-        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-        close = close.exec()
-
-        if close == QMessageBox.Yes:
+        if self.ui.actionbtnHome.isChecked():
+            self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
-            event.ignore()
+            close = QMessageBox()
+            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close = close.exec()
+
+            if close == QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()
 
     def show(self):
         # При вызове окна обновляется кол-во вершин графа
@@ -300,15 +308,19 @@ class Window3(QMainWindow):
         quit.triggered.connect(self.closeEvent)
 
     def closeEvent(self, event):
-        close = QMessageBox()
-        close.setText("Вы уверены,что хотите закрыть программу?")
-        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-        close = close.exec()
-
-        if close == QMessageBox.Yes:
+        if self.ui.actionbtnHome.isChecked():
+            self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
-            event.ignore()
+            close = QMessageBox()
+            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close = close.exec()
+
+            if close == QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()
 
     def addNode(self):
         self.centralWidget.functionAble = "Добавить вершину"
@@ -411,15 +423,19 @@ class Window4(QMainWindow):
         quit.triggered.connect(self.closeEvent)
 
     def closeEvent(self, event):
-        close = QMessageBox()
-        close.setText("Вы уверены,что хотите закрыть программу?Вы уверены,что хотите закрыть программу?")
-        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-        close = close.exec()
-
-        if close == QMessageBox.Yes:
+        if self.ui.actionbtnHome.isChecked():
+            self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
-            event.ignore()
+            close = QMessageBox()
+            close.setText("Вы уверены,что хотите закрыть программу?Вы уверены,что хотите закрыть программу?")
+            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close = close.exec()
+
+            if close == QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()
 
     def addNode(self):
         self.centralWidget.functionAble = "Добавить вершину"
@@ -527,19 +543,19 @@ class Window5(QMainWindow):
         quit.triggered.connect(self.closeEvent)
 
     def closeEvent(self, event):
-        close = QMessageBox()
-        close.setText("Вы уверены,что хотите закрыть программу?")
-        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-        close = close.exec()
-
-        if close == QMessageBox.Yes:
+        if self.ui.actionbtnHome.isChecked():
+            self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
-            event.ignore()
+            close = QMessageBox()
+            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close = close.exec()
 
-        # self.centralWidget = Display()
-        # self.setCentralWidget(self.centralWidget)
-        # self._connectAction()
+            if close == QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()
 
     def _connectAction(self):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
@@ -586,19 +602,20 @@ class Window6(QMainWindow):
         quit.triggered.connect(self.closeEvent)
 
     def closeEvent(self, event):
-        close = QMessageBox()
-        close.setText("Вы уверены,что хотите закрыть программу?")
-        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-        close = close.exec()
-
-        if close == QMessageBox.Yes:
+        if self.ui.actionbtnHome.isChecked():
+            self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
-            event.ignore()
+            close = QMessageBox()
+            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close = close.exec()
 
-        # self.centralWidget = Display()
-        # self.setCentralWidget(self.centralWidget)
-        # self._connectAction()
+            if close == QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()
+
 
     def _connectAction(self):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)

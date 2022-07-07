@@ -65,6 +65,7 @@ class Ui_MainWindow6(object):
         self.actionBackward.setIcon(icon4)
         self.actionBackward.setObjectName("actionBackward")
         self.actionbtnHome = QtWidgets.QAction(MainWindow6)
+        self.actionbtnHome.setCheckable(True)
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap("resources/iconePack/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionbtnHome.setIcon(icon5)
