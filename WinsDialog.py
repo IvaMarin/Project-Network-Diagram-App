@@ -83,13 +83,13 @@ class winLogin(QtWidgets.QDialog):
         if self.ui.btnSignLab.isChecked(): # если closeEvent вызван и при этом нажата кнопка подписи отчета
             event.accept() # то не выводим диалоговое окно подтверждения ивента
         else: # иначе формируем окно подтверждения ивента (т.е QMessageBox)
-            self.mainMenu.closeProgFlag = True # означает что после закрытия диалогового окна должно закрыться mainMenu
             close = QMessageBox() #
             close.setText("Вы уверены,что хотите закрыть программу?") #
             close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel) #
             close = close.exec() #
             if close == QMessageBox.Yes: # если нажали да
                 event.accept() # подтверждаем ивент
+                sys.exit()
             else: # иначе игнорируем
                 event.ignore() #
 

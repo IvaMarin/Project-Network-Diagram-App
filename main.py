@@ -648,7 +648,6 @@ class WindowMenu(QMainWindow):
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы
-        self.closeProgFlag = False # если true, startWindow закрыли и хотят выйти из программы, если false startWindow из программы выйти не хотят
 
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow.exec_() # его запуск в отдельном потоке
@@ -663,22 +662,17 @@ class WindowMenu(QMainWindow):
 
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
-        if self.closeProgFlag:
-            sys.exit()
 
     def closeEvent(self, event):
-        if self.closeProgFlag:
+        close = QMessageBox()
+        close.setText("Вы уверены,что хотите закрыть программу?")
+        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close = close.exec()
+
+        if close == QMessageBox.Yes:
             event.accept()
         else:
-            close = QMessageBox()
-            close.setText("Вы уверены,что хотите закрыть программу?")
-            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-            close = close.exec()
-
-            if close == QMessageBox.Yes:
-                event.accept()
-            else:
-                event.ignore()
+            event.ignore()
 
     def _connectAction(self):
         self.ui.btnTask1.clicked.connect(lambda: self.openTask(self.ui.btnTask1.text()))
@@ -689,7 +683,6 @@ class WindowMenu(QMainWindow):
         self.ui.btnTask6.clicked.connect(lambda: self.openTask(self.ui.btnTask6.text()))
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
-        #self.ui.actionbtnAddNode.triggered.connect(self.addNode)
     """
     def openMainWindow1(self):
         if not self.MainWindow1:
