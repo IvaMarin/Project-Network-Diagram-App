@@ -1,15 +1,13 @@
-import sys, math
+import sys, math, os
 import numpy as np
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui ,QtCore
 from PyQt5.QtCore import Qt, QRect, QPointF
 from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QIntValidator
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction, QMessageBox
 
 from login import Ui_login
 from startWindow import Ui_startWin
-
-
 
 class winSigReport(QtWidgets.QDialog):
 
@@ -22,8 +20,11 @@ class winSigReport(QtWidgets.QDialog):
         self.mainMenu = root  # сохраняем нашего родителя
 
         self.ui.lineEditNumINGroup.setValidator(QIntValidator())
-        self.ui.lineEditNumINGroup.setMaxLength(2)
-        self.ui.lineEditGroup.setMaxLength(15)
+
+        rx = QtCore.QRegExp("[a-zA-Zа-яА-Я .,]{100}")
+        val = QtGui.QRegExpValidator(rx)
+        self.ui.lineEditSurname.setValidator(val)
+        self.ui.lineEditName.setValidator(val)
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
         width = int(sizeWindow.width() - (sizeWindow.width()) * 2 / 3)      # выставляем ширину окна
@@ -44,13 +45,40 @@ class winSigReport(QtWidgets.QDialog):
         self.ui.btnSignLab.clicked.connect(lambda: self.saveData()) # прописываем действие по кнопке
 
     def saveData(self): # сохраняем имя фамилию и № группы полученные в этом диалоговом окне
-        self.mainMenu.name = self.ui.lineEditName.text()        # сохраняем в класс WindowMenu имя
-        self.mainMenu.surname = self.ui.lineEditSurname.text()  # сохраняем в класс WindowMenu фамилию
-        self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()# сохраняем в класс WindowMenu группу
-        self.mainMenu.numGroup = self.ui.lineEditGroup.text()  # сохраняем в класс WindowMenu группу
-        # WindowMenu это класс окна Меню
+        if self.checkInputData() :
+            return
+        else:
+            self.mainMenu.name = self.ui.lineEditName.text()  # сохраняем в класс WindowMenu имя
+            self.mainMenu.surname = self.ui.lineEditSurname.text()  # сохраняем в класс WindowMenu фамилию
+            self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()  # сохраняем в класс WindowMenu группу
+            self.mainMenu.numGroup = self.ui.lineEditGroup.text()  # сохраняем в класс WindowMenu группу
+            # WindowMenu это класс окна Меню
 
-        self.close()
+            self.mainMenu.creatReport() # перезапись в pdf данных студента
+
+            self.close()
+
+    def checkInputData(self):
+        fileName = "В" + self.ui.lineEditNumINGroup.text() + ".xlsx"
+        pathFileXlsx = os.path.join("resources", "variants", fileName)
+
+        if self.ui.lineEditName.text() == "" or\
+                self.ui.lineEditSurname.text() == "" or\
+                self.ui.lineEditNumINGroup.text() == "" or\
+                self.ui.lineEditGroup.text() == "":
+            warning = QMessageBox()  #
+            warning.setText("Заполните все предложенные поля.")  #
+            warning.setDefaultButton(QMessageBox.Ok)  #
+            warning = warning.exec()  #
+            return True
+        elif not(os.path.exists(pathFileXlsx)):
+            warning = QMessageBox()  #
+            warning.setText("Введите корректный номер варианта.")  #
+            warning.setDefaultButton(QMessageBox.Ok)  #
+            warning = warning.exec()  #
+            return True
+        else:
+            return False
 
 class winLogin(QtWidgets.QDialog):
 
@@ -63,8 +91,11 @@ class winLogin(QtWidgets.QDialog):
         self.mainMenu = root  # сохраняем нашего родителя
 
         self.ui.lineEditNumINGroup.setValidator(QIntValidator())
-        self.ui.lineEditNumINGroup.setMaxLength(2)
-        self.ui.lineEditGroup.setMaxLength(15)
+
+        rx = QtCore.QRegExp("[a-zA-Zа-яА-Я .,]{100}")
+        val = QtGui.QRegExpValidator(rx)
+        self.ui.lineEditSurname.setValidator(val)
+        self.ui.lineEditName.setValidator(val)
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
         width = int(sizeWindow.width() - (sizeWindow.width()) / 3)      # выставляем ширину окна
@@ -80,23 +111,46 @@ class winLogin(QtWidgets.QDialog):
         quit.triggered.connect(self.closeEvent) # если событие выхода срабатывает то вызывается closeEvent
 
     def closeEvent(self, event):
-        if self.ui.btnSignLab.isChecked(): # если closeEvent вызван и при этом нажата кнопка подписи отчета
+        if self.checkInputData() :
+            event.ignore()
+        elif self.ui.btnSignLab.isChecked(): # если closeEvent вызван и при этом нажата кнопка подписи отчета
             event.accept() # то не выводим диалоговое окно подтверждения ивента
         else: # иначе формируем окно подтверждения ивента (т.е QMessageBox)
             close = QMessageBox() #
             close.setText("Вы уверены,что хотите закрыть программу?") #
-            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel) #
+            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel) #
             close = close.exec() #
-            if close == QMessageBox.Yes: # если нажали да
+            if close == QMessageBox.Ok: # если нажали да
                 event.accept() # подтверждаем ивент
                 sys.exit()
             else: # иначе игнорируем
                 event.ignore() #
+        self.ui.btnSignLab.setChecked(False)
 
+    def checkInputData(self):
+        fileName = "В" + self.ui.lineEditNumINGroup.text() + ".xlsx"
+        pathFileXlsx = os.path.join("resources", "variants", fileName)
+
+        if self.ui.lineEditName.text() == "" or\
+                self.ui.lineEditSurname.text() == "" or\
+                self.ui.lineEditNumINGroup.text() == "" or\
+                self.ui.lineEditGroup.text() == "":
+            warning = QMessageBox()  #
+            warning.setText("Заполните все предложенные поля.")  #
+            warning.setDefaultButton(QMessageBox.Ok)  #
+            warning = warning.exec()  #
+            return True
+        elif not(os.path.exists(pathFileXlsx)):
+            warning = QMessageBox()  #
+            warning.setText("Введите корректный номер варианта.")  #
+            warning.setDefaultButton(QMessageBox.Ok)  #
+            warning = warning.exec()  #
+            return True
+        else:
+            return False
 
     def _connectAction(self):
         self.ui.btnSignLab.clicked.connect(lambda: self.saveData()) # прописываем действие по кнопке
-
 
     def saveData(self): # сохраняем имя фамилию и № группы полученные в этом диалоговом окне
         #if
@@ -105,5 +159,4 @@ class winLogin(QtWidgets.QDialog):
         self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()# сохраняем в класс WindowMenu группу
         self.mainMenu.numGroup = self.ui.lineEditGroup.text()  # сохраняем в класс WindowMenu группу
         # WindowMenu это класс окна Меню
-
         self.close()

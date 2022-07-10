@@ -73,7 +73,7 @@
       <set>Qt::ImhNone</set>
      </property>
      <property name="maxLength">
-      <number>10</number>
+      <number>2</number>
      </property>
     </widget>
    </item>
@@ -107,7 +107,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Подписать работу</string>
+      <string>Далее</string>
      </property>
     </widget>
    </item>

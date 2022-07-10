@@ -1,16 +1,25 @@
-from logging import critical
+
 import sys, os
 import numpy
+from pathlib import Path
+### Для обработки .xlsx файлов ##############
 import openpyxl
-from openpyxl import load_workbook
-import types
+
+### Для обработки .pdf файлов ###############
+
+from borb.pdf import Document
+from borb.pdf import Page
+from borb.pdf import SingleColumnLayout
+from borb.pdf import Paragraph
+from borb.pdf import PDF
+
 
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QRect
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction
 
-
+############# Кастомные файлы для проги #####################
 from MainMenu import Ui_MainMenu
 from windowTask1 import Ui_MainWindow1
 from windowTask3 import Ui_MainWindow3
@@ -58,10 +67,10 @@ class Window1(QMainWindow):
         else:
             close = QMessageBox()
             close.setText("Вы уверены,что хотите закрыть программу?")
-            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
-            if close == QMessageBox.Yes:
+            if close == QMessageBox.Ok:
                 event.accept()
             else:
                 event.ignore()
@@ -193,10 +202,10 @@ class Window2(QMainWindow):
         else:
             close = QMessageBox()
             close.setText("Вы уверены,что хотите закрыть программу?")
-            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
-            if close == QMessageBox.Yes:
+            if close == QMessageBox.Ok:
                 event.accept()
             else:
                 event.ignore()
@@ -314,10 +323,10 @@ class Window3(QMainWindow):
         else:
             close = QMessageBox()
             close.setText("Вы уверены,что хотите закрыть программу?")
-            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
-            if close == QMessageBox.Yes:
+            if close == QMessageBox.Ok:
                 event.accept()
             else:
                 event.ignore()
@@ -429,10 +438,10 @@ class Window4(QMainWindow):
         else:
             close = QMessageBox()
             close.setText("Вы уверены,что хотите закрыть программу?Вы уверены,что хотите закрыть программу?")
-            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
-            if close == QMessageBox.Yes:
+            if close == QMessageBox.Ok:
                 event.accept()
             else:
                 event.ignore()
@@ -549,10 +558,10 @@ class Window5(QMainWindow):
         else:
             close = QMessageBox()
             close.setText("Вы уверены,что хотите закрыть программу?")
-            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
-            if close == QMessageBox.Yes:
+            if close == QMessageBox.Ok:
                 event.accept()
             else:
                 event.ignore()
@@ -608,10 +617,10 @@ class Window6(QMainWindow):
         else:
             close = QMessageBox()
             close.setText("Вы уверены,что хотите закрыть программу?")
-            close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
-            if close == QMessageBox.Yes:
+            if close == QMessageBox.Ok:
                 event.accept()
             else:
                 event.ignore()
@@ -652,13 +661,9 @@ class WindowMenu(QMainWindow):
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow.exec_() # его запуск в отдельном потоке
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
-        #self.MainWindow1 = None #Window1(self)
-        #self.MainWindow2 = None #Window2(self)
-        #self.MainWindow3 = None #Window3(self)
-        #self.MainWindow4 = None #Window4(self)
-        #self.MainWindow5 = None #Window5(self)
-        #self.MainWindow6 = None #Window6(self)
+
         self._connectAction()
+        self.creatReport()
 
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
@@ -666,10 +671,10 @@ class WindowMenu(QMainWindow):
     def closeEvent(self, event):
         close = QMessageBox()
         close.setText("Вы уверены,что хотите закрыть программу?")
-        close.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         close = close.exec()
 
-        if close == QMessageBox.Yes:
+        if close == QMessageBox.Ok:
             event.accept()
         else:
             event.ignore()
@@ -683,44 +688,31 @@ class WindowMenu(QMainWindow):
         self.ui.btnTask6.clicked.connect(lambda: self.openTask(self.ui.btnTask6.text()))
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
-    """
-    def openMainWindow1(self):
-        if not self.MainWindow1:
-            self.MainWindow1 = Window1(self)
-        self.MainWindow1.show()
-        self.hide()
-        #self.close()
+        #self.ui.previewReport.clicked.connect(lambda: self.creatReport()) #
 
-    def openMainWindow2(self):
-        if not self.MainWindow2:
-            self.MainWindow2 = Window2(self)
-        self.MainWindow2.show()
-        self.hide()
+    def creatReport(self):
+        # create an empty Document
+        pdf = Document()
 
-    def openMainWindow3(self):
-        if not self.MainWindow3:
-            self.MainWindow3 = Window3(self)
-        self.MainWindow3.show()
-        self.hide()
+        # add an empty Page
+        page = Page()
+        pdf.add_page(page)
 
-    def openMainWindow4(self):
-        if not self.MainWindow4:
-            self.MainWindow4 = Window4(self)
-        self.MainWindow4.show()
-        self.hide()
+        # use a PageLayout (SingleColumnLayout in this case)
+        layout = SingleColumnLayout(page)
 
-    def openMainWindow5(self):
-        if not self.MainWindow5:
-            self.MainWindow5 = Window5(self)
-        self.MainWindow5.show()
-        self.hide()
+        # add a Paragraph object
+        layout.add(Paragraph(self.name))
+        layout.add(Paragraph(self.surname))
+        layout.add(Paragraph(self.numGroup))
+        layout.add(Paragraph(self.numINGroup))
 
-    def openMainWindow6(self):
-        if not self.MainWindow6:
-            self.MainWindow6 = Window6(self)
-        self.MainWindow6.show()
-        self.hide()
-    """
+        # store the PDF
+        with open(Path("output.pdf"), "wb") as pdf_file_handle:
+            PDF.dumps(pdf_file_handle, pdf)
+
+
+
     def openTask (self, numTask):
         if numTask == "Задание 1":
             MainWindow1.show()

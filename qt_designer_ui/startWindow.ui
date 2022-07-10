@@ -44,7 +44,7 @@
         </font>
        </property>
        <property name="inputMethodHints">
-        <set>Qt::ImhNone</set>
+        <set>Qt::ImhDialableCharactersOnly|Qt::ImhHiddenText|Qt::ImhLatinOnly</set>
        </property>
        <property name="maxLength">
         <number>25</number>
@@ -64,6 +64,9 @@
         <font>
          <pointsize>14</pointsize>
         </font>
+       </property>
+       <property name="inputMethodHints">
+        <set>Qt::ImhDialableCharactersOnly</set>
        </property>
        <property name="maxLength">
         <number>25</number>
@@ -87,8 +90,11 @@
        <property name="inputMethodHints">
         <set>Qt::ImhNone</set>
        </property>
+       <property name="inputMask">
+        <string/>
+       </property>
        <property name="maxLength">
-        <number>10</number>
+        <number>2</number>
        </property>
       </widget>
      </item>
@@ -129,7 +135,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Подписать работу</string>
+        <string>Начать работу</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
