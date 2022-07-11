@@ -68,7 +68,7 @@ class Ui_MainMenu(object):
         self.tableVar.setHorizontalHeaderItem(4, item)
         self.tableVar.horizontalHeader().setVisible(True)
         self.tableVar.horizontalHeader().setCascadingSectionResizes(True)
-        self.tableVar.horizontalHeader().setDefaultSectionSize(374)
+        self.tableVar.horizontalHeader().setDefaultSectionSize(500)
         self.tableVar.horizontalHeader().setHighlightSections(True)
         self.tableVar.horizontalHeader().setMinimumSectionSize(70)
         self.tableVar.horizontalHeader().setSortIndicatorShown(False)
