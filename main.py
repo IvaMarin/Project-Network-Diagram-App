@@ -692,6 +692,12 @@ class WindowMenu(QMainWindow):
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         #self.ui.previewReport.clicked.connect(lambda: self.creatReport()) #
 
+    def activateDeveloperMode(self):
+        self.name = "Иван"  # данные о студенте проинициализированы
+        self.surname = "Иванов"  # данные о студенте проинициализированы
+        self.numGroup = "1"  # данные о студенте проинициализированы
+        self.numINGroup = "9"  # данные о студенте проинициализированы
+
     #def creatReport(self):
         # create an empty Document
         #pdf = Document()
@@ -768,7 +774,7 @@ class WindowMenu(QMainWindow):
                 countColumns = countColumns + 1
             countColumns = 0
             # print()
-        #self.ui.tableVar.setR
+
 
         # for row in sheet.iter_rows(sheet.min_row+1, sheet.max_row):
         #    rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
