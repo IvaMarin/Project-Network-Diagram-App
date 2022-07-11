@@ -117,7 +117,7 @@ class Display(QWidget):
                 if (self.graph.AdjacencyMatrix[i][j] != 0 and 
                     (not np.isnan(self.graph.Points[i][0])) and
                     (not np.isnan(self.graph.Points[j][0]))):
-                    triangle_source = calculate_arrow_points(self.graph.Points[i], self.graph.Points[j], self.graph.RadiusPoint/2)
+                    triangle_source = calculate_arrow_points(self.graph.Points[i], self.graph.Points[j], self.graph.RadiusPoint)
                     if triangle_source is not None:
                         painter.drawPolygon(triangle_source)
                         painter.drawLine((int)(self.graph.Points[i][0]),
