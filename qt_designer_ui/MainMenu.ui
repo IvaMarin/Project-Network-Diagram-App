@@ -29,6 +29,11 @@
          <property name="enabled">
           <bool>true</bool>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
          <property name="cursor" stdset="0">
           <cursorShape>ArrowCursor</cursorShape>
          </property>

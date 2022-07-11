@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1641</width>
+    <height>1035</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+   <property name="spacing">
+    <number>8</number>
+   </property>
+   <property name="leftMargin">
+    <number>10</number>
+   </property>
+   <property name="topMargin">
+    <number>10</number>
+   </property>
+   <property name="rightMargin">
+    <number>17</number>
+   </property>
+   <property name="bottomMargin">
+    <number>13</number>
+   </property>
+   <item>
+    <widget class="QTableWidget" name="tableTaskVar">
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>350</number>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Шифр работы</string>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Номер отделения</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Число людей, выполняющих работы</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Продолжительность работ (час)</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Прим.</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="btnsOkCancle">
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
