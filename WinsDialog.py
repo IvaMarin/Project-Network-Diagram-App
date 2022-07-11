@@ -151,6 +151,16 @@ class winLogin(QtWidgets.QDialog):
 
     def _connectAction(self):
         self.ui.btnSignLab.clicked.connect(lambda: self.saveData()) # прописываем действие по кнопке
+        self.ui.btnDeveloperMode.clicked.connect(lambda: self.activateDeveloperMode()) #
+
+    def activateDeveloperMode (self):
+        self.mainMenu.activateDeveloperMode()
+
+        self.ui.lineEditName.insert(self.mainMenu.name)              # подгружаем из mainMenu данные если они уже были указаны
+        self.ui.lineEditSurname.insert(self.mainMenu.surname)        #
+        self.ui.lineEditNumINGroup.insert(self.mainMenu.numINGroup)  #
+        self.ui.lineEditGroup.insert(self.mainMenu.numGroup)         #
+
 
     def saveData(self): # сохраняем имя фамилию и № группы полученные в этом диалоговом окне
         #if
