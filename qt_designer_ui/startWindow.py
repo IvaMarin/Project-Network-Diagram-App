@@ -86,6 +86,13 @@ class Ui_startWin(object):
         self.btnSignLab.setFlat(False)
         self.btnSignLab.setObjectName("btnSignLab")
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.btnSignLab)
+        self.btnDeveloperMode = QtWidgets.QPushButton(startWin)
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.btnDeveloperMode.setFont(font)
+        self.btnDeveloperMode.setCheckable(True)
+        self.btnDeveloperMode.setObjectName("btnDeveloperMode")
+        self.formLayout.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.btnDeveloperMode)
         self.verticalLayout.addLayout(self.formLayout)
 
         self.retranslateUi(startWin)
@@ -100,6 +107,7 @@ class Ui_startWin(object):
         self.labelNumGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-size:16pt;\">Номер по списку в группе</span></p></body></html>"))
         self.labelGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-size:16pt;\">Группа</span></p></body></html>"))
         self.btnSignLab.setText(_translate("startWin", "Начать работу"))
+        self.btnDeveloperMode.setText(_translate("startWin", "Режим разработчика"))
 
 
 if __name__ == "__main__":
