@@ -75,11 +75,11 @@ def createGrid(x0=0, y0=0, step=50, vertical=True, horizontal=True):
 
     return lines
 
-graph = gm.Graph(60) # объект граф
+graph = gm.Graph(30) # объект граф
 #graph3 = gm.Graph(60)
 
 class Display(QWidget):
-
+    FixedPoint = -1 # фиксированная вершина
     def __init__(self, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, graph_in = graph):
         super().__init__()
         self.functionAble = "Добавить вершину"
@@ -131,8 +131,8 @@ class Display(QWidget):
         for i in range(len(self.graph.Points)):
             # если вершина существует
             if (not np.isnan(self.graph.Points[i][0])):
-                painter.drawEllipse(self.graph.Points[i][0]-self.graph.RadiusPoint/2, self.graph.Points[i][1]-self.graph.RadiusPoint/2, 
-                                    self.graph.RadiusPoint, self.graph.RadiusPoint)
+                painter.drawEllipse(self.graph.Points[i][0]-self.graph.RadiusPoint, self.graph.Points[i][1]-self.graph.RadiusPoint, 
+                                    2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
                 if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
@@ -163,12 +163,14 @@ class Display(QWidget):
         elif (self.functionAble == "Удалить вершину"):
             control.CDeletePoint(self.graph, event, Qt.LeftButton)
 
+        elif (self.functionAble == "Переместить вершины"):
+            self.FixedPoint = control.CIsCursorOnPoint(graph, event, Qt.LeftButton)
+
         self.update()
 
     def mouseMoveEvent(self, event):
         if (self.functionAble == "Переместить вершины"):
-            control.CMovePoint(self.graph, event)
-
+            control.CMovePoint(self.graph, event, Qt.LeftButton, self.FixedPoint)
         self.update()
         
     def checkEvent(self):
