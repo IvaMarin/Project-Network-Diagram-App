@@ -300,7 +300,7 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        graph3 = gm.Graph(60)
+        graph3 = gm.Graph(30)
 
         self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False, graph3)
         self.setCentralWidget(self.centralWidget)
@@ -645,8 +645,10 @@ class WindowMenu(QMainWindow):
         self.ui = Ui_MainMenu()
         self.ui.setupUi(self)
 
+
         self.setWindowTitle("Меню")
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        self.sizeWindow = QRect(QApplication.desktop().screenGeometry())
+
         
 
 
@@ -738,6 +740,7 @@ class WindowMenu(QMainWindow):
 
     def show(self):
         self.showMaximized()
+        self.ui.tableVar.horizontalHeader().setDefaultSectionSize(int((self.sizeWindow.width()-46)/5))
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
 

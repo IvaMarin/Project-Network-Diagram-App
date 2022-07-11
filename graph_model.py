@@ -38,7 +38,7 @@ class Graph:
 	# вернуть номер вершины, на которой находится курсор
 	def IsCursorOnPoint(self, x, y):
 		# по каждой паре координат центра вершины
-		for i in range(len(self.Points)):
+		for i in range(len(self.Points)-1, -1, -1):
 			# если нашлась пара координат центра вершины, в окрестности радиуса вершины которой попал курсор
 			if ((x >= self.Points[i][0] - self.RadiusPoint and x <= self.Points[i][0] + self.RadiusPoint) and 
 				 (y >= self.Points[i][1] - self.RadiusPoint and y <= self.Points[i][1] + self.RadiusPoint)):
@@ -77,5 +77,5 @@ class Graph:
 		# если курсор не наведен на вершину
 		if index == -1:
 			return # ничего не делать
-		# присовить новые значения координат центра вершины
+		# присвоить новые значения координат центра вершины
 		self.Points[index][0], self.Points[index][1] = x, y # присовить новые значения координат центра вершины
