@@ -299,7 +299,7 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        graph3 = gm.Graph(60)
+        graph3 = gm.Graph(30)
 
         self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False, graph3)
         self.setCentralWidget(self.centralWidget)

@@ -55,7 +55,7 @@ def CMovePoint(graph, event, but, FixedPoint):
 
 # переместить вершину по нажатию в сетке; параметры: объект "граф", событие, кнопка, начало сетки по х, шаг сетки по х, фиксированная координата по y
 # если FixedY == None, то не фикисировать по y
-def CMovePointGrid(graph, event, GridBegin, GridStep, FixedY):
+def CMovePointGrid(graph, event, but, FixedPoint, GridBegin, GridStep, FixedY):
 	wasFinded = False # найден промежуток, в который попадает курсор
 	i = 0
 	while(not wasFinded):
@@ -69,9 +69,11 @@ def CMovePointGrid(graph, event, GridBegin, GridStep, FixedY):
 	elif abs(event.pos().x() >= GridBegin+(i-1/2)*GridStep) and abs(event.pos().x() < GridBegin+(i+3/2)*GridStep):
 		XonGrid = GridBegin+i*GridStep
 	if FixedY != None:
-		graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y()), XonGrid, FixedY) # переместить вершину
+		if event.buttons() == but:
+			graph.MovePoint(FixedPoint, XonGrid, FixedY) # переместить вершину
 		return
-	graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y()), XonGrid, event.pos().y()) # переместить вершину
+	if event.buttons() == but:
+		graph.MovePoint(FixedPoint, XonGrid, event.pos().y()) # переместить вершину
 
 # находится ли курсор на вершине;
 def CIsCursorOnPoint(graph, event, but):
