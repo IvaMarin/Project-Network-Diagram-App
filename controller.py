@@ -48,8 +48,10 @@ def CDeleteConnection(graph, event, but, points):
 		graph.DeleteConnection(int(points[0]), int(points[1])) # удалить связь между вершинами
 
 # переместить вершину по нажатию; параметры: объект "граф", событие, кнопка
-def CMovePoint(graph, event):
-	graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y()), event.pos().x(), event.pos().y()) # переместить вершину
+def CMovePoint(graph, event, but, FixedPoint):
+	# если нажата кнопка
+	if event.buttons() == but:
+		graph.MovePoint(FixedPoint, event.pos().x(), event.pos().y()) # переместить вершину
 
 # переместить вершину по нажатию в сетке; параметры: объект "граф", событие, кнопка, начало сетки по х, шаг сетки по х, фиксированная координата по y
 # если FixedY == None, то не фикисировать по y
@@ -70,3 +72,9 @@ def CMovePointGrid(graph, event, GridBegin, GridStep, FixedY):
 		graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y()), XonGrid, FixedY) # переместить вершину
 		return
 	graph.MovePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y()), XonGrid, event.pos().y()) # переместить вершину
+
+# находится ли курсор на вершине;
+def CIsCursorOnPoint(graph, event, but):
+	# если нажата кнопка
+	if event.button() == but:
+		return graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
