@@ -46,7 +46,7 @@ class Ui_login(object):
         font.setPointSize(14)
         self.lineEditNumINGroup.setFont(font)
         self.lineEditNumINGroup.setInputMethodHints(QtCore.Qt.ImhNone)
-        self.lineEditNumINGroup.setMaxLength(10)
+        self.lineEditNumINGroup.setMaxLength(2)
         self.lineEditNumINGroup.setObjectName("lineEditNumINGroup")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.lineEditNumINGroup)
         self.labelGroup = QtWidgets.QLabel(login)
@@ -77,7 +77,7 @@ class Ui_login(object):
         self.labelName.setText(_translate("login", "<html><head/><body><p><span style=\" font-size:16pt;\">Имя</span></p></body></html>"))
         self.labelNumGroup.setText(_translate("login", "<html><head/><body><p><span style=\" font-size:16pt;\">Номер по списку в группе</span></p></body></html>"))
         self.labelGroup.setText(_translate("login", "<html><head/><body><p><span style=\" font-size:16pt;\">Группа</span></p></body></html>"))
-        self.btnSignLab.setText(_translate("login", "Подписать работу"))
+        self.btnSignLab.setText(_translate("login", "Далее"))
 
 
 if __name__ == "__main__":

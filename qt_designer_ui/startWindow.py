@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_startWin(object):
     def setupUi(self, startWin):
         startWin.setObjectName("startWin")
-        startWin.resize(1328, 854)
+        startWin.resize(1328, 853)
         self.verticalLayout = QtWidgets.QVBoxLayout(startWin)
         self.verticalLayout.setObjectName("verticalLayout")
         self.labelWelcome = QtWidgets.QLabel(startWin)
@@ -23,6 +23,7 @@ class Ui_startWin(object):
         self.labelWelcome.setObjectName("labelWelcome")
         self.verticalLayout.addWidget(self.labelWelcome)
         self.formLayout = QtWidgets.QFormLayout()
+        self.formLayout.setContentsMargins(10, 10, 10, 10)
         self.formLayout.setObjectName("formLayout")
         self.labelSurname = QtWidgets.QLabel(startWin)
         self.labelSurname.setObjectName("labelSurname")
@@ -31,7 +32,7 @@ class Ui_startWin(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.lineEditSurname.setFont(font)
-        self.lineEditSurname.setInputMethodHints(QtCore.Qt.ImhNone)
+        self.lineEditSurname.setInputMethodHints(QtCore.Qt.ImhDialableCharactersOnly|QtCore.Qt.ImhHiddenText|QtCore.Qt.ImhLatinOnly)
         self.lineEditSurname.setMaxLength(25)
         self.lineEditSurname.setObjectName("lineEditSurname")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.lineEditSurname)
@@ -42,6 +43,7 @@ class Ui_startWin(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.lineEditName.setFont(font)
+        self.lineEditName.setInputMethodHints(QtCore.Qt.ImhDialableCharactersOnly)
         self.lineEditName.setMaxLength(25)
         self.lineEditName.setObjectName("lineEditName")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEditName)
@@ -53,7 +55,8 @@ class Ui_startWin(object):
         font.setPointSize(14)
         self.lineEditNumINGroup.setFont(font)
         self.lineEditNumINGroup.setInputMethodHints(QtCore.Qt.ImhNone)
-        self.lineEditNumINGroup.setMaxLength(10)
+        self.lineEditNumINGroup.setInputMask("")
+        self.lineEditNumINGroup.setMaxLength(2)
         self.lineEditNumINGroup.setObjectName("lineEditNumINGroup")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.lineEditNumINGroup)
         self.labelGroup = QtWidgets.QLabel(startWin)
@@ -94,7 +97,7 @@ class Ui_startWin(object):
         self.labelName.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-size:16pt;\">Имя</span></p></body></html>"))
         self.labelNumGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-size:16pt;\">Номер по списку в группе</span></p></body></html>"))
         self.labelGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-size:16pt;\">Группа</span></p></body></html>"))
-        self.btnSignLab.setText(_translate("startWin", "Подписать работу"))
+        self.btnSignLab.setText(_translate("startWin", "Начать работу"))
 
 
 if __name__ == "__main__":
