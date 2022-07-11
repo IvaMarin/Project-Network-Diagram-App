@@ -72,7 +72,7 @@
           <number>70</number>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>362</number>
+          <number>374</number>
          </attribute>
          <attribute name="horizontalHeaderHighlightSections">
           <bool>true</bool>
@@ -284,6 +284,18 @@
          </property>
          <property name="text">
           <string>Данные о студенте</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="3">
+        <widget class="QPushButton" name="btnEditTaskVariant">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Редактировать варианты работ</string>
          </property>
         </widget>
        </item>

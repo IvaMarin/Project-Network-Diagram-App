@@ -16,6 +16,8 @@ class Ui_startWin(object):
         startWin.setObjectName("startWin")
         startWin.resize(1328, 853)
         self.verticalLayout = QtWidgets.QVBoxLayout(startWin)
+        self.verticalLayout.setContentsMargins(20, 5, 20, 10)
+        self.verticalLayout.setSpacing(25)
         self.verticalLayout.setObjectName("verticalLayout")
         self.labelWelcome = QtWidgets.QLabel(startWin)
         self.labelWelcome.setLineWidth(5)

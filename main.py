@@ -668,6 +668,8 @@ class WindowMenu(QMainWindow):
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
 
+        self.testGen()
+
     def closeEvent(self, event):
         close = QMessageBox()
         close.setText("Вы уверены,что хотите закрыть программу?")
@@ -766,6 +768,7 @@ class WindowMenu(QMainWindow):
                 countColumns = countColumns + 1
             countColumns = 0
             # print()
+        #self.ui.tableVar.setR
 
         # for row in sheet.iter_rows(sheet.min_row+1, sheet.max_row):
         #    rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок

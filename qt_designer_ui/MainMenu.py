@@ -68,7 +68,7 @@ class Ui_MainMenu(object):
         self.tableVar.setHorizontalHeaderItem(4, item)
         self.tableVar.horizontalHeader().setVisible(True)
         self.tableVar.horizontalHeader().setCascadingSectionResizes(True)
-        self.tableVar.horizontalHeader().setDefaultSectionSize(362)
+        self.tableVar.horizontalHeader().setDefaultSectionSize(374)
         self.tableVar.horizontalHeader().setHighlightSections(True)
         self.tableVar.horizontalHeader().setMinimumSectionSize(70)
         self.tableVar.horizontalHeader().setSortIndicatorShown(False)
@@ -147,6 +147,12 @@ class Ui_MainMenu(object):
         self.btnReportSign.setFont(font)
         self.btnReportSign.setObjectName("btnReportSign")
         self.gridLayout.addWidget(self.btnReportSign, 4, 3, 1, 1)
+        self.btnEditTaskVariant = QtWidgets.QPushButton(self.frame_2)
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.btnEditTaskVariant.setFont(font)
+        self.btnEditTaskVariant.setObjectName("btnEditTaskVariant")
+        self.gridLayout.addWidget(self.btnEditTaskVariant, 5, 3, 1, 1)
         self.verticalLayout.addWidget(self.frame_2)
         MainMenu.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainMenu)
@@ -183,6 +189,7 @@ class Ui_MainMenu(object):
         self.btnPrint.setText(_translate("MainMenu", "Печать отчета"))
         self.btnGenVar.setText(_translate("MainMenu", "Генерация вариантов"))
         self.btnReportSign.setText(_translate("MainMenu", "Данные о студенте"))
+        self.btnEditTaskVariant.setText(_translate("MainMenu", "Редактировать варианты работ"))
 
 
 if __name__ == "__main__":
