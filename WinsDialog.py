@@ -54,7 +54,7 @@ class winSigReport(QtWidgets.QDialog):
             self.mainMenu.numGroup = self.ui.lineEditGroup.text()  # сохраняем в класс WindowMenu группу
             # WindowMenu это класс окна Меню
 
-            self.mainMenu.creatReport() # перезапись в pdf данных студента
+            #self.mainMenu.creatReport() # перезапись в pdf данных студента
 
             self.close()
 
@@ -111,7 +111,7 @@ class winLogin(QtWidgets.QDialog):
         quit.triggered.connect(self.closeEvent) # если событие выхода срабатывает то вызывается closeEvent
 
     def closeEvent(self, event):
-        if self.checkInputData() :
+        if (self.ui.btnSignLab.isChecked() and self.checkInputData()):
             event.ignore()
         elif self.ui.btnSignLab.isChecked(): # если closeEvent вызван и при этом нажата кнопка подписи отчета
             event.accept() # то не выводим диалоговое окно подтверждения ивента

@@ -663,7 +663,7 @@ class WindowMenu(QMainWindow):
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
 
         self._connectAction()
-        self.creatReport()
+        #self.creatReport()
 
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
@@ -690,26 +690,26 @@ class WindowMenu(QMainWindow):
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         #self.ui.previewReport.clicked.connect(lambda: self.creatReport()) #
 
-    def creatReport(self):
+    #def creatReport(self):
         # create an empty Document
-        pdf = Document()
+        #pdf = Document()
 
         # add an empty Page
-        page = Page()
-        pdf.add_page(page)
+        #page = Page()
+        #pdf.add_page(page)
 
         # use a PageLayout (SingleColumnLayout in this case)
-        layout = SingleColumnLayout(page)
+        #layout = SingleColumnLayout(page)
 
         # add a Paragraph object
-        layout.add(Paragraph(self.name))
-        layout.add(Paragraph(self.surname))
-        layout.add(Paragraph(self.numGroup))
-        layout.add(Paragraph(self.numINGroup))
+        #layout.add(Paragraph(self.name))
+        #layout.add(Paragraph(self.surname))
+        #layout.add(Paragraph(self.numGroup))
+        #layout.add(Paragraph(self.numINGroup))
 
         # store the PDF
-        with open(Path("output.pdf"), "wb") as pdf_file_handle:
-            PDF.dumps(pdf_file_handle, pdf)
+        #with open(Path("output.pdf"), "wb") as pdf_file_handle:
+        #    PDF.dumps(pdf_file_handle, pdf)
 
 
 

@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_startWin(object):
     def setupUi(self, startWin):
         startWin.setObjectName("startWin")
-        startWin.resize(1328, 854)
+        startWin.resize(1328, 853)
         self.verticalLayout = QtWidgets.QVBoxLayout(startWin)
         self.verticalLayout.setObjectName("verticalLayout")
         self.labelWelcome = QtWidgets.QLabel(startWin)
@@ -23,6 +23,7 @@ class Ui_startWin(object):
         self.labelWelcome.setObjectName("labelWelcome")
         self.verticalLayout.addWidget(self.labelWelcome)
         self.formLayout = QtWidgets.QFormLayout()
+        self.formLayout.setContentsMargins(10, 10, 10, 10)
         self.formLayout.setObjectName("formLayout")
         self.labelSurname = QtWidgets.QLabel(startWin)
         self.labelSurname.setObjectName("labelSurname")
@@ -98,3 +99,12 @@ class Ui_startWin(object):
         self.labelGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-size:16pt;\">Группа</span></p></body></html>"))
         self.btnSignLab.setText(_translate("startWin", "Начать работу"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    startWin = QtWidgets.QDialog()
+    ui = Ui_startWin()
+    ui.setupUi(startWin)
+    startWin.show()
+    sys.exit(app.exec_())
