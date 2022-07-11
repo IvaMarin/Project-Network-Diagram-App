@@ -45,12 +45,7 @@ class Window1(QMainWindow):
 
         self.setWindowTitle("Задача №1")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        width = int(sizeWindow.width() - sizeWindow.width() / 5)
-        height = int(sizeWindow.height() - sizeWindow.height() / 5)
-        # вписываем во весь экран
-        self.resize(width, height)
-
-        self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
+        
 
         self.centralWidget = Display.Display()
         self.setCentralWidget(self.centralWidget)
@@ -133,6 +128,9 @@ class Window1(QMainWindow):
         MainWindow.show()
         self.close()
 
+    def show(self):
+        self.showMaximized()
+
 
 #////////////////////////////////  КЛАСС ОКНА ВТОРОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,7 +210,7 @@ class Window2(QMainWindow):
 
     def show(self):
         # При вызове окна обновляется кол-во вершин графа
-        super().show()
+        self.showMaximized()
         self.cnt = len(Display.graph.Points)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
@@ -300,12 +298,7 @@ class Window3(QMainWindow):
 
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        width = int(sizeWindow.width() - sizeWindow.width() / 5)
-        height = int(sizeWindow.height() - sizeWindow.height() / 5)
-        # вписываем во весь экран
-        self.resize(width, height)
-
-        self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
+        
         graph3 = gm.Graph(60)
 
         self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False, graph3)
@@ -401,6 +394,9 @@ class Window3(QMainWindow):
         MainWindow.show()
         self.close()
 
+    def show(self):
+        self.showMaximized()
+
     
 
 
@@ -416,12 +412,7 @@ class Window4(QMainWindow):
 
         self.setWindowTitle("Задача №4")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        width = int(sizeWindow.width() - sizeWindow.width() / 5)
-        height = int(sizeWindow.height() - sizeWindow.height() / 5)
-        # вписываем во весь экран
-        self.resize(width, height)
-
-        self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
+        
 
         self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False)
         self.setCentralWidget(self.centralWidget)
@@ -516,6 +507,9 @@ class Window4(QMainWindow):
         MainWindow.show()
         self.close()
 
+    def show(self):
+        self.showMaximized()
+
 
 #////////////////////////////////  КЛАСС ОКНА ПЯТОЕ ЗАДАНИЯ  ////////////////////////////////////
 #////////////////////////////////////////////////////////////////////////////////////////////////
@@ -573,6 +567,9 @@ class Window5(QMainWindow):
     def backMainMenu(self):
         MainWindow.show()
         self.close()
+
+    def show(self):
+        self.showMaximized()
 
 
 #////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -633,6 +630,9 @@ class Window6(QMainWindow):
         MainWindow.show()
         self.close()
 
+    def show(self):
+        self.showMaximized()
+
 
 #////////////////////////////////////  КЛАСС ОКНА МЕНЮ  ///////////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -646,12 +646,9 @@ class WindowMenu(QMainWindow):
 
         self.setWindowTitle("Меню")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        width = int(sizeWindow.width() - sizeWindow.width() / 5)
-        height = int(sizeWindow.height() - sizeWindow.height() / 5)
-        # вписываем во весь экран
-        self.resize(width, height)
+        
 
-        self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
+
 
         self.name = "Иван"      # данные о студенте проинициализированы
         self.surname = "Иванов" # данные о студенте проинициализированы
@@ -729,6 +726,9 @@ class WindowMenu(QMainWindow):
         elif numTask == "Задание 6":
             MainWindow6.show()
         self.hide()
+
+    def show(self):
+        self.showMaximized()
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
 
