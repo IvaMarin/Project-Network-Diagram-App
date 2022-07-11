@@ -307,10 +307,13 @@ class Display3(Display):
         elif (self.functionAble == "Удалить вершину"):
             control.CDeletePoint(self.graph, event, Qt.LeftButton)
 
+        elif (self.functionAble == "Переместить вершины"):
+            self.FixedPoint = control.CIsCursorOnPoint(self.graph, event, Qt.LeftButton)
+
         self.update()
 
     def mouseMoveEvent(self, event):
         if (self.functionAble == "Переместить вершины"):
-            control.CMovePointGrid(self.graph, event, self.start_coordination_X, self.step, None)
+            control.CMovePointGrid(self.graph, event, Qt.LeftButton, self.FixedPoint, self.start_coordination_X, self.step, None)
 
         self.update()
