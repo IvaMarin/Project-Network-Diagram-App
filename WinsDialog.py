@@ -5,9 +5,11 @@ from PyQt5 import QtWidgets, QtGui ,QtCore
 from PyQt5.QtCore import Qt, QRect, QPointF
 from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QIntValidator
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction, QMessageBox
+import EditTable
 
 from login import Ui_login
 from startWindow import Ui_startWin
+from winEditTable import Ui_CreatEditTask
 
 class winSigReport(QtWidgets.QDialog):
 
@@ -170,3 +172,58 @@ class winLogin(QtWidgets.QDialog):
         self.mainMenu.numGroup = self.ui.lineEditGroup.text()  # сохраняем в класс WindowMenu группу
         # WindowMenu это класс окна Меню
         self.close()
+
+
+class winEditTable(QtWidgets.QDialog):
+    def __init__(self, root):  # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
+        """Initializer."""
+        super().__init__(root)  # инициализация
+
+        self.ui = Ui_CreatEditTask()  # инициализация ui
+        self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
+        self.mainMenu = root  # сохраняем нашего родителя
+
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
+        width = int(sizeWindow.width() - (sizeWindow.width()) * 2 / 3)  # выставляем ширину окна
+        height = int(sizeWindow.height() - (sizeWindow.height()) * 2 / 3)  # выставляем длину окна
+        # присваиваем параметры длины и ширины окну
+        self.resize(width, height)
+        self.creatTable = creatTable(self)
+
+        self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20))  # двигаем окно левее и выше
+
+        self.ui.lineEdit.setValidator(QIntValidator())
+        self.ui.lineEdit.setMaxLength(2)
+
+        self._connectAction()  # ф-ия связи с эл-тами окна
+
+    def _connectAction(self):
+        self.ui.btnCreatTable.clicked.connect(lambda: self.creatTable.exec)
+        self.ui.btnEditTable.clicked.connect(lambda: self.editTable())
+        self.ui.btnDeletTable.clicked.connect(lambda: self.deleteTable())
+        #self.ui.btnSignLab.clicked.connect(lambda: self.saveData())  # прописываем действие по кнопке
+    def creatTable(self):
+        print("Creat")
+
+    def editTable(self):
+        print("Edit")
+
+    def deleteTable(self):
+        print("Delete")
+
+class creatTable(QtWidgets.QDialog):
+    def __int__(self, root): #
+        super().__init__(root)  # инициализация
+
+        self.ui = EditTable.Ui_Dialog()  # инициализация ui
+        self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
+        self.winEditTable = root  # сохраняем нашего родителя
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
+        width = int(sizeWindow.width() - (sizeWindow.width()) * 2 / 3)  # выставляем ширину окна
+        height = int(sizeWindow.height() - (sizeWindow.height()) * 2 / 3)  # выставляем длину окна
+        # присваиваем параметры длины и ширины окну
+        self.resize(width, height)
+
+        self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20))  # двигаем окно левее и выше
+
+        self._connectAction()  # ф-ия связи с эл-тами окна

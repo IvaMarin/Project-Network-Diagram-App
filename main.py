@@ -27,7 +27,8 @@ from windowTask2 import Ui_MainWindow2
 from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
 import Display
-from WinsDialog import winSigReport,winLogin
+import WinsDialog
+from WinsDialog import winSigReport,winLogin,winEditTable
 from Color import Color
 from task1CheckForm import task1CheckForm
 import graph_model as gm
@@ -299,7 +300,7 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        graph3 = gm.Graph(30)
+        graph3 = gm.Graph(60)
 
         self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False, graph3)
         self.setCentralWidget(self.centralWidget)
@@ -644,13 +645,8 @@ class WindowMenu(QMainWindow):
         self.ui = Ui_MainMenu()
         self.ui.setupUi(self)
 
-
         self.setWindowTitle("Меню")
-        self.sizeWindow = QRect(QApplication.desktop().screenGeometry())
-
-        
-
-
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
         self.name = "Иван"      # данные о студенте проинициализированы
         self.surname = "Иванов" # данные о студенте проинициализированы
@@ -660,6 +656,7 @@ class WindowMenu(QMainWindow):
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow.exec_() # его запуск в отдельном потоке
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
+        self.winEditTable = winEditTable(self)
 
         self._connectAction()
         #self.creatReport()
@@ -690,6 +687,7 @@ class WindowMenu(QMainWindow):
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         #self.ui.previewReport.clicked.connect(lambda: self.creatReport()) #
+        self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
 
     def activateDeveloperMode(self):
         self.name = "Иван"  # данные о студенте проинициализированы
@@ -737,7 +735,6 @@ class WindowMenu(QMainWindow):
 
     def show(self):
         self.showMaximized()
-        self.ui.tableVar.horizontalHeader().setDefaultSectionSize(int((self.sizeWindow.width()-46)/5))
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
 
