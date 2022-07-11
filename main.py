@@ -647,9 +647,6 @@ class WindowMenu(QMainWindow):
 
         self.setWindowTitle("Меню")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        
-
-
 
         self.name = "Иван"      # данные о студенте проинициализированы
         self.surname = "Иванов" # данные о студенте проинициализированы
