@@ -23,6 +23,7 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.tableTaskVar.setFont(font)
+        self.tableTaskVar.setStyleSheet("background-color: #fffaea;")
         self.tableTaskVar.setObjectName("tableTaskVar")
         self.tableTaskVar.setColumnCount(5)
         self.tableTaskVar.setRowCount(0)
@@ -45,6 +46,7 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.btnsOkCancle.setFont(font)
+        self.btnsOkCancle.setStyleSheet("background-color: #66e3ff;")
         self.btnsOkCancle.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.btnsOkCancle.setObjectName("btnsOkCancle")
         self.verticalLayout.addWidget(self.btnsOkCancle)
@@ -66,3 +68,12 @@ class Ui_Dialog(object):
         item = self.tableTaskVar.horizontalHeaderItem(4)
         item.setText(_translate("Dialog", "Прим."))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())

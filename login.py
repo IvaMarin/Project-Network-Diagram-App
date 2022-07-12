@@ -24,6 +24,7 @@ class Ui_login(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.lineEditSurname.setFont(font)
+        self.lineEditSurname.setStyleSheet("background-color: #fffaea;")
         self.lineEditSurname.setInputMethodHints(QtCore.Qt.ImhNone)
         self.lineEditSurname.setMaxLength(25)
         self.lineEditSurname.setObjectName("lineEditSurname")
@@ -35,6 +36,7 @@ class Ui_login(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.lineEditName.setFont(font)
+        self.lineEditName.setStyleSheet("background-color: #fffaea;")
         self.lineEditName.setMaxLength(25)
         self.lineEditName.setObjectName("lineEditName")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEditName)
@@ -45,6 +47,7 @@ class Ui_login(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.lineEditNumINGroup.setFont(font)
+        self.lineEditNumINGroup.setStyleSheet("background-color: #fffaea;")
         self.lineEditNumINGroup.setInputMethodHints(QtCore.Qt.ImhNone)
         self.lineEditNumINGroup.setMaxLength(2)
         self.lineEditNumINGroup.setObjectName("lineEditNumINGroup")
@@ -56,6 +59,7 @@ class Ui_login(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.lineEditGroup.setFont(font)
+        self.lineEditGroup.setStyleSheet("background-color: #fffaea;")
         self.lineEditGroup.setInputMethodHints(QtCore.Qt.ImhNone)
         self.lineEditGroup.setMaxLength(15)
         self.lineEditGroup.setObjectName("lineEditGroup")
@@ -64,6 +68,7 @@ class Ui_login(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.btnSignLab.setFont(font)
+        self.btnSignLab.setStyleSheet("background-color: #66e3ff;")
         self.btnSignLab.setObjectName("btnSignLab")
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.btnSignLab)
 
@@ -78,3 +83,13 @@ class Ui_login(object):
         self.labelNumGroup.setText(_translate("login", "<html><head/><body><p><span style=\" font-size:16pt;\">Номер по списку в группе</span></p></body></html>"))
         self.labelGroup.setText(_translate("login", "<html><head/><body><p><span style=\" font-size:16pt;\">Группа</span></p></body></html>"))
         self.btnSignLab.setText(_translate("login", "Далее"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    login = QtWidgets.QDialog()
+    ui = Ui_login()
+    ui.setupUi(login)
+    login.show()
+    sys.exit(app.exec_())
