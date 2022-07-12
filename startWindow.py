@@ -115,12 +115,3 @@ class Ui_startWin(object):
         self.btnSignLab.setText(_translate("startWin", "Начать работу"))
         self.btnDeveloperMode.setText(_translate("startWin", "Режим разработчика"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    startWin = QtWidgets.QDialog()
-    ui = Ui_startWin()
-    ui.setupUi(startWin)
-    startWin.show()
-    sys.exit(app.exec_())

@@ -84,12 +84,3 @@ class Ui_login(object):
         self.labelGroup.setText(_translate("login", "<html><head/><body><p><span style=\" font-size:16pt;\">Группа</span></p></body></html>"))
         self.btnSignLab.setText(_translate("login", "Далее"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    login = QtWidgets.QDialog()
-    ui = Ui_login()
-    ui.setupUi(login)
-    login.show()
-    sys.exit(app.exec_())

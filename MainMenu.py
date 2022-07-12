@@ -209,11 +209,3 @@ class Ui_MainMenu(object):
         self.btnEditTaskVariant.setText(_translate("MainMenu", "Редактировать варианты работ"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainMenu = QtWidgets.QMainWindow()
-    ui = Ui_MainMenu()
-    ui.setupUi(MainMenu)
-    MainMenu.show()
-    sys.exit(app.exec_())
