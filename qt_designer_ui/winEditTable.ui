@@ -70,6 +70,9 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #fffaea;</string>
+       </property>
        <property name="placeholderText">
         <string>Введите номер варианта студента</string>
        </property>
@@ -93,6 +96,9 @@
         <font>
          <pointsize>14</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #66e3ff;</string>
        </property>
        <property name="text">
         <string>Создать</string>
@@ -140,6 +146,9 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #fffaea;</string>
+       </property>
       </widget>
      </item>
      <item row="1" column="1">
@@ -148,6 +157,9 @@
         <font>
          <pointsize>14</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #66e3ff;</string>
        </property>
        <property name="text">
         <string>Редактировать</string>
@@ -160,6 +172,9 @@
         <font>
          <pointsize>14</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #66e3ff;</string>
        </property>
        <property name="text">
         <string>Удалить</string>

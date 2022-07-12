@@ -36,6 +36,9 @@
        <pointsize>14</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #fffaea;</string>
+     </property>
      <attribute name="horizontalHeaderDefaultSectionSize">
       <number>350</number>
      </attribute>
@@ -77,6 +80,9 @@
       <font>
        <pointsize>14</pointsize>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #66e3ff;</string>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>

@@ -28,6 +28,9 @@
        <pointsize>14</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #fffaea;</string>
+     </property>
      <property name="inputMethodHints">
       <set>Qt::ImhNone</set>
      </property>
@@ -50,6 +53,9 @@
        <pointsize>14</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #fffaea;</string>
+     </property>
      <property name="maxLength">
       <number>25</number>
      </property>
@@ -68,6 +74,9 @@
       <font>
        <pointsize>14</pointsize>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #fffaea;</string>
      </property>
      <property name="inputMethodHints">
       <set>Qt::ImhNone</set>
@@ -91,6 +100,9 @@
        <pointsize>14</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #fffaea;</string>
+     </property>
      <property name="inputMethodHints">
       <set>Qt::ImhNone</set>
      </property>
@@ -105,6 +117,9 @@
       <font>
        <pointsize>14</pointsize>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #66e3ff;</string>
      </property>
      <property name="text">
       <string>Далее</string>

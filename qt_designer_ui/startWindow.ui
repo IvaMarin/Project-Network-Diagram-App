@@ -70,6 +70,9 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #fffaea;</string>
+       </property>
        <property name="inputMethodHints">
         <set>Qt::ImhDialableCharactersOnly|Qt::ImhHiddenText|Qt::ImhLatinOnly</set>
        </property>
@@ -92,6 +95,9 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #fffaea;</string>
+       </property>
        <property name="inputMethodHints">
         <set>Qt::ImhDialableCharactersOnly</set>
        </property>
@@ -113,6 +119,9 @@
         <font>
          <pointsize>14</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #fffaea;</string>
        </property>
        <property name="inputMethodHints">
         <set>Qt::ImhNone</set>
@@ -139,6 +148,9 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #fffaea;</string>
+       </property>
        <property name="inputMethodHints">
         <set>Qt::ImhNone</set>
        </property>
@@ -161,6 +173,9 @@
          <kerning>true</kerning>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #66e3ff;</string>
+       </property>
        <property name="text">
         <string>Начать работу</string>
        </property>
@@ -181,6 +196,9 @@
         <font>
          <pointsize>14</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #66e3ff;</string>
        </property>
        <property name="text">
         <string>Режим разработчика</string>
