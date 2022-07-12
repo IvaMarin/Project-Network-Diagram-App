@@ -32,6 +32,7 @@ from WinsDialog import winSigReport,winLogin,winEditTable
 from Color import Color
 from task1CheckForm import task1CheckForm
 import graph_model as gm
+import EditTable
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -656,7 +657,8 @@ class WindowMenu(QMainWindow):
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow.exec_() # его запуск в отдельном потоке
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
-        self.winEditTable = winEditTable(self)
+        self.winEditTable = winEditTable(self) #
+        #self.creatTable = WinsDialog.creatTable(self) #
 
         self._connectAction()
         #self.creatReport()

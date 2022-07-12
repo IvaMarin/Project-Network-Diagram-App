@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1641</width>
+    <width>1751</width>
     <height>1035</height>
    </rect>
   </property>
@@ -56,20 +56,40 @@
       <property name="text">
        <string>Номер отделения</string>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
      </column>
      <column>
       <property name="text">
        <string>Число людей, выполняющих работы</string>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
       </property>
      </column>
      <column>
       <property name="text">
        <string>Продолжительность работ (час)</string>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
      </column>
      <column>
       <property name="text">
        <string>Прим.</string>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
       </property>
      </column>
     </widget>
