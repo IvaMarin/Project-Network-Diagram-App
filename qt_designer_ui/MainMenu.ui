@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Меню</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #d5fffe;</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -39,6 +42,10 @@
          </property>
          <property name="autoFillBackground">
           <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #fffaea;
+</string>
          </property>
          <property name="inputMethodHints">
           <set>Qt::ImhNone</set>
@@ -179,6 +186,9 @@
            <pointsize>14</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
          <property name="text">
           <string>Задание 1</string>
          </property>
@@ -190,6 +200,9 @@
           <font>
            <pointsize>14</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
          </property>
          <property name="text">
           <string>Задание 4</string>
@@ -203,6 +216,9 @@
            <pointsize>14</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
          <property name="text">
           <string>Задание 3</string>
          </property>
@@ -214,6 +230,9 @@
           <font>
            <pointsize>14</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
          </property>
          <property name="text">
           <string>Задание 6</string>
@@ -227,6 +246,9 @@
            <pointsize>14</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
          <property name="text">
           <string>Задание 5</string>
          </property>
@@ -238,6 +260,9 @@
           <font>
            <pointsize>14</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
          </property>
          <property name="text">
           <string>Задание 2</string>
@@ -251,6 +276,9 @@
            <pointsize>14</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
          <property name="text">
           <string>Предпросмотр отчета</string>
          </property>
@@ -262,6 +290,9 @@
           <font>
            <pointsize>14</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
          </property>
          <property name="text">
           <string>Печать отчета</string>
@@ -275,6 +306,9 @@
            <pointsize>14</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
          <property name="text">
           <string>Генерация вариантов</string>
          </property>
@@ -287,6 +321,9 @@
            <pointsize>14</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
          <property name="text">
           <string>Данные о студенте</string>
          </property>
@@ -298,6 +335,9 @@
           <font>
            <pointsize>14</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
          </property>
          <property name="text">
           <string>Редактировать варианты работ</string>
