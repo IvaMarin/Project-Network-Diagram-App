@@ -647,7 +647,7 @@ class WindowMenu(QMainWindow):
         self.ui.setupUi(self)
 
         self.setWindowTitle("Меню")
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        self.sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
         self.name = "Иван"      # данные о студенте проинициализированы
         self.surname = "Иванов" # данные о студенте проинициализированы
@@ -737,6 +737,7 @@ class WindowMenu(QMainWindow):
 
     def show(self):
         self.showMaximized()
+        self.ui.tableVar.horizontalHeader().setDefaultSectionSize(int(self.sizeWindow.width() / 5))
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
 
