@@ -6,29 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1751</width>
-    <height>1035</height>
+    <width>1687</width>
+    <height>1047</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
-   <property name="spacing">
-    <number>8</number>
-   </property>
-   <property name="leftMargin">
-    <number>10</number>
-   </property>
-   <property name="topMargin">
-    <number>10</number>
-   </property>
-   <property name="rightMargin">
-    <number>17</number>
-   </property>
-   <property name="bottomMargin">
-    <number>13</number>
-   </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <widget class="QTableWidget" name="tableTaskVar">
      <property name="font">
@@ -95,18 +80,81 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="btnsOkCancle">
-     <property name="font">
-      <font>
-       <pointsize>14</pointsize>
-      </font>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: #66e3ff;</string>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
+     <widget class="QPushButton" name="btnSaveTable">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #66e3ff;</string>
+      </property>
+      <property name="text">
+       <string>Сохранить</string>
+      </property>
+      <property name="default">
+       <bool>false</bool>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnAddStrInTable">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #66e3ff;</string>
+      </property>
+      <property name="text">
+       <string>Добвить строку</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnDelStrLast">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #66e3ff;</string>
+      </property>
+      <property name="text">
+       <string>Удалить последнюю строку </string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnDelStrMarked">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #66e3ff;</string>
+      </property>
+      <property name="text">
+       <string>Удалить выбранную строку</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnExitAndClose">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #66e3ff;</string>
+      </property>
+      <property name="text">
+       <string>Выйти</string>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
