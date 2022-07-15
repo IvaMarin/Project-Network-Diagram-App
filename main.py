@@ -769,11 +769,11 @@ class WindowMenu(QMainWindow):
 
         for list in tabelVar:
             rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
-            self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы"
+            self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
             for item in list:
                 if countColumns > 0:
                     # print(item, end=" ")
-                    self.ui.tableVar.setItem(rowPosition, countColumns - 1, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы", каждую ячейку
+                    self.ui.tableVar.setItem(rowPosition, countColumns - 1, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
                 countColumns = countColumns + 1
             countColumns = 0
             # print()
@@ -781,21 +781,21 @@ class WindowMenu(QMainWindow):
 
         # for row in sheet.iter_rows(sheet.min_row+1, sheet.max_row):
         #    rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
-        #    self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы"
+        #    self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
 
         #    for cell in row:
         #        if countColumns > 0:
         #            print(cell.value, end=" ")
-        #            self.ui.tableVar.setItem(rowPosition, countColumns - 1, QtWidgets.QTableWidgetItem(cell.value))  # заполняем "строку таблицы", каждую ячейку
+        #            self.ui.tableVar.setItem(rowPosition, countColumns - 1, QtWidgets.QTableWidgetItem(cell.value))  # заполняем "строку таблицы из файла", каждую ячейку
         #        countColumns = countColumns + 1
         #    countColumns = 0
         #    print()
 
         # for numStr in range(1,sheet.max_row):
         #    rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
-        #    self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы"
+        #    self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
         #    for numCol in range (1,sheet.max_column):
-        #        self.ui.tableVar.setItem(rowPosition, numCol - 1, QtWidgets.QTableWidgetItem(sheet[numStr][numCol].value)) #  заполняем "строку таблицы", каждую ячейку
+        #        self.ui.tableVar.setItem(rowPosition, numCol - 1, QtWidgets.QTableWidgetItem(sheet[numStr][numCol].value)) #  заполняем "строку таблицы из файла", каждую ячейку
 
         #    print(sheet[str][0].value)
 
@@ -808,7 +808,7 @@ class WindowMenu(QMainWindow):
 
         #      Add text to the row
         #     for i in range (self.ui.tableVar.columnCount() - 1): # -1 потому что колонка "Прим." пустая
-        #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.name)) #  заполняем "строку таблицы", каждую ячейку
+        #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.name)) #  заполняем "строку таблицы из файла", каждую ячейку
         #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.surname)) #
         #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.numGroup)) #             кроме "Прим."
         #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem("CHECK")) #
