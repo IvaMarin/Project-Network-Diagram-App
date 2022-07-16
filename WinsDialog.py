@@ -246,7 +246,28 @@ class winEditTable(QtWidgets.QDialog):
         self.creatTable.exec_()
 
     def deleteTable(self): # удаление файла с вариантом и удаление его названия из выпадающего списка
-        print("Delete")
+        self.fileName = os.path.join("resources", "variants",
+                                     self.ui.comboBoxVariants.currentText())  # находим путь до файла
+        try:
+            with open(self.fileName, "r") as file:
+            # Распечатать сообщение об успешном завершении
+                file.close()
+            close = QMessageBox()
+            close.setText("Вы уверены,что хотите удалить вариант?")  #
+            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
+            close = close.exec()
+            if close == QMessageBox.Ok:  # если нажали да
+                os.remove(self.fileName)
+                self.ui.comboBoxVariants.removeItem(self.ui.comboBoxVariants.currentIndex())
+            else:  # иначе игнорируем
+                return
+
+        # Вызовите ошибку, если файл был открыт раньше
+        except OSError:
+            warning = QMessageBox()  # выводим предупреждение
+            warning.setText("Закройте выбранный файл.")  #
+            warning.setDefaultButton(QMessageBox.Ok)  #
+            warning = warning.exec()  #
 
 class creatTable(QtWidgets.QDialog):
     def __init__(self,
@@ -266,22 +287,70 @@ class creatTable(QtWidgets.QDialog):
 
         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20))  # двигаем окно левее и выше
 
+        quit = QAction("Quit", self)  # событие выхода
+        quit.triggered.connect(self.closeEvent)  # если событие выхода срабатывает то вызывается closeEvent
 
         self._connectAction()  # ф-ия связи с эл-тами окна
 
     def _connectAction(self):
-        self.ui.btnSaveTable.clicked.connect(lambda: self.stopper())          #
-        self.ui.btnAddStrInTable.clicked.connect(lambda: self.stopper())          #
-        self.ui.btnDelStrLast.clicked.connect(lambda: self.stopper())           #
-        self.ui.btnDelStrMarked.clicked.connect(lambda: self.stopper())         #
+        self.ui.btnSaveTable.clicked.connect(lambda: self.saveTable())          #
+        self.ui.btnAddStrInTable.clicked.connect(lambda: self.AddStrInTable())          #
+        self.ui.btnDelStrLast.clicked.connect(lambda: self.delStrLast())           #
         self.ui.btnExitAndClose.clicked.connect(lambda: self.closeWinCreatTable())  #
 
-    def stopper(self): # заглушка
-        print("CLIKC!!!")
+    def delStrLast(self):
+        rowInTblTsk = self.ui.tableTaskVar.rowCount()
+        sheet = self.book.active
+        if rowInTblTsk > 0:
+            self.ui.tableTaskVar.removeRow(rowInTblTsk-1)
+        if sheet.max_row > 0:
+            sheet.delete_cols(sheet.max_row,1)
 
     def closeWinCreatTable(self):
-        # ДОБАВИТЬ СОХРАНЕНИЕ ФАЙЛА
+        self.saveTable()
         self.close()
+
+    def saveTable(self):
+        # ДОБАВИТЬ СОХРАНЕНИЕ ФАЙЛА
+        sheet = self.book.active
+
+        for rowInTblTsk in range(sheet.max_row):
+            for colInTblTsk in range(sheet.max_column):
+                sheet.cell(rowInTblTsk + 1, colInTblTsk + 1).value = None
+
+        #for row in self.ui.tableTaskVar:
+        #    sheet.append(row)
+        row = []
+        for rowInTblTsk in range(self.ui.tableTaskVar.rowCount()):
+            for colInTblTsk in range(self.ui.tableTaskVar.columnCount()):
+                if self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk):
+                    tmpItem = self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk).text()
+                else:
+                    tmpItem = ' '
+                sheet.cell(rowInTblTsk + 1, colInTblTsk + 1).value = tmpItem
+
+        #for row in data:
+        #    sheet.append(row)
+
+        self.book.save(self.pathToExcelFile)
+
+    def AddStrInTable(self): # генерируем строку в таблице для записи в нее чиселок
+        #rowPosition = self.ui.tableTaskVar.rowCount()
+        self.ui.tableTaskVar.insertRow(self.ui.tableTaskVar.rowCount() )  # вставляем в таблицу "строку таблицы из файла"
+        #for colInTblTsk in range(self.ui.tableTaskVar.columnCount() + 1):
+        #    self.ui.tableTaskVar.setItem(self.ui.tableTaskVar.rowCount() - 1, colInTblTsk, QtWidgets.QTableWidgetItem(' '))  # заполняем "строку таблицы из файла", каждую ячейку
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setText("Вы уверены,что хотите закрыть редактор?")  #
+        close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
+        close = close.exec()
+        if close == QMessageBox.Ok:  # если нажали да
+            self.book.close()
+            event.accept()  # подтверждаем ивент
+            #self.winEditTable.mainMenu.show()
+        else:  # иначе игнорируем
+            event.ignore()
 
     #def saveTable(self):
     #    self.book.save(self.pathToExcelFile)
@@ -289,13 +358,13 @@ class creatTable(QtWidgets.QDialog):
     def openFile(self, pathToExcelFile): # открываем указанный файл в окне для редактирования вариантов
         self.pathToExcelFile = pathToExcelFile # сохраняем путь до файла
         # файлик с таблицой должен называться "В" + номер студента по списку + ".xlsx" (расширение файла)
-        self.book = openpyxl.open(self.pathToExcelFile, read_only=True)  # открываем файл с помощью либы для обработки .xlsx
+        self.book = openpyxl.load_workbook(self.pathToExcelFile)  # открываем файл с помощью либы для обработки .xlsx
         sheet = self.book.active  # active - выбирает номер страницы в книге без параметров (по умолчанию) первая страница
 
         countColumns = 0 # счетчик колонок
         tabelVar = [] # список строк
 
-        for row in sheet.iter_rows(sheet.min_row + 1, sheet.max_row):  # подкачиваем данные из xlsx файла
+        for row in sheet.iter_rows(sheet.min_row, sheet.max_row):  # подкачиваем данные из xlsx файла
             rowVar = []
             for cell in row:
                 rowVar.append(cell.value)
@@ -307,9 +376,8 @@ class creatTable(QtWidgets.QDialog):
             rowPosition = self.ui.tableTaskVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
             self.ui.tableTaskVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
             for item in list:
-                if countColumns > 0:
-                    self.ui.tableTaskVar.setItem(rowPosition, countColumns - 1, QtWidgets.QTableWidgetItem(
-                        item))  # заполняем "строку таблицы из файла", каждую ячейку
+                if countColumns >= 0:
+                    self.ui.tableTaskVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
                 countColumns = countColumns + 1
             countColumns = 0
 
