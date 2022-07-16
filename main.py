@@ -756,14 +756,14 @@ class WindowMenu(QMainWindow):
         countColumns = 0
         tabelVar = []
 
-        for row in sheet.iter_rows(sheet.min_row+1, sheet.max_row):# подкачиваем данные из xlsx файла
+        for row in sheet.iter_rows(sheet.min_row, sheet.max_row):# подкачиваем данные из xlsx файла
             rowVar = []
             for cell in row:
                 rowVar.append(cell.value)
             tabelVar.append(rowVar)
 
-        # for list in tabelVar:
-        #     print(list)
+        #for list in tabelVar:
+        #    print(list)
 
         self.ui.tableVar.setRowCount(0) # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
 
@@ -771,9 +771,9 @@ class WindowMenu(QMainWindow):
             rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
             self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
             for item in list:
-                if countColumns > 0:
+                if countColumns >= 0:
                     # print(item, end=" ")
-                    self.ui.tableVar.setItem(rowPosition, countColumns - 1, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
+                    self.ui.tableVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
                 countColumns = countColumns + 1
             countColumns = 0
             # print()

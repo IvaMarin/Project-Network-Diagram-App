@@ -67,16 +67,6 @@
        </font>
       </property>
      </column>
-     <column>
-      <property name="text">
-       <string>Прим.</string>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-     </column>
     </widget>
    </item>
    <item>
@@ -129,19 +119,6 @@
        <string>Удалить последнюю строку </string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnDelStrMarked">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #66e3ff;</string>
-      </property>
-      <property name="text">
-       <string>Удалить выбранную строку</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="btnExitAndClose">
       <property name="font">
        <font>
@@ -152,7 +129,7 @@
        <string notr="true">background-color: #66e3ff;</string>
       </property>
       <property name="text">
-       <string>Выйти</string>
+       <string>Сохранить и выйти</string>
       </property>
      </widget>
     </widget>
