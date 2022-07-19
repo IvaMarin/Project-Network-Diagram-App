@@ -283,6 +283,64 @@ class Display2(Display):
         pass
 
 class Display3(Display):
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
+
+        # отрисовка сетки
+        painter.setPen(self.colorGrid)
+        #lines = createGrid(0, 0, 50, True, True)
+        painter.drawLines(self.lines)
+
+        painter.setPen(QColor("black"))
+        font = "Arial"
+        font_size = 14
+        painter.setFont(QFont(font, font_size))
+        painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
+        painter.setBrush(QColor("black"))
+        
+        # отрисовка нумерации осей сетки
+        x0 = 0
+        step = 75
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        number_vertical_lines = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
+        y0 = sizeWindow.height()-170
+        for i in range(number_vertical_lines):
+            if len(str(i+1)) < 2:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+            painter.drawText(step+step*i + offset[0], y0 + offset[1], f'{i+1}')
+       
+        # отрисовка стрелок
+        for i in range(len(self.graph.AdjacencyMatrix)):
+            for j in range(len(self.graph.AdjacencyMatrix)):
+                # если существует связь
+                if (self.graph.AdjacencyMatrix[i][j] != 0 and 
+                    (not np.isnan(self.graph.Points[i][0])) and
+                    (not np.isnan(self.graph.Points[j][0]))):
+                    triangle_source = calculate_arrow_points(self.graph.Points[i], self.graph.Points[j], self.graph.RadiusPoint)
+                    if triangle_source is not None:
+                        painter.drawPolygon(triangle_source)
+                        painter.drawLine((int)(self.graph.Points[i][0]),
+                                         (int)(self.graph.Points[i][1]),
+                                         (int)(self.graph.Points[j][0]),
+                                         (int)(self.graph.Points[j][1]))
+
+        # отрисовка вершин и цифр
+        painter.setPen(QPen(QColor("black"), 2.5))
+        painter.setBrush(QColor("white")) # обеспечиваем закрашивание вершин графа
+        for i in range(len(self.graph.Points)):
+            # если вершина существует
+            if (not np.isnan(self.graph.Points[i][0])):
+                painter.drawEllipse(self.graph.Points[i][0]-self.graph.RadiusPoint, self.graph.Points[i][1]-self.graph.RadiusPoint, 
+                                    2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
+                if len(str(i+1)) < 2:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+                else:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+                painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i+1}')
+
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
         if (self.functionAble == "Добавить вершину"):
