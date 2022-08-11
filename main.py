@@ -49,7 +49,7 @@ class Window1(QMainWindow):
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
 
-        self.centralWidget = Display.Display()
+        self.centralWidget = Display.Display(self)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -74,43 +74,61 @@ class Window1(QMainWindow):
 
 
     def addNode(self):
-        self.centralWidget.functionAble = "Добавить вершину"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            self.centralWidget.functionAble = ""
+        else:
+            self.centralWidget.functionAble = "Добавить вершину"
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def addArrow(self):
-        self.centralWidget.functionAble = "Добавить связь"
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnConnectNode.isChecked() == False:
+            self.centralWidget.functionAble = ""
+        else:
+            self.centralWidget.functionAble = "Добавить связь"
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def removeArrow(self):
-        self.centralWidget.functionAble = "Удалить связь"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnRemoveNodeConnection.isChecked() == False:
+            self.centralWidget.functionAble = ""
+        else:
+            self.centralWidget.functionAble = "Удалить связь"
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def removeNode(self):
-        self.centralWidget.functionAble = "Удалить вершину"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        if self.ui.actionbtnRemoveNode.isChecked() == False:
+            self.centralWidget.functionAble = ""
+        else:
+            self.centralWidget.functionAble = "Удалить вершину"
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
 
 
     def moveNode(self):
-        self.centralWidget.functionAble = "Переместить вершины"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnMoveNode.isChecked() == False:
+            self.centralWidget.functionAble = ""
+        else:
+            self.centralWidget.functionAble = "Переместить вершины"
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def makeNewFile(self):
         self.centralWidget.functionAble = "Новый файл"
+
+    def sizeGet(self):
+        return self.size()
 
     def taskCheck(self):
         mistakes = self.centralWidget.checkEvent()
@@ -144,7 +162,7 @@ class Window2(QMainWindow):
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
-        self.DisplayObj = Display.Display2()
+        self.DisplayObj = Display.Display2(self)
         self.layout.addWidget(self.DisplayObj)
         # Создаём виджет таблицы и добавляем его в компоновщик
         self.layout2 = QtWidgets.QVBoxLayout()
@@ -258,6 +276,9 @@ class Window2(QMainWindow):
         self.table2.ui.tableCheckButton.clicked.connect(self.table2Check)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
 
+    def sizeGet(self):
+        return self.size()
+
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -301,9 +322,9 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        graph3 = gm.Graph(60)
+        graph3 = gm.Graph(30)
 
-        self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False, graph3)
+        self.centralWidget = Display.Display3(self, 0, 0, 75, [0, 0, 255, 200], False, graph3)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -399,6 +420,9 @@ class Window3(QMainWindow):
     def show(self):
         self.showMaximized()
 
+    def sizeGet(self):
+        return self.size()
+
     
 
 
@@ -416,7 +440,7 @@ class Window4(QMainWindow):
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
 
-        self.centralWidget = Display.Display3(0, 0, 75, [0, 0, 255, 200], False)
+        self.centralWidget = Display.Display(self, 0, 0, 75, [0, 0, 255, 200], False)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -511,6 +535,9 @@ class Window4(QMainWindow):
 
     def show(self):
         self.showMaximized()
+
+    def sizeGet(self):
+        return self.size()
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЯТОЕ ЗАДАНИЯ  ////////////////////////////////////
