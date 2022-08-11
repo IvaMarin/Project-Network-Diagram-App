@@ -74,7 +74,7 @@ class Ui_MainWindow1(object):
         self.actionBackward.setObjectName("actionBackward")
         self.actionbtnAddNode = QtWidgets.QAction(MainWindow1)
         self.actionbtnAddNode.setCheckable(True)
-        self.actionbtnAddNode.setChecked(False)
+        self.actionbtnAddNode.setChecked(True)
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap("resources/iconePack/add-new.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionbtnAddNode.setIcon(icon5)

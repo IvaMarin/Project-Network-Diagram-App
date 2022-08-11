@@ -64,7 +64,7 @@ def createGrid(x0=0, y0=0, step=50, vertical=True, horizontal=True):
     if vertical:
         number_vertical_lines = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
         for i in range(number_vertical_lines):
-            lines.append(QLineF(x0, 0, x0, sizeWindow.height()-190))
+            lines.append(QLineF(x0, 0, x0, sizeWindow.height()))
             x0 = x0 + step
 
     if horizontal:
@@ -80,8 +80,8 @@ graph = gm.Graph(30) # объект граф
 
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
-    def __init__(self, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, graph_in = graph):
-        super().__init__()
+    def __init__(self, root, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, graph_in = graph):
+        super().__init__(root)
         self.functionAble = "Добавить вершину"
         self.TempPoints = np.empty(0) # массив временно выделенных вершин
         self.colorGrid = QColor(color[0],color[1],color[2],color[3])
@@ -93,6 +93,9 @@ class Display(QWidget):
             self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, True)
         else:
             self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, False)
+
+        print(root.sizeGet())
+
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -180,8 +183,8 @@ class Display(QWidget):
 
 class Display2(Display):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, root):
+        super().__init__(root)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -189,8 +192,8 @@ class Display2(Display):
 
         # отрисовка сетки
         painter.setPen(QColor(0, 0, 255, 90))
-        lines = createGrid(0, 0, 50, True, True)
-        painter.drawLines(lines)
+        # lines = createGrid(0, 0, 50, True, True)
+        painter.drawLines(self.lines)
 
         painter.setPen(QColor("black"))
         font = "Arial"
