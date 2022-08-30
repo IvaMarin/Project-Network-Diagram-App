@@ -264,6 +264,12 @@ class Window2(QMainWindow):
         # print (Display.graph.tn)
         self.update()
 
+    def critPathCheck(self):
+        if self.ui.actionbtnCritPath.isChecked() == False:
+            self.DisplayObj.functionAble = ""
+        else:
+            self.DisplayObj.functionAble = "Критический путь"
+
     def taskCheck(self):
         pass
 
@@ -275,6 +281,7 @@ class Window2(QMainWindow):
         self.table1.ui.tableCheckButton.clicked.connect(self.table1Check)
         self.table2.ui.tableCheckButton.clicked.connect(self.table2Check)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+        self.ui.actionbtnCritPath.triggered.connect(self.critPathCheck)
 
     def sizeGet(self):
         return self.size()
