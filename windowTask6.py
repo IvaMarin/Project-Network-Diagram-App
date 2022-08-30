@@ -15,6 +15,9 @@ class Ui_MainWindow6(object):
     def setupUi(self, MainWindow6):
         MainWindow6.setObjectName("MainWindow6")
         MainWindow6.resize(1611, 1121)
+        icon0 = QtGui.QIcon()
+        icon0.addPixmap(QtGui.QPixmap("resources/iconePack/pngwing.com.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow6.setWindowIcon(icon0)
         self.centralwidget = QtWidgets.QWidget(MainWindow6)
         self.centralwidget.setObjectName("centralwidget")
         MainWindow6.setCentralWidget(self.centralwidget)
