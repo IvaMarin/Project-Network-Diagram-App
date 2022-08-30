@@ -161,7 +161,7 @@ class Ui_MainWindow2(object):
         icon17 = QtGui.QIcon()
         icon17.addPixmap(QtGui.QPixmap("resources/iconePack/pngwing.com.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionbtnCritPath = QtWidgets.QAction(MainWindow1)
-        self.actionbtnCritPath.setCheckable(False)
+        self.actionbtnCritPath.setCheckable(True)
         self.actionbtnCritPath.setChecked(False)
         self.actionbtnCritPath.setIcon(icon17)
         self.actionbtnCritPath.setObjectName("actionbtnCritPath")
