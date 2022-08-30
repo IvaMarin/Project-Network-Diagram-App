@@ -211,6 +211,13 @@ class Display2(Display):
                 if (self.graph.AdjacencyMatrix[i][j] != 0 and 
                     (not np.isnan(self.graph.Points[i][0])) and
                     (not np.isnan(self.graph.Points[j][0]))):
+                    # выбор цвета в зависимости от выбора критического пути
+                    if (self.graph.AdjacencyMatrix[i][j] == 2):
+                        painter.setBrush(QColor("red"))
+                        painter.setPen(QColor("red"))
+                    elif (self.graph.AdjacencyMatrix[i][j] == 1):
+                        painter.setBrush(QColor("black"))
+                        painter.setPen(QColor("black"))
                     triangle_source = calculate_arrow_points(self.graph.Points[i], self.graph.Points[j], radius/2)
                     if triangle_source is not None:
                         painter.drawPolygon(triangle_source)
@@ -275,9 +282,16 @@ class Display2(Display):
                 x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
                 painter.drawText(x+x_off, y+line_off+0.5*y_off, f'{R}')
 
-    # забираем у пользователя возможность что-то двигать/нажимать
     def mousePressEvent(self, event):
-        pass
+        #if (self.functionAble == "Выделить критический путь"):
+        self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # добавить в массив выбранных вершин
+        # если число выбранных вершин 2
+        if len(self.TempPoints) == 2:
+            # проверка, если пользователь случайно нажал дважды по одной и той же вершине
+            if (self.TempPoints[0] != self.TempPoints[1]):
+                control.CSelectCriticalPath(self.graph, event, Qt.LeftButton, self.TempPoints)
+            self.TempPoints = np.empty(0) # очистить массив
+        self.update()
     def mouseMoveEvent(self, event):
         pass
 
