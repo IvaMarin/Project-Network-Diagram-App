@@ -12,6 +12,7 @@ class Graph:
 		self.tp = np.empty((0)) # ранний срок наступления события
 		self.tn = np.empty((0)) # поздний срок наступления события
 		self.R = np.empty((0)) # резерв времени
+		self.CriticalPath = np.array([0]) # критический путь
 
 		# графические характеристики графа
 		self.RadiusPoint = RadiusPoint # радиус вершины
@@ -79,3 +80,14 @@ class Graph:
 			return # ничего не делать
 		# присвоить новые значения координат центра вершины
 		self.Points[index][0], self.Points[index][1] = x, y # присовить новые значения координат центра вершины
+
+	# выделить критический путь
+	def SelectCriticalPath(self, firstIndex, secondIndex):
+		# если курсор не наведен на вершину
+		if firstIndex == -1 or secondIndex == -1:
+			return # ничего не делать
+		# если связь выделана как критическая
+		if self.AdjacencyMatrix[firstIndex][secondIndex] == 2:
+			self.AdjacencyMatrix[firstIndex][secondIndex] = 1 # убрать критическое выделение
+			return
+		self.AdjacencyMatrix[firstIndex][secondIndex] = 2 # выделить критическую связь

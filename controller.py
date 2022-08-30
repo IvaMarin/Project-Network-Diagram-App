@@ -80,3 +80,9 @@ def CIsCursorOnPoint(graph, event, but):
 	# если нажата кнопка
 	if event.button() == but:
 		return graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
+
+# выделить критический путь по нажатию; параметры: объект "граф", событие, кнопка, выделенные точки
+def CSelectCriticalPath(graph, event, but, points):
+	# если нажата кнопка
+	if event.button() == but:
+		graph.SelectCriticalPath(int(points[0]), int(points[1])) # добавить вершину в критический путь
