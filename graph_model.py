@@ -90,4 +90,6 @@ class Graph:
 		if self.AdjacencyMatrix[firstIndex][secondIndex] == 2:
 			self.AdjacencyMatrix[firstIndex][secondIndex] = 1 # убрать критическое выделение
 			return
-		self.AdjacencyMatrix[firstIndex][secondIndex] = 2 # выделить критическую связь
+		# если связть существовала
+		if self.AdjacencyMatrix[firstIndex][secondIndex] == 1:
+			self.AdjacencyMatrix[firstIndex][secondIndex] = 2 # выделить критическую связь
