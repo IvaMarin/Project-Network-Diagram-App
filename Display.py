@@ -283,14 +283,14 @@ class Display2(Display):
                 painter.drawText(x+x_off, y+line_off+0.5*y_off, f'{R}')
 
     def mousePressEvent(self, event):
-        #if (self.functionAble == "Выделить критический путь"):
-        self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # добавить в массив выбранных вершин
-        # если число выбранных вершин 2
-        if len(self.TempPoints) == 2:
-            # проверка, если пользователь случайно нажал дважды по одной и той же вершине
-            if (self.TempPoints[0] != self.TempPoints[1]):
-                control.CSelectCriticalPath(self.graph, event, Qt.LeftButton, self.TempPoints)
-            self.TempPoints = np.empty(0) # очистить массив
+        if (self.functionAble == "Критический путь"):
+            self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # добавить в массив выбранных вершин
+            # если число выбранных вершин 2
+            if len(self.TempPoints) == 2:
+                # проверка, если пользователь случайно нажал дважды по одной и той же вершине
+                if (self.TempPoints[0] != self.TempPoints[1]):
+                    control.CSelectCriticalPath(self.graph, event, Qt.LeftButton, self.TempPoints)
+                self.TempPoints = np.empty(0) # очистить массив
         self.update()
     def mouseMoveEvent(self, event):
         pass
