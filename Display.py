@@ -1,3 +1,4 @@
+from matplotlib import lines
 import numpy as np
 
 from PyQt5.QtCore import Qt, QRect, QPointF, QLineF
@@ -75,6 +76,21 @@ def createGrid(x0=0, y0=0, step=50, vertical=True, horizontal=True):
 
     return lines
 
+# промежутки в сетке под цифры
+def createGaps(x0=0, y0=0, step=50, sizeNumber = 40, yNumber = 170):
+    sizeWindow = QRect(QApplication.desktop().screenGeometry())
+    lines = []
+    sizeNumber = sizeNumber / 2
+
+    x0 = x0 + step
+    
+    number_vertical_lines = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
+    for i in range(number_vertical_lines):
+        lines.append(QLineF(x0, sizeWindow.height() - yNumber - sizeNumber, x0, sizeWindow.height() - yNumber + sizeNumber))
+        x0 = x0 + step
+
+    return lines
+    
 graph = gm.Graph(30) # объект граф
 #graph3 = gm.Graph(60)
 
@@ -93,6 +109,7 @@ class Display(QWidget):
             self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, True)
         else:
             self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, False)
+        self.whiteLines = createGaps(start_coordination_X, start_coordination_Y, step)
 
         print(root.sizeGet())
 
@@ -308,6 +325,8 @@ class Display3(Display):
         painter.setPen(self.colorGrid)
         #lines = createGrid(0, 0, 50, True, True)
         painter.drawLines(self.lines)
+        painter.setPen(QColor(255, 255, 255, 255))
+        painter.drawLines(self.whiteLines)
 
         painter.setPen(QColor("black"))
         font = "Arial"
