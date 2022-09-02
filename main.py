@@ -447,7 +447,7 @@ class Window4(QMainWindow):
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
 
-        self.centralWidget = Display.Display(self, 0, 0, 75, [0, 0, 255, 200], False)
+        self.centralWidget = Display.Display3(self, 0, 0, 75, [0, 0, 255, 200], False)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
