@@ -125,7 +125,8 @@ class winLogin(QtWidgets.QDialog):
             event.accept() # то не выводим диалоговое окно подтверждения выхода из проги
         else: # иначе формируем окно подтверждения выхода из проги (т.е QMessageBox)
             close = QMessageBox()
-            close.setText("Вы уверены,что хотите закрыть программу?") #
+            close.setWindowTitle("Закрыть приложение")
+            close.setText("Вы уверены, что хотите закрыть приложение?") #
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel) #
             close = close.exec()
             if close == QMessageBox.Ok: # если нажали да
@@ -253,7 +254,8 @@ class winEditTable(QtWidgets.QDialog):
             # Распечатать сообщение об успешном завершении
                 file.close()
             close = QMessageBox()
-            close.setText("Вы уверены,что хотите удалить вариант?")  #
+            close.setWindowTitle("Удалить вариант")
+            close.setText("Вы уверены, что хотите удалить вариант?")  #
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
             close = close.exec()
             if close == QMessageBox.Ok:  # если нажали да
@@ -342,7 +344,8 @@ class creatTable(QtWidgets.QDialog):
 
     def closeEvent(self, event):
         close = QMessageBox()
-        close.setText("Вы уверены,что хотите закрыть редактор?")  #
+        close.setWindowTitle("Закрыть редактор")
+        close.setText("Вы уверены, что хотите закрыть редактор?")  #
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
         close = close.exec()
         if close == QMessageBox.Ok:  # если нажали да

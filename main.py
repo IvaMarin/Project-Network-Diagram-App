@@ -63,7 +63,8 @@ class Window1(QMainWindow):
             event.accept()
         else:
             close = QMessageBox()
-            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setWindowTitle("Закрыть приложение")
+            close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
@@ -219,7 +220,8 @@ class Window2(QMainWindow):
             event.accept()
         else:
             close = QMessageBox()
-            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setWindowTitle("Закрыть приложение")
+            close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
@@ -345,7 +347,8 @@ class Window3(QMainWindow):
             event.accept()
         else:
             close = QMessageBox()
-            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setWindowTitle("Закрыть приложение")
+            close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
@@ -461,7 +464,8 @@ class Window4(QMainWindow):
             event.accept()
         else:
             close = QMessageBox()
-            close.setText("Вы уверены,что хотите закрыть программу?Вы уверены,что хотите закрыть программу?")
+            close.setWindowTitle("Закрыть приложение")
+            close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
@@ -587,7 +591,8 @@ class Window5(QMainWindow):
             event.accept()
         else:
             close = QMessageBox()
-            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setWindowTitle("Закрыть приложение")
+            close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
@@ -649,7 +654,8 @@ class Window6(QMainWindow):
             event.accept()
         else:
             close = QMessageBox()
-            close.setText("Вы уверены,что хотите закрыть программу?")
+            close.setWindowTitle("Закрыть приложение")
+            close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             close = close.exec()
 
@@ -704,7 +710,8 @@ class WindowMenu(QMainWindow):
 
     def closeEvent(self, event):
         close = QMessageBox()
-        close.setText("Вы уверены,что хотите закрыть программу?")
+        close.setWindowTitle("Закрыть приложение")
+        close.setText("Вы уверены, что хотите закрыть приложение?")
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         close = close.exec()
 
