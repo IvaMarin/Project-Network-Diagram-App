@@ -560,8 +560,9 @@ class Window5(QMainWindow):
 
         # Создаём компоновщик
         layout = QtWidgets.QVBoxLayout()
-        layout.addWidget(Color('blue'))
-        layout.addWidget(Color('red'))
+        layout.addWidget(Color('white'))        #Виджет вставлять сюда
+        layout.addWidget(Color('white'))
+        layout.addWidget(Color('white'))
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
@@ -621,10 +622,9 @@ class Window6(QMainWindow):
         super().__init__(parent)
 
         # Создаём компоновщик
-        layout = QtWidgets.QVBoxLayout()
+        layout = QtWidgets.QHBoxLayout()
+        layout.addWidget(Color('white'))        #Виджет вставлять сюда
         layout.addWidget(Color('white'))
-        layout.addWidget(Color('blue'))
-        layout.addWidget(Color('red'))
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
