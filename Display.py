@@ -96,6 +96,7 @@ graph = gm.Graph(30) # объект граф
 
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
+    FixedArrowPoint = [-1, -1] # фиксированная стрелка
     def __init__(self, root, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, graph_in = graph):
         super().__init__(root)
         self.functionAble = "Добавить вершину"
@@ -111,7 +112,7 @@ class Display(QWidget):
             self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, False)
         self.whiteLines = createGaps(start_coordination_X, start_coordination_Y, step)
 
-        print(root.sizeGet())
+        # print(root.sizeGet())
 
 
     def paintEvent(self, event):
@@ -220,7 +221,7 @@ class Display2(Display):
         painter.setBrush(QColor("black"))
 
         # отрисовка стрелок
-        scaler = 1.5
+        scaler = 3 # параметр увеличения вершин относительно первого задания
         radius = self.graph.RadiusPoint * scaler
         for i in range(len(self.graph.AdjacencyMatrix)):
             for j in range(len(self.graph.AdjacencyMatrix)):
@@ -352,16 +353,21 @@ class Display3(Display):
         for i in range(len(self.graph.AdjacencyMatrix)):
             for j in range(len(self.graph.AdjacencyMatrix)):
                 # если существует связь
-                if (self.graph.AdjacencyMatrix[i][j] != 0 and 
+                if (self.graph.AdjacencyMatrix[i][j] != 0 and
                     (not np.isnan(self.graph.Points[i][0])) and
-                    (not np.isnan(self.graph.Points[j][0]))):
-                    triangle_source = calculate_arrow_points(self.graph.Points[i], self.graph.Points[j], self.graph.RadiusPoint)
+                        (not np.isnan(self.graph.Points[j][0]))):
+                    triangle_source = calculate_arrow_points(
+                        self.graph.Points[i], self.graph.ArrowPoints[i][j], 0)
                     if triangle_source is not None:
                         painter.drawPolygon(triangle_source)
-                        painter.drawLine((int)(self.graph.Points[i][0]),
-                                         (int)(self.graph.Points[i][1]),
-                                         (int)(self.graph.Points[j][0]),
-                                         (int)(self.graph.Points[j][1]))
+                        painter.drawLine(QPointF(self.graph.Points[i][0],
+                                                 self.graph.Points[i][1]),
+                                         triangle_source[1])
+                        painter.setPen(Qt.PenStyle.DashLine)
+                        painter.drawLine(triangle_source[1],
+                                         QPointF(self.graph.Points[j][0],
+                                                 self.graph.Points[j][1]))
+                        painter.setPen(Qt.PenStyle.SolidLine)
 
         # отрисовка вершин и цифр
         painter.setPen(QPen(QColor("black"), 2.5))
@@ -380,34 +386,49 @@ class Display3(Display):
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
         if (self.functionAble == "Добавить вершину"):
-            control.CAddPointGrid(self.graph, event, Qt.LeftButton, self.start_coordination_X, self.step, None)
+            control.CAddPointGrid(
+                self.graph, event, Qt.LeftButton, self.start_coordination_X, self.step, None)
 
         elif (self.functionAble == "Добавить связь"):
-            self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # добавить в массив выбранных вершин
+            self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(
+                event.pos().x(), event.pos().y()))  # добавить в массив выбранных вершин
             # если число выбранных вершин 2
             if len(self.TempPoints) == 2:
                 # проверка, если пользователь случайно нажал дважды по одной и той же вершине
                 if (self.TempPoints[0] != self.TempPoints[1]):
-                    control.CConnectPoints(self.graph, event, Qt.LeftButton, self.TempPoints)
-                self.TempPoints = np.empty(0) # очистить массив
+                    control.CConnectPoints(
+                        self.graph, event, Qt.LeftButton, self.TempPoints)
+                self.TempPoints = np.empty(0)  # очистить массив
 
         elif (self.functionAble == "Удалить связь"):
-            self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # добавить в массив выбранных вершин
+            self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(
+                event.pos().x(), event.pos().y()))  # добавить в массив выбранных вершин
             # если число выбранных вершин 2
             if len(self.TempPoints) == 2:
-                control.CDeleteConnection(self.graph, event, Qt.LeftButton, self.TempPoints)
-                self.TempPoints = np.empty(0) # очистить массив
-    
+                control.CDeleteConnection(
+                    self.graph, event, Qt.LeftButton, self.TempPoints)
+                self.TempPoints = np.empty(0)  # очистить массив
+
         elif (self.functionAble == "Удалить вершину"):
             control.CDeletePoint(self.graph, event, Qt.LeftButton)
 
         elif (self.functionAble == "Переместить вершины"):
-            self.FixedPoint = control.CIsCursorOnPoint(self.graph, event, Qt.LeftButton)
+            self.FixedPoint = control.CIsCursorOnPoint(
+                self.graph, event, Qt.LeftButton)
+
+        elif (self.functionAble == "Добавить пунктирную связь"):
+            self.FixedArrowPoint = control.CIsCursorOnArrowPoint(
+                self.graph, event, Qt.LeftButton)
 
         self.update()
 
     def mouseMoveEvent(self, event):
         if (self.functionAble == "Переместить вершины"):
-            control.CMovePointGrid(self.graph, event, Qt.LeftButton, self.FixedPoint, self.start_coordination_X, self.step, None)
+            control.CMovePointGrid(self.graph, event, Qt.LeftButton,
+                                   self.FixedPoint, self.start_coordination_X, self.step, None)
+                                   
+        elif (self.functionAble == "Добавить пунктирную связь"):
+            control.CMoveArrowPointGrid(
+                self.graph, event, Qt.LeftButton, self.FixedArrowPoint, self.start_coordination_X, self.step)
 
         self.update()

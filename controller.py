@@ -53,6 +53,33 @@ def CMovePoint(graph, event, but, FixedPoint):
 	if event.buttons() == but:
 		graph.MovePoint(FixedPoint, event.pos().x(), event.pos().y()) # переместить вершину
 
+# переместить пунктирную стрелку по нажатию; параметры: объект "граф", событие, кнопка
+def CMoveArrowPoint(graph, event, but, FixedArrowPoint):
+	# если нажата кнопка
+	if event.buttons() == but:
+		graph.MoveArrowPoint(FixedArrowPoint, event.pos().x(),
+		                     event.pos().y())  # переместить пунктирную стрелку
+
+# переместить пунктирную стрелку по нажатию в сетке; параметры: объект "граф", событие, кнопка, начало сетки по х, шаг сетки по х
+def CMoveArrowPointGrid(graph, event, but, FixedArrowPoint, GridBegin, GridStep):
+	wasFinded = False  # найден промежуток, в который попадает курсор
+	i = 0
+	while(not wasFinded):
+		i += 1  # инкрементировать номер
+		if event.pos().x() <= GridBegin+i*GridStep:
+			wasFinded = True  # найден промежуток
+	XonGrid = GridBegin
+	# если курсор в диапозоне одной лини
+	if abs(event.pos().x() >= GridBegin+(i-3/2)*GridStep) and abs(event.pos().x() < GridBegin+(i-1/2)*GridStep):
+		XonGrid = GridBegin+(i-1)*GridStep
+	elif abs(event.pos().x() >= GridBegin+(i-1/2)*GridStep) and abs(event.pos().x() < GridBegin+(i+3/2)*GridStep):
+		XonGrid = GridBegin+i*GridStep
+
+	# если нажата кнопка
+	if event.buttons() == but:
+		graph.MoveArrowPoint(FixedArrowPoint, XonGrid,
+		                     event.pos().y())  # переместить переместить пунктирную стрелку
+
 # переместить вершину по нажатию в сетке; параметры: объект "граф", событие, кнопка, начало сетки по х, шаг сетки по х, фиксированная координата по y
 # если FixedY == None, то не фикисировать по y
 def CMovePointGrid(graph, event, but, FixedPoint, GridBegin, GridStep, FixedY):
@@ -80,6 +107,12 @@ def CIsCursorOnPoint(graph, event, but):
 	# если нажата кнопка
 	if event.button() == but:
 		return graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
+
+# находится ли курсор на пунктирной стрелке;
+def CIsCursorOnArrowPoint(graph, event, but):
+	# если нажата кнопка
+	if event.button() == but:
+		return graph.IsCursorOnArrowPoint(event.pos().x(), event.pos().y())
 
 # выделить критический путь по нажатию; параметры: объект "граф", событие, кнопка, выделенные точки
 def CSelectCriticalPath(graph, event, but, points):

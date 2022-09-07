@@ -74,6 +74,7 @@ class winSigReport(QtWidgets.QDialog):
                 self.ui.lineEditGroup.text() == "": # если существует незаполненная строка, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
+            warning.setWindowTitle("Предупреждение")
             warning.setText("Заполните все предложенные поля.")
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
@@ -81,6 +82,7 @@ class winSigReport(QtWidgets.QDialog):
         elif not(os.path.exists(pathFileXlsx)): # если не существует файла с указанным вариантом, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
+            warning.setWindowTitle("Предупреждение")
             warning.setText("Введите корректный номер варианта.")
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
@@ -147,6 +149,7 @@ class winLogin(QtWidgets.QDialog):
                 self.ui.lineEditGroup.text() == "":# если существует незаполненная строка, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
+            warning.setWindowTitle("Предупреждение")
             warning.setText("Заполните все предложенные поля.")
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
@@ -154,6 +157,7 @@ class winLogin(QtWidgets.QDialog):
         elif not(os.path.exists(pathFileXlsx)):# если не существует файла с указанным вариантом, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
+            warning.setWindowTitle("Предупреждение")
             warning.setText("Введите корректный номер варианта.")
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
@@ -227,6 +231,7 @@ class winEditTable(QtWidgets.QDialog):
         # проверяем существует ли файл с указанным названием (self.fileName) по пути pathFileXlsx
         if os.path.isfile(pathFileXlsx): # если существует
             warning = QMessageBox()  # выводим предупреждение
+            warning.setWindowTitle("Предупреждение")
             warning.setText("Такой файл уже существует.")  #
             warning.setDefaultButton(QMessageBox.Ok)  #
             warning = warning.exec()  #
@@ -267,6 +272,7 @@ class winEditTable(QtWidgets.QDialog):
         # Вызовите ошибку, если файл был открыт раньше
         except OSError:
             warning = QMessageBox()  # выводим предупреждение
+            warning.setWindowTitle("Предупреждение")
             warning.setText("Закройте выбранный файл.")  #
             warning.setDefaultButton(QMessageBox.Ok)  #
             warning = warning.exec()  #

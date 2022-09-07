@@ -346,7 +346,7 @@
     <string>btnDottedConnectNode</string>
    </property>
    <property name="toolTip">
-    <string>Соединение узлов пунктиром</string>
+    <string>Перемещение пунктирной стрелки</string>
    </property>
   </action>
  </widget>

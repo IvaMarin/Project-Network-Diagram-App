@@ -202,7 +202,7 @@ class Window2(QMainWindow):
 
         # Создаём окно для ошибки заполнения таблицы
         self.msg = QMessageBox()
-        self.msg.setWindowTitle("Ошибка!")
+        self.msg.setWindowTitle("Ошибка")
         self.msg.setText("Заполните все поля таблицы!")
         self.msg.setIcon(QMessageBox.Critical)
         self.msg.setStandardButtons(QMessageBox.Ok)

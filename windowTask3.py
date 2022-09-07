@@ -222,7 +222,7 @@ class Ui_MainWindow3(object):
         self.actionbtnCheck.setText(_translate("MainWindow3", "btnCheck"))
         self.actionbtnCheck.setToolTip(_translate("MainWindow3", "<html><head/><body><p>Проверить задание</p></body></html>"))
         self.actionbtnDottedConnectNode.setText(_translate("MainWindow3", "btnDottedConnectNode"))
-        self.actionbtnDottedConnectNode.setToolTip(_translate("MainWindow3", "Соединение узлов пунктиром"))
+        self.actionbtnDottedConnectNode.setToolTip(_translate("MainWindow3", "Перемещение пунктирной стрелки"))
 
 
 if __name__ == "__main__":
