@@ -97,7 +97,7 @@ graph = gm.Graph(30) # объект граф
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
     FixedArrowPoint = [-1, -1] # фиксированная стрелка
-    def __init__(self, root, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, graph_in = graph):
+    def __init__(self, root, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, graph_in = graph, late_time = None):
         super().__init__(root)
         self.functionAble = "Добавить вершину"
         self.TempPoints = np.empty(0) # массив временно выделенных вершин
@@ -106,6 +106,7 @@ class Display(QWidget):
         self.start_coordination_Y = start_coordination_Y
         self.step = step
         self.graph = graph_in
+        self.late_time = late_time # поле определяющее как мы изображаем пунктирную стрелку, True - в поздних, False - в ранних, None - в зависимости от резерва времени
         if horizontal:
             self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, True)
         else:
@@ -360,14 +361,45 @@ class Display3(Display):
                         self.graph.Points[i], self.graph.ArrowPoints[i][j], 0)
                     if triangle_source is not None:
                         painter.drawPolygon(triangle_source)
-                        painter.drawLine(QPointF(self.graph.Points[i][0],
-                                                 self.graph.Points[i][1]),
-                                         triangle_source[1])
-                        painter.setPen(Qt.PenStyle.DashLine)
-                        painter.drawLine(triangle_source[1],
-                                         QPointF(self.graph.Points[j][0],
-                                                 self.graph.Points[j][1]))
-                        painter.setPen(Qt.PenStyle.SolidLine)
+                        if (self.late_time == None):  # в зависимости от резерва
+                            if (len(graph.R) > i) and (graph.R[i] > 0):
+                                painter.setPen(Qt.PenStyle.SolidLine)
+                                painter.drawLine(QPointF(self.graph.Points[i][0],
+                                                         self.graph.Points[i][1]),
+                                                 triangle_source[1])
+                                painter.setPen(Qt.PenStyle.DashLine)
+                                painter.drawLine(triangle_source[1],
+                                                 QPointF(self.graph.Points[j][0],
+                                                         self.graph.Points[j][1]))
+                                painter.setPen(Qt.PenStyle.SolidLine)
+                            else:
+                                painter.setPen(Qt.PenStyle.DashLine)
+                                painter.drawLine(QPointF(self.graph.Points[i][0],
+                                                         self.graph.Points[i][1]),
+                                                 triangle_source[1])
+                                painter.setPen(Qt.PenStyle.SolidLine)
+                                painter.drawLine(triangle_source[1],
+                                                 QPointF(self.graph.Points[j][0],
+                                                         self.graph.Points[j][1]))
+                        elif (self.late_time == True):  # в поздних сроках
+                            painter.setPen(Qt.PenStyle.DashLine)
+                            painter.drawLine(QPointF(self.graph.Points[i][0],
+                                                     self.graph.Points[i][1]),
+                                             triangle_source[1])
+                            painter.setPen(Qt.PenStyle.SolidLine)
+                            painter.drawLine(triangle_source[1],
+                                             QPointF(self.graph.Points[j][0],
+                                                     self.graph.Points[j][1]))
+                        else:  # в ранних сроках
+                            painter.setPen(Qt.PenStyle.SolidLine)
+                            painter.drawLine(QPointF(self.graph.Points[i][0],
+                                                     self.graph.Points[i][1]),
+                                             triangle_source[1])
+                            painter.setPen(Qt.PenStyle.DashLine)
+                            painter.drawLine(triangle_source[1],
+                                             QPointF(self.graph.Points[j][0],
+                                                     self.graph.Points[j][1]))
+                            painter.setPen(Qt.PenStyle.SolidLine)
 
         # отрисовка вершин и цифр
         painter.setPen(QPen(QColor("black"), 2.5))

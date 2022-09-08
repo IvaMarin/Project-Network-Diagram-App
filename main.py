@@ -257,9 +257,11 @@ class Window2(QMainWindow):
     def table2Check(self):
         # То же самое для второй таблицы
         Display.graph.tn = numpy.empty((0))
+        Display.graph.R = numpy.empty((0))
         for row in range(self.table2.ui.tableWidget.rowCount()):
             if type(self.table2.ui.tableWidget.item(row, 0)) == QtWidgets.QTableWidgetItem and self.table2.ui.tableWidget.item(row, 0).text() != '':
                 Display.graph.tn = numpy.append(Display.graph.tn, int(self.table2.ui.tableWidget.item(row, 0).text()))
+                Display.graph.R = numpy.append(Display.graph.R, (int(self.table2.ui.tableWidget.item(row, 0).text()) - int(self.table1.ui.tableWidget.item(row, 0).text())))
             else:
                 self.msg.show()
                 break
