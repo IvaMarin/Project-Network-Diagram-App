@@ -97,7 +97,7 @@ graph = gm.Graph(30) # объект граф
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
     FixedArrowPoint = [-1, -1] # фиксированная стрелка
-    def __init__(self, root, graph_in, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True):
+    def __init__(self, root, graph_in, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, late_time = None):
         super().__init__(root)
         self.functionAble = "Добавить вершину"
         self.TempPoints = np.empty(0) # массив временно выделенных вершин

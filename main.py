@@ -37,6 +37,7 @@ import EditTable
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
+graph1 = gm.Graph(30)
 class Window1(QMainWindow):
 
     def __init__(self, parent=None):
@@ -48,8 +49,6 @@ class Window1(QMainWindow):
         self.setWindowTitle("Задача №1")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-
-        graph1 = gm.Graph(30)
         self.centralWidget = Display.Display(self, graph1)
         self.setCentralWidget(self.centralWidget)
 
@@ -165,7 +164,7 @@ class Window2(QMainWindow):
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
         graph2 = gm.Graph(30)
-        self.DisplayObj = Display.Display2(self, graph2)
+        self.DisplayObj = Display.Display2(self, graph1)
         self.layout.addWidget(self.DisplayObj)
         # Создаём виджет таблицы и добавляем его в компоновщик
         self.layout2 = QtWidgets.QVBoxLayout()
@@ -235,7 +234,7 @@ class Window2(QMainWindow):
     def show(self):
         # При вызове окна обновляется кол-во вершин графа
         self.showMaximized()
-        self.cnt = len(Display.graph.Points)
+        self.cnt = len(graph1.Points)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
 
