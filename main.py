@@ -38,6 +38,8 @@ import EditTable
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 graph1 = gm.Graph(30)
+graph3 = gm.Graph(30)
+
 class Window1(QMainWindow):
 
     def __init__(self, parent=None):
@@ -241,32 +243,32 @@ class Window2(QMainWindow):
 
     def table1Check(self):
         # Обнуляем данные в модели
-        Display.graph.tp = numpy.empty((0))
+        graph1.tp = numpy.empty((0))
         # Считываем новые
         for row in range(self.table1.ui.tableWidget.rowCount()):
             # Проверка на пустую ячейку
             if type(self.table1.ui.tableWidget.item(row, 0)) == QtWidgets.QTableWidgetItem and self.table1.ui.tableWidget.item(row, 0).text() != '': 
                 # Добавление значения
-                Display.graph.tp = numpy.append(Display.graph.tp, int(self.table1.ui.tableWidget.item(row, 0).text()))
+                graph1.tp = numpy.append(graph1.tp, int(self.table1.ui.tableWidget.item(row, 0).text()))
             else:
                 # При ошибке вызываем окно
                 self.msg.show()
                 break
-        # print (Display.graph.tp)
+        # print (graph1.tp)
         self.update()
 
     def table2Check(self):
         # То же самое для второй таблицы
-        Display.graph.tn = numpy.empty((0))
-        Display.graph.R = numpy.empty((0))
+        graph1.tn = numpy.empty((0))
+        graph1.R = numpy.empty((0))
         for row in range(self.table2.ui.tableWidget.rowCount()):
             if type(self.table2.ui.tableWidget.item(row, 0)) == QtWidgets.QTableWidgetItem and self.table2.ui.tableWidget.item(row, 0).text() != '':
-                Display.graph.tn = numpy.append(Display.graph.tn, int(self.table2.ui.tableWidget.item(row, 0).text()))
-                Display.graph.R = numpy.append(Display.graph.R, (int(self.table2.ui.tableWidget.item(row, 0).text()) - int(self.table1.ui.tableWidget.item(row, 0).text())))
+                graph1.tn = numpy.append(graph1.tn, int(self.table2.ui.tableWidget.item(row, 0).text()))
+                graph1.R = numpy.append(graph1.R, (int(self.table2.ui.tableWidget.item(row, 0).text()) - int(self.table1.ui.tableWidget.item(row, 0).text())))
             else:
                 self.msg.show()
                 break
-        # print (Display.graph.tn)
+        # print (graph1.tn)
         self.update()
 
     def critPathCheck(self):
@@ -334,7 +336,7 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        graph3 = gm.Graph(30)
+        
 
         self.centralWidget = Display.Display3(self, graph3, 0, 0, 75, [0, 0, 255, 200], False)
         self.setCentralWidget(self.centralWidget)
@@ -452,7 +454,7 @@ class Window4(QMainWindow):
         self.setWindowTitle("Задача №4")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        graph4 = gm.Graph(30)
+        graph4 = graph3
         self.centralWidget = Display.Display3(self, graph4, 0, 0, 75, [0, 0, 255, 200], False)
         self.setCentralWidget(self.centralWidget)
 
