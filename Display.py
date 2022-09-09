@@ -90,9 +90,6 @@ def createGaps(x0=0, y0=0, step=50, sizeNumber = 40, yNumber = 170):
         x0 = x0 + step
 
     return lines
-    
-graph = gm.Graph(30) # объект граф
-#graph3 = gm.Graph(60)
 
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
@@ -187,7 +184,7 @@ class Display(QWidget):
             control.CDeletePoint(self.graph, event, Qt.LeftButton)
 
         elif (self.functionAble == "Переместить вершины"):
-            self.FixedPoint = control.CIsCursorOnPoint(graph, event, Qt.LeftButton)
+            self.FixedPoint = control.CIsCursorOnPoint(self.graph, event, Qt.LeftButton)
 
         self.update()
 
@@ -364,7 +361,7 @@ class Display3(Display):
                     if triangle_source is not None:
                         painter.drawPolygon(triangle_source)
                         if (self.late_time == None):  # в зависимости от резерва
-                            if (len(graph.R) > i) and (graph.R[i] > 0):
+                            if (len(self.graph.R) > i) and (self.graph.R[i] > 0):
                                 painter.setPen(Qt.PenStyle.SolidLine)
                                 painter.drawLine(QPointF(self.graph.Points[i][0],
                                                          self.graph.Points[i][1]),
