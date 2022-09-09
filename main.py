@@ -49,7 +49,8 @@ class Window1(QMainWindow):
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
 
-        self.centralWidget = Display.Display(self)
+        graph1 = gm.Graph(30)
+        self.centralWidget = Display.Display(self, graph1)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -163,7 +164,8 @@ class Window2(QMainWindow):
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
-        self.DisplayObj = Display.Display2(self)
+        graph2 = gm.Graph(30)
+        self.DisplayObj = Display.Display2(self, graph2)
         self.layout.addWidget(self.DisplayObj)
         # Создаём виджет таблицы и добавляем его в компоновщик
         self.layout2 = QtWidgets.QVBoxLayout()
@@ -333,7 +335,7 @@ class Window3(QMainWindow):
         
         graph3 = gm.Graph(30)
 
-        self.centralWidget = Display.Display3(self, 0, 0, 75, [0, 0, 255, 200], False, graph3)
+        self.centralWidget = Display.Display3(self, graph3, 0, 0, 75, [0, 0, 255, 200], False)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -449,8 +451,8 @@ class Window4(QMainWindow):
         self.setWindowTitle("Задача №4")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-
-        self.centralWidget = Display.Display3(self, 0, 0, 75, [0, 0, 255, 200], False)
+        graph4 = gm.Graph(30)
+        self.centralWidget = Display.Display3(self, graph4, 0, 0, 75, [0, 0, 255, 200], False)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -560,9 +562,17 @@ class Window5(QMainWindow):
 
         # Создаём компоновщик
         layout = QtWidgets.QVBoxLayout()
-        layout.addWidget(Color('white'))        #Виджет вставлять сюда
-        layout.addWidget(Color('white'))
-        layout.addWidget(Color('white'))
+        
+        graph51 = gm.Graph(30)
+        graph52 = gm.Graph(30)
+        graph53 = gm.Graph(30)
+
+        self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], True)
+        self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], True)
+        self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], True)
+        layout.addWidget(self.widget1)        #Виджет вставлять сюда
+        layout.addWidget(self.widget2)
+        layout.addWidget(self.widget3)
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
@@ -602,9 +612,83 @@ class Window5(QMainWindow):
             else:
                 event.ignore()
 
-    def _connectAction(self):
-        self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+    def addNode(self):
+        self.widget1.functionAble = "Добавить вершину"
+        self.widget2.functionAble = "Добавить вершину"
+        self.widget3.functionAble = "Добавить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
 
+    def addArrow(self):
+        self.widget1.functionAble = "Добавить связь"
+        self.widget2.functionAble = "Добавить связь"
+        self.widget3.functionAble = "Добавить связь"
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def addDottedArrow(self):
+        self.widget1.functionAble = "Добавить пунктирную связь"
+        self.widget2.functionAble = "Добавить пунктирную связь"
+        self.widget3.functionAble = "Добавить пунктирную связь"
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def removeArrow(self):
+        self.widget1.functionAble = "Удалить связь"
+        self.widget2.functionAble = "Удалить связь"
+        self.widget3.functionAble = "Удалить связь"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def removeNode(self):
+        self.widget1.functionAble = "Удалить вершину"
+        self.widget2.functionAble = "Удалить вершину"
+        self.widget3.functionAble = "Удалить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+
+    def moveNode(self):
+        self.widget1.functionAble = "Переместить вершины"
+        self.widget2.functionAble = "Переместить вершины"
+        self.widget3.functionAble = "Переместить вершины"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # def makeNewFile(self):
+    #     self.centralWidget.functionAble = "Новый файл"
+
+    # def taskCheck(self):
+    #     mistakes = self.centralWidget.checkEvent()
+    #     self.checkForm1 = task1CheckForm(self, mistakes)
+    #     self.checkForm1.exec_()
+
+    def _connectAction(self):
+        self.ui.actionbtnAddNode.triggered.connect(self.addNode)
+        self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
+        self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
+        self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
+        self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
+        self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+        # self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
 
     def backMainMenu(self):
         MainWindow.show()
