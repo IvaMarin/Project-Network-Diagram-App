@@ -338,7 +338,7 @@ class Window3(QMainWindow):
         
         
 
-        self.centralWidget = Display.Display3(self, graph3, 0, 0, 75, [0, 0, 255, 200], False)
+        self.centralWidget = Display.Display3(self, graph3, 0, 0, 75, [0, 0, 255, 200], late_time=False)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -455,7 +455,7 @@ class Window4(QMainWindow):
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
         graph4 = graph3
-        self.centralWidget = Display.Display3(self, graph4, 0, 0, 75, [0, 0, 255, 200], False)
+        self.centralWidget = Display.Display3(self, graph4, 0, 0, 75, [0, 0, 255, 200], late_time=True)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -570,9 +570,9 @@ class Window5(QMainWindow):
         graph52 = gm.Graph(30)
         graph53 = gm.Graph(30)
 
-        self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], True)
-        self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], True)
-        self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], True)
+        self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], base_graph=graph1)
+        self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], base_graph=graph1)
+        self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], base_graph=graph1)
         layout.addWidget(self.widget1)        #Виджет вставлять сюда
         layout.addWidget(self.widget2)
         layout.addWidget(self.widget3)

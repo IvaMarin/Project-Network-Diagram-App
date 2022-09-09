@@ -94,7 +94,7 @@ def createGaps(x0=0, y0=0, step=50, sizeNumber = 40, yNumber = 170):
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
     FixedArrowPoint = [-1, -1] # фиксированная стрелка
-    def __init__(self, root, graph_in, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, late_time = None):
+    def __init__(self, root, graph_in, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, late_time = None, base_graph = None):
         super().__init__(root)
         self.functionAble = "Добавить вершину"
         self.TempPoints = np.empty(0) # массив временно выделенных вершин
@@ -104,6 +104,10 @@ class Display(QWidget):
         self.step = step
         self.graph = graph_in
         self.late_time = late_time # поле определяющее как мы изображаем пунктирную стрелку, True - в поздних, False - в ранних, None - в зависимости от резерва времени
+        if (base_graph == None):
+            self.base_graph = self.graph
+        else:
+            self.base_graph = base_graph
         if horizontal:
             self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, True)
         else:
@@ -361,7 +365,7 @@ class Display3(Display):
                     if triangle_source is not None:
                         painter.drawPolygon(triangle_source)
                         if (self.late_time == None):  # в зависимости от резерва
-                            if (len(self.graph.R) > i) and (self.graph.R[i] > 0):
+                            if (len(self.base_graph.R) > i) and (self.base_graph.R[i] > 0):
                                 painter.setPen(Qt.PenStyle.SolidLine)
                                 painter.drawLine(QPointF(self.graph.Points[i][0],
                                                          self.graph.Points[i][1]),
