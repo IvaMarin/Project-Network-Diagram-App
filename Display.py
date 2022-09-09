@@ -97,7 +97,7 @@ graph = gm.Graph(30) # объект граф
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
     FixedArrowPoint = [-1, -1] # фиксированная стрелка
-    def __init__(self, root, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, graph_in = graph, late_time = None):
+    def __init__(self, root, graph_in, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, late_time = None):
         super().__init__(root)
         self.functionAble = "Добавить вершину"
         self.TempPoints = np.empty(0) # массив временно выделенных вершин
@@ -112,6 +112,7 @@ class Display(QWidget):
         else:
             self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, False)
         self.whiteLines = createGaps(start_coordination_X, start_coordination_Y, step)
+        self.graph_in = graph_in
 
         # print(root.sizeGet())
 
@@ -202,8 +203,9 @@ class Display(QWidget):
 
 class Display2(Display):
 
-    def __init__(self, root):
-        super().__init__(root)
+    def __init__(self, root, graph_in):
+        super().__init__(root, graph_in)
+        self.graph = graph_in
 
     def paintEvent(self, event):
         painter = QPainter(self)
