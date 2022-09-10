@@ -783,6 +783,10 @@ class WindowMenu(QMainWindow):
         self.winEditTable = winEditTable(self) #
         #self.creatTable = WinsDialog.creatTable(self) #
 
+        self.ui.btnReportSign.setEnabled(False)
+        self.ui.btnGenVar.setEnabled(False)
+        self.ui.btnEditTaskVariant.setEnabled(False)
+
         self._connectAction()
         #self.creatReport()
 
@@ -810,11 +814,24 @@ class WindowMenu(QMainWindow):
         self.ui.btnTask4.clicked.connect(lambda: self.openTask(self.ui.btnTask4.text()))
         self.ui.btnTask5.clicked.connect(lambda: self.openTask(self.ui.btnTask5.text()))
         self.ui.btnTask6.clicked.connect(lambda: self.openTask(self.ui.btnTask6.text()))
+        self.ui.btnTeacherMode.clicked.connect(lambda: self.activateTeacherMode())
+
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         #self.ui.previewReport.clicked.connect(lambda: self.creatReport()) #
         self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
 
+
+    def activateTeacherMode (self):
+        if self.ui.btnTeacherMode.isChecked() and (True): # вместо (True) вставить результат проверки шифрованого ключа
+            print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
+            self.ui.btnReportSign.setEnabled(True)
+            self.ui.btnGenVar.setEnabled(True)
+            self.ui.btnEditTaskVariant.setEnabled(True)
+        else:
+            self.ui.btnReportSign.setEnabled(False)
+            self.ui.btnGenVar.setEnabled(False)
+            self.ui.btnEditTaskVariant.setEnabled(False)
     def activateDeveloperMode(self):
         self.name = "Иван"  # данные о студенте проинициализированы
         self.surname = "Иванов"  # данные о студенте проинициализированы
