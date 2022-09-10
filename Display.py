@@ -34,7 +34,10 @@ def calculate_arrow_points(start_point, end_point, radius):
         length = np.sqrt(dx ** 2 + dy ** 2)
 
         # нормализуем
-        norm_x, norm_y = dx / length, dy / length
+        if (length == 0):
+            norm_x, norm_y = 0, 0
+        else:
+            norm_x, norm_y = dx / length, dy / length
 
         # перпендикулярный вектор
         perpendicular_x = -norm_y

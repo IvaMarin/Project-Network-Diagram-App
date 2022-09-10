@@ -11,7 +11,10 @@ def calculate_bound_point(start_point, end_point, radius):
         length = np.sqrt(dx ** 2 + dy ** 2)
 
         # нормализуем
-        norm_x, norm_y = dx / length, dy / length
+        if (length == 0):
+            norm_x, norm_y = 0, 0
+        else:
+            norm_x, norm_y = dx / length, dy / length
 
         middle_point_x = end_point[0] + radius * norm_x
         middle_point_y = end_point[1] + radius * norm_y
@@ -140,10 +143,14 @@ class Graph:
 
 		dx = start_point[0] - end_point[0]
 		dy = start_point[1] - end_point[1]
+		
 		length = np.sqrt(dx ** 2 + dy ** 2)
 
-        # нормализуем
-		norm_x, norm_y = dx / length, dy / length
+		# нормализуем
+		if (length == 0):
+			norm_x, norm_y = 0, 0
+		else:
+			norm_x, norm_y = dx / length, dy / length
 		
 		arrow_height = 10
 		p1_x = start_point[0] - (self.RadiusPoint + arrow_height) * norm_x
@@ -160,15 +167,18 @@ class Graph:
 
 		# параметризация: p1 + t (p2 - p1)
 		# проекция находится где t = [(p3-p1) . (p2-p1)] / |p2-p1|^2
-		t = np.sum((p3 - p1) * (p2 - p1)) / distance
-
+		if (distance == 0):
+			t = 0
+		else:
+			t = np.sum((p3 - p1) * (p2 - p1)) / distance
+			
 		if t > 1:
 			projection = p2
 		elif t <= 0:
 			projection = p1
 		else:
 			projection = p1 + t * (p2 - p1)
-			
+	
 		self.ArrowPoints[index[0], index[1]] = projection
 	
 	# выделить критический путь

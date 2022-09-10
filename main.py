@@ -38,7 +38,6 @@ import EditTable
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 graph1 = gm.Graph(30)
-graph3 = gm.Graph(30)
 
 class Window1(QMainWindow):
 
@@ -336,9 +335,7 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        
-
-        self.centralWidget = Display.Display3(self, graph3, 0, 0, 75, [0, 0, 255, 200], late_time=False)
+        self.centralWidget = Display.Display3(self, graph1, 0, 0, 75, [0, 0, 255, 200], late_time=False)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -454,8 +451,7 @@ class Window4(QMainWindow):
         self.setWindowTitle("Задача №4")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        graph4 = graph3
-        self.centralWidget = Display.Display3(self, graph4, 0, 0, 75, [0, 0, 255, 200], late_time=True)
+        self.centralWidget = Display.Display3(self, graph1, 0, 0, 75, [0, 0, 255, 200], late_time=True)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
