@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainMenu(object):
     def setupUi(self, MainMenu):
         MainMenu.setObjectName("MainMenu")
-        MainMenu.resize(1685, 864)
+        MainMenu.resize(1379, 837)
         MainMenu.setStyleSheet("background-color: #d5fffe;")
         self.centralwidget = QtWidgets.QWidget(MainMenu)
         self.centralwidget.setObjectName("centralwidget")
@@ -170,10 +170,18 @@ class Ui_MainMenu(object):
         self.btnEditTaskVariant.setStyleSheet("background-color: #66e3ff;")
         self.btnEditTaskVariant.setObjectName("btnEditTaskVariant")
         self.gridLayout.addWidget(self.btnEditTaskVariant, 5, 3, 1, 1)
+        self.btnTeacherMode = QtWidgets.QPushButton(self.frame_2)
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.btnTeacherMode.setFont(font)
+        self.btnTeacherMode.setStyleSheet("background-color: #66e3ff;")
+        self.btnTeacherMode.setCheckable(True)
+        self.btnTeacherMode.setObjectName("btnTeacherMode")
+        self.gridLayout.addWidget(self.btnTeacherMode, 6, 3, 1, 1)
         self.verticalLayout.addWidget(self.frame_2)
         MainMenu.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainMenu)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1685, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1379, 26))
         self.menubar.setObjectName("menubar")
         MainMenu.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainMenu)
@@ -207,6 +215,7 @@ class Ui_MainMenu(object):
         self.btnGenVar.setText(_translate("MainMenu", "Генерация вариантов"))
         self.btnReportSign.setText(_translate("MainMenu", "Данные о студенте"))
         self.btnEditTaskVariant.setText(_translate("MainMenu", "Редактировать варианты работ"))
+        self.btnTeacherMode.setText(_translate("MainMenu", "Режим преподавателя"))
 
 
 if __name__ == "__main__":
