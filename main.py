@@ -16,7 +16,7 @@ from borb.pdf import PDF
 
 
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import QRect
+from PyQt5.QtCore import QRect, Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction
 
 ############# Кастомные файлы для проги #####################
@@ -161,13 +161,17 @@ class Window2(QMainWindow):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+
+        #MainWindow.ui.tableVar.
         
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
         graph2 = gm.Graph(30)
         self.DisplayObj = Display.Display2(self, graph1)
-        self.layout.addWidget(self.DisplayObj)
+        self.scroll = QtWidgets.QScrollArea()
+        self.scroll.setWidget(self.DisplayObj)
+        self.layout.addWidget(self.scroll)
         # Создаём виджет таблицы и добавляем его в компоновщик
         self.layout2 = QtWidgets.QVBoxLayout()
         self.table1 = QWidget()
@@ -182,10 +186,12 @@ class Window2(QMainWindow):
         self.widget2 = QWidget()
         self.widget2.setLayout(self.layout2)
         
+        
         self.layout.addWidget(self.widget2)
         # Задаём растяжение объектов в компоновщике
         self.layout.setStretch(0, 1)
         # Задаём компоновку виджету
+        
         self.widget = QWidget()
         self.widget.setLayout(self.layout)
 
@@ -200,6 +206,7 @@ class Window2(QMainWindow):
         height = int(sizeWindow.height() - sizeWindow.height() / 5)
         # вписываем во весь экран
         self.resize(width, height)
+        self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
 
         self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
@@ -573,17 +580,29 @@ class Window5(QMainWindow):
         self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], base_graph=graph1)
         self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], base_graph=graph1)
         self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], base_graph=graph1)
+        self.widget4 = Display.Canvas(self)
+        self.widget1.setMinimumSize(500, 500)
+        self.widget2.setMinimumSize(500, 500)
+        self.widget3.setMinimumSize(500, 500)
+        self.widget4.setMinimumSize(500, 500)
         layout.addWidget(self.widget1)        #Виджет вставлять сюда
         layout.addWidget(self.widget2)
         layout.addWidget(self.widget3)
+        layout.addWidget(self.widget4)
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
 
+        self.scroll = QtWidgets.QScrollArea()
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(widget)
+
         self.ui = Ui_MainWindow3()
         self.ui.setupUi(self)
         # Присваиваем виджет с компоновкой окну
-        self.setCentralWidget(widget)
+        self.setCentralWidget(self.scroll)
 
         self.setWindowTitle("Задача №5")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
