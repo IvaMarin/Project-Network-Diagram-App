@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1685</width>
-    <height>864</height>
+    <width>1379</width>
+    <height>837</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -80,14 +80,14 @@
          <attribute name="horizontalHeaderCascadingSectionResizes">
           <bool>true</bool>
          </attribute>
-         <attribute name="horizontalHeaderMinimumSectionSize">
-          <number>70</number>
-         </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
           <number>374</number>
          </attribute>
          <attribute name="horizontalHeaderHighlightSections">
           <bool>true</bool>
+         </attribute>
+         <attribute name="horizontalHeaderMinimumSectionSize">
+          <number>70</number>
          </attribute>
          <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
           <bool>false</bool>
@@ -101,11 +101,11 @@
          <attribute name="verticalHeaderCascadingSectionResizes">
           <bool>true</bool>
          </attribute>
-         <attribute name="verticalHeaderMinimumSectionSize">
-          <number>25</number>
-         </attribute>
          <attribute name="verticalHeaderDefaultSectionSize">
           <number>35</number>
+         </attribute>
+         <attribute name="verticalHeaderMinimumSectionSize">
+          <number>25</number>
          </attribute>
          <attribute name="verticalHeaderShowSortIndicator" stdset="0">
           <bool>false</bool>
@@ -344,6 +344,24 @@
          </property>
         </widget>
        </item>
+       <item row="6" column="3">
+        <widget class="QPushButton" name="btnTeacherMode">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
+         <property name="text">
+          <string>Режим преподавателя</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -354,8 +372,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1685</width>
-     <height>21</height>
+     <width>1379</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
