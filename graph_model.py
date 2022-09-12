@@ -135,8 +135,8 @@ class Graph:
 	# переместить пунктирную стрелку; параметры: номера вершин, координата х, координата y
 	def MoveArrowPoint(self, index, x, y):
 		# если курсор не наведен на стрелку
-		if index == [-1, -1]:
-			return # ничего не делать
+		# if index == [-1, -1]:
+		# 	return # ничего не делать
 
 		start_point = self.Points[index[0]]
 		end_point = self.Points[index[1]]

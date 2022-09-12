@@ -1,4 +1,8 @@
 from matplotlib import lines
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import sys
+
 import numpy as np
 
 from PyQt5.QtCore import Qt, QRect, QPointF, QLineF
@@ -470,3 +474,21 @@ class Display3(Display):
                 self.graph, event, Qt.LeftButton, self.FixedArrowPoint, self.start_coordination_X, self.step)
 
         self.update()
+
+class Canvas(FigureCanvas):
+    def __init__(self, parent):
+        fig, self.ax = plt.subplots(figsize=(2, 1), dpi=200)
+        super().__init__(fig)
+        self.setParent(parent)
+
+        """ 
+        Matplotlib Script
+        """
+        t = np.arange(0.0, 2.0, 0.01)
+        s = 1 + np.sin(2 * np.pi * t)
+        
+        self.ax.plot(t, s)
+
+        self.ax.set(xlabel='time (s)', ylabel='voltage (mV)',
+               title='About as simple as it gets, folks')
+        self.ax.grid()
