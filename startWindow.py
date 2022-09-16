@@ -114,4 +114,3 @@ class Ui_startWin(object):
         self.labelGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-size:16pt;\">Группа</span></p></body></html>"))
         self.btnSignLab.setText(_translate("startWin", "Начать работу"))
         self.btnDeveloperMode.setText(_translate("startWin", "Режим разработчика"))
-

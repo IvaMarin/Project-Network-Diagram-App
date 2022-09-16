@@ -7,7 +7,7 @@ import numpy as np
 
 from PyQt5.QtCore import Qt, QRect, QPointF, QLineF
 from PyQt5.QtGui import QPainter, QColor, QPolygonF, QPen, QFont
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit
 
 import controller as control
 import graph_model as gm
@@ -135,8 +135,8 @@ class Display(QWidget):
         painter.drawLines(self.lines)
 
         painter.setPen(QColor("black"))
-        font = "Arial"
-        font_size = 14
+        font = "Times"
+        font_size = 12
         painter.setFont(QFont(font, font_size))
         painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
         painter.setBrush(QColor("black"))
@@ -214,6 +214,42 @@ class Display2(Display):
     def __init__(self, root, graph_in):
         super().__init__(root, graph_in)
         self.graph = graph_in
+        self.switch = True
+    
+    def draw_labels(self):
+        self.label = np.zeros_like(self.graph.AdjacencyMatrix, dtype=QLineEdit)
+
+        for i in range(len(self.graph.AdjacencyMatrix)):
+            for j in range(len(self.graph.AdjacencyMatrix)):
+                # если существует связь
+                if (self.graph.AdjacencyMatrix[i][j] != 0 and 
+                    (not np.isnan(self.graph.Points[i][0])) and
+                    (not np.isnan(self.graph.Points[j][0]))):
+
+                    # определим где отрисовать вес ребра/стрелки
+                    cos_sign = self.graph.Points[j][0] - self.graph.Points[i][0]
+                    sin_sign = self.graph.Points[j][1] - self.graph.Points[i][1]
+                    offset = 10
+                    if ((cos_sign >= 0 and sin_sign >= 0) or (cos_sign <= 0 and sin_sign <= 0)):
+                        x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 + offset
+                    else:
+                        x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 - offset
+                    y = ((int)(self.graph.Points[i][1]) + (int)(self.graph.Points[j][1])) / 2 - offset
+
+                    self.label[i][j] = (QLineEdit(self))
+                    self.label[i][j].setAlignment(Qt.AlignHCenter)
+
+                    font = 'Times'
+                    font_size = 12
+                    self.label[i][j].setFont(QFont(font, font_size))
+                    
+                    self.label[i][j].move(x, y)
+                    self.label[i][j].resize(50,50)
+
+                    self.label[i][j].setStyleSheet("border :2px solid black;")
+                    
+                    self.label[i][j].setInputMask("00")
+                    self.label[i][j].show()
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -225,7 +261,7 @@ class Display2(Display):
         painter.drawLines(self.lines)
 
         painter.setPen(QColor("black"))
-        font = "Arial"
+        font = 'Times'
         font_size = 12
         painter.setFont(QFont(font, font_size))
         painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
@@ -254,19 +290,6 @@ class Display2(Display):
                                          (int)(self.graph.Points[i][1]),
                                          (int)(self.graph.Points[j][0]),
                                          (int)(self.graph.Points[j][1]))
-                        # определим где отрисовать вес ребра/стрелки
-                        cos_sign = self.graph.Points[j][0] - self.graph.Points[i][0]
-                        sin_sign = self.graph.Points[j][1] - self.graph.Points[i][1]
-                        offset = 10
-                        if ((cos_sign >= 0 and sin_sign >= 0) or (cos_sign <= 0 and sin_sign <= 0)):
-                            x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 + offset
-                        else:
-                            x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 - offset
-                        y = ((int)(self.graph.Points[i][1]) + (int)(self.graph.Points[j][1])) / 2 - offset
-
-                        # сюда нужно передать парметр веса для i-го ребра
-                        weight = 'w'
-                        painter.drawText(x, y, f'{weight}')
 
         # отрисовка вершин и цифр
         painter.setPen(QPen(QColor("black"), 2.5))
@@ -310,6 +333,12 @@ class Display2(Display):
 
                 x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
                 painter.drawText(x+x_off, y+line_off+0.5*y_off, f'{R}')
+        
+        if self.switch:
+            self.draw_labels()
+            self.switch = False
+
+        self.update()
 
     def mousePressEvent(self, event):
         if (self.functionAble == "Критический путь"):
@@ -341,8 +370,8 @@ class Display3(Display):
         painter.drawLines(self.whiteLines)
 
         painter.setPen(QColor("black"))
-        font = "Arial"
-        font_size = 14
+        font = 'Times'
+        font_size = 12
         painter.setFont(QFont(font, font_size))
         painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
         painter.setBrush(QColor("black"))

@@ -166,7 +166,6 @@ class Window2(QMainWindow):
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
-        graph2 = gm.Graph(30)
         self.DisplayObj = Display.Display2(self, graph1)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -573,9 +572,9 @@ class Window5(QMainWindow):
         graph52 = gm.Graph(30)
         graph53 = gm.Graph(30)
 
-        self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], base_graph=graph1)
-        self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], base_graph=graph1)
-        self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], base_graph=graph1)
+        self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
         self.widget4 = Display.Canvas(self)
         self.widget1.setMinimumSize(500, 500)
         self.widget2.setMinimumSize(500, 500)
