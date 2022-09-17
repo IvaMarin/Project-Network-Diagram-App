@@ -121,7 +121,7 @@ class Display(QWidget):
             self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, False)
         self.whiteLines = createGaps(start_coordination_X, start_coordination_Y, step)
         self.graph_in = graph_in
-
+        self.switch = True
         # print(root.sizeGet())
 
 
@@ -208,15 +208,7 @@ class Display(QWidget):
         mistakes = checker.checkTask1(self.graph, CorrectAdjacencyMatrix1)
         return mistakes
 
-
-class Display2(Display):
-
-    def __init__(self, root, graph_in):
-        super().__init__(root, graph_in)
-        self.graph = graph_in
-        self.switch = True
-    
-    def draw_labels(self):
+    def _drawLabels(self):
         self.label = np.zeros_like(self.graph.AdjacencyMatrix, dtype=QLineEdit)
 
         for i in range(len(self.graph.AdjacencyMatrix)):
@@ -251,6 +243,13 @@ class Display2(Display):
                     self.label[i][j].setInputMask("00")
                     self.label[i][j].show()
 
+class Display2(Display):
+
+    def __init__(self, root, graph_in):
+        super().__init__(root, graph_in)
+        self.graph = graph_in
+        self.switch = True
+    
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
@@ -335,7 +334,7 @@ class Display2(Display):
                 painter.drawText(x+x_off, y+line_off+0.5*y_off, f'{R}')
         
         if self.switch:
-            self.draw_labels()
+            self._drawLabels()
             self.switch = False
 
         self.update()
@@ -489,7 +488,13 @@ class Display3(Display):
 
         elif (self.functionAble == "Добавить пунктирную связь"):
             self.FixedArrowPoint = control.CIsCursorOnArrowPoint(
-                self.graph, event, Qt.LeftButton)
+                self.graph, event, Qt.LeftButton)  
+
+            # !!! необходимо этот код перенсти в отдельную кнопку   
+            if self.switch == True:
+                self._drawLabels()
+                self.switch = False
+            # !!!
 
         self.update()
 
