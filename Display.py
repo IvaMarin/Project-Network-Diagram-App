@@ -13,18 +13,6 @@ import controller as control
 import graph_model as gm
 import checker
 
-# матрица смежности соответствующая варианту 1, 
-# в дальнейшемй нужно заменить на считывание из файла
-CorrectAdjacencyMatrix1 = np.array([[0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-                                    [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
-                                    [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-                                    [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
-                                    [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-                                    [0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
-                                    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
 # функция для вычисления точек полигона стрелки
 def calculate_arrow_points(start_point, end_point, radius):
@@ -205,7 +193,7 @@ class Display(QWidget):
         self.update()
         
     def checkEvent(self):
-        mistakes = checker.checkTask1(self.graph, CorrectAdjacencyMatrix1)
+        mistakes = checker.checkTask1(self.graph, self.graph.CorrectAdjacencyMatrix)
         return mistakes
 
     def _drawLabels(self):

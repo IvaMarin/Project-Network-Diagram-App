@@ -1,6 +1,6 @@
 
 import sys, os
-import numpy
+import numpy as np
 from pathlib import Path
 ### Для обработки .xlsx файлов ##############
 import openpyxl
@@ -50,6 +50,7 @@ class Window1(QMainWindow):
         self.setWindowTitle("Задача №1")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
+        graph1.CorrectAdjacencyMatrix = MainWindow.getCorrectAdjacencyMatrix()
         self.centralWidget = Display.Display(self, graph1)
         self.setCentralWidget(self.centralWidget)
 
@@ -248,13 +249,13 @@ class Window2(QMainWindow):
 
     def table1Check(self):
         # Обнуляем данные в модели
-        graph1.tp = numpy.empty((0))
+        graph1.tp = np.empty((0))
         # Считываем новые
         for row in range(self.table1.ui.tableWidget.rowCount()):
             # Проверка на пустую ячейку
             if type(self.table1.ui.tableWidget.item(row, 0)) == QtWidgets.QTableWidgetItem and self.table1.ui.tableWidget.item(row, 0).text() != '': 
                 # Добавление значения
-                graph1.tp = numpy.append(graph1.tp, int(self.table1.ui.tableWidget.item(row, 0).text()))
+                graph1.tp = np.append(graph1.tp, int(self.table1.ui.tableWidget.item(row, 0).text()))
             else:
                 # При ошибке вызываем окно
                 self.msg.show()
@@ -264,12 +265,12 @@ class Window2(QMainWindow):
 
     def table2Check(self):
         # То же самое для второй таблицы
-        graph1.tn = numpy.empty((0))
-        graph1.R = numpy.empty((0))
+        graph1.tn = np.empty((0))
+        graph1.R = np.empty((0))
         for row in range(self.table2.ui.tableWidget.rowCount()):
             if type(self.table2.ui.tableWidget.item(row, 0)) == QtWidgets.QTableWidgetItem and self.table2.ui.tableWidget.item(row, 0).text() != '':
-                graph1.tn = numpy.append(graph1.tn, int(self.table2.ui.tableWidget.item(row, 0).text()))
-                graph1.R = numpy.append(graph1.R, (int(self.table2.ui.tableWidget.item(row, 0).text()) - int(self.table1.ui.tableWidget.item(row, 0).text())))
+                graph1.tn = np.append(graph1.tn, int(self.table2.ui.tableWidget.item(row, 0).text()))
+                graph1.R = np.append(graph1.R, (int(self.table2.ui.tableWidget.item(row, 0).text()) - int(self.table1.ui.tableWidget.item(row, 0).text())))
             else:
                 self.msg.show()
                 break
@@ -813,6 +814,24 @@ class WindowMenu(QMainWindow):
         quit.triggered.connect(self.closeEvent)
 
         self.testGen()
+
+    def getCorrectAdjacencyMatrix(self):
+        arr = []
+        n = 0
+        for row in range(self.ui.tableVar.rowCount()-1):
+            i, j = self.ui.tableVar.item(row, 0).text().split("-")
+            i, j = int(i), int(j)
+            arr.append((i, j))
+            if (i > n):
+                n = i
+            if (j > n):
+                n = j
+
+        CorrectAdjacencyMatrix = np.zeros((n+1, n+1), int)
+        for i, j in arr:
+            CorrectAdjacencyMatrix[i][j] = 1
+           
+        return CorrectAdjacencyMatrix
 
     def closeEvent(self, event):
         close = QMessageBox()
