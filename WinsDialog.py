@@ -103,12 +103,12 @@ class winLogin(QtWidgets.QDialog):
         self.ui.lineEditSurname.setValidator(val)
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
-        width = int(sizeWindow.width() - (sizeWindow.width()) / 3)      # выставляем ширину окна
-        height = int(sizeWindow.height() - (sizeWindow.height()) / 3)   # выставляем длину окна
+        width = int(sizeWindow.width())      # выставляем ширину окна
+        height = int(sizeWindow.height())   # выставляем длину окна
         # присваиваем параметры длины и ширины окну
         self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
+        #self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
         self._connectAction() # ф-ия связи с эл-тами окна
 

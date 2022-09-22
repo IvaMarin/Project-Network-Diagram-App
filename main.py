@@ -23,6 +23,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAc
 from MainMenu import Ui_MainMenu
 from windowTask1 import Ui_MainWindow1
 from windowTask3 import Ui_MainWindow3
+from windowTask5 import Ui_MainWindow5
 from windowTask2 import Ui_MainWindow2
 from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
@@ -524,7 +525,7 @@ class Window5(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(widget)
 
-        self.ui = Ui_MainWindow3()
+        self.ui = Ui_MainWindow5()
         self.ui.setupUi(self)
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(self.scroll)
@@ -725,6 +726,7 @@ class WindowMenu(QMainWindow):
         self.numINGroup = "9"  # данные о студенте проинициализированы
 
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
+        self.show()
         self.startWindow.exec_() # его запуск в отдельном потоке
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.winEditTable = winEditTable(self) #
@@ -923,6 +925,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     MainWindow = WindowMenu()
+    #MainWindow.show()
     MainWindow1 = Window1()
     MainWindow2 = Window2()
     MainWindow3 = Window3()
@@ -930,5 +933,4 @@ if __name__ == "__main__":
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 
-    MainWindow.show()
     sys.exit(app.exec_())
