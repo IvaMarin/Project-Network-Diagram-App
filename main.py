@@ -366,6 +366,22 @@ class Window3(QMainWindow):
             else:
                 event.ignore()
 
+    def addNode(self):
+        self.centralWidget.functionAble = "Добавить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def addArrow(self):
+        self.centralWidget.functionAble = "Добавить связь"
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
     def addDottedArrow(self):
         self.centralWidget.functionAble = "Добавить пунктирную связь"
         self.ui.actionbtnAddNode.setChecked(False)
@@ -373,6 +389,22 @@ class Window3(QMainWindow):
         self.ui.actionbtnMoveNode.setChecked(False)
         self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def removeArrow(self):
+        self.centralWidget.functionAble = "Удалить связь"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def removeNode(self):
+        self.centralWidget.functionAble = "Удалить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
 
     def moveNode(self):
         self.centralWidget.functionAble = "Переместить вершины"
@@ -391,7 +423,11 @@ class Window3(QMainWindow):
         self.checkForm1.exec_()
 
     def _connectAction(self):
+        self.ui.actionbtnAddNode.triggered.connect(self.addNode)
+        self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
+        self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
+        self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
@@ -446,6 +482,22 @@ class Window4(QMainWindow):
             else:
                 event.ignore()
 
+    def addNode(self):
+        self.centralWidget.functionAble = "Добавить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def addArrow(self):
+        self.centralWidget.functionAble = "Добавить связь"
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
     def addDottedArrow(self):
         self.centralWidget.functionAble = "Добавить пунктирную связь"
         self.ui.actionbtnAddNode.setChecked(False)
@@ -453,6 +505,22 @@ class Window4(QMainWindow):
         self.ui.actionbtnMoveNode.setChecked(False)
         self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def removeArrow(self):
+        self.centralWidget.functionAble = "Удалить связь"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def removeNode(self):
+        self.centralWidget.functionAble = "Удалить вершину"
+        self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnAddNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
 
     def moveNode(self):
         self.centralWidget.functionAble = "Переместить вершины"
@@ -471,7 +539,11 @@ class Window4(QMainWindow):
         self.checkForm1.exec_()
 
     def _connectAction(self):
+        self.ui.actionbtnAddNode.triggered.connect(self.addNode)
+        self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
+        self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
+        self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
@@ -720,6 +792,7 @@ class WindowMenu(QMainWindow):
         self.setWindowTitle("Меню")
         self.sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
+        self.name = "Иван"      # данные о студенте проинициализированы
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы
@@ -798,7 +871,8 @@ class WindowMenu(QMainWindow):
             self.ui.btnGenVar.setEnabled(False)
             self.ui.btnEditTaskVariant.setEnabled(False)
     def activateDeveloperMode(self):
-        self.surname = "ADMINadminAdmin"  # данные о студенте проинициализированы
+        self.name = "Иван"  # данные о студенте проинициализированы
+        self.surname = "Иванов"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы
 
