@@ -55,7 +55,8 @@
       <widget class="QLabel" name="labelHelpLeft">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
         </font>
        </property>
        <property name="text">
@@ -67,7 +68,8 @@
       <widget class="QLineEdit" name="lineEdit">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
         </font>
        </property>
        <property name="styleSheet">
@@ -82,7 +84,8 @@
       <widget class="QLabel" name="labelHelpRight">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
         </font>
        </property>
        <property name="text">
@@ -94,7 +97,8 @@
       <widget class="QPushButton" name="btnCreatTable">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="styleSheet">
@@ -131,7 +135,8 @@
       <widget class="QLabel" name="labelHelp">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
         </font>
        </property>
        <property name="text">
@@ -143,7 +148,8 @@
       <widget class="QComboBox" name="comboBoxVariants">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
         </font>
        </property>
        <property name="styleSheet">
@@ -155,7 +161,8 @@
       <widget class="QPushButton" name="btnEditTable">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="styleSheet">
@@ -170,7 +177,8 @@
       <widget class="QPushButton" name="btnDeletTable">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>16</pointsize>
         </font>
        </property>
        <property name="styleSheet">
