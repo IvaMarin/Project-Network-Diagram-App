@@ -22,10 +22,10 @@ class task1CheckForm(QtWidgets.QDialog):
 
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
-        width = int(sizeWindow.width() - (sizeWindow.width() * 2) / 3)      # выставляем ширину окна
-        height = int(sizeWindow.height() - (sizeWindow.height() * 2) / 3)   # выставляем длину окна
-        # присваиваем параметры длины и ширины окну
-        self.resize(width, height)
+        # width = int(sizeWindow.width() - (sizeWindow.width() * 2) / 3)      # выставляем ширину окна
+        # height = int(sizeWindow.height() - (sizeWindow.height() * 2) / 3)   # выставляем длину окна
+        # # присваиваем параметры длины и ширины окну
+        # self.resize(width, height)
 
         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 

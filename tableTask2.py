@@ -20,12 +20,19 @@ class Ui_tableTask2Widget(object):
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(1)
         self.tableWidget.setRowCount(50)
-        self.tableWidget.setMinimumWidth(175)
-        self.tableWidget.setMaximumWidth(175)
+        self.tableWidget.setMinimumWidth(145)
+        self.tableWidget.setMaximumWidth(145)
+        item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        item.setFont(font)
+        self.tableWidget.setHorizontalHeaderItem(0, item)
         self.tableWidget.setHorizontalHeaderLabels(["Ранний срок"]) #, "Поздний срок"
+        
         self.verticalLayout.addWidget(self.tableWidget)
         self.tableCheckButton = QtWidgets.QPushButton(tableTask2Widget)
         self.tableCheckButton.setObjectName("tableCheckButton")
+        self.tableCheckButton.setFont(font)
         self.verticalLayout.addWidget(self.tableCheckButton)
 
         self.retranslateUi(tableTask2Widget)
