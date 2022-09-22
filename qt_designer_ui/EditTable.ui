@@ -18,6 +18,7 @@
     <widget class="QTableWidget" name="tableTaskVar">
      <property name="font">
       <font>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -71,13 +72,19 @@
    </item>
    <item>
     <widget class="QSplitter" name="splitter">
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
      <widget class="QPushButton" name="btnSaveTable">
       <property name="font">
        <font>
-        <pointsize>14</pointsize>
+        <family>Times New Roman</family>
+        <pointsize>16</pointsize>
        </font>
       </property>
       <property name="styleSheet">
@@ -96,7 +103,8 @@
      <widget class="QPushButton" name="btnAddStrInTable">
       <property name="font">
        <font>
-        <pointsize>14</pointsize>
+        <family>Times New Roman</family>
+        <pointsize>16</pointsize>
        </font>
       </property>
       <property name="styleSheet">
@@ -109,7 +117,8 @@
      <widget class="QPushButton" name="btnDelStrLast">
       <property name="font">
        <font>
-        <pointsize>14</pointsize>
+        <family>Times New Roman</family>
+        <pointsize>16</pointsize>
        </font>
       </property>
       <property name="styleSheet">
@@ -122,7 +131,8 @@
      <widget class="QPushButton" name="btnExitAndClose">
       <property name="font">
        <font>
-        <pointsize>14</pointsize>
+        <family>Times New Roman</family>
+        <pointsize>16</pointsize>
        </font>
       </property>
       <property name="styleSheet">

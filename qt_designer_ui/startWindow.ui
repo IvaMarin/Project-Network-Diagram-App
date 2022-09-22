@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1328</width>
-    <height>853</height>
+    <height>843</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,6 +31,11 @@
    </property>
    <item>
     <widget class="QLabel" name="labelWelcome">
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+      </font>
+     </property>
      <property name="lineWidth">
       <number>5</number>
      </property>
@@ -56,18 +61,12 @@
      <property name="bottomMargin">
       <number>10</number>
      </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="labelSurname">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Фамилия&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="lineEditSurname">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
         </font>
        </property>
        <property name="styleSheet">
@@ -82,42 +81,24 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="labelName">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Имя&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEditName">
+      <widget class="QLabel" name="labelNumGroup">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
         </font>
        </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: #fffaea;</string>
-       </property>
-       <property name="inputMethodHints">
-        <set>Qt::ImhDialableCharactersOnly</set>
-       </property>
-       <property name="maxLength">
-        <number>25</number>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="labelNumGroup">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Номер по списку в группе&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="1" column="1">
       <widget class="QLineEdit" name="lineEditNumINGroup">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
         </font>
        </property>
        <property name="styleSheet">
@@ -134,18 +115,25 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="2" column="0">
       <widget class="QLabel" name="labelGroup">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Группа&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="2" column="1">
       <widget class="QLineEdit" name="lineEditGroup">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
         </font>
        </property>
        <property name="styleSheet">
@@ -159,14 +147,34 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="3" column="0">
+      <widget class="QPushButton" name="btnDeveloperMode">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #66e3ff;</string>
+       </property>
+       <property name="text">
+        <string>Режим разработчика</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
       <widget class="QPushButton" name="btnSignLab">
        <property name="enabled">
         <bool>true</bool>
        </property>
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>16</pointsize>
          <weight>50</weight>
          <bold>false</bold>
          <underline>false</underline>
@@ -190,21 +198,16 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QPushButton" name="btnDeveloperMode">
+     <item row="0" column="0">
+      <widget class="QLabel" name="labelSurname">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
         </font>
        </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: #66e3ff;</string>
-       </property>
        <property name="text">
-        <string>Режим разработчика</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;ФИО&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>

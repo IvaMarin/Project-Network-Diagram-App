@@ -23,6 +23,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAc
 from MainMenu import Ui_MainMenu
 from windowTask1 import Ui_MainWindow1
 from windowTask3 import Ui_MainWindow3
+from windowTask5 import Ui_MainWindow5
 from windowTask2 import Ui_MainWindow2
 from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
@@ -366,22 +367,6 @@ class Window3(QMainWindow):
             else:
                 event.ignore()
 
-    def addNode(self):
-        self.centralWidget.functionAble = "Добавить вершину"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
-
-    def addArrow(self):
-        self.centralWidget.functionAble = "Добавить связь"
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
-
     def addDottedArrow(self):
         self.centralWidget.functionAble = "Добавить пунктирную связь"
         self.ui.actionbtnAddNode.setChecked(False)
@@ -389,22 +374,6 @@ class Window3(QMainWindow):
         self.ui.actionbtnMoveNode.setChecked(False)
         self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnRemoveNode.setChecked(False)
-
-    def removeArrow(self):
-        self.centralWidget.functionAble = "Удалить связь"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
-
-    def removeNode(self):
-        self.centralWidget.functionAble = "Удалить вершину"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
 
     def moveNode(self):
         self.centralWidget.functionAble = "Переместить вершины"
@@ -423,11 +392,7 @@ class Window3(QMainWindow):
         self.checkForm1.exec_()
 
     def _connectAction(self):
-        self.ui.actionbtnAddNode.triggered.connect(self.addNode)
-        self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
-        self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
-        self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
@@ -482,22 +447,6 @@ class Window4(QMainWindow):
             else:
                 event.ignore()
 
-    def addNode(self):
-        self.centralWidget.functionAble = "Добавить вершину"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
-
-    def addArrow(self):
-        self.centralWidget.functionAble = "Добавить связь"
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
-
     def addDottedArrow(self):
         self.centralWidget.functionAble = "Добавить пунктирную связь"
         self.ui.actionbtnAddNode.setChecked(False)
@@ -505,22 +454,6 @@ class Window4(QMainWindow):
         self.ui.actionbtnMoveNode.setChecked(False)
         self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnRemoveNode.setChecked(False)
-
-    def removeArrow(self):
-        self.centralWidget.functionAble = "Удалить связь"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
-
-    def removeNode(self):
-        self.centralWidget.functionAble = "Удалить вершину"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
 
     def moveNode(self):
         self.centralWidget.functionAble = "Переместить вершины"
@@ -539,11 +472,7 @@ class Window4(QMainWindow):
         self.checkForm1.exec_()
 
     def _connectAction(self):
-        self.ui.actionbtnAddNode.triggered.connect(self.addNode)
-        self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
-        self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
-        self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
@@ -596,7 +525,7 @@ class Window5(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(widget)
 
-        self.ui = Ui_MainWindow3()
+        self.ui = Ui_MainWindow5()
         self.ui.setupUi(self)
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(self.scroll)
@@ -792,12 +721,12 @@ class WindowMenu(QMainWindow):
         self.setWindowTitle("Меню")
         self.sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
-        self.name = "Иван"      # данные о студенте проинициализированы
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы
 
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
+        self.show()
         self.startWindow.exec_() # его запуск в отдельном потоке
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.winEditTable = winEditTable(self) #
@@ -871,8 +800,7 @@ class WindowMenu(QMainWindow):
             self.ui.btnGenVar.setEnabled(False)
             self.ui.btnEditTaskVariant.setEnabled(False)
     def activateDeveloperMode(self):
-        self.name = "Иван"  # данные о студенте проинициализированы
-        self.surname = "Иванов"  # данные о студенте проинициализированы
+        self.surname = "ADMINadminAdmin"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы
 
@@ -997,6 +925,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     MainWindow = WindowMenu()
+    #MainWindow.show()
     MainWindow1 = Window1()
     MainWindow2 = Window2()
     MainWindow3 = Window3()
@@ -1004,5 +933,4 @@ if __name__ == "__main__":
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 
-    MainWindow.show()
     sys.exit(app.exec_())

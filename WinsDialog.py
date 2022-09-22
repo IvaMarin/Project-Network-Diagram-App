@@ -29,7 +29,6 @@ class winSigReport(QtWidgets.QDialog):
         rx = QtCore.QRegExp("[a-zA-Zа-яА-Я .,]{100}")
         val = QtGui.QRegExpValidator(rx)
         self.ui.lineEditSurname.setValidator(val)
-        self.ui.lineEditName.setValidator(val)
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
         width = int(sizeWindow.width() - (sizeWindow.width()) * 2 / 3)      # выставляем ширину окна
@@ -39,8 +38,7 @@ class winSigReport(QtWidgets.QDialog):
 
         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
-        self.ui.lineEditName.insert(self.mainMenu.name)             # подгружаем из mainMenu данные если они уже были указаны
-        self.ui.lineEditSurname.insert(self.mainMenu.surname)       #
+        self.ui.lineEditSurname.insert(self.mainMenu.surname)       # подгружаем из mainMenu данные если они уже были указаны
         self.ui.lineEditNumINGroup.insert(self.mainMenu.numINGroup) #
         self.ui.lineEditGroup.insert(self.mainMenu.numGroup)        #
 
@@ -53,7 +51,6 @@ class winSigReport(QtWidgets.QDialog):
         if self.checkInputData() : # проверка входящих данных
             return
         else:
-            self.mainMenu.name = self.ui.lineEditName.text()  # сохраняем в класс WindowMenu имя
             self.mainMenu.surname = self.ui.lineEditSurname.text()  # сохраняем в класс WindowMenu фамилию
             self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()  # сохраняем в класс WindowMenu группу
             self.mainMenu.numGroup = self.ui.lineEditGroup.text()  # сохраняем в класс WindowMenu группу
@@ -68,8 +65,7 @@ class winSigReport(QtWidgets.QDialog):
         fileName = "В" + self.ui.lineEditNumINGroup.text() + ".xlsx"
         pathFileXlsx = os.path.join("resources", "variants", fileName)
 
-        if self.ui.lineEditName.text() == "" or\
-                self.ui.lineEditSurname.text() == "" or\
+        if self.ui.lineEditSurname.text() == "" or\
                 self.ui.lineEditNumINGroup.text() == "" or\
                 self.ui.lineEditGroup.text() == "": # если существует незаполненная строка, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
@@ -105,15 +101,14 @@ class winLogin(QtWidgets.QDialog):
         rx = QtCore.QRegExp("[a-zA-Zа-яА-Я .,]{100}")
         val = QtGui.QRegExpValidator(rx)
         self.ui.lineEditSurname.setValidator(val)
-        self.ui.lineEditName.setValidator(val)
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
-        width = int(sizeWindow.width() - (sizeWindow.width()) / 3)      # выставляем ширину окна
-        height = int(sizeWindow.height() - (sizeWindow.height()) / 3)   # выставляем длину окна
+        width = int(sizeWindow.width())      # выставляем ширину окна
+        height = int(sizeWindow.height())   # выставляем длину окна
         # присваиваем параметры длины и ширины окну
         self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
+        #self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
         self._connectAction() # ф-ия связи с эл-тами окна
 
@@ -143,8 +138,7 @@ class winLogin(QtWidgets.QDialog):
         fileName = "В" + self.ui.lineEditNumINGroup.text() + ".xlsx"
         pathFileXlsx = os.path.join("resources", "variants", fileName)
 
-        if self.ui.lineEditName.text() == "" or\
-                self.ui.lineEditSurname.text() == "" or\
+        if self.ui.lineEditSurname.text() == "" or\
                 self.ui.lineEditNumINGroup.text() == "" or\
                 self.ui.lineEditGroup.text() == "":# если существует незаполненная строка, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
@@ -172,15 +166,12 @@ class winLogin(QtWidgets.QDialog):
     def activateDeveloperMode (self):
         self.mainMenu.activateDeveloperMode()
 
-        self.ui.lineEditName.insert(self.mainMenu.name)              # подгружаем из mainMenu данные если они уже были указаны
-        self.ui.lineEditSurname.insert(self.mainMenu.surname)        #
+        self.ui.lineEditSurname.insert(self.mainMenu.surname)        # подгружаем из mainMenu данные если они уже были указаны
         self.ui.lineEditNumINGroup.insert(self.mainMenu.numINGroup)  #
         self.ui.lineEditGroup.insert(self.mainMenu.numGroup)         #
 
 
     def saveData(self): # сохраняем имя фамилию и № группы полученные в этом диалоговом окне
-        #if
-        self.mainMenu.name = self.ui.lineEditName.text()        # сохраняем в класс WindowMenu имя
         self.mainMenu.surname = self.ui.lineEditSurname.text()  # сохраняем в класс WindowMenu фамилию
         self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()# сохраняем в класс WindowMenu группу
         self.mainMenu.numGroup = self.ui.lineEditGroup.text()  # сохраняем в класс WindowMenu группу
