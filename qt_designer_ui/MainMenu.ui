@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1379</width>
+    <width>1204</width>
     <height>837</height>
    </rect>
   </property>
@@ -34,6 +34,7 @@
          </property>
          <property name="font">
           <font>
+           <family>Times New Roman</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -80,14 +81,14 @@
          <attribute name="horizontalHeaderCascadingSectionResizes">
           <bool>true</bool>
          </attribute>
+         <attribute name="horizontalHeaderMinimumSectionSize">
+          <number>70</number>
+         </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
           <number>374</number>
          </attribute>
          <attribute name="horizontalHeaderHighlightSections">
           <bool>true</bool>
-         </attribute>
-         <attribute name="horizontalHeaderMinimumSectionSize">
-          <number>70</number>
          </attribute>
          <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
           <bool>false</bool>
@@ -101,11 +102,11 @@
          <attribute name="verticalHeaderCascadingSectionResizes">
           <bool>true</bool>
          </attribute>
-         <attribute name="verticalHeaderDefaultSectionSize">
-          <number>35</number>
-         </attribute>
          <attribute name="verticalHeaderMinimumSectionSize">
           <number>25</number>
+         </attribute>
+         <attribute name="verticalHeaderDefaultSectionSize">
+          <number>35</number>
          </attribute>
          <attribute name="verticalHeaderShowSortIndicator" stdset="0">
           <bool>false</bool>
@@ -172,6 +173,11 @@
     </item>
     <item>
      <widget class="QFrame" name="frame_2">
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -183,7 +189,8 @@
         <widget class="QPushButton" name="btnTask1">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -198,7 +205,8 @@
         <widget class="QPushButton" name="btnTask4">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -213,7 +221,8 @@
         <widget class="QPushButton" name="btnTask3">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -228,7 +237,8 @@
         <widget class="QPushButton" name="btnTask6">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -243,7 +253,8 @@
         <widget class="QPushButton" name="btnTask5">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -258,7 +269,8 @@
         <widget class="QPushButton" name="btnTask2">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -273,7 +285,8 @@
         <widget class="QPushButton" name="previewReport">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -288,7 +301,8 @@
         <widget class="QPushButton" name="btnPrint">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -303,7 +317,8 @@
         <widget class="QPushButton" name="btnGenVar">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -318,7 +333,8 @@
         <widget class="QPushButton" name="btnReportSign">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -333,7 +349,8 @@
         <widget class="QPushButton" name="btnEditTaskVariant">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -348,7 +365,8 @@
         <widget class="QPushButton" name="btnTeacherMode">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -372,8 +390,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1379</width>
-     <height>26</height>
+     <width>1204</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
