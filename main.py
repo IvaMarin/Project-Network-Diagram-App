@@ -35,10 +35,31 @@ from task1CheckForm import task1CheckForm
 import graph_model as gm
 import EditTable
 
+############ глобальные переменные ###########
+
+graph1 = gm.Graph(30) # граф из первого окна (главный)
+graph5 = [] # графы по количеству отделений
+
+
+
+def maxSquadNum():
+    maxSquadNum = 1
+    for row in range(MainWindow.ui.tableVar.rowCount()-1):
+        if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
+            i = int(MainWindow.ui.tableVar.item(row, 1).text())
+        if maxSquadNum < i:
+            maxSquadNum = i
+    return maxSquadNum
+
+
+
+
+
+
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
-graph1 = gm.Graph(30)
+
 
 class Window1(QMainWindow):
 
@@ -370,19 +391,14 @@ class Window3(QMainWindow):
 
     def addDottedArrow(self):
         self.centralWidget.functionAble = "Добавить пунктирную связь"
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        #self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
 
     def moveNode(self):
         self.centralWidget.functionAble = "Переместить вершины"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        #self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        
 
     def makeNewFile(self):
         self.centralWidget.functionAble = "Новый файл"
@@ -450,19 +466,13 @@ class Window4(QMainWindow):
 
     def addDottedArrow(self):
         self.centralWidget.functionAble = "Добавить пунктирную связь"
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        #self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
 
     def moveNode(self):
         self.centralWidget.functionAble = "Переместить вершины"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        #self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
 
     def makeNewFile(self):
         self.centralWidget.functionAble = "Новый файл"
@@ -499,23 +509,34 @@ class Window5(QMainWindow):
         # Создаём компоновщик
         layout = QtWidgets.QVBoxLayout()
         
-        graph51 = gm.Graph(30)
-        graph52 = gm.Graph(30)
-        graph53 = gm.Graph(30)
+        # graph51 = graph5[0]
+        # graph52 = graph5[1]
+        # graph53 = graph5[2]
 
-        self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        self.widget4 = Display.Canvas(self)
-        self.widget1.setMinimumSize(500, 500)
-        self.widget2.setMinimumSize(500, 500)
-        self.widget3.setMinimumSize(500, 500)
-        self.widget4.setMinimumSize(500, 500)
+        # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        # self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        # self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        # self.widget4 = Display.Canvas(self)
+        # self.widget1.setMinimumSize(500, 500)
+        # self.widget2.setMinimumSize(500, 500)
+        # self.widget3.setMinimumSize(500, 500)
+        # self.widget4.setMinimumSize(500, 500)
 
-        layout.addWidget(self.widget1)        #Виджет вставлять сюда
-        layout.addWidget(self.widget2)
-        layout.addWidget(self.widget3)
-        layout.addWidget(self.widget4)
+        # layout.addWidget(self.widget1)        #Виджет вставлять сюда
+        # layout.addWidget(self.widget2)
+        # layout.addWidget(self.widget3)
+        # layout.addWidget(self.widget4)
+
+        widgetList = []
+
+        for i in range(maxSquadNum()):
+            # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+            # self.widget1.setMinimumSize(500, 500)
+            # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            widgetList[i].setMinimumSize(500, 500)
+            layout.addWidget(widgetList[i])
+
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
@@ -636,7 +657,7 @@ class Window5(QMainWindow):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
-        # self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        # selflist('итерируе.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
 
     def backMainMenu(self):
@@ -653,6 +674,10 @@ class Window6(QMainWindow):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+
+        graph1 = graph5[0]
+        graph2 = graph5[1]
+        graph3 = graph5[2]
 
         # Создаём компоновщик
         layout = QtWidgets.QHBoxLayout()
@@ -950,6 +975,8 @@ if __name__ == "__main__":
     MainWindow2 = Window2()
     MainWindow3 = Window3()
     MainWindow4 = Window4()
+    for i in range(maxSquadNum()):
+        graph5.append(gm.Graph(30))
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 
