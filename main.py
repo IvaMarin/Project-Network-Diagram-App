@@ -40,8 +40,6 @@ import EditTable
 graph1 = gm.Graph(30) # граф из первого окна (главный)
 graph5 = [] # графы по количеству отделений
 
-
-
 def maxSquadNum():
     maxSquadNum = 1
     for row in range(MainWindow.ui.tableVar.rowCount()-1):
@@ -174,6 +172,7 @@ class Window1(QMainWindow):
         self.close()
 
     def show(self):
+        self.centralWidget.functionAble = ""
         self.showMaximized()
 
 
@@ -418,6 +417,7 @@ class Window3(QMainWindow):
         self.close()
 
     def show(self):
+        self.centralWidget.functionAble = ""
         self.showMaximized()
 
     def sizeGet(self):
@@ -492,6 +492,7 @@ class Window4(QMainWindow):
         self.close()
 
     def show(self):
+        self.centralWidget.functionAble = ""
         self.showMaximized()
 
     def sizeGet(self):
@@ -526,25 +527,25 @@ class Window5(QMainWindow):
         # layout.addWidget(self.widget3)
         # layout.addWidget(self.widget4)
 
-        widgetList = []
+        self.widgetList = []
 
-        for i in range(maxSquadNum()):
+        for i in range(squadNum):
             # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
             # self.widget1.setMinimumSize(500, 500)
             # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            widgetList[i].setMinimumSize(500, 500)
-            layout.addWidget(widgetList[i])
+            self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            self.widgetList[i].setMinimumSize(500, 500)
+            layout.addWidget(self.widgetList[i])
 
         # Задаём компоновку виджету
-        widget = QWidget()
-        widget.setLayout(layout)
+        self.widget = QWidget()
+        self.widget.setLayout(layout)
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(widget)
+        self.scroll.setWidget(self.widget)
 
         self.ui = Ui_MainWindow5()
         self.ui.setupUi(self)
@@ -582,9 +583,17 @@ class Window5(QMainWindow):
                 event.ignore()
 
     def addNode(self):
-        self.widget1.functionAble = "Добавить вершину"
-        self.widget2.functionAble = "Добавить вершину"
-        self.widget3.functionAble = "Добавить вершину"
+        layout = QtWidgets.QVBoxLayout()
+        for i in range(squadNum):
+            self.widgetList[i].functionable = "Добавить вершину"
+            layout.addWidget(self.widgetList[i])
+            print(self.widgetList[i].functionable)
+        
+        widget = QWidget()
+        widget.setLayout(layout)
+        self.scroll.setWidget(widget)
+        self.setCentralWidget(self.scroll)
+
         self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnRemoveNodeConnection.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
@@ -592,9 +601,17 @@ class Window5(QMainWindow):
         self.ui.actionbtnRemoveNode.setChecked(False)
 
     def addArrow(self):
-        self.widget1.functionAble = "Добавить связь"
-        self.widget2.functionAble = "Добавить связь"
-        self.widget3.functionAble = "Добавить связь"
+        layout = QtWidgets.QVBoxLayout()
+        for i in range(squadNum):
+            self.widgetList[i].functionable = "Добавить связь"
+            layout.addWidget(self.widgetList[i])
+            print(self.widgetList[i].functionable)
+
+        widget = QWidget()
+        widget.setLayout(layout)
+        self.scroll.setWidget(widget)
+        self.setCentralWidget(self.scroll)
+
         self.ui.actionbtnAddNode.setChecked(False)
         self.ui.actionbtnRemoveNodeConnection.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
@@ -602,9 +619,9 @@ class Window5(QMainWindow):
         self.ui.actionbtnRemoveNode.setChecked(False)
 
     def addDottedArrow(self):
-        self.widget1.functionAble = "Добавить пунктирную связь"
-        self.widget2.functionAble = "Добавить пунктирную связь"
-        self.widget3.functionAble = "Добавить пунктирную связь"
+        for i in range(squadNum):
+            self.widgetList[i].functionable = "Добавить пунктирную связь"
+            print(self.widgetList[i].functionable)
         self.ui.actionbtnAddNode.setChecked(False)
         self.ui.actionbtnRemoveNodeConnection.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
@@ -612,9 +629,9 @@ class Window5(QMainWindow):
         self.ui.actionbtnRemoveNode.setChecked(False)
 
     def removeArrow(self):
-        self.widget1.functionAble = "Удалить связь"
-        self.widget2.functionAble = "Удалить связь"
-        self.widget3.functionAble = "Удалить связь"
+        for i in range(squadNum):
+            self.widgetList[i].functionable = "Удалить связь"
+            print(self.widgetList[i].functionable)
         self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnAddNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
@@ -622,9 +639,9 @@ class Window5(QMainWindow):
         self.ui.actionbtnRemoveNode.setChecked(False)
 
     def removeNode(self):
-        self.widget1.functionAble = "Удалить вершину"
-        self.widget2.functionAble = "Удалить вершину"
-        self.widget3.functionAble = "Удалить вершину"
+        for i in range(squadNum):
+            self.widgetList[i].functionable = "Удалить вершину"
+            print(self.widgetList[i].functionable)
         self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnAddNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
@@ -632,9 +649,9 @@ class Window5(QMainWindow):
         self.ui.actionbtnRemoveNodeConnection.setChecked(False)
 
     def moveNode(self):
-        self.widget1.functionAble = "Переместить вершины"
-        self.widget2.functionAble = "Переместить вершины"
-        self.widget3.functionAble = "Переместить вершины"
+        for i in range(squadNum):
+            self.widgetList[i].functionable = "Переместить вершины"
+            print(self.widgetList[i].functionable)
         self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnAddNode.setChecked(False)
         self.ui.actionbtnRemoveNodeConnection.setChecked(False)
@@ -664,6 +681,9 @@ class Window5(QMainWindow):
         self.close()
 
     def show(self):
+        for i in range(squadNum):
+            self.widgetList[i].functionable = ""
+            print(self.widgetList[i].functionable)
         self.showMaximized()
 
 
@@ -674,14 +694,42 @@ class Window6(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        graph1 = graph5[0]
-        graph2 = graph5[1]
-        graph3 = graph5[2]
-
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        width = int(sizeWindow.width())
+        height = int(sizeWindow.height())
         # Создаём компоновщик
         layout = QtWidgets.QHBoxLayout()
-        layout.addWidget(Color('white'))        #Виджет вставлять сюда
-        layout.addWidget(Color('white'))
+
+        layoutLeft = QtWidgets.QVBoxLayout()
+
+
+
+        self.widgetList = []
+
+        for i in range(squadNum):
+            # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+            # self.widget1.setMinimumSize(500, 500)
+            # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            self.widgetList[i].setMinimumSize(int(width/2), 500)
+            layoutLeft.addWidget(self.widgetList[i])
+
+        widgetLeft = QWidget()
+        widgetLeft.setLayout(layoutLeft)
+
+
+        self.scroll = QtWidgets.QScrollArea()
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(widgetLeft)
+
+        color = Color('white')
+        color.setMinimumSize(int(width/2), 500)
+
+        layout.addWidget(self.scroll)        #Виджет вставлять сюда
+        layout.addWidget(color)
+
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
@@ -692,13 +740,11 @@ class Window6(QMainWindow):
         self.setCentralWidget(widget)
 
         self.setWindowTitle("Задача №6")
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        width = int(sizeWindow.width() - sizeWindow.width() / 5)
-        height = int(sizeWindow.height() - sizeWindow.height() / 5)
-        # вписываем во весь экран
-        self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+        # вписываем во весь экран
+        # self.resize(width, height)
+
+        # self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
         self._connectAction()
 
@@ -730,6 +776,8 @@ class Window6(QMainWindow):
         self.close()
 
     def show(self):
+        for i in range(squadNum):
+            self.widgetList[i].functionable = ""
         self.showMaximized()
 
 
@@ -950,6 +998,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     MainWindow = WindowMenu()
+    squadNum = maxSquadNum()
     #MainWindow.show()
     MainWindow1 = Window1()
     MainWindow2 = Window2()
