@@ -440,6 +440,14 @@ class Display3(Display):
                 else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i+1}')
+    
+    def checkEvent3(self):
+        mistakes = checker.checkTask3(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
+        return mistakes
+
+    def checkEvent4(self):
+        mistakes = checker.checkTask4(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
+        return mistakes
 
     def mousePressEvent(self, event):
         # нажатие на ЛКМ

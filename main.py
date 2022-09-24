@@ -52,6 +52,7 @@ class Window1(QMainWindow):
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
         graph1.CorrectAdjacencyMatrix = MainWindow.getCorrectAdjacencyMatrix()
+        graph1.CorrectWeights = MainWindow.getCorrectWeights()
         self.centralWidget = Display.Display(self, graph1)
         self.setCentralWidget(self.centralWidget)
 
@@ -387,7 +388,7 @@ class Window3(QMainWindow):
         self.centralWidget.functionAble = "Новый файл"
 
     def taskCheck(self):
-        mistakes = self.centralWidget.checkEvent()
+        mistakes = self.centralWidget.checkEvent3()
         self.checkForm1 = task1CheckForm(self, mistakes)
         self.checkForm1.exec_()
 
@@ -467,7 +468,7 @@ class Window4(QMainWindow):
         self.centralWidget.functionAble = "Новый файл"
 
     def taskCheck(self):
-        mistakes = self.centralWidget.checkEvent()
+        mistakes = self.centralWidget.checkEvent4()
         self.checkForm1 = task1CheckForm(self, mistakes)
         self.checkForm1.exec_()
 
@@ -761,6 +762,25 @@ class WindowMenu(QMainWindow):
             CorrectAdjacencyMatrix[i][j] = 1
            
         return CorrectAdjacencyMatrix
+
+    def getCorrectWeights(self):
+        CorrectWeights = self.getCorrectAdjacencyMatrix()
+
+        for i in range(len(CorrectWeights)):
+            for j in range(len(CorrectWeights)):
+                if (CorrectWeights[i][j] == 0):
+                    CorrectWeights[i][j] = -1
+
+        for row in range(self.ui.tableVar.rowCount()-1):
+            i, j = self.ui.tableVar.item(row, 0).text().split("-")
+            i, j = int(i), int(j)
+
+            w = self.ui.tableVar.item(row, 3).text()
+            w = int(w)
+            CorrectWeights[i][j] = w
+            CorrectWeights[j][i] = w
+           
+        return CorrectWeights
 
     def closeEvent(self, event):
         close = QMessageBox()

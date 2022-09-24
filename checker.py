@@ -40,7 +40,7 @@ def doIntersect(p1,q1,p2,q2):
 # и проверки на то, не является ли точка пересечения лишь вершиной графа
 def find_point_and_check(p1,q1,p2,q2):
     if (q1.y() - p1.y() != 0): 
-        q = (q1.x() - p1.x()) / (p1.y() - q1.y());   
+        q = (q1.x() - p1.x()) / (p1.y() - q1.y())   
         sn = (p2.x() - q2.x()) + (p2.y() - q2.y()) * q 
         # if (not sn): 
         #     return False 
@@ -54,6 +54,44 @@ def find_point_and_check(p1,q1,p2,q2):
     if (dot[0] != p1.x() and dot[0] != q1.x() and dot[0] != p2.x() and dot[0] != q2.x() and
         dot[1] != p1.y() and dot[1] != q1.y() and dot[1] != p2.y() and dot[1] != q2.y()):
         return True
+
+
+def find_t_p(graph, n):
+    early = np.zeros(n+1, int)
+    early[0] = 0
+    for i in range(1, n):
+        max_t = 0
+        for j in range(i):
+            if (graph[i][j] != -1):
+                cur_max_t = early[j] + graph[i][j]
+                if (cur_max_t > max_t):
+                    max_t = cur_max_t
+
+        early[i]= max_t
+
+    return early
+
+def find_t_n(graph, early, n):
+    late = np.zeros(n+1, float)
+    late[n-1] = early[n-1]
+    for i in range(n-2, 0, -1):
+        min_t = np.inf
+        
+        for j in range(n-1, i+1, -1):
+            if (graph[i][j] != -1):
+                cur_min_t = late[j] - graph[i][j]
+                if (cur_min_t < min_t):
+                    min_t = cur_min_t
+
+        late[i] = min_t
+    return late
+
+def find_R(reserve, early, late, n):
+    reserve = np.zeros(n+1, int)
+    for i in range(n):
+        reserve[i] = late[i] - early[i]
+    return reserve
+
 
 # проверка первого задания
 def checkTask1(Graph, CorrectAdjacencyMatrix):
@@ -129,4 +167,80 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
                             if (((i, j) != (k, l)) and ((i, j) != (l, k)) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
                                 mistakes.append(5)
                                 return mistakes
+    return mistakes
+
+# проверка третьего задания
+def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
+    n = len(CorrectWeights)
+
+    early = find_t_p(CorrectWeights, n)
+ 
+    mistakes = [] # список ошибок:
+                  #     1 - вершины не на нужных осях
+                  #     2 - стрелки не на нужных осях
+
+    Graph.PointsTimeEarly = np.zeros(n+1, int)
+    for i in range(len(Graph.Points)):
+        Graph.PointsTimeEarly[i] = int((Graph.Points[i][0] - GridBegin) / GridStep)
+
+
+    points_on_correct_axes = True
+    for i in range(len(Graph.Points)):
+        if (Graph.PointsTimeEarly[i] != early[i]):
+            mistakes.append(1)
+            mistakes.append(2)
+            points_on_correct_axes = False
+            break
+
+    Graph.ArrowPointsTimeEarly = np.zeros((n+1, n+1), int)
+    for i in range(len(Graph.CorrectAdjacencyMatrix)):
+        for j in range(len(Graph.CorrectAdjacencyMatrix)):
+            if (Graph.CorrectAdjacencyMatrix[i][j] == 1):
+                Graph.ArrowPointsTimeEarly[i][j] = int((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
+
+    if (points_on_correct_axes):
+        for i in range(len(Graph.CorrectAdjacencyMatrix)):
+            for j in range(len(Graph.CorrectAdjacencyMatrix)):
+                if (Graph.ArrowPointsTimeEarly[i][j] != Graph.PointsTimeEarly[i] + CorrectWeights[i][j]):
+                    mistakes.append(2)
+                    return mistakes
+    return mistakes
+
+# проверка четвертого задания
+def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
+    n = len(CorrectWeights)
+
+    early = find_t_p(CorrectWeights, n)
+    late = find_t_n(CorrectWeights, early, n)
+    # reserve = find_R(CorrectWeights, early, late, n)
+
+    mistakes = [] # список ошибок:
+                  #     1 - вершины не на нужных осях
+                  #     2 - стрелки не на нужных осях
+
+    Graph.PointsTimeLate = np.zeros(n+1, int)
+    for i in range(len(Graph.Points)):
+        Graph.PointsTimeLate[i] = int((Graph.Points[i][0] - GridBegin) / GridStep)
+
+
+    points_on_correct_axes = True
+    for i in range(len(Graph.Points)):
+        if (Graph.PointsTimeLate[i] != late[i]):
+            mistakes.append(1)
+            mistakes.append(2)
+            points_on_correct_axes = False
+            break
+
+    Graph.ArrowPointsTimeLate = np.zeros((n+1, n+1), int)
+    for i in range(len(Graph.CorrectAdjacencyMatrix)):
+        for j in range(len(Graph.CorrectAdjacencyMatrix)):
+            if (Graph.CorrectAdjacencyMatrix[i][j] == 1):
+                Graph.ArrowPointsTimeLate[i][j] = int((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
+
+    if (points_on_correct_axes):
+        for i in range(len(Graph.CorrectAdjacencyMatrix)):
+            for j in range(len(Graph.CorrectAdjacencyMatrix)):
+                if (Graph.ArrowPointsTimeLate[i][j] != Graph.PointsTimeLate[j] - CorrectWeights[i][j]):
+                    mistakes.append(2)
+                    return mistakes
     return mistakes
