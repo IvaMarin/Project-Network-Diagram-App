@@ -38,16 +38,24 @@ import EditTable
 ############ глобальные переменные ###########
 
 graph1 = gm.Graph(30) # граф из первого окна (главный)
-graph5 = [gm.Graph(30), gm.Graph(30), gm.Graph(30)] # графы по количеству отделений
+graph5 = [] # графы по количеству отделений
+
+
 
 def maxSquadNum():
     maxSquadNum = 1
     for row in range(MainWindow.ui.tableVar.rowCount()-1):
-        i = MainWindow.ui.tableVar.item(row, 1).text()
+        if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
+            i = int(MainWindow.ui.tableVar.item(row, 1).text())
         if maxSquadNum < i:
             maxSquadNum = i
     return maxSquadNum
-    
+
+
+
+
+
+
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -500,23 +508,34 @@ class Window5(QMainWindow):
         # Создаём компоновщик
         layout = QtWidgets.QVBoxLayout()
         
-        graph51 = graph5[0]
-        graph52 = graph5[1]
-        graph53 = graph5[2]
+        # graph51 = graph5[0]
+        # graph52 = graph5[1]
+        # graph53 = graph5[2]
 
-        self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        self.widget4 = Display.Canvas(self)
-        self.widget1.setMinimumSize(500, 500)
-        self.widget2.setMinimumSize(500, 500)
-        self.widget3.setMinimumSize(500, 500)
-        self.widget4.setMinimumSize(500, 500)
+        # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        # self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        # self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        # self.widget4 = Display.Canvas(self)
+        # self.widget1.setMinimumSize(500, 500)
+        # self.widget2.setMinimumSize(500, 500)
+        # self.widget3.setMinimumSize(500, 500)
+        # self.widget4.setMinimumSize(500, 500)
 
-        layout.addWidget(self.widget1)        #Виджет вставлять сюда
-        layout.addWidget(self.widget2)
-        layout.addWidget(self.widget3)
-        layout.addWidget(self.widget4)
+        # layout.addWidget(self.widget1)        #Виджет вставлять сюда
+        # layout.addWidget(self.widget2)
+        # layout.addWidget(self.widget3)
+        # layout.addWidget(self.widget4)
+
+        widgetList = []
+
+        for i in range(maxSquadNum()):
+            # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+            # self.widget1.setMinimumSize(500, 500)
+            # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            widgetList[i].setMinimumSize(500, 500)
+            layout.addWidget(widgetList[i])
+
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
@@ -936,6 +955,8 @@ if __name__ == "__main__":
     MainWindow2 = Window2()
     MainWindow3 = Window3()
     MainWindow4 = Window4()
+    for i in range(maxSquadNum()):
+        graph5.append(gm.Graph(30))
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 
