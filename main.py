@@ -804,6 +804,11 @@ class Window6(QMainWindow):
         height = int(sizeWindow.height())
         # Создаём компоновщик
         layout = QtWidgets.QHBoxLayout()
+        layout.addWidget(Color('white'))        #Виджет вставлять сюда
+        temp_people = np.array([0, 0, 0, 1, 1, 2, 3, 3, 4, 5, 5])
+        temp_peopleY = np.array([2, 1, 4, 3, 5])
+        temp_t_Max = 5
+        layout.addWidget(Display.Canvas(self, temp_people, temp_t_Max))
 
         layoutLeft = QtWidgets.QVBoxLayout()
 
