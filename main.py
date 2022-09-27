@@ -505,16 +505,13 @@ class Window5(QMainWindow):
         self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
         self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
         self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        self.widget4 = Display.Canvas(self)
         self.widget1.setMinimumSize(500, 500)
         self.widget2.setMinimumSize(500, 500)
         self.widget3.setMinimumSize(500, 500)
-        self.widget4.setMinimumSize(500, 500)
 
         layout.addWidget(self.widget1)        #Виджет вставлять сюда
         layout.addWidget(self.widget2)
         layout.addWidget(self.widget3)
-        layout.addWidget(self.widget4)
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
@@ -656,7 +653,10 @@ class Window6(QMainWindow):
         # Создаём компоновщик
         layout = QtWidgets.QHBoxLayout()
         layout.addWidget(Color('white'))        #Виджет вставлять сюда
-        layout.addWidget(Color('white'))
+        temp_people = np.array([0, 0, 0, 1, 1, 2, 3, 3, 4, 5, 5])
+        temp_peopleY = np.array([2, 1, 4, 3, 5])
+        temp_t_Max = 5
+        layout.addWidget(Display.Canvas(self, temp_people, temp_t_Max))
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)

@@ -498,7 +498,7 @@ class Display3(Display):
         self.update()
 
 class Canvas(FigureCanvas):
-    def __init__(self, parent):
+    def __init__(self, parent, people, t_Max):
         fig, self.ax = plt.subplots(figsize=(2, 1), dpi=200)
         super().__init__(fig)
         self.setParent(parent)
@@ -506,11 +506,12 @@ class Canvas(FigureCanvas):
         """ 
         Matplotlib Script
         """
-        t = np.arange(0.0, 2.0, 0.01)
-        s = 1 + np.sin(2 * np.pi * t)
-        
-        self.ax.plot(t, s)
-
-        self.ax.set(xlabel='time (s)', ylabel='voltage (mV)',
-               title='About as simple as it gets, folks')
+        self.ax.axis([0, 6, 0, 6])
+        n, bin, patches = plt.hist(people, t_Max)
         self.ax.grid()
+        
+        # self.ax.plot(t, s)
+
+        # self.ax.set(xlabel='time (s)', ylabel='voltage (mV)',
+        #        title='About as simple as it gets, folks')
+        # self.ax.grid()
