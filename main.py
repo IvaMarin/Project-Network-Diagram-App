@@ -692,7 +692,7 @@ class Window5(QMainWindow):
             self.ui.actionbtnRemoveNode.setChecked(False)
 
     def addArrow(self):
-        if self.ui.actionbtnAddNode.isChecked() == False:
+        if self.ui.actionbtnConnectNode.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
         else:
@@ -706,7 +706,7 @@ class Window5(QMainWindow):
             self.ui.actionbtnRemoveNode.setChecked(False)
 
     def addDottedArrow(self):
-        if self.ui.actionbtnAddNode.isChecked() == False:
+        if self.ui.actionbtnDottedConnectNode.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
         else:
@@ -720,7 +720,7 @@ class Window5(QMainWindow):
             self.ui.actionbtnRemoveNode.setChecked(False)
 
     def removeArrow(self):
-        if self.ui.actionbtnAddNode.isChecked() == False:
+        if self.ui.actionbtnRemoveNodeConnection.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
         else:
@@ -734,7 +734,7 @@ class Window5(QMainWindow):
             self.ui.actionbtnRemoveNode.setChecked(False)
 
     def removeNode(self):
-        if self.ui.actionbtnAddNode.isChecked() == False:
+        if self.ui.actionbtnRemoveNode.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
         else:
@@ -748,7 +748,7 @@ class Window5(QMainWindow):
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
 
     def moveNode(self):
-        if self.ui.actionbtnAddNode.isChecked() == False:
+        if self.ui.actionbtnMoveNode.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
         else:
