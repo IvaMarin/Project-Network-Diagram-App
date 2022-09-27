@@ -582,81 +582,183 @@ class Window5(QMainWindow):
             else:
                 event.ignore()
 
-    def addNode(self):
-        layout = QtWidgets.QVBoxLayout()
-        for i in range(squadNum):
-            self.widgetList[i].functionable = "Добавить вершину"
-            layout.addWidget(self.widgetList[i])
-            print(self.widgetList[i].functionable)
+    # def addNode(self):
+    #     layout = QtWidgets.QVBoxLayout()
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Добавить вершину"
+    #         layout.addWidget(self.widgetList[i])
+    #         print(self.widgetList[i].functionable)
         
-        widget = QWidget()
-        widget.setLayout(layout)
-        self.scroll.setWidget(widget)
-        self.setCentralWidget(self.scroll)
+    #     widget = QWidget()
+    #     widget.setLayout(layout)
+    #     self.scroll.setWidget(widget)
+    #     self.setCentralWidget(self.scroll)
 
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+    #     self.ui.actionbtnConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+    #     self.ui.actionbtnMoveNode.setChecked(False)
+    #     self.ui.actionbtnDottedConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # def addArrow(self):
+    #     layout = QtWidgets.QVBoxLayout()
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Добавить связь"
+    #         layout.addWidget(self.widgetList[i])
+    #         print(self.widgetList[i].functionable)
+
+    #     widget = QWidget()
+    #     widget.setLayout(layout)
+    #     self.scroll.setWidget(widget)
+    #     self.setCentralWidget(self.scroll)
+
+    #     self.ui.actionbtnAddNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+    #     self.ui.actionbtnMoveNode.setChecked(False)
+    #     self.ui.actionbtnDottedConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # def addDottedArrow(self):
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Добавить пунктирную связь"
+    #         print(self.widgetList[i].functionable)
+    #     self.ui.actionbtnAddNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+    #     self.ui.actionbtnMoveNode.setChecked(False)
+    #     self.ui.actionbtnConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # def removeArrow(self):
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Удалить связь"
+    #         print(self.widgetList[i].functionable)
+    #     self.ui.actionbtnConnectNode.setChecked(False)
+    #     self.ui.actionbtnAddNode.setChecked(False)
+    #     self.ui.actionbtnMoveNode.setChecked(False)
+    #     self.ui.actionbtnDottedConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # def removeNode(self):
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Удалить вершину"
+    #         print(self.widgetList[i].functionable)
+    #     self.ui.actionbtnConnectNode.setChecked(False)
+    #     self.ui.actionbtnAddNode.setChecked(False)
+    #     self.ui.actionbtnMoveNode.setChecked(False)
+    #     self.ui.actionbtnDottedConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+
+    # def moveNode(self):
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Переместить вершины"
+    #         print(self.widgetList[i].functionable)
+    #     self.ui.actionbtnConnectNode.setChecked(False)
+    #     self.ui.actionbtnAddNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+    #     self.ui.actionbtnDottedConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # # def makeNewFile(self):
+    # #     self.centralWidget.functionAble = "Новый файл"
+
+    # # def taskCheck(self):
+    # #     mistakes = self.centralWidget.checkEvent()
+    # #     self.checkForm1 = task1CheckForm(self, mistakes)
+    # #     self.checkForm1.exec_()
+
+    # def _connectAction(self):
+    #     self.ui.actionbtnAddNode.triggered.connect(self.addNode)
+    #     self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
+    #     self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
+    #     self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
+    #     self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
+    #     self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+    #     # selflist('итерируе.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+    #     self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+
+    def addNode(self):
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Добавить вершину"
+
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def addArrow(self):
-        layout = QtWidgets.QVBoxLayout()
-        for i in range(squadNum):
-            self.widgetList[i].functionable = "Добавить связь"
-            layout.addWidget(self.widgetList[i])
-            print(self.widgetList[i].functionable)
-
-        widget = QWidget()
-        widget.setLayout(layout)
-        self.scroll.setWidget(widget)
-        self.setCentralWidget(self.scroll)
-
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Добавить связь"
+            
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def addDottedArrow(self):
-        for i in range(squadNum):
-            self.widgetList[i].functionable = "Добавить пунктирную связь"
-            print(self.widgetList[i].functionable)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Добавить пунктирную связь"
+          
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def removeArrow(self):
-        for i in range(squadNum):
-            self.widgetList[i].functionable = "Удалить связь"
-            print(self.widgetList[i].functionable)
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Удалить связь"
+          
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def removeNode(self):
-        for i in range(squadNum):
-            self.widgetList[i].functionable = "Удалить вершину"
-            print(self.widgetList[i].functionable)
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Удалить вершину"
+            
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
 
     def moveNode(self):
-        for i in range(squadNum):
-            self.widgetList[i].functionable = "Переместить вершины"
-            print(self.widgetList[i].functionable)
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Переместить вершины"
+           
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     # def makeNewFile(self):
     #     self.centralWidget.functionAble = "Новый файл"
@@ -673,17 +775,19 @@ class Window5(QMainWindow):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
-        # selflist('итерируе.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+
+        # self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+
+
 
     def backMainMenu(self):
         MainWindow.show()
         self.close()
 
     def show(self):
-        for i in range(squadNum):
-            self.widgetList[i].functionable = ""
-            print(self.widgetList[i].functionable)
+        for i in self.widgetList:
+            i.functionable = ""
         self.showMaximized()
 
 
