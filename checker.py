@@ -1,6 +1,7 @@
 import numpy as np
 
 from PyQt5.QtCore import QPointF
+from main import graph1
 
 # функции для определения точек пересечения отрезков
 def onSegment(p, q, r):
@@ -173,12 +174,24 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
 def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
     n = len(CorrectWeights)
 
-    early = find_t_p(CorrectWeights, n)
- 
     mistakes = [] # список ошибок:
                   #     1 - вершины не на нужных осях
                   #     2 - стрелки не на нужных осях
 
+    if (graph1.CorrectAdjacencyMatrix != None):
+        old_mistakes = checkTask1(graph1, graph1.CorrectAdjacencyMatrix)
+    else:
+        mistakes.append(1)
+        mistakes.append(2)
+        return mistakes
+    
+    if (old_mistakes):
+        mistakes.append(1)
+        mistakes.append(2)
+        return mistakes
+
+    early = find_t_p(CorrectWeights, n)
+ 
     Graph.PointsTimeEarly = np.zeros(n+1, int)
     for i in range(len(Graph.Points)):
         Graph.PointsTimeEarly[i] = int((Graph.Points[i][0] - GridBegin) / GridStep)
@@ -210,13 +223,25 @@ def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
 def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
     n = len(CorrectWeights)
 
-    early = find_t_p(CorrectWeights, n)
-    late = find_t_n(CorrectWeights, early, n)
-    # reserve = find_R(CorrectWeights, early, late, n)
-
     mistakes = [] # список ошибок:
                   #     1 - вершины не на нужных осях
                   #     2 - стрелки не на нужных осях
+
+    if (graph1.CorrectAdjacencyMatrix != None):
+        old_mistakes = checkTask1(graph1, graph1.CorrectAdjacencyMatrix)
+    else:
+        mistakes.append(1)
+        mistakes.append(2)
+        return mistakes
+
+    if (old_mistakes):
+        mistakes.append(1)
+        mistakes.append(2)
+        return mistakes
+
+    early = find_t_p(CorrectWeights, n)
+    late = find_t_n(CorrectWeights, early, n)
+    # reserve = find_R(CorrectWeights, early, late, n)
 
     Graph.PointsTimeLate = np.zeros(n+1, int)
     for i in range(len(Graph.Points)):
