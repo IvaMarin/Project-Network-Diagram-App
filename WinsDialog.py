@@ -9,12 +9,14 @@ from PyQt5.QtCore import Qt, QRect, QPointF
 from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QIntValidator
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction, QMessageBox
 import EditTable
+import tableNumPeopleInSquad
+import setNumSquad
 
 from login import Ui_login
 from startWindow import Ui_startWin
 from winEditTable import Ui_CreatEditTask
 
-class winSigReport(QtWidgets.QDialog):
+class winSigReport(QtWidgets.QDialog): # окно изменения личных данных студента в запущенном приложении (доступно только преподавателю)
 
     def __init__(self, root): # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
         """Initializer."""
@@ -86,7 +88,7 @@ class winSigReport(QtWidgets.QDialog):
         else: # иначе возвращаем False (проверки пройдены)
             return False
 
-class winLogin(QtWidgets.QDialog):
+class winLogin(QtWidgets.QDialog):# Окно регистрации в приложении
 
     def __init__(self, root): # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
         """Initializer."""
@@ -179,7 +181,7 @@ class winLogin(QtWidgets.QDialog):
         self.close()
 
 
-class winEditTable(QtWidgets.QDialog):
+class winEditTable(QtWidgets.QDialog): # окно выбора файлов с таблицами, для редактирования 
     def __init__(self, root):  # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
         """Initializer."""
         super().__init__(root)  # инициализация
@@ -268,7 +270,7 @@ class winEditTable(QtWidgets.QDialog):
             warning.setDefaultButton(QMessageBox.Ok)  #
             warning = warning.exec()  #
 
-class creatTable(QtWidgets.QDialog):
+class creatTable(QtWidgets.QDialog): # окно с таблицей для непосредственного ее редактирования 
     def __init__(self,
                  root):  # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
         """Initializer."""
@@ -296,6 +298,23 @@ class creatTable(QtWidgets.QDialog):
         self.ui.btnAddStrInTable.clicked.connect(lambda: self.AddStrInTable())          #
         self.ui.btnDelStrLast.clicked.connect(lambda: self.delStrLast())           #
         self.ui.btnExitAndClose.clicked.connect(lambda: self.closeWinCreatTable())  #
+        self.ui.btnSetNumPeopleInSquad.clicked.connect(lambda: self.setNumPeopleInSquad())  #
+
+    def setNumPeopleInSquad(self):
+        winNumSquads.ui = setNumSquad.Ui_SetNumSquad()
+        winNumSquads.ui.setupUi(winNumSquads)
+
+        
+        winNumSquads = winNumSquads.exec()
+        if winNumSquads == QMessageBox.Ok:  # если нажали да
+            NumSquads = winNumSquads.ui.lineEditSetNumSquad.text()
+            #event.accept()  # подтверждаем ивент
+            #self.winEditTable.mainMenu.show()
+        else:  # иначе игнорируем
+            return
+        
+        winTableNumPeopleInSquad = creatTableNumPeopleInSquad()
+        winTableNumPeopleInSquad.creatTable(NumSquads)
 
     def delStrLast(self):
         rowInTblTsk = self.ui.tableTaskVar.rowCount()
@@ -381,3 +400,98 @@ class creatTable(QtWidgets.QDialog):
                 countColumns = countColumns + 1
             countColumns = 0
 
+
+
+
+
+class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблицей количества людей в отделении
+    def __init__(self,
+                 root):  # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
+        """Initializer."""
+        super().__init__(root)  # инициализация
+
+        self.ui = tableNumPeopleInSquad.Ui_winTableNumPeopleInSquad  # инициализация ui
+        self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
+        self.winEditTable = root  # сохраняем нашего родителя
+
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
+        width = int(self.ui.tableNumPeopleInSquad.width() + 50)
+        height = int(self.ui.tableNumPeopleInSquad.height() + 50)
+        #width = int(sizeWindow.width() - 2*(sizeWindow.width()) / 3)  # выставляем ширину окна
+        #height = int(sizeWindow.height() - 2*(sizeWindow.height()) / 3)  # выставляем длину окна
+        # присваиваем параметры длины и ширины окну
+        self.resize(width, height)
+
+        self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20))  # двигаем окно левее и выше
+
+        quit = QAction("Quit", self)  # событие выхода
+        quit.triggered.connect(self.closeEvent)  # если событие выхода срабатывает то вызывается closeEvent
+
+        self._connectAction()  # ф-ия связи с эл-тами окна
+
+    def _connectAction(self):
+        self.ui.btnExitAndClose.clicked.connect(lambda: self.closeWinCreatTable())  #
+
+    def closeWinCreatTable(self):
+        self.saveTable()
+        self.close()
+
+    def saveTable(self):
+        listNumPeopleInSquad = []
+        for rowInTblTsk in range(self.ui.tableNumPeopleInSquad.rowCount()):
+            listNumPeopleInSquad.append([])
+            for colInTblTsk in range(self.ui.tableNumPeopleInSquad.columnCount()):
+                if self.ui.tableNumPeopleInSquad.item(rowInTblTsk, colInTblTsk):
+                    tmpItem = self.ui.tableNumPeopleInSquad.item(rowInTblTsk, colInTblTsk).text()
+                else:
+                    tmpItem = ' '
+                listNumPeopleInSquad[-1].append(tmpItem)
+
+
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setWindowTitle("Закрыть редактор")
+        close.setText("Вы уверены, что хотите закрыть редактор?")  #
+        close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
+        close = close.exec()
+        if close == QMessageBox.Ok:  # если нажали да
+            self.book.close()
+            event.accept()  # подтверждаем ивент
+            #self.winEditTable.mainMenu.show()
+        else:  # иначе игнорируем
+            event.ignore()
+
+    def creatTable(self, numPeopleInSquad):
+        self.ui.tableNumPeopleInSquad.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
+
+        for i in range(numPeopleInSquad):
+            rowPosition = self.ui.tableNumPeopleInSquad.rowCount()  # генерируем строку в таблице для записи в нее чиселок
+            self.ui.tableNumPeopleInSquad.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
+            self.ui.tableNumPeopleInSquad.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(i + 1))  # заполняем "строку таблицы из файла", каждую ячейку
+
+
+    # def openFile(self, pathToExcelFile): # открываем указанный файл в окне для редактирования вариантов
+    #     self.pathToExcelFile = pathToExcelFile # сохраняем путь до файла
+    #     # файлик с таблицой должен называться "В" + номер студента по списку + ".xlsx" (расширение файла)
+    #     self.book = openpyxl.load_workbook(self.pathToExcelFile)  # открываем файл с помощью либы для обработки .xlsx
+    #     sheet = self.book.active  # active - выбирает номер страницы в книге без параметров (по умолчанию) первая страница
+
+    #     countColumns = 0 # счетчик колонок
+    #     tabelVar = [] # список строк
+
+    #     for row in sheet.iter_rows(sheet.min_row, sheet.max_row):  # подкачиваем данные из xlsx файла
+    #         rowVar = []
+    #         for cell in row:
+    #             rowVar.append(cell.value)
+    #         tabelVar.append(rowVar)
+
+    #     self.ui.tableTaskVar.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
+
+    #     for list in tabelVar:
+    #         rowPosition = self.ui.tableTaskVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
+    #         self.ui.tableTaskVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
+    #         for item in list:
+    #             if countColumns >= 0:
+    #                 self.ui.tableTaskVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
+    #             countColumns = countColumns + 1
+    #         countColumns = 0

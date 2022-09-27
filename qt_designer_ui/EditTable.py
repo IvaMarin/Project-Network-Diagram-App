@@ -81,6 +81,13 @@ class Ui_Dialog(object):
         self.btnExitAndClose.setFont(font)
         self.btnExitAndClose.setStyleSheet("background-color: #66e3ff;")
         self.btnExitAndClose.setObjectName("btnExitAndClose")
+        self.btnSetNumPeopleInSquad = QtWidgets.QPushButton(self.splitter)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(16)
+        self.btnSetNumPeopleInSquad.setFont(font)
+        self.btnSetNumPeopleInSquad.setStyleSheet("background-color: #66e3ff;")
+        self.btnSetNumPeopleInSquad.setObjectName("btnSetNumPeopleInSquad")
         self.horizontalLayout.addWidget(self.splitter)
 
         self.retranslateUi(Dialog)
@@ -101,6 +108,8 @@ class Ui_Dialog(object):
         self.btnAddStrInTable.setText(_translate("Dialog", "Добвить строку"))
         self.btnDelStrLast.setText(_translate("Dialog", "Удалить последнюю строку "))
         self.btnExitAndClose.setText(_translate("Dialog", "Сохранить и выйти"))
+        self.btnSetNumPeopleInSquad.setText(_translate("Dialog", "Задать количество людей\n"
+"в подразделениях/отделениях"))
 
 
 if __name__ == "__main__":

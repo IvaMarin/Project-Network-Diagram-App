@@ -73,7 +73,7 @@
           <number>0</number>
          </property>
          <property name="columnCount">
-          <number>5</number>
+          <number>4</number>
          </property>
          <attribute name="horizontalHeaderVisible">
           <bool>true</bool>
@@ -151,18 +151,6 @@
           <property name="font">
            <font>
             <pointsize>16</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Прим.</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>16</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
            </font>
           </property>
          </column>
