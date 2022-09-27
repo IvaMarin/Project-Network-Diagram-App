@@ -91,7 +91,7 @@ class Display(QWidget):
     FixedArrowPoint = [-1, -1] # фиксированная стрелка
     def __init__(self, root, graph_in, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, late_time = None, base_graph = None, switch = True):
         super().__init__(root)
-        self.functionAble = "Добавить вершину"
+        self.functionAble = ""
         self.TempPoints = np.empty(0) # массив временно выделенных вершин
         self.colorGrid = QColor(color[0],color[1],color[2],color[3])
         self.start_coordination_X = start_coordination_X
@@ -440,6 +440,14 @@ class Display3(Display):
                 else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i+1}')
+    
+    def checkEvent3(self):
+        mistakes = checker.checkTask3(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
+        return mistakes
+
+    def checkEvent4(self):
+        mistakes = checker.checkTask4(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
+        return mistakes
 
     def mousePressEvent(self, event):
         # нажатие на ЛКМ

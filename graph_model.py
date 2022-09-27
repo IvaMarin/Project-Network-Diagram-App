@@ -34,6 +34,13 @@ class Graph:
 		self.Points = np.empty((0, 2))  # массив координат центров вершин графа (если None, то вершина не существует)
 		self.AdjacencyMatrix = np.zeros((0, 0))  # матрица смежности
 		self.CorrectAdjacencyMatrix = None
+		
+		self.CorrectWeights = None
+		self.PointsTimeEarly = None
+		self.ArrowPointsTimeEarly = None
+		self.PointsTimeLate = None
+		self.ArrowPointsTimeLate = None
+		
 		self.tp = np.empty((0))  # ранний срок наступления события
 		self.tn = np.empty((0))  # поздний срок наступления события
 		self.R = np.empty((0))  # резерв времени

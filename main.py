@@ -35,10 +35,29 @@ from task1CheckForm import task1CheckForm
 import graph_model as gm
 import EditTable
 
+############ глобальные переменные ###########
+
+graph1 = gm.Graph(30) # граф из первого окна (главный)
+graph5 = [] # графы по количеству отделений
+
+def maxSquadNum():
+    maxSquadNum = 1
+    for row in range(MainWindow.ui.tableVar.rowCount()-1):
+        if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
+            i = int(MainWindow.ui.tableVar.item(row, 1).text())
+        if maxSquadNum < i:
+            maxSquadNum = i
+    return maxSquadNum
+
+
+
+
+
+
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
-graph1 = gm.Graph(30)
+
 
 class Window1(QMainWindow):
 
@@ -52,6 +71,7 @@ class Window1(QMainWindow):
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
         graph1.CorrectAdjacencyMatrix = MainWindow.getCorrectAdjacencyMatrix()
+        graph1.CorrectWeights = MainWindow.getCorrectWeights()
         self.centralWidget = Display.Display(self, graph1)
         self.setCentralWidget(self.centralWidget)
 
@@ -153,6 +173,7 @@ class Window1(QMainWindow):
         self.close()
 
     def show(self):
+        self.centralWidget.functionAble = ""
         self.showMaximized()
 
 
@@ -369,25 +390,20 @@ class Window3(QMainWindow):
 
     def addDottedArrow(self):
         self.centralWidget.functionAble = "Добавить пунктирную связь"
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        #self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
 
     def moveNode(self):
         self.centralWidget.functionAble = "Переместить вершины"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        #self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        
 
     def makeNewFile(self):
         self.centralWidget.functionAble = "Новый файл"
 
     def taskCheck(self):
-        mistakes = self.centralWidget.checkEvent()
+        mistakes = self.centralWidget.checkEvent3()
         self.checkForm1 = task1CheckForm(self, mistakes)
         self.checkForm1.exec_()
 
@@ -402,6 +418,7 @@ class Window3(QMainWindow):
         self.close()
 
     def show(self):
+        self.centralWidget.functionAble = ""
         self.showMaximized()
 
     def sizeGet(self):
@@ -449,25 +466,19 @@ class Window4(QMainWindow):
 
     def addDottedArrow(self):
         self.centralWidget.functionAble = "Добавить пунктирную связь"
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        #self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
 
     def moveNode(self):
         self.centralWidget.functionAble = "Переместить вершины"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        #self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
 
     def makeNewFile(self):
         self.centralWidget.functionAble = "Новый файл"
 
     def taskCheck(self):
-        mistakes = self.centralWidget.checkEvent()
+        mistakes = self.centralWidget.checkEvent4()
         self.checkForm1 = task1CheckForm(self, mistakes)
         self.checkForm1.exec_()
 
@@ -482,6 +493,7 @@ class Window4(QMainWindow):
         self.close()
 
     def show(self):
+        self.centralWidget.functionAble = ""
         self.showMaximized()
 
     def sizeGet(self):
@@ -498,29 +510,43 @@ class Window5(QMainWindow):
         # Создаём компоновщик
         layout = QtWidgets.QVBoxLayout()
         
-        graph51 = gm.Graph(30)
-        graph52 = gm.Graph(30)
-        graph53 = gm.Graph(30)
+        # graph51 = graph5[0]
+        # graph52 = graph5[1]
+        # graph53 = graph5[2]
 
-        self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        self.widget1.setMinimumSize(500, 500)
-        self.widget2.setMinimumSize(500, 500)
-        self.widget3.setMinimumSize(500, 500)
+        # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        # self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        # self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+        # self.widget4 = Display.Canvas(self)
+        # self.widget1.setMinimumSize(500, 500)
+        # self.widget2.setMinimumSize(500, 500)
+        # self.widget3.setMinimumSize(500, 500)
+        # self.widget4.setMinimumSize(500, 500)
 
-        layout.addWidget(self.widget1)        #Виджет вставлять сюда
-        layout.addWidget(self.widget2)
-        layout.addWidget(self.widget3)
+        # layout.addWidget(self.widget1)        #Виджет вставлять сюда
+        # layout.addWidget(self.widget2)
+        # layout.addWidget(self.widget3)
+        # layout.addWidget(self.widget4)
+
+        self.widgetList = []
+
+        for i in range(squadNum):
+            # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+            # self.widget1.setMinimumSize(500, 500)
+            # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            self.widgetList[i].setMinimumSize(500, 500)
+            layout.addWidget(self.widgetList[i])
+
         # Задаём компоновку виджету
-        widget = QWidget()
-        widget.setLayout(layout)
+        self.widget = QWidget()
+        self.widget.setLayout(layout)
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(widget)
+        self.scroll.setWidget(self.widget)
 
         self.ui = Ui_MainWindow5()
         self.ui.setupUi(self)
@@ -557,65 +583,183 @@ class Window5(QMainWindow):
             else:
                 event.ignore()
 
+    # def addNode(self):
+    #     layout = QtWidgets.QVBoxLayout()
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Добавить вершину"
+    #         layout.addWidget(self.widgetList[i])
+    #         print(self.widgetList[i].functionable)
+        
+    #     widget = QWidget()
+    #     widget.setLayout(layout)
+    #     self.scroll.setWidget(widget)
+    #     self.setCentralWidget(self.scroll)
+
+    #     self.ui.actionbtnConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+    #     self.ui.actionbtnMoveNode.setChecked(False)
+    #     self.ui.actionbtnDottedConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # def addArrow(self):
+    #     layout = QtWidgets.QVBoxLayout()
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Добавить связь"
+    #         layout.addWidget(self.widgetList[i])
+    #         print(self.widgetList[i].functionable)
+
+    #     widget = QWidget()
+    #     widget.setLayout(layout)
+    #     self.scroll.setWidget(widget)
+    #     self.setCentralWidget(self.scroll)
+
+    #     self.ui.actionbtnAddNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+    #     self.ui.actionbtnMoveNode.setChecked(False)
+    #     self.ui.actionbtnDottedConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # def addDottedArrow(self):
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Добавить пунктирную связь"
+    #         print(self.widgetList[i].functionable)
+    #     self.ui.actionbtnAddNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+    #     self.ui.actionbtnMoveNode.setChecked(False)
+    #     self.ui.actionbtnConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # def removeArrow(self):
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Удалить связь"
+    #         print(self.widgetList[i].functionable)
+    #     self.ui.actionbtnConnectNode.setChecked(False)
+    #     self.ui.actionbtnAddNode.setChecked(False)
+    #     self.ui.actionbtnMoveNode.setChecked(False)
+    #     self.ui.actionbtnDottedConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # def removeNode(self):
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Удалить вершину"
+    #         print(self.widgetList[i].functionable)
+    #     self.ui.actionbtnConnectNode.setChecked(False)
+    #     self.ui.actionbtnAddNode.setChecked(False)
+    #     self.ui.actionbtnMoveNode.setChecked(False)
+    #     self.ui.actionbtnDottedConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+
+    # def moveNode(self):
+    #     for i in range(squadNum):
+    #         self.widgetList[i].functionable = "Переместить вершины"
+    #         print(self.widgetList[i].functionable)
+    #     self.ui.actionbtnConnectNode.setChecked(False)
+    #     self.ui.actionbtnAddNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+    #     self.ui.actionbtnDottedConnectNode.setChecked(False)
+    #     self.ui.actionbtnRemoveNode.setChecked(False)
+
+    # # def makeNewFile(self):
+    # #     self.centralWidget.functionAble = "Новый файл"
+
+    # # def taskCheck(self):
+    # #     mistakes = self.centralWidget.checkEvent()
+    # #     self.checkForm1 = task1CheckForm(self, mistakes)
+    # #     self.checkForm1.exec_()
+
+    # def _connectAction(self):
+    #     self.ui.actionbtnAddNode.triggered.connect(self.addNode)
+    #     self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
+    #     self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
+    #     self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
+    #     self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
+    #     self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+    #     # selflist('итерируе.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+    #     self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+
     def addNode(self):
-        self.widget1.functionAble = "Добавить вершину"
-        self.widget2.functionAble = "Добавить вершину"
-        self.widget3.functionAble = "Добавить вершину"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Добавить вершину"
+
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def addArrow(self):
-        self.widget1.functionAble = "Добавить связь"
-        self.widget2.functionAble = "Добавить связь"
-        self.widget3.functionAble = "Добавить связь"
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Добавить связь"
+            
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def addDottedArrow(self):
-        self.widget1.functionAble = "Добавить пунктирную связь"
-        self.widget2.functionAble = "Добавить пунктирную связь"
-        self.widget3.functionAble = "Добавить пунктирную связь"
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Добавить пунктирную связь"
+          
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def removeArrow(self):
-        self.widget1.functionAble = "Удалить связь"
-        self.widget2.functionAble = "Удалить связь"
-        self.widget3.functionAble = "Удалить связь"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Удалить связь"
+          
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     def removeNode(self):
-        self.widget1.functionAble = "Удалить вершину"
-        self.widget2.functionAble = "Удалить вершину"
-        self.widget3.functionAble = "Удалить вершину"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Удалить вершину"
+            
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
 
     def moveNode(self):
-        self.widget1.functionAble = "Переместить вершины"
-        self.widget2.functionAble = "Переместить вершины"
-        self.widget3.functionAble = "Переместить вершины"
-        self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnAddNode.setChecked(False)
-        self.ui.actionbtnRemoveNodeConnection.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnRemoveNode.setChecked(False)
+        if self.ui.actionbtnAddNode.isChecked() == False:
+            for i in self.widgetList:
+                i.functionAble = ""
+        else:
+            for i in self.widgetList:
+                i.functionAble = "Переместить вершины"
+           
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
 
     # def makeNewFile(self):
     #     self.centralWidget.functionAble = "Новый файл"
@@ -632,14 +776,19 @@ class Window5(QMainWindow):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+
         # self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+
+
 
     def backMainMenu(self):
         MainWindow.show()
         self.close()
 
     def show(self):
+        for i in self.widgetList:
+            i.functionable = ""
         self.showMaximized()
 
 
@@ -650,6 +799,9 @@ class Window6(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        width = int(sizeWindow.width())
+        height = int(sizeWindow.height())
         # Создаём компоновщик
         layout = QtWidgets.QHBoxLayout()
         layout.addWidget(Color('white'))        #Виджет вставлять сюда
@@ -657,6 +809,37 @@ class Window6(QMainWindow):
         temp_peopleY = np.array([2, 1, 4, 3, 5])
         temp_t_Max = 5
         layout.addWidget(Display.Canvas(self, temp_people, temp_t_Max))
+
+        layoutLeft = QtWidgets.QVBoxLayout()
+
+
+
+        self.widgetList = []
+
+        for i in range(squadNum):
+            # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+            # self.widget1.setMinimumSize(500, 500)
+            # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            self.widgetList[i].setMinimumSize(int(width/2), 500)
+            layoutLeft.addWidget(self.widgetList[i])
+
+        widgetLeft = QWidget()
+        widgetLeft.setLayout(layoutLeft)
+
+
+        self.scroll = QtWidgets.QScrollArea()
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(widgetLeft)
+
+        color = Color('white')
+        color.setMinimumSize(int(width/2), 500)
+
+        layout.addWidget(self.scroll)        #Виджет вставлять сюда
+        layout.addWidget(color)
+
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
@@ -667,13 +850,11 @@ class Window6(QMainWindow):
         self.setCentralWidget(widget)
 
         self.setWindowTitle("Задача №6")
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        width = int(sizeWindow.width() - sizeWindow.width() / 5)
-        height = int(sizeWindow.height() - sizeWindow.height() / 5)
-        # вписываем во весь экран
-        self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+        # вписываем во весь экран
+        # self.resize(width, height)
+
+        # self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
         self._connectAction()
 
@@ -705,6 +886,8 @@ class Window6(QMainWindow):
         self.close()
 
     def show(self):
+        for i in range(squadNum):
+            self.widgetList[i].functionable = ""
         self.showMaximized()
 
 
@@ -761,6 +944,25 @@ class WindowMenu(QMainWindow):
             CorrectAdjacencyMatrix[i][j] = 1
            
         return CorrectAdjacencyMatrix
+
+    def getCorrectWeights(self):
+        CorrectWeights = self.getCorrectAdjacencyMatrix()
+
+        for i in range(len(CorrectWeights)):
+            for j in range(len(CorrectWeights)):
+                if (CorrectWeights[i][j] == 0):
+                    CorrectWeights[i][j] = -1
+
+        for row in range(self.ui.tableVar.rowCount()-1):
+            i, j = self.ui.tableVar.item(row, 0).text().split("-")
+            i, j = int(i), int(j)
+
+            w = self.ui.tableVar.item(row, 3).text()
+            w = int(w)
+            CorrectWeights[i][j] = w
+            CorrectWeights[j][i] = w
+           
+        return CorrectWeights
 
     def closeEvent(self, event):
         close = QMessageBox()
@@ -925,11 +1127,14 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     MainWindow = WindowMenu()
+    squadNum = maxSquadNum()
     #MainWindow.show()
     MainWindow1 = Window1()
     MainWindow2 = Window2()
     MainWindow3 = Window3()
     MainWindow4 = Window4()
+    for i in range(maxSquadNum()):
+        graph5.append(gm.Graph(30))
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 
