@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_winTableNumPeopleInSquad(object):
     def setupUi(self, winTableNumPeopleInSquad):
         winTableNumPeopleInSquad.setObjectName("winTableNumPeopleInSquad")
-        winTableNumPeopleInSquad.resize(753, 989)
+        winTableNumPeopleInSquad.resize(443, 989)
         self.verticalLayout = QtWidgets.QVBoxLayout(winTableNumPeopleInSquad)
         self.verticalLayout.setObjectName("verticalLayout")
         self.tableNumPeopleInSquad = QtWidgets.QTableWidget(winTableNumPeopleInSquad)
@@ -20,6 +20,7 @@ class Ui_winTableNumPeopleInSquad(object):
         font.setPointSize(14)
         self.tableNumPeopleInSquad.setFont(font)
         self.tableNumPeopleInSquad.setStyleSheet("background-color: #fffaea;")
+        self.tableNumPeopleInSquad.setInputMethodHints(QtCore.Qt.ImhDigitsOnly)
         self.tableNumPeopleInSquad.setObjectName("tableNumPeopleInSquad")
         self.tableNumPeopleInSquad.setColumnCount(2)
         self.tableNumPeopleInSquad.setRowCount(0)
@@ -33,7 +34,7 @@ class Ui_winTableNumPeopleInSquad(object):
         font.setPointSize(14)
         item.setFont(font)
         self.tableNumPeopleInSquad.setHorizontalHeaderItem(1, item)
-        self.tableNumPeopleInSquad.horizontalHeader().setDefaultSectionSize(350)
+        self.tableNumPeopleInSquad.horizontalHeader().setDefaultSectionSize(210)
         self.verticalLayout.addWidget(self.tableNumPeopleInSquad)
         self.btnExitAndClose = QtWidgets.QPushButton(winTableNumPeopleInSquad)
         font = QtGui.QFont()
@@ -51,9 +52,11 @@ class Ui_winTableNumPeopleInSquad(object):
         _translate = QtCore.QCoreApplication.translate
         winTableNumPeopleInSquad.setWindowTitle(_translate("winTableNumPeopleInSquad", "Таблица численности отделений"))
         item = self.tableNumPeopleInSquad.horizontalHeaderItem(0)
-        item.setText(_translate("winTableNumPeopleInSquad", "Порядковый номер отделения"))
+        item.setText(_translate("winTableNumPeopleInSquad", "Порядковый номер\n"
+"отделения"))
         item = self.tableNumPeopleInSquad.horizontalHeaderItem(1)
-        item.setText(_translate("winTableNumPeopleInSquad", "Число людей в отделении"))
+        item.setText(_translate("winTableNumPeopleInSquad", "Число людей\n"
+"в отделении"))
         self.btnExitAndClose.setText(_translate("winTableNumPeopleInSquad", "Сохранить и выйти"))
 
 

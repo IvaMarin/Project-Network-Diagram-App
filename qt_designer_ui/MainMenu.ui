@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1204</width>
-    <height>837</height>
+    <width>1558</width>
+    <height>926</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,7 +73,7 @@
           <number>0</number>
          </property>
          <property name="columnCount">
-          <number>4</number>
+          <number>6</number>
          </property>
          <attribute name="horizontalHeaderVisible">
           <bool>true</bool>
@@ -85,7 +85,7 @@
           <number>70</number>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>374</number>
+          <number>228</number>
          </attribute>
          <attribute name="horizontalHeaderHighlightSections">
           <bool>true</bool>
@@ -120,6 +120,7 @@
           </property>
           <property name="font">
            <font>
+            <family>Times New Roman</family>
             <pointsize>16</pointsize>
            </font>
           </property>
@@ -130,26 +131,55 @@
           </property>
           <property name="font">
            <font>
+            <family>Times New Roman</family>
             <pointsize>16</pointsize>
            </font>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>Число людей, выполняющих работы</string>
+           <string>Число людей,
+выполняющих работы</string>
           </property>
           <property name="font">
            <font>
+            <family>Times New Roman</family>
             <pointsize>16</pointsize>
            </font>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>Продолжительность работ (час)</string>
+           <string>Продолжительность
+работ (час)</string>
           </property>
           <property name="font">
            <font>
+            <family>Times New Roman</family>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Номер
+отделения</string>
+          </property>
+          <property name="font">
+           <font>
+            <family>Times New Roman</family>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Количество
+людей</string>
+          </property>
+          <property name="font">
+           <font>
+            <family>Times New Roman</family>
             <pointsize>16</pointsize>
            </font>
           </property>
@@ -378,7 +408,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1204</width>
+     <width>1558</width>
      <height>21</height>
     </rect>
    </property>

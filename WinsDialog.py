@@ -7,7 +7,7 @@ import openpyxl
 from PyQt5 import QtWidgets, QtGui ,QtCore
 from PyQt5.QtCore import Qt, QRect, QPointF
 from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QIntValidator
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction, QMessageBox
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction, QMessageBox, QDialog
 import EditTable
 import tableNumPeopleInSquad
 import setNumSquad
@@ -291,6 +291,7 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         quit = QAction("Quit", self)  # событие выхода
         quit.triggered.connect(self.closeEvent)  # если событие выхода срабатывает то вызывается closeEvent
 
+        self.listNumPeopleInSquad = []
         self._connectAction()  # ф-ия связи с эл-тами окна
 
     def _connectAction(self):
@@ -301,20 +302,28 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.ui.btnSetNumPeopleInSquad.clicked.connect(lambda: self.setNumPeopleInSquad())  #
 
     def setNumPeopleInSquad(self):
-        winNumSquads.ui = setNumSquad.Ui_SetNumSquad()
+        winNumSquads = QDialog()
+        winNumSquads.ui = setNumSquad.Ui_SetNumSquad() 
         winNumSquads.ui.setupUi(winNumSquads)
 
         
-        winNumSquads = winNumSquads.exec()
-        if winNumSquads == QMessageBox.Ok:  # если нажали да
-            NumSquads = winNumSquads.ui.lineEditSetNumSquad.text()
+        winNumSquadsOut = winNumSquads.exec()
+        
+        if winNumSquadsOut == 1:  # если нажали да
+            NumSquads = winNumSquads.ui.lineEditSetNumSquad.text() 
+            #print("YES")
             #event.accept()  # подтверждаем ивент
             #self.winEditTable.mainMenu.show()
         else:  # иначе игнорируем
+            #print("NO")
             return
         
-        winTableNumPeopleInSquad = creatTableNumPeopleInSquad()
-        winTableNumPeopleInSquad.creatTable(NumSquads)
+        winTableNumPeopleInSquad = creatTableNumPeopleInSquad(self, int(NumSquads))
+        #winTableNumPeopleInSquad.creatTable(int(NumSquads))
+        winTableNumPeopleInSquad.show()
+        #winTableNumPeopleInSquad = winTableNumPeopleInSquad.exec()
+        #self.listNumPeopleInSquad = winTableNumPeopleInSquad.listNumPeopleInSquad
+
 
     def delStrLast(self):
         rowInTblTsk = self.ui.tableTaskVar.rowCount()
@@ -326,6 +335,8 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
 
     def closeWinCreatTable(self):
         self.saveTable()
+        for item in self.listNumPeopleInSquad:
+            print(item[0], " ", item[1])
         self.close()
 
     def saveTable(self):
@@ -400,23 +411,19 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
                 countColumns = countColumns + 1
             countColumns = 0
 
-
-
-
-
 class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблицей количества людей в отделении
-    def __init__(self,
-                 root):  # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
+    def __init__(self, root, numPeopleInSquad):  # 
         """Initializer."""
         super().__init__(root)  # инициализация
 
-        self.ui = tableNumPeopleInSquad.Ui_winTableNumPeopleInSquad  # инициализация ui
+        self.ui = tableNumPeopleInSquad.Ui_winTableNumPeopleInSquad()  # инициализация ui
         self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
         self.winEditTable = root  # сохраняем нашего родителя
+        self.listNumPeopleInSquad = []
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
-        width = int(self.ui.tableNumPeopleInSquad.width() + 50)
-        height = int(self.ui.tableNumPeopleInSquad.height() + 50)
+        width = int(210*2+60)
+        height = int(30*numPeopleInSquad + 120)
         #width = int(sizeWindow.width() - 2*(sizeWindow.width()) / 3)  # выставляем ширину окна
         #height = int(sizeWindow.height() - 2*(sizeWindow.height()) / 3)  # выставляем длину окна
         # присваиваем параметры длины и ширины окну
@@ -426,6 +433,8 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
 
         quit = QAction("Quit", self)  # событие выхода
         quit.triggered.connect(self.closeEvent)  # если событие выхода срабатывает то вызывается closeEvent
+
+        self.creatTable(numPeopleInSquad)
 
         self._connectAction()  # ф-ия связи с эл-тами окна
 
@@ -437,15 +446,15 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
         self.close()
 
     def saveTable(self):
-        listNumPeopleInSquad = []
         for rowInTblTsk in range(self.ui.tableNumPeopleInSquad.rowCount()):
-            listNumPeopleInSquad.append([])
+            self.winEditTable.listNumPeopleInSquad.append([])
             for colInTblTsk in range(self.ui.tableNumPeopleInSquad.columnCount()):
                 if self.ui.tableNumPeopleInSquad.item(rowInTblTsk, colInTblTsk):
                     tmpItem = self.ui.tableNumPeopleInSquad.item(rowInTblTsk, colInTblTsk).text()
                 else:
                     tmpItem = ' '
-                listNumPeopleInSquad[-1].append(tmpItem)
+                self.winEditTable.listNumPeopleInSquad[-1].append(tmpItem)
+        #self.winEditTable.listNumPeopleInSquad = self.listNumPeopleInSquad
 
 
     def closeEvent(self, event):
@@ -455,7 +464,7 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
         close = close.exec()
         if close == QMessageBox.Ok:  # если нажали да
-            self.book.close()
+            # self.book.close()
             event.accept()  # подтверждаем ивент
             #self.winEditTable.mainMenu.show()
         else:  # иначе игнорируем
@@ -467,8 +476,8 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
         for i in range(numPeopleInSquad):
             rowPosition = self.ui.tableNumPeopleInSquad.rowCount()  # генерируем строку в таблице для записи в нее чиселок
             self.ui.tableNumPeopleInSquad.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
-            self.ui.tableNumPeopleInSquad.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(i + 1))  # заполняем "строку таблицы из файла", каждую ячейку
-
+            self.ui.tableNumPeopleInSquad.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(i + 1)))  # заполняем "строку таблицы из файла", каждую ячейку
+            
 
     # def openFile(self, pathToExcelFile): # открываем указанный файл в окне для редактирования вариантов
     #     self.pathToExcelFile = pathToExcelFile # сохраняем путь до файла
