@@ -155,7 +155,7 @@ class Display(QWidget):
                 if (i != self.illumination):
                     painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
                 else:
-                    painter.setBrush(QColor("green"))# обеспечиваем закрашивание вершин графа
+                    painter.setBrush(QColor(127, 255, 212, 220))# обеспечиваем закрашивание вершин графа
 
                 painter.drawEllipse(self.graph.Points[i][0]-self.graph.RadiusPoint, self.graph.Points[i][1]-self.graph.RadiusPoint, 
                                     2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
