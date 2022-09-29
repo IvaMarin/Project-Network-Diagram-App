@@ -908,7 +908,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         if self.ui.btnTeacherMode.isChecked() and (True): # вместо (True) вставить результат проверки шифрованого ключа
-            print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
+            # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
             self.ui.btnEditTaskVariant.setEnabled(True)
@@ -983,8 +983,8 @@ class WindowMenu(QMainWindow):
                     rowVar.append(' ')
             tabelVar.append(rowVar)
 
-        for list in tabelVar:
-            print(list)
+        # for list in tabelVar:
+        #     print(list)
 
         self.ui.tableVar.setRowCount(0) # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
 

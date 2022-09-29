@@ -1,30 +1,32 @@
 import numpy as np
-
 from PyQt5.QtCore import QPointF
-from main import graph1
+
 
 # функции для определения точек пересечения отрезков
 def onSegment(p, q, r):
-    if ( (q.x() <= max(p.x(), r.x())) and (q.x() >= min(p.x(), r.x())) and
-           (q.y() <= max(p.y(), r.y())) and (q.y() >= min(p.y(), r.y()))):
+    if ((q.x() <= max(p.x(), r.x())) and (q.x() >= min(p.x(), r.x())) and
+            (q.y() <= max(p.y(), r.y())) and (q.y() >= min(p.y(), r.y()))):
         return True
     return False
 
+
 def orientation(p, q, r):
-    val = (float(q.y() - p.y()) * (r.x() - q.x())) - (float(q.x() - p.x()) * (r.y() - q.y()))
+    val = (float(q.y() - p.y()) * (r.x() - q.x())) - \
+        (float(q.x() - p.x()) * (r.y() - q.y()))
     if (val > 0):
         return 1
     elif (val < 0):
         return 2
     else:
         return 0
- 
-def doIntersect(p1,q1,p2,q2):
+
+
+def doIntersect(p1, q1, p2, q2):
     o1 = orientation(p1, q1, p2)
     o2 = orientation(p1, q1, q2)
     o3 = orientation(p2, q2, p1)
     o4 = orientation(p2, q2, q1)
- 
+
     if ((o1 != o2) and (o3 != o4)):
         return True
     if ((o1 == 0) and onSegment(p1, p2, q1)):
@@ -37,28 +39,30 @@ def doIntersect(p1,q1,p2,q2):
         return True
     return False
 
-# функция для опредения координат точки пересечения 
+
+# функция для опредения координат точки пересечения
 # и проверки на то, не является ли точка пересечения лишь вершиной графа
-def find_point_and_check(p1,q1,p2,q2):
-    if (q1.y() - p1.y() != 0): 
-        q = (q1.x() - p1.x()) / (p1.y() - q1.y())   
-        sn = (p2.x() - q2.x()) + (p2.y() - q2.y()) * q 
-        # if (not sn): 
-        #     return False 
-        fn = (p2.x() - p1.x()) + (p2.y() - p1.y()) * q 
+def find_point_and_check(p1, q1, p2, q2):
+    if (q1.y() - p1.y() != 0):
+        q = (q1.x() - p1.x()) / (p1.y() - q1.y())
+        sn = (p2.x() - q2.x()) + (p2.y() - q2.y()) * q
+        # if (not sn):
+        #     return False
+        fn = (p2.x() - p1.x()) + (p2.y() - p1.y()) * q
         n = fn / sn
     else:
-        # if (not(p2.y() - q2.y())): 
-        #     return False 
-        n = (p2.y() - p1.y()) / (p2.y() - q2.y()) 
-    dot = (p2.x() + (q2.x() - p2.x()) * n, p2.y() + (q2.y() - p2.y()) * n ) # точка пересечения
+        # if (not(p2.y() - q2.y())):
+        #     return False
+        n = (p2.y() - p1.y()) / (p2.y() - q2.y())
+    dot = (p2.x() + (q2.x() - p2.x()) * n, p2.y() +
+           (q2.y() - p2.y()) * n)  # точка пересечения
     if (dot[0] != p1.x() and dot[0] != q1.x() and dot[0] != p2.x() and dot[0] != q2.x() and
-        dot[1] != p1.y() and dot[1] != q1.y() and dot[1] != p2.y() and dot[1] != q2.y()):
+            dot[1] != p1.y() and dot[1] != q1.y() and dot[1] != p2.y() and dot[1] != q2.y()):
         return True
 
 
 def find_t_p(graph, n):
-    early = np.zeros(n+1, int)
+    early = np.zeros(n, int)
     early[0] = 0
     for i in range(1, n):
         max_t = 0
@@ -68,17 +72,17 @@ def find_t_p(graph, n):
                 if (cur_max_t > max_t):
                     max_t = cur_max_t
 
-        early[i]= max_t
-
+        early[i] = max_t
     return early
 
+
 def find_t_n(graph, early, n):
-    late = np.zeros(n+1, float)
+    late = np.zeros(n, float)
     late[n-1] = early[n-1]
-    for i in range(n-2, 0, -1):
+    for i in range(n-2, -1, -1):
         min_t = np.inf
-        
-        for j in range(n-1, i+1, -1):
+
+        for j in range(n-1, i, -1):
             if (graph[i][j] != -1):
                 cur_min_t = late[j] - graph[i][j]
                 if (cur_min_t < min_t):
@@ -87,8 +91,9 @@ def find_t_n(graph, early, n):
         late[i] = min_t
     return late
 
+
 def find_R(reserve, early, late, n):
-    reserve = np.zeros(n+1, int)
+    reserve = np.zeros(n, int)
     for i in range(n):
         reserve[i] = late[i] - early[i]
     return reserve
@@ -99,12 +104,12 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
     CountOfNodes = 0
     CurrentCountOfConnections = 0
     CorrectCountOfConnections = 0
-    mistakes = [] # список ошибок:
-                  #     1 - вершины слишком близко
-                  #     2 - неверное количество вершин
-                  #     3 - неверное количество связей
-                  #     4 - неверные связи
-                  #     5 - связи пересекаются
+    mistakes = []   # список ошибок:
+                    #     1 - вершины слишком близко
+                    #     2 - неверное количество вершин
+                    #     3 - неверное количество связей
+                    #     4 - неверные связи
+                    #     5 - связи пересекаются
 
     do_intersect = False
     for i in range(len(Graph.Points)):
@@ -115,9 +120,9 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
         # и заодно проверяем не находятся ли точки слишком близко
         if (not do_intersect):
             for j in range(len(Graph.Points)):
-                if (j != i and (Graph.Points[j][0] + Graph.RadiusPoint >= Graph.Points[i][0] - Graph.RadiusPoint and 
+                if (j != i and (Graph.Points[j][0] + Graph.RadiusPoint >= Graph.Points[i][0] - Graph.RadiusPoint and
                                 Graph.Points[j][0] - Graph.RadiusPoint <= Graph.Points[i][0] + Graph.RadiusPoint and
-                                Graph.Points[j][1] + Graph.RadiusPoint >= Graph.Points[i][1] - Graph.RadiusPoint and 
+                                Graph.Points[j][1] + Graph.RadiusPoint >= Graph.Points[i][1] - Graph.RadiusPoint and
                                 Graph.Points[j][1] - Graph.RadiusPoint <= Graph.Points[i][1] + Graph.RadiusPoint)):
                     mistakes.append(1)
                     do_intersect = True
@@ -161,41 +166,53 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
                 for k, row2 in enumerate(Graph.AdjacencyMatrix):
                     for l, col2 in enumerate(row2):
                         if col2 == 1:
-                            p1 = QPointF(Graph.Points[i][0],Graph.Points[i][1])
-                            q1 = QPointF(Graph.Points[j][0],Graph.Points[j][1])
-                            p2 = QPointF(Graph.Points[k][0],Graph.Points[k][1])
-                            q2 = QPointF(Graph.Points[l][0],Graph.Points[l][1])
+                            p1 = QPointF(
+                                Graph.Points[i][0], Graph.Points[i][1])
+                            q1 = QPointF(
+                                Graph.Points[j][0], Graph.Points[j][1])
+                            p2 = QPointF(
+                                Graph.Points[k][0], Graph.Points[k][1])
+                            q2 = QPointF(
+                                Graph.Points[l][0], Graph.Points[l][1])
                             if (((i, j) != (k, l)) and ((i, j) != (l, k)) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
                                 mistakes.append(5)
                                 return mistakes
     return mistakes
 
+
 # проверка третьего задания
 def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
+    CorrectAdjacencyMatrix = Graph.CorrectAdjacencyMatrix
+
+    # CorrectWeights = np.array([[-1, 1, -1, -1],
+    #                            [1, -1, 2, -1],
+    #                            [-1, 2, -1, 3],
+    #                            [-1, -1, 3, -1]])
+    # CorrectAdjacencyMatrix = np.array([[0, 1, 0, 0],
+    #                                    [0, 0, 1, 0],
+    #                                    [0, 0, 0, 1],
+    #                                    [0, 0, 0, 0]])
+
     n = len(CorrectWeights)
 
-    mistakes = [] # список ошибок:
-                  #     1 - вершины не на нужных осях
-                  #     2 - стрелки не на нужных осях
+    mistakes = []   # список ошибок:
+                    #     1 - вершины не на нужных осях
+                    #     2 - стрелки не на нужных осях
 
-    if (graph1.CorrectAdjacencyMatrix != None):
-        old_mistakes = checkTask1(graph1, graph1.CorrectAdjacencyMatrix)
-    else:
-        mistakes.append(1)
-        mistakes.append(2)
-        return mistakes
-    
+    old_mistakes = []
+    old_mistakes = checkTask1(Graph, CorrectAdjacencyMatrix)
+
     if (old_mistakes):
         mistakes.append(1)
         mistakes.append(2)
         return mistakes
 
     early = find_t_p(CorrectWeights, n)
- 
-    Graph.PointsTimeEarly = np.zeros(n+1, int)
-    for i in range(len(Graph.Points)):
-        Graph.PointsTimeEarly[i] = int((Graph.Points[i][0] - GridBegin) / GridStep)
 
+    Graph.PointsTimeEarly = np.zeros(n, int)
+    for i in range(len(Graph.Points)):
+        Graph.PointsTimeEarly[i] = int(
+            (Graph.Points[i][0] - GridBegin) / GridStep)
 
     points_on_correct_axes = True
     for i in range(len(Graph.Points)):
@@ -205,34 +222,49 @@ def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
             points_on_correct_axes = False
             break
 
-    Graph.ArrowPointsTimeEarly = np.zeros((n+1, n+1), int)
-    for i in range(len(Graph.CorrectAdjacencyMatrix)):
-        for j in range(len(Graph.CorrectAdjacencyMatrix)):
-            if (Graph.CorrectAdjacencyMatrix[i][j] == 1):
-                Graph.ArrowPointsTimeEarly[i][j] = int((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
+    Graph.ArrowPointsTimeEarly = np.zeros((n, n), int)
+    for i in range(len(CorrectAdjacencyMatrix)):
+        for j in range(len(CorrectAdjacencyMatrix)):
+            if (CorrectAdjacencyMatrix[i][j] == 1):
+                if (int((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep) == ((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)):
+                    Graph.ArrowPointsTimeEarly[i][j] = int(
+                        (Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
+                else:
+                    Graph.ArrowPointsTimeEarly[i][j] = int(
+                        (Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep) + 1
+            else:
+                Graph.ArrowPointsTimeEarly[i][j] = -1
 
     if (points_on_correct_axes):
-        for i in range(len(Graph.CorrectAdjacencyMatrix)):
-            for j in range(len(Graph.CorrectAdjacencyMatrix)):
-                if (Graph.ArrowPointsTimeEarly[i][j] != Graph.PointsTimeEarly[i] + CorrectWeights[i][j]):
+        for i in range(len(CorrectAdjacencyMatrix)):
+            for j in range(len(CorrectAdjacencyMatrix)):
+                if ((CorrectAdjacencyMatrix[i][j] == 1) and (Graph.ArrowPointsTimeEarly[i][j] != Graph.PointsTimeEarly[i] + CorrectWeights[i][j])):
                     mistakes.append(2)
                     return mistakes
     return mistakes
 
+
 # проверка четвертого задания
 def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
+    CorrectAdjacencyMatrix = Graph.CorrectAdjacencyMatrix
+
+    # CorrectWeights = np.array([[-1, 1, -1, -1],
+    #                            [1, -1, 2, -1],
+    #                            [-1, 2, -1, 3],
+    #                            [-1, -1, 3, -1]])
+    # CorrectAdjacencyMatrix = np.array([[0, 1, 0, 0],
+    #                                    [0, 0, 1, 0],
+    #                                    [0, 0, 0, 1],
+    #                                    [0, 0, 0, 0]])
+
     n = len(CorrectWeights)
 
-    mistakes = [] # список ошибок:
-                  #     1 - вершины не на нужных осях
-                  #     2 - стрелки не на нужных осях
+    mistakes = []   # список ошибок:
+                    #     1 - вершины не на нужных осях
+                    #     2 - стрелки не на нужных осях
 
-    if (graph1.CorrectAdjacencyMatrix != None):
-        old_mistakes = checkTask1(graph1, graph1.CorrectAdjacencyMatrix)
-    else:
-        mistakes.append(1)
-        mistakes.append(2)
-        return mistakes
+    old_mistakes = []
+    old_mistakes = checkTask1(Graph, CorrectAdjacencyMatrix)
 
     if (old_mistakes):
         mistakes.append(1)
@@ -243,10 +275,10 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
     late = find_t_n(CorrectWeights, early, n)
     # reserve = find_R(CorrectWeights, early, late, n)
 
-    Graph.PointsTimeLate = np.zeros(n+1, int)
+    Graph.PointsTimeLate = np.zeros(n, int)
     for i in range(len(Graph.Points)):
-        Graph.PointsTimeLate[i] = int((Graph.Points[i][0] - GridBegin) / GridStep)
-
+        Graph.PointsTimeLate[i] = int(
+            (Graph.Points[i][0] - GridBegin) / GridStep)
 
     points_on_correct_axes = True
     for i in range(len(Graph.Points)):
@@ -256,16 +288,17 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
             points_on_correct_axes = False
             break
 
-    Graph.ArrowPointsTimeLate = np.zeros((n+1, n+1), int)
-    for i in range(len(Graph.CorrectAdjacencyMatrix)):
-        for j in range(len(Graph.CorrectAdjacencyMatrix)):
-            if (Graph.CorrectAdjacencyMatrix[i][j] == 1):
-                Graph.ArrowPointsTimeLate[i][j] = int((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
+    Graph.ArrowPointsTimeLate = np.zeros((n, n), int)
+    for i in range(len(CorrectAdjacencyMatrix)):
+        for j in range(len(CorrectAdjacencyMatrix)):
+            if (CorrectAdjacencyMatrix[i][j] == 1):
+                Graph.ArrowPointsTimeLate[i][j] = int(
+                    (Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
 
     if (points_on_correct_axes):
-        for i in range(len(Graph.CorrectAdjacencyMatrix)):
-            for j in range(len(Graph.CorrectAdjacencyMatrix)):
-                if (Graph.ArrowPointsTimeLate[i][j] != Graph.PointsTimeLate[j] - CorrectWeights[i][j]):
+        for i in range(len(CorrectAdjacencyMatrix)):
+            for j in range(len(CorrectAdjacencyMatrix)):
+                if ((CorrectAdjacencyMatrix[i][j] == 1) and (Graph.ArrowPointsTimeLate[i][j] != Graph.PointsTimeLate[j] - CorrectWeights[i][j])):
                     mistakes.append(2)
                     return mistakes
     return mistakes
