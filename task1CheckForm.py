@@ -37,11 +37,46 @@ class task1CheckForm(QtWidgets.QDialog):
 
         for i in range(len(mistakes)):
             if mistakes[i] == 1: self.ui.label.setPixmap(incorrect)
-            if mistakes[i] == 2: self.ui.label_2.setPixmap(incorrect)
-            if mistakes[i] == 3: self.ui.label_3.setPixmap(incorrect)
-            if mistakes[i] == 4: self.ui.label_4.setPixmap(incorrect)
-            if mistakes[i] == 5: self.ui.label_6.setPixmap(incorrect)
+            elif mistakes[i] == 2: self.ui.label_2.setPixmap(incorrect)
+            elif mistakes[i] == 3: self.ui.label_3.setPixmap(incorrect)
+            elif mistakes[i] == 4: self.ui.label_4.setPixmap(incorrect)
+            elif mistakes[i] == 5: self.ui.label_6.setPixmap(incorrect)
 
+    def Task2(self):
+        # self.ui.gridLayout.removeWidget(self.ui.labelConnectionCross)
+        # self.ui.labelConnectionCross.setParent(None)
+        # self.ui.gridLayout.removeWidget(self.ui.label_4)
+        # self.ui.label_4.setParent(None)
+        self.ui.gridLayout.removeWidget(self.ui.labelEdgesIntersect)
+        self.ui.labelEdgesIntersect.setParent(None)
+        self.ui.gridLayout.removeWidget(self.ui.label_6)
+        self.ui.label_6.setParent(None)
+        self.ui.labelSoClose.setText("Верные ранние сроки событий")
+        self.ui.labelNodesCount.setText("Верные поздние сроки событий")
+        self.ui.labelConnectionsCount.setText("Верные продолжительности работ")
+        self.ui.labelConnectionCross.setText("Верно указан(ы) критический(ие) путь(и)")
+
+    def Task34(self):
+        self.ui.gridLayout.removeWidget(self.ui.labelConnectionsCount)
+        self.ui.labelConnectionsCount.setParent(None)
+        self.ui.gridLayout.removeWidget(self.ui.label_3)
+        self.ui.label_3.setParent(None)
+        self.ui.gridLayout.removeWidget(self.ui.labelConnectionCross)
+        self.ui.labelConnectionCross.setParent(None)
+        self.ui.gridLayout.removeWidget(self.ui.label_4)
+        self.ui.label_4.setParent(None)
+        self.ui.gridLayout.removeWidget(self.ui.labelEdgesIntersect)
+        self.ui.labelEdgesIntersect.setParent(None)
+        self.ui.gridLayout.removeWidget(self.ui.label_6)
+        self.ui.label_6.setParent(None)
+        self.ui.labelSoClose.setText("Событиям соответствуют верные моменты времени")
+        self.ui.labelNodesCount.setText("Работам соответствуют верные промежутки времени")
+
+    def Task5(self):
+        pass
+
+    def Task6(self):
+        pass
 
     def _connectAction(self):
         self.ui.pushButton.clicked.connect(lambda: self.close()) # прописываем действие по кнопке
