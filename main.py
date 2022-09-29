@@ -955,7 +955,7 @@ class WindowMenu(QMainWindow):
 
     def show(self):
         self.showMaximized()
-        self.ui.tableVar.horizontalHeader().setDefaultSectionSize(int(self.sizeWindow.width() / 5))
+        self.ui.tableVar.horizontalHeader().setDefaultSectionSize(int(self.sizeWindow.width() / self.ui.tableVar.columnCount()))
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
 
@@ -965,23 +965,20 @@ class WindowMenu(QMainWindow):
         book = openpyxl.open(pathFileXlsx, read_only=True) # открываем файл с помощью либы для обработки .xlsx
         sheet = book.active # active - выбирает номер страницы в книге без параметров (по умолчанию) первая страница
 
-        # check = sheet.max_row
-        # for i in range(1, sheet.max_row + 1):  # Начинаем c 1 строки, так как если начнем с 0 вылетит ошибка
-        #    for j in range(0, sheet.max_column):  # Проходимся по кол-ву столбцов
-        #        print(sheet[sheet[ i ][ j ].coordinate].value, end=" ")  # Выводим в консоль каждый элемент в каждой строке
-        #    print()  # Перенос на новую строку
-
         countColumns = 0
         tabelVar = []
 
         for row in sheet.iter_rows(sheet.min_row, sheet.max_row):# подкачиваем данные из xlsx файла
             rowVar = []
             for cell in row:
-                rowVar.append(cell.value)
+                if cell.value:
+                    rowVar.append(str(cell.value))
+                else:
+                    rowVar.append(' ')
             tabelVar.append(rowVar)
 
-        #for list in tabelVar:
-        #    print(list)
+        for list in tabelVar:
+            print(list)
 
         self.ui.tableVar.setRowCount(0) # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
 
@@ -994,43 +991,7 @@ class WindowMenu(QMainWindow):
                     self.ui.tableVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
                 countColumns = countColumns + 1
             countColumns = 0
-            # print()
-
-
-        # for row in sheet.iter_rows(sheet.min_row+1, sheet.max_row):
-        #    rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
-        #    self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
-
-        #    for cell in row:
-        #        if countColumns > 0:
-        #            print(cell.value, end=" ")
-        #            self.ui.tableVar.setItem(rowPosition, countColumns - 1, QtWidgets.QTableWidgetItem(cell.value))  # заполняем "строку таблицы из файла", каждую ячейку
-        #        countColumns = countColumns + 1
-        #    countColumns = 0
-        #    print()
-
-        # for numStr in range(1,sheet.max_row):
-        #    rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
-        #    self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
-        #    for numCol in range (1,sheet.max_column):
-        #        self.ui.tableVar.setItem(rowPosition, numCol - 1, QtWidgets.QTableWidgetItem(sheet[numStr][numCol].value)) #  заполняем "строку таблицы из файла", каждую ячейку
-
-        #    print(sheet[str][0].value)
-
-        #    pageBook[str][0]:
-
-        #    for i in range(1, sheet.max_row + 1)  # Начинаем c 1 строки, так как если начнем с 0 вылетит ошибка
-        #       for j in range(0, sheet.max_column)  # Проходимся по кол-ву столбцов
-        #           print(sheet[sheet[ i ][ j ].coordinate], end=" ")  # Выводим в консоль каждый элемент в каждой строке
-        #       print()  # Перенос на новую строку
-
-        #      Add text to the row
-        #     for i in range (self.ui.tableVar.columnCount() - 1): # -1 потому что колонка "Прим." пустая
-        #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.name)) #  заполняем "строку таблицы из файла", каждую ячейку
-        #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.surname)) #
-        #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem(self.numGroup)) #             кроме "Прим."
-        #         self.ui.tableVar.setItem(rowPosition, i, QtWidgets.QTableWidgetItem("CHECK")) #
-
+            
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

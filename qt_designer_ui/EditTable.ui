@@ -142,6 +142,21 @@
        <string>Сохранить и выйти</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="btnSetNumPeopleInSquad">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #66e3ff;</string>
+      </property>
+      <property name="text">
+       <string>Задать количество людей
+в подразделениях/отделениях</string>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
