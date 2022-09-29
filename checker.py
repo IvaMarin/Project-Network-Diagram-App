@@ -99,6 +99,42 @@ def find_R(reserve, early, late, n):
     return reserve
 
 
+def topological_sort(v):
+	global Stack, visited, adj
+	visited[v] = True
+
+	for i in adj[v]:
+		if (not visited[i[0]]):
+			topological_sort(i[0])
+
+	Stack.append(v)
+
+
+def critical_path(s):
+	global Stack, visited, adj, V
+	dist = [-10**9 for i in range(V)]
+
+	for i in range(V):
+		if (visited[i] == False):
+			topological_sort(i)
+
+	dist[s] = 0
+
+	while (len(Stack) > 0):
+	
+		u = Stack[-1]
+		del Stack[-1]
+
+		if (dist[u] != 10**9):
+			for i in adj[u]:
+				# print(u, i)
+				if (dist[i[0]] < dist[u] + i[1]):
+					dist[i[0]] = dist[u] + i[1]
+
+	for i in range(V):
+		print("INF ",end="") if (dist[i] == -10**9) else print(dist[i],end=" ")
+
+
 # проверка первого задания
 def checkTask1(Graph, CorrectAdjacencyMatrix):
     CountOfNodes = 0
@@ -177,6 +213,61 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
                             if (((i, j) != (k, l)) and ((i, j) != (l, k)) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
                                 mistakes.append(5)
                                 return mistakes
+    return mistakes
+
+
+# проверка второго задания
+def checkTask2(Graph):
+    CorrectWeights = Graph.CorrectWeights
+    CorrectAdjacencyMatrix = Graph.CorrectAdjacencyMatrix
+
+    # CorrectWeights = np.array([[-1, 1, -1, -1],
+    #                            [1, -1, 2, -1],
+    #                            [-1, 2, -1, 3],
+    #                            [-1, -1, 3, -1]])
+    # CorrectAdjacencyMatrix = np.array([[0, 1, 0, 0],
+    #                                    [0, 0, 1, 0],
+    #                                    [0, 0, 0, 1],
+    #                                    [0, 0, 0, 0]])
+
+    n = len(CorrectWeights)
+
+    mistakes = []   # список ошибок:
+                    #     1 - верные ранние сроки событий
+                    #     2 - верные поздние сроки событий
+                    #     3 - верные продолжительности работ
+                    #     4 - верно указан критический(ие) путь(и)
+
+    old_mistakes = []
+    old_mistakes = checkTask1(Graph, CorrectAdjacencyMatrix)
+
+    if (old_mistakes):
+        mistakes.append(1)
+        mistakes.append(2)
+        mistakes.append(3)
+        mistakes.append(4)
+        return mistakes
+
+    early = find_t_p(CorrectWeights, n)
+    late = find_t_n(CorrectWeights, early, n)
+    reserve = find_R(CorrectWeights, early, late, n)
+
+    early_time_is_correct = True
+    for i in range(len(Graph.tp)):
+        if (Graph.tp[i] != early[i]):
+            mistakes.append(1)
+            early_time_is_correct = False
+            break
+
+    late_time_is_correct = True
+    for i in range(len(Graph.tn)):
+        if (Graph.tn[i] != late[i]):
+            mistakes.append(2)
+            late_time_is_correct = False
+            break
+
+    # TO DO: mistakes 3 and 4
+
     return mistakes
 
 
@@ -273,7 +364,6 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
 
     early = find_t_p(CorrectWeights, n)
     late = find_t_n(CorrectWeights, early, n)
-    # reserve = find_R(CorrectWeights, early, late, n)
 
     Graph.PointsTimeLate = np.zeros(n, int)
     for i in range(len(Graph.Points)):

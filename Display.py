@@ -353,9 +353,10 @@ class Display2(Display):
     def mouseMoveEvent(self, event):
         pass
 
-    # тут должна быть проверка для второго задания
+    # проверка для второго задания
     def checkEvent(self):
-        pass
+        mistakes = checker.checkTask2(self.graph)
+        return mistakes
 
 class Display3(Display):
     def paintEvent(self, event):

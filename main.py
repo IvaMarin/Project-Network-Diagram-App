@@ -306,7 +306,7 @@ class Window2(QMainWindow):
             self.DisplayObj.functionAble = "Критический путь"
 
     def taskCheck(self):
-        mistakes = [1, 2, 3, 4]
+        mistakes = self.DisplayObj.checkEvent()
         self.checkForm1 = task1CheckForm(self, mistakes)
         self.checkForm1.Task2()
         self.checkForm1.exec_()
