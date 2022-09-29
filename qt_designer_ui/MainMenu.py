@@ -72,6 +72,7 @@ class Ui_MainMenu(object):
         font.setFamily("Times New Roman")
         font.setPointSize(16)
         item.setFont(font)
+        item.setBackground(QtGui.QColor(255, 255, 255))
         self.tableVar.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         font = QtGui.QFont()

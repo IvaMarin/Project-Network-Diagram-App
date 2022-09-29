@@ -271,8 +271,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             warning = warning.exec()  #
 
 class creatTable(QtWidgets.QDialog): # окно с таблицей для непосредственного ее редактирования 
-    def __init__(self,
-                 root):  # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
+    def __init__(self,root):  # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
         """Initializer."""
         super().__init__(root)  # инициализация
 
@@ -305,24 +304,20 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         winNumSquads = QDialog()
         winNumSquads.ui = setNumSquad.Ui_SetNumSquad() 
         winNumSquads.ui.setupUi(winNumSquads)
-
-        
         winNumSquadsOut = winNumSquads.exec()
         
         if winNumSquadsOut == 1:  # если нажали да
             NumSquads = winNumSquads.ui.lineEditSetNumSquad.text() 
-            #print("YES")
-            #event.accept()  # подтверждаем ивент
-            #self.winEditTable.mainMenu.show()
         else:  # иначе игнорируем
-            #print("NO")
             return
         
         winTableNumPeopleInSquad = creatTableNumPeopleInSquad(self, int(NumSquads))
-        #winTableNumPeopleInSquad.creatTable(int(NumSquads))
-        winTableNumPeopleInSquad.show()
+        #winTableNumPeopleInSquad.creatTable(int(NumSquads))\
+        #self.hide()
+        winTableNumPeopleInSquad.exec_()
         #winTableNumPeopleInSquad = winTableNumPeopleInSquad.exec()
         #self.listNumPeopleInSquad = winTableNumPeopleInSquad.listNumPeopleInSquad
+        
 
 
     def delStrLast(self):
@@ -335,21 +330,18 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
 
     def closeWinCreatTable(self):
         self.saveTable()
-        for item in self.listNumPeopleInSquad:
-            print(item[0], " ", item[1])
+        # for item in self.listNumPeopleInSquad:
+        #     for i in item:
+        #         print(i)
         self.close()
 
     def saveTable(self):
-        # ДОБАВИТЬ СОХРАНЕНИЕ ФАЙЛА
         sheet = self.book.active
 
         for rowInTblTsk in range(sheet.max_row):
             for colInTblTsk in range(sheet.max_column):
                 sheet.cell(rowInTblTsk + 1, colInTblTsk + 1).value = None
-
-        #for row in self.ui.tableTaskVar:
-        #    sheet.append(row)
-        row = []
+        #row = []
         for rowInTblTsk in range(self.ui.tableTaskVar.rowCount()):
             for colInTblTsk in range(self.ui.tableTaskVar.columnCount()):
                 if self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk):
@@ -358,8 +350,9 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
                     tmpItem = ' '
                 sheet.cell(rowInTblTsk + 1, colInTblTsk + 1).value = tmpItem
 
-        #for row in data:
-        #    sheet.append(row)
+        for rowInSqdTbl in range(len(self.listNumPeopleInSquad)):
+            for colInSqdTbl in range(len(self.listNumPeopleInSquad[rowInSqdTbl])):
+                sheet.cell(rowInSqdTbl + 1, colInSqdTbl + self.ui.tableTaskVar.columnCount()+1).value = self.listNumPeopleInSquad[rowInSqdTbl][colInSqdTbl]
 
         self.book.save(self.pathToExcelFile)
 
@@ -396,7 +389,7 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
 
         for row in sheet.iter_rows(sheet.min_row, sheet.max_row):  # подкачиваем данные из xlsx файла
             rowVar = []
-            for cell in row:
+            for cell in row: # Две последнии колонки обрезаются т к их некуда вписать !!!!!!!!!
                 rowVar.append(cell.value)
             tabelVar.append(rowVar)
 
@@ -446,26 +439,30 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
         self.close()
 
     def saveTable(self):
+        self.winEditTable.listNumPeopleInSquad = []
         for rowInTblTsk in range(self.ui.tableNumPeopleInSquad.rowCount()):
             self.winEditTable.listNumPeopleInSquad.append([])
             for colInTblTsk in range(self.ui.tableNumPeopleInSquad.columnCount()):
                 if self.ui.tableNumPeopleInSquad.item(rowInTblTsk, colInTblTsk):
-                    tmpItem = self.ui.tableNumPeopleInSquad.item(rowInTblTsk, colInTblTsk).text()
+                    tmpItem = int(self.ui.tableNumPeopleInSquad.item(rowInTblTsk, colInTblTsk).text())
+                    
                 else:
-                    tmpItem = ' '
+                    tmpItem = 0
+                #print("item", tmpItem)
                 self.winEditTable.listNumPeopleInSquad[-1].append(tmpItem)
         #self.winEditTable.listNumPeopleInSquad = self.listNumPeopleInSquad
 
 
     def closeEvent(self, event):
         close = QMessageBox()
-        close.setWindowTitle("Закрыть редактор")
-        close.setText("Вы уверены, что хотите закрыть редактор?")  #
+        close.setWindowTitle("Закрыть окно")
+        close.setText("Вы уверены, что хотите закрыть окно?")  #
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
         close = close.exec()
         if close == QMessageBox.Ok:  # если нажали да
             # self.book.close()
             event.accept()  # подтверждаем ивент
+            self.winEditTable.show()
             #self.winEditTable.mainMenu.show()
         else:  # иначе игнорируем
             event.ignore()
@@ -478,29 +475,3 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
             self.ui.tableNumPeopleInSquad.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
             self.ui.tableNumPeopleInSquad.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(i + 1)))  # заполняем "строку таблицы из файла", каждую ячейку
             
-
-    # def openFile(self, pathToExcelFile): # открываем указанный файл в окне для редактирования вариантов
-    #     self.pathToExcelFile = pathToExcelFile # сохраняем путь до файла
-    #     # файлик с таблицой должен называться "В" + номер студента по списку + ".xlsx" (расширение файла)
-    #     self.book = openpyxl.load_workbook(self.pathToExcelFile)  # открываем файл с помощью либы для обработки .xlsx
-    #     sheet = self.book.active  # active - выбирает номер страницы в книге без параметров (по умолчанию) первая страница
-
-    #     countColumns = 0 # счетчик колонок
-    #     tabelVar = [] # список строк
-
-    #     for row in sheet.iter_rows(sheet.min_row, sheet.max_row):  # подкачиваем данные из xlsx файла
-    #         rowVar = []
-    #         for cell in row:
-    #             rowVar.append(cell.value)
-    #         tabelVar.append(rowVar)
-
-    #     self.ui.tableTaskVar.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
-
-    #     for list in tabelVar:
-    #         rowPosition = self.ui.tableTaskVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
-    #         self.ui.tableTaskVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
-    #         for item in list:
-    #             if countColumns >= 0:
-    #                 self.ui.tableTaskVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
-    #             countColumns = countColumns + 1
-    #         countColumns = 0
