@@ -299,14 +299,17 @@ class Window2(QMainWindow):
         # print (graph1.tn)
         self.update()
 
-    def critPathCheck(self):
+    def critPath(self):
         if self.ui.actionbtnCritPath.isChecked() == False:
             self.DisplayObj.functionAble = ""
         else:
             self.DisplayObj.functionAble = "Критический путь"
 
     def taskCheck(self):
-        pass
+        mistakes = [1, 2, 3, 4]
+        self.checkForm1 = task1CheckForm(self, mistakes)
+        self.checkForm1.Task2()
+        self.checkForm1.exec_()
 
     def backMainMenu(self):
         MainWindow.show()
@@ -316,7 +319,8 @@ class Window2(QMainWindow):
         self.table1.ui.tableCheckButton.clicked.connect(self.table1Check)
         self.table2.ui.tableCheckButton.clicked.connect(self.table2Check)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
-        self.ui.actionbtnCritPath.triggered.connect(self.critPathCheck)
+        self.ui.actionbtnCritPath.triggered.connect(self.critPath)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
 
     def sizeGet(self):
         return self.size()
@@ -405,6 +409,7 @@ class Window3(QMainWindow):
     def taskCheck(self):
         mistakes = self.centralWidget.checkEvent3()
         self.checkForm1 = task1CheckForm(self, mistakes)
+        self.checkForm1.Task34()
         self.checkForm1.exec_()
 
     def _connectAction(self):
@@ -480,6 +485,7 @@ class Window4(QMainWindow):
     def taskCheck(self):
         mistakes = self.centralWidget.checkEvent4()
         self.checkForm1 = task1CheckForm(self, mistakes)
+        self.checkForm1.Task34()        
         self.checkForm1.exec_()
 
     def _connectAction(self):
