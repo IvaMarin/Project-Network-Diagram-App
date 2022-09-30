@@ -520,7 +520,7 @@ class Display3(Display):
         self.update()
 
 class Canvas(FigureCanvas):
-    def __init__(self, parent, people, t_Max):
+    def __init__(self, parent, Points, AdjacencyMatrix, X_min, X_max, step):
         fig, self.ax = plt.subplots(figsize=(2, 1), dpi=200)
         super().__init__(fig)
         self.setParent(parent)
@@ -528,12 +528,13 @@ class Canvas(FigureCanvas):
         """ 
         Matplotlib Script
         """
-        self.ax.axis([0, 6, 0, 6])
-        n, bin, patches = plt.hist(people, t_Max)
+        intervals = np.zeros((X_max-X_min)/step)
+        for i in range(len(AdjacencyMatrix)):
+            for j in range(len(AdjacencyMatrix[i])):
+                if AdjacencyMatrix[i][j] != 0:
+                    for k in range(len(intervals)):
+                        if k*step >= Points[i][0] and (k+1)*step <= Points[j][0]:
+                            intervals[k] += AdjacencyMatrix[i][j]
+        self.ax.axis([0, intervals.max(), 0, X_max-X_min])
+        n, bin, patches = plt.hist(intervals, X_max - X_min)
         self.ax.grid()
-        
-        # self.ax.plot(t, s)
-
-        # self.ax.set(xlabel='time (s)', ylabel='voltage (mV)',
-        #        title='About as simple as it gets, folks')
-        # self.ax.grid()
