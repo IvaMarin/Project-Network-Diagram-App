@@ -744,10 +744,8 @@ class Window6(QMainWindow):
 
     
         #виджет графика
-        temp_people = np.array([0, 0, 0, 1, 1, 2, 3, 3, 4, 5, 5])
-        temp_peopleY = np.array([2, 1, 4, 3, 5])
-        temp_t_Max = 5
-        widgetRight = Display.Canvas(self, temp_people, temp_t_Max)
+        # !!! вместо graph1.AdjacencyMatrix вставить матрицу смежности, где вместо единиц кол-во людей
+        widgetRight = Display.Canvas(self, graph1, graph1.AdjacencyMatrix, 0, 0, 75)
         widgetRight.setMinimumSize(int(width/2), int(height/2))
 
         #слева отделения
