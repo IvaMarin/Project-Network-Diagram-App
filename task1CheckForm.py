@@ -54,7 +54,7 @@ class task1CheckForm(QtWidgets.QDialog):
         self.ui.labelSoClose.setText("Верные ранние сроки событий")
         self.ui.labelNodesCount.setText("Верные поздние сроки событий")
         self.ui.labelConnectionsCount.setText("Верные продолжительности работ")
-        self.ui.labelConnectionCross.setText("Верно указан(ы) критический(ие) путь(и)")
+        self.ui.labelConnectionCross.setText("Верно указан критический путь")
 
     def Task34(self):
         self.ui.gridLayout.removeWidget(self.ui.labelConnectionsCount)

@@ -194,7 +194,7 @@ class Graph:
 		# если курсор не наведен на вершину
 		if firstIndex == -1 or secondIndex == -1:
 			return # ничего не делать
-		# если связь выделана как критическая
+		# если связь выделена как критическая
 		if self.AdjacencyMatrix[firstIndex][secondIndex] == 2:
 			self.AdjacencyMatrix[firstIndex][secondIndex] = 1 # убрать критическое выделение
 			return

@@ -210,7 +210,7 @@ class Display(QWidget):
         return mistakes
 
     def _drawLabels(self):
-        self.label = np.zeros_like(self.graph.AdjacencyMatrix, dtype=QLineEdit)
+        self.graph.label = np.zeros_like(self.graph.AdjacencyMatrix, dtype=QLineEdit)
 
         for i in range(len(self.graph.AdjacencyMatrix)):
             for j in range(len(self.graph.AdjacencyMatrix)):
@@ -229,20 +229,20 @@ class Display(QWidget):
                         x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 - offset
                     y = ((int)(self.graph.Points[i][1]) + (int)(self.graph.Points[j][1])) / 2 - offset
 
-                    self.label[i][j] = (QLineEdit(self))
-                    self.label[i][j].setAlignment(Qt.AlignHCenter)
+                    self.graph.label[i][j] = (QLineEdit(self))
+                    self.graph.label[i][j].setAlignment(Qt.AlignHCenter)
 
                     font = 'Times'
                     font_size = 12
-                    self.label[i][j].setFont(QFont(font, font_size))
+                    self.graph.label[i][j].setFont(QFont(font, font_size))
                     
-                    self.label[i][j].move(x, y)
-                    self.label[i][j].resize(50,50)
+                    self.graph.label[i][j].move(x, y)
+                    self.graph.label[i][j].resize(50,50)
 
-                    self.label[i][j].setStyleSheet("border :2px solid black;")
+                    self.graph.label[i][j].setStyleSheet("border :2px solid black;")
                     
-                    self.label[i][j].setInputMask("00")
-                    self.label[i][j].show()
+                    self.graph.label[i][j].setInputMask("00")
+                    self.graph.label[i][j].show()
 
 class Display2(Display):
 
@@ -528,13 +528,13 @@ class Canvas(FigureCanvas):
         """ 
         Matplotlib Script
         """
-        intervals = np.zeros((X_max-X_min)/step)
-        for i in range(len(AdjacencyMatrix)):
-            for j in range(len(AdjacencyMatrix[i])):
-                if AdjacencyMatrix[i][j] != 0:
-                    for k in range(len(intervals)):
-                        if k*step >= Points[i][0] and (k+1)*step <= Points[j][0]:
-                            intervals[k] += AdjacencyMatrix[i][j]
-        self.ax.axis([0, intervals.max(), 0, X_max-X_min])
-        n, bin, patches = plt.hist(intervals, X_max - X_min)
+        # intervals = np.zeros((X_max-X_min)/step)
+        # for i in range(len(AdjacencyMatrix)):
+        #     for j in range(len(AdjacencyMatrix[i])):
+        #         if AdjacencyMatrix[i][j] != 0:
+        #             for k in range(len(intervals)):
+        #                 if k*step >= Points[i][0] and (k+1)*step <= Points[j][0]:
+        #                     intervals[k] += AdjacencyMatrix[i][j]
+        # self.ax.axis([0, intervals.max(), 0, X_max-X_min])
+        # n, bin, patches = plt.hist(intervals, X_max - X_min)
         self.ax.grid()
