@@ -155,7 +155,7 @@ class Display(QWidget):
                 if (i != self.illumination):
                     painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
                 else:
-                    painter.setBrush(QColor(127, 255, 212, 220))# обеспечиваем закрашивание вершин графа
+                    painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
 
                 painter.drawEllipse(self.graph.Points[i][0]-self.graph.RadiusPoint, self.graph.Points[i][1]-self.graph.RadiusPoint, 
                                     2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
@@ -194,9 +194,12 @@ class Display(QWidget):
     
         elif (self.functionAble == "Удалить вершину"):
             control.CDeletePoint(self.graph, event, Qt.LeftButton)
+            self.illumination = -1
 
         elif (self.functionAble == "Переместить вершины"):
             self.FixedPoint = control.CIsCursorOnPoint(self.graph, event, Qt.LeftButton)
+            self.illumination = -1
+            self.TempPoints = np.empty(0)
 
         self.update()
 
@@ -250,6 +253,7 @@ class Display2(Display):
         super().__init__(root, graph_in)
         self.graph = graph_in
         self.switch = True
+        self.illumination = -1 
     
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -293,8 +297,12 @@ class Display2(Display):
 
         # отрисовка вершин и цифр
         painter.setPen(QPen(QColor("black"), 2.5))
-        painter.setBrush(QColor("white")) # обеспечиваем закрашивание вершин графа
+        #painter.setBrush(QColor("white")) # обеспечиваем закрашивание вершин графа
         for i in range(len(self.graph.Points)):
+            if (i != self.illumination):
+                painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+            else:
+                painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
             # если вершина существует
             if (not np.isnan(self.graph.Points[i][0])):
                 x, y = self.graph.Points[i]
@@ -343,12 +351,14 @@ class Display2(Display):
     def mousePressEvent(self, event):
         if (self.functionAble == "Критический путь"):
             self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # добавить в массив выбранных вершин
+            self.illumination = self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
             # если число выбранных вершин 2
             if len(self.TempPoints) == 2:
                 # проверка, если пользователь случайно нажал дважды по одной и той же вершине
                 if (self.TempPoints[0] != self.TempPoints[1]):
                     control.CSelectCriticalPath(self.graph, event, Qt.LeftButton, self.TempPoints)
                 self.TempPoints = np.empty(0) # очистить массив
+                self.illumination = -1 
         self.update()
     def mouseMoveEvent(self, event):
         pass
@@ -528,14 +538,14 @@ class Canvas(FigureCanvas):
         """ 
         Matplotlib Script
         """
-        intervals = np.zeros(int((X_max-X_min)/step))
-        for i in range(len(AdjacencyMatrix)):
-            for j in range(len(AdjacencyMatrix[i])):
-                if AdjacencyMatrix[i][j] != 0:
-                    for k in range(len(intervals)):
-                        if k*step >= Points[i][0] and (k+1)*step <= Points[j][0]:
-                            intervals[k] += AdjacencyMatrix[i][j]
-        self.ax.axis([0, intervals.max(), 0, int(X_max-X_min)])
-        n, bin, patches = plt.hist(intervals, X_max - X_min)
+        # intervals = np.zeros(int((X_max-X_min)/step))
+        # for i in range(len(AdjacencyMatrix)):
+        #     for j in range(len(AdjacencyMatrix[i])):
+        #         if AdjacencyMatrix[i][j] != 0:
+        #             for k in range(len(intervals)):
+        #                 if k*step >= Points[i][0] and (k+1)*step <= Points[j][0]:
+        #                     intervals[k] += AdjacencyMatrix[i][j]
+        # self.ax.axis([0, intervals.max(), 0, int(X_max-X_min)])
+        # n, bin, patches = plt.hist(intervals, X_max - X_min)
 
         self.ax.grid()
