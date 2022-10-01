@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1200</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1200</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(126, 167, 255);</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(175, 211, 255);</string>
+   </property>
+   <widget class="QTextEdit" name="input_name">
+    <property name="geometry">
+     <rect>
+      <x>269</x>
+      <y>400</y>
+      <width>591</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(219, 244, 255);</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="input_group">
+    <property name="geometry">
+     <rect>
+      <x>269</x>
+      <y>500</y>
+      <width>591</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(219, 244, 255);</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="name_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>400</y>
+      <width>71</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>ФИО</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="group_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>500</y>
+      <width>241</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Подразделение</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_start">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>670</y>
+      <width>200</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(126, 167, 255);</string>
+    </property>
+    <property name="text">
+     <string>Начать</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="variant_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>590</y>
+      <width>141</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Вариант</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="input_variant">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>590</y>
+      <width>111</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(219, 244, 255);</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="nativeMenuBar">
+    <bool>true</bool>
+   </property>
+   <widget class="QMenu" name="menu_file">
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <widget class="QMenu" name="menu_save_as">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Преобразовать отчёт</string>
+     </property>
+     <addaction name="action_save_as_docx"/>
+     <addaction name="separator"/>
+     <addaction name="action_save_as_pdf"/>
+    </widget>
+    <addaction name="action_report_print"/>
+    <addaction name="separator"/>
+    <addaction name="action_save_report"/>
+    <addaction name="separator"/>
+    <addaction name="action_watch_report"/>
+    <addaction name="separator"/>
+    <addaction name="action_delete_report"/>
+    <addaction name="separator"/>
+    <addaction name="menu_save_as"/>
+    <addaction name="separator"/>
+    <addaction name="action_import_report"/>
+   </widget>
+   <widget class="QMenu" name="menu_tools">
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>Инструменты</string>
+    </property>
+    <addaction name="call_calc"/>
+    <addaction name="separator"/>
+    <addaction name="call_notepad"/>
+   </widget>
+   <widget class="QMenu" name="info">
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>О программе</string>
+    </property>
+    <widget class="QMenu" name="menu">
+     <property name="title">
+      <string>Версия программы</string>
+     </property>
+     <addaction name="action1_0"/>
+    </widget>
+    <addaction name="about_developers"/>
+    <addaction name="separator"/>
+    <addaction name="menu"/>
+   </widget>
+   <widget class="QMenu" name="mode">
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>Режим</string>
+    </property>
+    <addaction name="teacher"/>
+    <addaction name="separator"/>
+    <addaction name="student"/>
+   </widget>
+   <widget class="QMenu" name="help">
+    <property name="title">
+     <string>Инструкция</string>
+    </property>
+    <addaction name="help_teacher"/>
+    <addaction name="separator"/>
+    <addaction name="help_student"/>
+   </widget>
+   <addaction name="menu_file"/>
+   <addaction name="menu_tools"/>
+   <addaction name="info"/>
+   <addaction name="mode"/>
+   <addaction name="help"/>
+  </widget>
+  <action name="call_calc">
+   <property name="text">
+    <string>Калькулятор</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_save">
+   <property name="text">
+    <string>сохранить</string>
+   </property>
+  </action>
+  <action name="action_watch_report">
+   <property name="text">
+    <string>Просмотреть отчёт</string>
+   </property>
+  </action>
+  <action name="action_print_report">
+   <property name="text">
+    <string>Печать</string>
+   </property>
+  </action>
+  <action name="call_notepad">
+   <property name="text">
+    <string>Блокнот</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="about_developers">
+   <property name="text">
+    <string>Разработчики</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="teacher">
+   <property name="text">
+    <string>Преподаватель</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="student">
+   <property name="text">
+    <string>Студент</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_delete_report">
+   <property name="text">
+    <string>Удалить отчёт</string>
+   </property>
+  </action>
+  <action name="action_save_as_docx">
+   <property name="text">
+    <string>doc</string>
+   </property>
+  </action>
+  <action name="action_save_as_pdf">
+   <property name="text">
+    <string>pdf</string>
+   </property>
+  </action>
+  <action name="action_save_report">
+   <property name="text">
+    <string>Сохранить отчёт</string>
+   </property>
+  </action>
+  <action name="action_import_report">
+   <property name="text">
+    <string>Импорт отчёта</string>
+   </property>
+  </action>
+  <action name="action_print_as_pdf">
+   <property name="text">
+    <string>pdf</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_print_as_docx">
+   <property name="text">
+    <string>docx</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_report_print">
+   <property name="text">
+    <string>Печать отчёта</string>
+   </property>
+  </action>
+  <action name="action1_0">
+   <property name="text">
+    <string>1.0</string>
+   </property>
+  </action>
+  <action name="help_teacher">
+   <property name="text">
+    <string>Преподавателю</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="help_student">
+   <property name="text">
+    <string>Студенту</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
