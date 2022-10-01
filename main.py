@@ -745,13 +745,18 @@ class Window6(QMainWindow):
     
         #виджет графика
         # !!! вместо graph1.AdjacencyMatrix вставить матрицу смежности, где вместо единиц кол-во людей
-        widgetRight = Display.Canvas(self, graph1, graph1.AdjacencyMatrix, 0, 0, 75)
-        widgetRight.setMinimumSize(int(width/2), int(height/2))
+        # AdjacencyMatrixPeople = np.zeros((len(graph1.AdjacencyMatrix), len(graph1.AdjacencyMatrix[0])))
+        # for i in range(len(AdjacencyMatrixPeople)):
+        #     for j in range(len(AdjacencyMatrixPeople[i])):
+        #         if AdjacencyMatrixPeople[i][j] != 0:
+        #             AdjacencyMatrixPeople = graph1.label[i][j].text()
+        #widgetRight = Display.Canvas(self, graph1, AdjacencyMatrixPeople, 0, 0, 75)
+        #widgetRight.setMinimumSize(int(width/2), int(height/2))
 
         #слева отделения
         layout.addWidget(self.scroll) 
         #справа гистограмма       #Виджет вставлять сюда
-        layout.addWidget(widgetRight)
+        #layout.addWidget(widgetRight)
 
         # Задаём компоновку виджету
         widget = QWidget()

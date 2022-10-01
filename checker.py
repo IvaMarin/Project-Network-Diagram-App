@@ -265,7 +265,7 @@ def checkTask2(Graph):
             mistakes.append(2)
             late_time_is_correct = False
             break
-
+    
     # TO DO: mistakes 3 and 4
 
     return mistakes
