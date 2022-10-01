@@ -380,7 +380,7 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        self.centralWidget = Display.Display3(self, graph1, 0, 0, 75, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
+        self.centralWidget = Display.Display3(self, graph1, 0, 0, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
@@ -460,7 +460,7 @@ class Window4(QMainWindow):
         self.setWindowTitle("Задача №4")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        self.centralWidget = Display.Display3(self, graph1, 0, 0, 75, [0, 0, 255, 200], horizontal = False, late_time=True, switch=False)
+        self.centralWidget = Display.Display3(self, graph1, 0, 0, 100, [0, 0, 255, 200], horizontal = False, late_time=True, switch=False)
         self.setCentralWidget(self.centralWidget)
 
         self._connectAction()
