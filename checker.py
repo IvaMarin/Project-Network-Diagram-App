@@ -135,6 +135,22 @@ def critical_path(s, n):
     return dist[n-1]
 
 
+def find_all_paths(u, d, path):
+    visited[u]= True
+    path.append(u)
+
+    if u == d:
+        cp_path = path.copy()
+        paths.append(cp_path)
+    else:
+        for i in adj[u]:
+            if visited[i[0]] == False:
+                find_all_paths(i[0], d, path)
+    
+    path.pop()
+    visited[u]= False
+  
+
 # проверка первого задания
 def checkTask1(Graph, CorrectAdjacencyMatrix):
     CountOfNodes = 0
@@ -182,10 +198,10 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
     if CorrectCountOfConnections != CurrentCountOfConnections:
         mistakes.append(3)
         mistakes.append(4)
-    elif (len(Graph.AdjacencyMatrix) == len(CorrectAdjacencyMatrix[i])):
+    elif (len(Graph.AdjacencyMatrix) >= len(CorrectAdjacencyMatrix[i])):
         wrong_connections = False
-        for i in range(len(Graph.AdjacencyMatrix)):
-            for j in range(len(Graph.AdjacencyMatrix[i])):
+        for i in range(len(CorrectAdjacencyMatrix)):
+            for j in range(len(CorrectAdjacencyMatrix)):
                 if ((Graph.AdjacencyMatrix[i][j] >= 1 and CorrectAdjacencyMatrix[i][j] == 0) or 
                     (Graph.AdjacencyMatrix[i][j] == 0 and CorrectAdjacencyMatrix[i][j] == 1)):
                     wrong_connections = True
@@ -267,9 +283,12 @@ def checkTask2(Graph):
     # TO DO: check (3) with Graph.label[i][j].text() type(Graph.label[i][j]) == QLineEdit
 
 
-    global Stack, visited, adj
+    # Критические Пути:
+    # на первом шаге найдем правильное значение максимального пути в графе
+    global Stack, visited, adj, paths
+
     Stack = []
-    visited = [False for _ in range(n)]
+    visited = [False]*(n)
     adj = [[] for _ in range(n)]
 
     for i in range(n):
@@ -277,21 +296,49 @@ def checkTask2(Graph):
             if (CorrectWeights[i][j] != -1):
                 adj[i].append([j, CorrectWeights[i][j]])
 
-    correct_ans = critical_path(0, n)
+    correct_max_distance = critical_path(0, n)
+    
+    # теперь найдем все пути в графе
+    visited = [False]*(n)
+    path = []
+    paths = []
+    
+    find_all_paths(0, n-1, path)
+    # и среди них выберем те, у которых длина равна максимальной
+    critical_paths = []
+    for p in paths:
+        distance = 0
+        i = 0
+        while (p[i] != n-1):
+            distance += CorrectWeights[p[i]][p[i+1]]
+            i+=1
+        if (distance == correct_max_distance):
+            critical_paths.append(p)
 
+    # на втором шаге найдем значение максимального пути пользователя
     Stack = []
-    visited = [False for _ in range(n)]
+    visited = [False]*(n)
     adj = [[] for _ in range(n)]
-    prev = 0
+
     for i in range(n):
         for j in range(i, n):
-            if (Graph.AdjacencyMatrix[i][j] == 2 and i == prev):
+            if (Graph.AdjacencyMatrix[i][j] == 2):
                 adj[i].append([j, CorrectWeights[i][j]]) 
-                prev = j
 
-    ans = critical_path(0, n)
+    max_distance = critical_path(0, n)
 
-    if not((prev == (n-1) and correct_ans == ans)):
+    # и найдем все пути от начала и до конца выбранные пользователем
+    visited = [False]*(n)
+    path = []
+    paths = []
+    
+    find_all_paths(0, n-1, path)
+
+    # на третьем шаге проверим совпадает ли значение максимального пути с верным
+    if correct_max_distance != max_distance:
+        mistakes.append(4)
+    # и найдены ли все такие пути
+    elif paths != critical_paths:
         mistakes.append(4)
 
     return mistakes
