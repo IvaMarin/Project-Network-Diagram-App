@@ -941,9 +941,9 @@ class WindowMenu(QMainWindow):
             self.ui.btnGenVar.setEnabled(False)
             self.ui.btnEditTaskVariant.setEnabled(False)
     def activateDeveloperMode(self):
-        self.surname = "ADMINadminAdmin"  # данные о студенте проинициализированы
+        self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
-        self.numINGroup = "9"  # данные о студенте проинициализированы
+        self.numINGroup = "1"  # данные о студенте проинициализированы
 
     #def creatReport(self):
         # create an empty Document
