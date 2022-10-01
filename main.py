@@ -306,10 +306,22 @@ class Window2(QMainWindow):
             self.DisplayObj.functionAble = "Критический путь"
 
     def taskCheck(self):
-        mistakes = self.DisplayObj.checkEvent()
-        self.checkForm1 = task1CheckForm(self, mistakes)
-        self.checkForm1.Task2()
-        self.checkForm1.exec_()
+        is_filled = True
+        for row in range(self.table1.ui.tableWidget.rowCount()):
+            if not(type(self.table1.ui.tableWidget.item(row, 0)) == QtWidgets.QTableWidgetItem and self.table1.ui.tableWidget.item(row, 0).text() != ''): 
+                is_filled = False
+                break
+        for row in range(self.table2.ui.tableWidget.rowCount()):
+            if not(type(self.table2.ui.tableWidget.item(row, 0)) == QtWidgets.QTableWidgetItem and self.table2.ui.tableWidget.item(row, 0).text() != ''):
+                is_filled = False
+                break
+        if not(is_filled):
+            self.msg.show()
+        else:
+            mistakes = self.DisplayObj.checkEvent()
+            self.checkForm1 = task1CheckForm(self, mistakes)
+            self.checkForm1.Task2()
+            self.checkForm1.exec_()
 
     def backMainMenu(self):
         MainWindow.show()
@@ -408,9 +420,12 @@ class Window3(QMainWindow):
 
     def taskCheck(self):
         mistakes = self.centralWidget.checkEvent3()
-        self.checkForm1 = task1CheckForm(self, mistakes)
-        self.checkForm1.Task34()
-        self.checkForm1.exec_()
+        if type(mistakes) != QMessageBox:
+            self.checkForm1 = task1CheckForm(self, mistakes)
+            self.checkForm1.Task34()
+            self.checkForm1.exec_()
+        else:
+            mistakes.exec()
 
     def _connectAction(self):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
@@ -484,9 +499,12 @@ class Window4(QMainWindow):
 
     def taskCheck(self):
         mistakes = self.centralWidget.checkEvent4()
-        self.checkForm1 = task1CheckForm(self, mistakes)
-        self.checkForm1.Task34()        
-        self.checkForm1.exec_()
+        if type(mistakes) != QMessageBox:
+            self.checkForm1 = task1CheckForm(self, mistakes)
+            self.checkForm1.Task34()        
+            self.checkForm1.exec_()
+        else:
+            mistakes.exec()
 
     def _connectAction(self):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)

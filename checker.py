@@ -1,5 +1,7 @@
 import numpy as np
+
 from PyQt5.QtCore import QPointF
+from PyQt5.QtWidgets import QMessageBox, QLineEdit
 
 
 # функции для определения точек пересечения отрезков
@@ -49,7 +51,10 @@ def find_point_and_check(p1, q1, p2, q2):
         # if (not sn):
         #     return False
         fn = (p2.x() - p1.x()) + (p2.y() - p1.y()) * q
-        n = fn / sn
+        if (sn == 0):
+            n = 0
+        else:
+            n = fn / sn
     else:
         # if (not(p2.y() - q2.y())):
         #     return False
@@ -100,39 +105,34 @@ def find_R(reserve, early, late, n):
 
 
 def topological_sort(v):
-	global Stack, visited, adj
-	visited[v] = True
+    visited[v] = True
 
-	for i in adj[v]:
-		if (not visited[i[0]]):
-			topological_sort(i[0])
+    for i in adj[v]:
+        if (not visited[i[0]]):
+            topological_sort(i[0])
 
-	Stack.append(v)
+    Stack.append(v)
 
 
-def critical_path(s):
-	global Stack, visited, adj, V
-	dist = [-10**9 for i in range(V)]
+def critical_path(s, n):
+    dist = [-np.inf for _ in range(n)]
 
-	for i in range(V):
-		if (visited[i] == False):
-			topological_sort(i)
+    for i in range(n):
+        if (visited[i] == False):
+            topological_sort(i)
 
-	dist[s] = 0
+    dist[s] = 0
 
-	while (len(Stack) > 0):
-	
-		u = Stack[-1]
-		del Stack[-1]
+    while (len(Stack) > 0):
 
-		if (dist[u] != 10**9):
-			for i in adj[u]:
-				# print(u, i)
-				if (dist[i[0]] < dist[u] + i[1]):
-					dist[i[0]] = dist[u] + i[1]
+        u = Stack[-1]
+        del Stack[-1]
 
-	for i in range(V):
-		print("INF ",end="") if (dist[i] == -10**9) else print(dist[i],end=" ")
+        if (dist[u] != np.inf):
+            for i in adj[u]:
+                if (dist[i[0]] < dist[u] + i[1]):
+                    dist[i[0]] = dist[u] + i[1]
+    return dist[n-1]
 
 
 # проверка первого задания
@@ -140,12 +140,12 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
     CountOfNodes = 0
     CurrentCountOfConnections = 0
     CorrectCountOfConnections = 0
-    mistakes = []   # список ошибок:
-                    #     1 - вершины слишком близко
-                    #     2 - неверное количество вершин
-                    #     3 - неверное количество связей
-                    #     4 - неверные связи
-                    #     5 - связи пересекаются
+    mistakes = []  # список ошибок:
+    #                   1 - вершины слишком близко
+    #                   2 - неверное количество вершин
+    #                   3 - неверное количество связей
+    #                   4 - неверные связи
+    #                   5 - связи пересекаются
 
     do_intersect = False
     for i in range(len(Graph.Points)):
@@ -170,7 +170,7 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
     # считаем число связей в графе студента
     for i in range(len(Graph.AdjacencyMatrix)):
         for j in range(len(Graph.AdjacencyMatrix[i])):
-            if Graph.AdjacencyMatrix[i][j] == 1:
+            if Graph.AdjacencyMatrix[i][j] >= 1:
                 CurrentCountOfConnections += 1
 
     # считаем число связей в правильном графе
@@ -186,7 +186,8 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
         wrong_connections = False
         for i in range(len(Graph.AdjacencyMatrix)):
             for j in range(len(Graph.AdjacencyMatrix[i])):
-                if Graph.AdjacencyMatrix[i][j] != CorrectAdjacencyMatrix[i][j]:
+                if ((Graph.AdjacencyMatrix[i][j] >= 1 and CorrectAdjacencyMatrix[i][j] == 0) or 
+                    (Graph.AdjacencyMatrix[i][j] == 0 and CorrectAdjacencyMatrix[i][j] == 1)):
                     wrong_connections = True
                     mistakes.append(4)
                     break
@@ -198,10 +199,10 @@ def checkTask1(Graph, CorrectAdjacencyMatrix):
     # проверим на пересечение рёбер
     for i, row1 in enumerate(Graph.AdjacencyMatrix):
         for j, col1 in enumerate(row1):
-            if col1 == 1:
+            if col1 >= 1:
                 for k, row2 in enumerate(Graph.AdjacencyMatrix):
                     for l, col2 in enumerate(row2):
-                        if col2 == 1:
+                        if col2 >= 1:
                             p1 = QPointF(
                                 Graph.Points[i][0], Graph.Points[i][1])
                             q1 = QPointF(
@@ -232,11 +233,11 @@ def checkTask2(Graph):
 
     n = len(CorrectWeights)
 
-    mistakes = []   # список ошибок:
-                    #     1 - верные ранние сроки событий
-                    #     2 - верные поздние сроки событий
-                    #     3 - верные продолжительности работ
-                    #     4 - верно указан критический(ие) путь(и)
+    mistakes = []  # список ошибок:
+    #                   1 - верные ранние сроки событий
+    #                   2 - верные поздние сроки событий
+    #                   3 - верные продолжительности работ
+    #                   4 - верно указан критический путь
 
     old_mistakes = []
     old_mistakes = checkTask1(Graph, CorrectAdjacencyMatrix)
@@ -250,23 +251,48 @@ def checkTask2(Graph):
 
     early = find_t_p(CorrectWeights, n)
     late = find_t_n(CorrectWeights, early, n)
-    reserve = find_R(CorrectWeights, early, late, n)
+    # reserve = find_R(CorrectWeights, early, late, n)
 
-    early_time_is_correct = True
     for i in range(len(Graph.tp)):
         if (Graph.tp[i] != early[i]):
             mistakes.append(1)
-            early_time_is_correct = False
             break
 
-    late_time_is_correct = True
     for i in range(len(Graph.tn)):
         if (Graph.tn[i] != late[i]):
             mistakes.append(2)
-            late_time_is_correct = False
             break
 
-    # TO DO: mistakes 3 and 4
+
+    # TO DO: check (3) with Graph.label[i][j].text() type(Graph.label[i][j]) == QLineEdit
+
+
+    global Stack, visited, adj
+    Stack = []
+    visited = [False for _ in range(n)]
+    adj = [[] for _ in range(n)]
+
+    for i in range(n):
+        for j in range(i, n):
+            if (CorrectWeights[i][j] != -1):
+                adj[i].append([j, CorrectWeights[i][j]])
+
+    correct_ans = critical_path(0, n)
+
+    Stack = []
+    visited = [False for _ in range(n)]
+    adj = [[] for _ in range(n)]
+    prev = 0
+    for i in range(n):
+        for j in range(i, n):
+            if (Graph.AdjacencyMatrix[i][j] == 2 and i == prev):
+                adj[i].append([j, CorrectWeights[i][j]]) 
+                prev = j
+
+    ans = critical_path(0, n)
+
+    if not((prev == (n-1) and correct_ans == ans)):
+        mistakes.append(4)
 
     return mistakes
 
@@ -286,23 +312,26 @@ def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
 
     n = len(CorrectWeights)
 
-    mistakes = []   # список ошибок:
-                    #     1 - вершины не на нужных осях
-                    #     2 - стрелки не на нужных осях
+    mistakes = []  # список ошибок:
+    #                   1 - вершины не на нужных осях
+    #                   2 - стрелки не на нужных осях
 
     old_mistakes = []
     old_mistakes = checkTask1(Graph, CorrectAdjacencyMatrix)
 
     if (old_mistakes):
-        mistakes.append(1)
-        mistakes.append(2)
-        return mistakes
+        warning = QMessageBox()
+        warning.setWindowTitle("Предупреждение")
+        warning.setText("Нарушено одно из условий проверки первого задания! Пожалуйста, проверьте каждое из условий:\n1. Вершины на достаточном расстоянии\n2. Верное количество вершин\n3. Верное количество связей\n4. Верные связи\n5. Связи не пересекаются")
+        warning.setIcon(QMessageBox.Warning)
+        warning.setStandardButtons(QMessageBox.Ok)
+        return warning
 
     early = find_t_p(CorrectWeights, n)
 
     Graph.PointsTimeEarly = np.zeros(n, int)
     for i in range(len(Graph.Points)):
-        Graph.PointsTimeEarly[i] = int(
+        Graph.PointsTimeEarly[i] = round(
             (Graph.Points[i][0] - GridBegin) / GridStep)
 
     points_on_correct_axes = True
@@ -317,12 +346,8 @@ def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
     for i in range(len(CorrectAdjacencyMatrix)):
         for j in range(len(CorrectAdjacencyMatrix)):
             if (CorrectAdjacencyMatrix[i][j] == 1):
-                if (int((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep) == ((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)):
-                    Graph.ArrowPointsTimeEarly[i][j] = int(
-                        (Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
-                else:
-                    Graph.ArrowPointsTimeEarly[i][j] = int(
-                        (Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep) + 1
+                Graph.ArrowPointsTimeEarly[i][j] = round(
+                    (Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
             else:
                 Graph.ArrowPointsTimeEarly[i][j] = -1
 
@@ -350,24 +375,27 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
 
     n = len(CorrectWeights)
 
-    mistakes = []   # список ошибок:
-                    #     1 - вершины не на нужных осях
-                    #     2 - стрелки не на нужных осях
+    mistakes = []  # список ошибок:
+    #                   1 - вершины не на нужных осях
+    #                   2 - стрелки не на нужных осях
 
     old_mistakes = []
     old_mistakes = checkTask1(Graph, CorrectAdjacencyMatrix)
 
     if (old_mistakes):
-        mistakes.append(1)
-        mistakes.append(2)
-        return mistakes
+        warning = QMessageBox()
+        warning.setWindowTitle("Предупреждение")
+        warning.setText("Нарушено одно из условий проверки первого задания! Пожалуйста, проверьте каждое из условий:\n1. Вершины на достаточном расстоянии\n2. Верное количество вершин\n3. Верное количество связей\n4. Верные связи\n5. Связи не пересекаются")
+        warning.setIcon(QMessageBox.Warning)
+        warning.setStandardButtons(QMessageBox.Ok)
+        return warning
 
     early = find_t_p(CorrectWeights, n)
     late = find_t_n(CorrectWeights, early, n)
 
     Graph.PointsTimeLate = np.zeros(n, int)
     for i in range(len(Graph.Points)):
-        Graph.PointsTimeLate[i] = int(
+        Graph.PointsTimeLate[i] = round(
             (Graph.Points[i][0] - GridBegin) / GridStep)
 
     points_on_correct_axes = True
@@ -382,7 +410,7 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
     for i in range(len(CorrectAdjacencyMatrix)):
         for j in range(len(CorrectAdjacencyMatrix)):
             if (CorrectAdjacencyMatrix[i][j] == 1):
-                Graph.ArrowPointsTimeLate[i][j] = int(
+                Graph.ArrowPointsTimeLate[i][j] = round(
                     (Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
 
     if (points_on_correct_axes):
