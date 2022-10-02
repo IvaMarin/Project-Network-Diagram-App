@@ -30,6 +30,9 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionbtnMoveNode"/>
+   <addaction name="actionbtnDottedConnectNode"/>
+   <addaction name="separator"/>
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
    <addaction name="actionbtnHome"/>
@@ -175,6 +178,47 @@
    </property>
    <property name="toolTip">
     <string>Подсказка</string>
+   </property>
+  </action>
+  <action name="actionbtnDottedConnectNode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/arrowsDotted.png</normaloff>resources/iconePack/arrowsDotted.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnDottedConnectNode</string>
+   </property>
+   <property name="toolTip">
+    <string>Перемещение пунктирной стрелки</string>
+   </property>
+  </action>
+  <action name="actionbtnMoveNode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/axis_arrow_icon_138909.png</normaloff>resources/iconePack/axis_arrow_icon_138909.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnMoveNode</string>
+   </property>
+   <property name="toolTip">
+    <string>Передвинуть элемент</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="priority">
+    <enum>QAction::NormalPriority</enum>
    </property>
   </action>
  </widget>

@@ -261,7 +261,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>resources/iconePack/trash.png</normaloff>resources/iconePack/trash.png</iconset>
+     <normaloff>resources/iconePack/arrowRightDel.png</normaloff>resources/iconePack/arrowRightDel.png</iconset>
    </property>
    <property name="text">
     <string>btnRemoveNodeСonnection</string>
