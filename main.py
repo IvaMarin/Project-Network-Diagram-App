@@ -264,7 +264,7 @@ class Window2(QMainWindow):
     def show(self):
         # При вызове окна обновляется кол-во вершин графа
         self.showMaximized()
-        self.cnt = len(graph1.Points)
+        self.cnt = len(graph1.CorrectAdjacencyMatrix)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
 
@@ -894,7 +894,10 @@ class WindowMenu(QMainWindow):
             i, j = int(i), int(j)
 
             w = self.ui.tableVar.item(row, 3).text()
-            w = int(w)
+            if w == "-" or w == " " or w == "":
+                w = 0
+            else:
+                w = int(w)
             CorrectWeights[i][j] = w
             CorrectWeights[j][i] = w
            
@@ -938,9 +941,9 @@ class WindowMenu(QMainWindow):
             self.ui.btnGenVar.setEnabled(False)
             self.ui.btnEditTaskVariant.setEnabled(False)
     def activateDeveloperMode(self):
-        self.surname = "ADMINadminAdmin"  # данные о студенте проинициализированы
+        self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
-        self.numINGroup = "9"  # данные о студенте проинициализированы
+        self.numINGroup = "1"  # данные о студенте проинициализированы
 
     #def creatReport(self):
         # create an empty Document
