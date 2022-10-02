@@ -112,7 +112,7 @@ class Ui_MainWindow1(object):
         self.actionbtnRemoveNodeConnection = QtWidgets.QAction(MainWindow1)
         self.actionbtnRemoveNodeConnection.setCheckable(True)
         icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap("resources/iconePack/trash.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon11.addPixmap(QtGui.QPixmap("resources/iconePack/arrowRightDel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionbtnRemoveNodeConnection.setIcon(icon11)
         self.actionbtnRemoveNodeConnection.setObjectName("actionbtnRemoveNodeConnection")
         self.actionbtnZoomIn = QtWidgets.QAction(MainWindow1)
