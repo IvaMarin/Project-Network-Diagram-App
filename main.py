@@ -13,7 +13,11 @@ from borb.pdf import SingleColumnLayout
 from borb.pdf import Paragraph
 from borb.pdf import PDF
 
-
+from matplotlib.backends.backend_qt4agg import (
+    FigureCanvas,
+    NavigationToolbar2QT as NavigationToolbar,
+)
+from matplotlib.figure import Figure
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QRect, Qt, QSize
@@ -760,15 +764,30 @@ class Window6(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(widgetLeft)
 
-    
-        #виджет графика
-        # !!! вместо graph1.AdjacencyMatrix вставить матрицу смежности, где вместо единиц кол-во людей
         AdjacencyMatrixPeople = np.zeros((len(graph1.AdjacencyMatrix), len(graph1.AdjacencyMatrix)))
         for i in range(len(AdjacencyMatrixPeople)):
             for j in range(len(AdjacencyMatrixPeople[i])):
                 if AdjacencyMatrixPeople[i][j] != 0:
                     AdjacencyMatrixPeople = graph1.label[i][j].text()
-        widgetRight = Display.DisplayHist(self, graph1.Points, AdjacencyMatrixPeople, 0, 1000, 75)
+        X_max = 1000
+        X_min = 0
+        step = 75
+        intervals = np.zeros(int((X_max-X_min)/step))
+        for i in range(len(AdjacencyMatrixPeople)):
+            for j in range(len(AdjacencyMatrixPeople[i])):
+                if AdjacencyMatrixPeople[i][j] != 0:
+                    for k in range(len(intervals)):
+                        if k*step <= graph1.Points[i][0] and (k+1)*step >= graph1.Points[j][0]:
+                            intervals[k] += AdjacencyMatrixPeople[i][j]
+        print(intervals)
+        self._canvas = FigureCanvas(Figure(figsize=(5, 3)))
+        self._ax = self._canvas.figure.subplots()
+        n, bins, patches = self._ax.hist(
+            intervals, int((X_max-X_min)/step), density=1, facecolor="green", alpha=0.75
+        )
+        self._ax.axis([40, 160, 0, 0.03])
+        self._ax.grid(True)
+        widgetRight = self._canvas
         widgetRight.setMinimumSize(int(width/2), int(height/2))
 
         #слева отделения
@@ -784,6 +803,7 @@ class Window6(QMainWindow):
         self.ui.setupUi(self)
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(widget)
+        self.update_plot()
 
         self.setWindowTitle("Задача №6")
 
@@ -796,6 +816,11 @@ class Window6(QMainWindow):
 
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
+    def update_plot(self):
+        # Drop off the first y element, append a new one.
+        #self._canvas.axes.cla()  # Clear the canvas.
+        # Trigger the canvas to update and redraw.
+        self._canvas.draw()
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
