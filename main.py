@@ -763,18 +763,18 @@ class Window6(QMainWindow):
     
         #виджет графика
         # !!! вместо graph1.AdjacencyMatrix вставить матрицу смежности, где вместо единиц кол-во людей
-        # AdjacencyMatrixPeople = np.zeros((len(graph1.AdjacencyMatrix), len(graph1.AdjacencyMatrix[0])))
-        # for i in range(len(AdjacencyMatrixPeople)):
-        #     for j in range(len(AdjacencyMatrixPeople[i])):
-        #         if AdjacencyMatrixPeople[i][j] != 0:
-        #             AdjacencyMatrixPeople = graph1.label[i][j].text()
-        #widgetRight = Display.Canvas(self, graph1, AdjacencyMatrixPeople, 0, 0, 75)
-        #widgetRight.setMinimumSize(int(width/2), int(height/2))
+        AdjacencyMatrixPeople = np.zeros((len(graph1.AdjacencyMatrix), len(graph1.AdjacencyMatrix)))
+        for i in range(len(AdjacencyMatrixPeople)):
+            for j in range(len(AdjacencyMatrixPeople[i])):
+                if AdjacencyMatrixPeople[i][j] != 0:
+                    AdjacencyMatrixPeople = graph1.label[i][j].text()
+        widgetRight = Display.DisplayHist(self, graph1.Points, AdjacencyMatrixPeople, 0, 1000, 75)
+        widgetRight.setMinimumSize(int(width/2), int(height/2))
 
         #слева отделения
         layout.addWidget(self.scroll) 
         #справа гистограмма       #Виджет вставлять сюда
-        #layout.addWidget(widgetRight)
+        layout.addWidget(widgetRight)
 
         # Задаём компоновку виджету
         widget = QWidget()
@@ -788,9 +788,9 @@ class Window6(QMainWindow):
         self.setWindowTitle("Задача №6")
 
         # вписываем во весь экран
-        # self.resize(width, height)
+        self.resize(width, height)
 
-        # self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
         self._connectAction()
 

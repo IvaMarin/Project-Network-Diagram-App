@@ -528,24 +528,28 @@ class Display3(Display):
                 self.graph, event, Qt.LeftButton, self.FixedArrowPoint, self.start_coordination_X, self.step)
 
         self.update()
+        
 
-class Canvas(FigureCanvas):
+
+class DisplayHist(QWidget):
     def __init__(self, parent, Points, AdjacencyMatrix, X_min, X_max, step):
         fig, self.ax = plt.subplots(figsize=(2, 1), dpi=200)
-        super().__init__(fig)
-        self.setParent(parent)
-
-        """ 
-        Matplotlib Script
-        """
-        # intervals = np.zeros(int((X_max-X_min)/step))
-        # for i in range(len(AdjacencyMatrix)):
-        #     for j in range(len(AdjacencyMatrix[i])):
-        #         if AdjacencyMatrix[i][j] != 0:
-        #             for k in range(len(intervals)):
-        #                 if k*step >= Points[i][0] and (k+1)*step <= Points[j][0]:
-        #                     intervals[k] += AdjacencyMatrix[i][j]
-        # self.ax.axis([0, intervals.max(), 0, int(X_max-X_min)])
-        # n, bin, patches = plt.hist(intervals, X_max - X_min)
+        super().__init__(parent)
+        #self.setParent(parent)
+        self.X_max = X_max
+        self.X_min = X_min
+        self.Points = Points
+        self.AdjacencyMatrix = AdjacencyMatrix
+        self.step = step
+    def paintEvent(self, event):
+        intervals = np.zeros(int((self.X_max-self.X_min)/self.step))
+        for i in range(len(self.AdjacencyMatrix)):
+            for j in range(len(self.AdjacencyMatrix[i])):
+                if self.AdjacencyMatrix[i][j] != 0:
+                    for k in range(len(intervals)):
+                        if k*self.step <= self.Points[i][0] and (k+1)*self.step >= self.Points[j][0]:
+                            intervals[k] += self.AdjacencyMatrix[i][j]
+        self.ax.axis([0, intervals.max(), 0, int(self.X_max-self.X_min)])
+        n, bin, patches = plt.hist(intervals, self.X_max - self.X_min)
 
         self.ax.grid()
