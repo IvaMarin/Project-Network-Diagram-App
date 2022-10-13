@@ -1,6 +1,7 @@
 # Model составляющая MVC (Граф)
 # "несуществющие вершины" - вершины в середине списка индексов вершин, которые были удалены (далее без ковычек)
 import numpy as np
+from PyQt5.QtWidgets import QLineEdit, QMessageBox
 
 # функция для вычисления граничной точки с учётом радиуса
 def calculate_bound_point(start_point, end_point, radius):
@@ -49,6 +50,8 @@ class Graph:
 
 		# графические характеристики графа
 		self.RadiusPoint = RadiusPoint  # радиус вершины
+
+		self.label = None
 
 	# добавить вершину; параметры: координата х, координата у
 	def AddPoint(self, x, y):
@@ -201,3 +204,28 @@ class Graph:
 		# если связть существовала
 		if self.AdjacencyMatrix[firstIndex][secondIndex] == 1:
 			self.AdjacencyMatrix[firstIndex][secondIndex] = 2 # выделить критическую связь
+
+	def GetNumberOfPeople(self):
+		if not(self.label is None):
+			PeopleMatrix = np.zeros_like(self.label, dtype=int)
+			n = len(self.label)
+			for i in range(n):
+				for j in range(n):
+					if (type(self.label[i][j]) == QLineEdit):
+						try:
+							PeopleMatrix[i][j] = int(self.label[i][j].text())
+						except ValueError:
+							warning = QMessageBox()
+							warning.setWindowTitle("Предупреждение")
+							warning.setText("Не введено значение продолжительности работы для одного или нескольких рёбер!")
+							warning.setIcon(QMessageBox.Warning)
+							warning.setStandardButtons(QMessageBox.Ok)
+							warning.exec()
+			return PeopleMatrix
+		else:
+			warning = QMessageBox()
+			warning.setWindowTitle("Предупреждение")
+			warning.setText("Не отрисованы поля для ввода числа людей!")
+			warning.setIcon(QMessageBox.Warning)
+			warning.setStandardButtons(QMessageBox.Ok)
+			warning.exec()

@@ -7,11 +7,11 @@ import openpyxl
 
 ### Для обработки .pdf файлов ###############
 
-from borb.pdf import Document
-from borb.pdf import Page
-from borb.pdf import SingleColumnLayout
-from borb.pdf import Paragraph
-from borb.pdf import PDF
+# from borb.pdf import Document
+# from borb.pdf import Page
+# from borb.pdf import SingleColumnLayout
+# from borb.pdf import Paragraph
+# from borb.pdf import PDF
 
 # from matplotlib.backends.backend_qt4agg import (
 #     FigureCanvas,
@@ -39,7 +39,6 @@ from Color import Color
 from task1CheckForm import task1CheckForm
 import graph_model as gm
 import EditTable
-import Properties
 
 ############ глобальные переменные ###########
 
@@ -56,9 +55,58 @@ def maxSquadNum():
     return maxSquadNum
 
 
+class Properties():
+    def __init__(self):
+        #свойства первого окна
+        self.verification_passed_task_1 = False # проверка 1 задания пойдена
 
+        #свойства второго окна
+        self.verification_passed_task_2 = False # проверка 2 задания пойдена
+        self.scaler = 3 # параметр увеличения радиуса для второго задания
+        self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
+        self.radius_points_task_2 = self.radius_points * self.scaler # радиус во втором задании
 
+        #свойства третьего окна
+        self.verification_passed_task_3 = False # проверка 3 задания пойдена
 
+        #свойства четвертого окна
+        self.verification_passed_task_4 = False # проверка 4 задания пойдена
+
+        #свойства пятого окна
+        self.verification_passed_task_5 = False # проверка 5 задания пойдена
+
+        #свойства, использующиеся в разных заданиях
+            #свойства из таблицы
+        self.number_of_squads = self.get_number_of_squads() #количество отделений
+        # self.total_time #общее время работы (добавить + 3)
+        
+        self.graph_for_task_1 = self.get_graph() # граф для первого задания
+        self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
+
+        
+
+        self.step_grid = 100 # шаг сетки
+
+    # функция подсчета количесва отделений
+    def get_number_of_squads(self):
+        number_of_squads = 1
+        for row in range(MainWindow.ui.tableVar.rowCount()-1):
+            if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
+                i = int(MainWindow.ui.tableVar.item(row, 1).text())
+            if number_of_squads < i:
+                number_of_squads = i
+        return number_of_squads
+
+    # функция получения общего графа
+    def get_graph(self):
+        return gm.Graph(self.radius_points)
+
+    # функция получения списка графов для 5 задания
+    def get_graphs_for_task_5(self):
+        graphs = []
+        for i in range(self.number_of_squads):
+            graphs.append(self.get_graph)
+        return graphs
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -165,10 +213,13 @@ class Window1(QMainWindow):
 
     def taskCheck(self):
         mistakes = self.DisplayObj.checkEvent()
-        if len(mistakes) == 0:
-                Properties.verification_passed_task_1 = True
-        self.checkForm1 = task1CheckForm(self, mistakes)
-        self.checkForm1.exec_()
+        if type(mistakes) != QMessageBox:
+            if len(mistakes) == 0:
+                properties.verification_passed_task_1 = True
+            self.checkForm1 = task1CheckForm(self, mistakes)
+            self.checkForm1.exec_()
+        else:
+            mistakes.exec()
 
     def _connectAction(self):
         self.ui.actionbtnAddNode.triggered.connect(self.addNode)
@@ -330,12 +381,15 @@ class Window2(QMainWindow):
             self.msg.show()
         else:
             mistakes = self.DisplayObj.checkEvent()
-            if len(mistakes) == 0:
-                Properties.verification_passed_task_2 = True
-            self.checkForm1 = task1CheckForm(self, mistakes)
-            self.checkForm1.Task2()
-            self.checkForm1.exec_()
-
+            if type(mistakes) != QMessageBox:
+                if len(mistakes) == 0:
+                    properties.verification_passed_task_2 = True
+                self.checkForm1 = task1CheckForm(self, mistakes)
+                self.checkForm1.Task2()
+                self.checkForm1.exec_()
+            else:
+                mistakes.exec()
+    
     def backMainMenu(self):
         MainWindow.show()
         self.close()
@@ -437,6 +491,8 @@ class Window3(QMainWindow):
     def taskCheck(self):
         mistakes = self.DisplayObj.checkEvent3()
         if type(mistakes) != QMessageBox:
+            if len(mistakes) == 0:
+                properties.verification_passed_task_3 = True
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()
             self.checkForm1.exec_()
@@ -519,6 +575,8 @@ class Window4(QMainWindow):
     def taskCheck(self):
         mistakes = self.DisplayObj.checkEvent4()
         if type(mistakes) != QMessageBox:
+            if len(mistakes) == 0:
+                properties.verification_passed_task_4 = True
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()        
             self.checkForm1.exec_()
@@ -809,7 +867,7 @@ class Window6(QMainWindow):
                     for k in range(len(intervals)):
                         if k*step <= graph1.Points[i][0] and (k+1)*step >= graph1.Points[j][0]:
                             intervals[k] += AdjacencyMatrixPeople[i][j]
-        print(intervals)
+        # print(intervals)
         # self._canvas = FigureCanvas(Figure(figsize=(5, 3)))
         # self._ax = self._canvas.figure.subplots()
         # n, bins, patches = self._ax.hist(
@@ -1092,5 +1150,7 @@ if __name__ == "__main__":
         graph5.append(gm.Graph(30))
     MainWindow5 = Window5()
     MainWindow6 = Window6()
+
+    properties = Properties()
 
     sys.exit(app.exec_())
