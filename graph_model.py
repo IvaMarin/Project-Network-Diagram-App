@@ -2,6 +2,7 @@
 # "несуществющие вершины" - вершины в середине списка индексов вершин, которые были удалены (далее без ковычек)
 import numpy as np
 from PyQt5.QtWidgets import QLineEdit, QMessageBox
+import copy
 
 # функция для вычисления граничной точки с учётом радиуса
 def calculate_bound_point(start_point, end_point, radius):
@@ -229,3 +230,26 @@ class Graph:
 			warning.setIcon(QMessageBox.Warning)
 			warning.setStandardButtons(QMessageBox.Ok)
 			warning.exec()
+
+# функция копирования графа (в разработке)
+	def copy_graph(self):
+		new_graph = Graph(30)
+		new_graph.Points =  copy.deepcopy(self.Points) 
+		new_graph.AdjacencyMatrix = copy.deepcopy(self.AdjacencyMatrix)
+		new_graph.CorrectAdjacencyMatrix = copy.deepcopy(self.CorrectAdjacencyMatrix)
+		
+		new_graph.CorrectWeights = copy.deepcopy(self.CorrectWeights)
+		new_graph.PointsTimeEarly = copy.deepcopy(self.PointsTimeEarly)
+		new_graph.ArrowPointsTimeEarly = copy.deepcopy(self.ArrowPointsTimeEarly)
+		new_graph.PointsTimeLate = copy.deepcopy(self.PointsTimeLate)
+		new_graph.ArrowPointsTimeLate = copy.deepcopy(self.ArrowPointsTimeLate)
+		
+		new_graph.tp = copy.deepcopy(self.tp)  # ранний срок наступления события
+		new_graph.tn = copy.deepcopy(self.tn)  # поздний срок наступления события
+		new_graph.R = copy.deepcopy(self.R) # резерв времени
+		new_graph.CriticalPath = copy.deepcopy(self.CriticalPath)  # критический путь
+		new_graph.ArrowPoints = copy.deepcopy(self.ArrowPoints) # массив координат стрелок
+
+		new_graph.RadiusPoint = copy.deepcopy(self.RadiusPoint) # радиус вершины
+
+		new_graph.label = copy.deepcopy(self.label)
