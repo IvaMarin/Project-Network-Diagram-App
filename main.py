@@ -1,9 +1,9 @@
-
 import sys, os
 import numpy as np
 from pathlib import Path
 ### Для обработки .xlsx файлов ##############
 import openpyxl
+import copy
 
 ### Для обработки .pdf файлов ###############
 
@@ -39,6 +39,8 @@ from Color import Color
 from task1CheckForm import task1CheckForm
 import graph_model as gm
 import EditTable
+import Properties
+
 
 ############ глобальные переменные ###########
 
@@ -55,58 +57,58 @@ def maxSquadNum():
     return maxSquadNum
 
 
-class Properties():
-    def __init__(self):
-        #свойства первого окна
-        self.verification_passed_task_1 = False # проверка 1 задания пойдена
+# class Properties():
+#     def __init__(self):
+#         #свойства первого окна
+#         self.verification_passed_task_1 = False # проверка 1 задания пойдена
 
-        #свойства второго окна
-        self.verification_passed_task_2 = False # проверка 2 задания пойдена
-        self.scaler = 3 # параметр увеличения радиуса для второго задания
-        self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
-        self.radius_points_task_2 = self.radius_points * self.scaler # радиус во втором задании
+#         #свойства второго окна
+#         self.verification_passed_task_2 = False # проверка 2 задания пойдена
+#         self.scaler = 3 # параметр увеличения радиуса для второго задания
+#         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
+#         self.radius_points_task_2 = self.radius_points * self.scaler # радиус во втором задании
 
-        #свойства третьего окна
-        self.verification_passed_task_3 = False # проверка 3 задания пойдена
+#         #свойства третьего окна
+#         self.verification_passed_task_3 = False # проверка 3 задания пойдена
 
-        #свойства четвертого окна
-        self.verification_passed_task_4 = False # проверка 4 задания пойдена
+#         #свойства четвертого окна
+#         self.verification_passed_task_4 = False # проверка 4 задания пойдена
 
-        #свойства пятого окна
-        self.verification_passed_task_5 = False # проверка 5 задания пойдена
+#         #свойства пятого окна
+#         self.verification_passed_task_5 = False # проверка 5 задания пойдена
 
-        #свойства, использующиеся в разных заданиях
-            #свойства из таблицы
-        self.number_of_squads = self.get_number_of_squads() #количество отделений
-        # self.total_time #общее время работы (добавить + 3)
+#         #свойства, использующиеся в разных заданиях
+#             #свойства из таблицы
+#         self.number_of_squads = self.get_number_of_squads() #количество отделений
+#         # self.total_time #общее время работы (добавить + 3)
         
-        self.graph_for_task_1 = self.get_graph() # граф для первого задания
-        self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
+#         self.graph_for_task_1 = self.get_graph() # граф для первого задания
+#         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
 
         
 
-        self.step_grid = 100 # шаг сетки
+#         self.step_grid = 100 # шаг сетки
 
-    # функция подсчета количесва отделений
-    def get_number_of_squads(self):
-        number_of_squads = 1
-        for row in range(MainWindow.ui.tableVar.rowCount()-1):
-            if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
-                i = int(MainWindow.ui.tableVar.item(row, 1).text())
-            if number_of_squads < i:
-                number_of_squads = i
-        return number_of_squads
+#     # функция подсчета количесва отделений
+#     def get_number_of_squads(self):
+#         number_of_squads = 1
+#         for row in range(MainWindow.ui.tableVar.rowCount()-1):
+#             if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
+#                 i = int(MainWindow.ui.tableVar.item(row, 1).text())
+#             if number_of_squads < i:
+#                 number_of_squads = i
+#         return number_of_squads
 
-    # функция получения общего графа
-    def get_graph(self):
-        return gm.Graph(self.radius_points)
+#     # функция получения общего графа
+#     def get_graph(self):
+#         return gm.Graph(self.radius_points)
 
-    # функция получения списка графов для 5 задания
-    def get_graphs_for_task_5(self):
-        graphs = []
-        for i in range(self.number_of_squads):
-            graphs.append(self.get_graph)
-        return graphs
+#     # функция получения списка графов для 5 задания
+#     def get_graphs_for_task_5(self):
+#         graphs = []
+#         for i in range(self.number_of_squads):
+#             graphs.append(self.get_graph)
+#         return graphs
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -215,7 +217,7 @@ class Window1(QMainWindow):
         mistakes = self.DisplayObj.checkEvent()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                properties.verification_passed_task_1 = True
+                properties.set__verification_passed_task(1)
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.exec_()
         else:
@@ -383,7 +385,7 @@ class Window2(QMainWindow):
             mistakes = self.DisplayObj.checkEvent()
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
-                    properties.verification_passed_task_2 = True
+                    properties.set__verification_passed_task(2)
                 self.checkForm1 = task1CheckForm(self, mistakes)
                 self.checkForm1.Task2()
                 self.checkForm1.exec_()
@@ -446,7 +448,8 @@ class Window3(QMainWindow):
 
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        
+
+
         self.DisplayObj = Display.Display3(self, graph1, 0, 0, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -492,7 +495,7 @@ class Window3(QMainWindow):
         mistakes = self.DisplayObj.checkEvent3()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                properties.verification_passed_task_3 = True
+                properties.set__verification_passed_task(3)
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()
             self.checkForm1.exec_()
@@ -576,7 +579,7 @@ class Window4(QMainWindow):
         mistakes = self.DisplayObj.checkEvent4()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                properties.verification_passed_task_4 = True
+                properties.set__verification_passed_task(4)
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()        
             self.checkForm1.exec_()
@@ -1049,10 +1052,13 @@ class WindowMenu(QMainWindow):
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
             self.ui.btnEditTaskVariant.setEnabled(True)
+            properties.set__verification_passed_task_all(True)
         else:
             self.ui.btnReportSign.setEnabled(False)
             self.ui.btnGenVar.setEnabled(False)
             self.ui.btnEditTaskVariant.setEnabled(False)
+            properties.set__verification_passed_task_all(False)
+
     def activateDeveloperMode(self):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
@@ -1085,14 +1091,15 @@ class WindowMenu(QMainWindow):
         if numTask == "Задание 1":
             MainWindow1.show()
         elif numTask == "Задание 2":
-            MainWindow2.show()
-        elif numTask == "Задание 3":
+            if (properties.get_verification_passed_tasks(self, 2)):
+                MainWindow2.show()
+        elif numTask == "Задание 3" and properties.get_verification_passed_tasks(self, 3):
             MainWindow3.show()
-        elif numTask == "Задание 4":
+        elif numTask == "Задание 4" and properties.get_verification_passed_tasks(4):
             MainWindow4.show()
-        elif numTask == "Задание 5":
+        elif numTask == "Задание 5"  and properties.get_verification_passed_tasks(5):
             MainWindow5.show()
-        elif numTask == "Задание 6":
+        elif numTask == "Задание 6": # вставить проверку 
             MainWindow6.show()
         self.hide()
 
@@ -1151,6 +1158,6 @@ if __name__ == "__main__":
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 
-    properties = Properties()
+    properties = Properties.Properties
 
     sys.exit(app.exec_())
