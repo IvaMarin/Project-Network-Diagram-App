@@ -1052,13 +1052,10 @@ class WindowMenu(QMainWindow):
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
             self.ui.btnEditTaskVariant.setEnabled(True)
-            properties.set__verification_passed_task_all(True)
         else:
             self.ui.btnReportSign.setEnabled(False)
             self.ui.btnGenVar.setEnabled(False)
             self.ui.btnEditTaskVariant.setEnabled(False)
-            properties.set__verification_passed_task_all(False)
-
     def activateDeveloperMode(self):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
@@ -1091,15 +1088,14 @@ class WindowMenu(QMainWindow):
         if numTask == "Задание 1":
             MainWindow1.show()
         elif numTask == "Задание 2":
-            if (properties.get_verification_passed_tasks(self, 2)):
-                MainWindow2.show()
-        elif numTask == "Задание 3" and properties.get_verification_passed_tasks(self, 3):
+            MainWindow2.show()
+        elif numTask == "Задание 3":
             MainWindow3.show()
-        elif numTask == "Задание 4" and properties.get_verification_passed_tasks(4):
+        elif numTask == "Задание 4":
             MainWindow4.show()
-        elif numTask == "Задание 5"  and properties.get_verification_passed_tasks(5):
+        elif numTask == "Задание 5":
             MainWindow5.show()
-        elif numTask == "Задание 6": # вставить проверку 
+        elif numTask == "Задание 6":
             MainWindow6.show()
         self.hide()
 
