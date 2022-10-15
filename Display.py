@@ -163,7 +163,7 @@ class Display(QWidget):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-                painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i+1}')
+                painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i}')
 
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
@@ -337,7 +337,7 @@ class Display2(Display):
                 painter.drawText(x+line_off+1.5*x_off, y+y_off, f'{t_n}')
 
                 x_off = -(5*len(str(i+1))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
-                painter.drawText(x+x_off, y-line_off+1.5*y_off, f'{i+1}')
+                painter.drawText(x+x_off, y-line_off+1.5*y_off, f'{i}')
 
                 x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
                 painter.drawText(x+x_off, y+line_off+0.5*y_off, f'{R}')
@@ -398,7 +398,7 @@ class Display3(Display):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
             else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-            painter.drawText(self.step + self.step * i + offset[0], y0 + offset[1], f'{i+1}')
+            painter.drawText(self.step + self.step * i + offset[0], y0 + offset[1], f'{i}')
        
         # отрисовка стрелок
         for i in range(len(self.graph.AdjacencyMatrix)):
@@ -463,7 +463,7 @@ class Display3(Display):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-                painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i+1}')
+                painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i}')
     
     def checkEvent3(self):
         mistakes = checker.checkTask3(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
