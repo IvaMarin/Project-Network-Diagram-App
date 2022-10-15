@@ -815,10 +815,16 @@ class Window5(QMainWindow):
         # self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
-
+        for button in self.squadWidgetList:
+            button.ui.pushButton.clicked.connect(self.replace)
     
 
-    def replase(self):
+    #здесь нужно написать функцию замены номера вершины в графе
+    # значения доставать так
+    # self.squadWidgetList[0].ui.lineEdit_oldValue.text()
+    # self.squadWidgetList[0].ui.lineEdit_newValue.text()
+    
+    def replace(self, old_value, new_value):
         pass
 
 
@@ -1198,6 +1204,6 @@ if __name__ == "__main__":
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 
-    properties = Properties.Properties
+    properties = Properties.Properties()
 
     sys.exit(app.exec_())

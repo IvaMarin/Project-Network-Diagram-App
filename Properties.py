@@ -24,8 +24,8 @@ class Properties():
         self.number_of_squads = self.get_number_of_squads() #количество отделений
         self.total_time #общее время работы (добавить + 3)
         
-        self.graph_for_task_1 = self.get_graph() # граф для первого задания
-        self.graph_for_task_3_4 = self.get_graph() # граф для 3-4 задания
+        self.graph_for_task_1 = self.get_graph_from_radius() # граф для первого задания
+        self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
 
         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
@@ -58,7 +58,7 @@ class Properties():
     def get_graphs_for_task_5(self):
         graphs = []
         for i in range(self.number_of_squads):
-            graphs.append(self.get_graph)
+            graphs.append(self.get_graph_from_radius)
         return graphs
 
     def get_verification_passed_pretasks(self, current):
