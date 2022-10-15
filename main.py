@@ -633,6 +633,7 @@ class Window5(QMainWindow):
         # layout.addWidget(self.widget4)
 
         self.widgetList = []
+        self.squadWidgetList = []
 
         for i in range(squadNum):
             # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
@@ -652,6 +653,7 @@ class Window5(QMainWindow):
             squadWidget = QWidget()
             squadWidget.ui = Ui_task2SquadWidget()
             squadWidget.ui.setupUi(squadWidget)
+            self.squadWidgetList.append(squadWidget)
             hLayout.addWidget(squadWidget)
             hWidget = QWidget()
             hWidget.setLayout(hLayout)
@@ -671,6 +673,13 @@ class Window5(QMainWindow):
         self.ui.setupUi(self)
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(self.scroll)
+
+        # self.squadWidgetList[0].ui.lineEdit_oldValue.setText("1")
+        # self.squadWidgetList[0].ui.lineEdit_newValue.setText("2")
+        # self.squadWidgetList[0].ui.lineEdit_numberSquad.setText("1")
+        # self.squadWidgetList[0].ui.lineEdit_countPerson.setText("10")   #text
+
+
 
         self.setWindowTitle("Задача №5")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -805,7 +814,12 @@ class Window5(QMainWindow):
 
         # self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+        # добавить связь с кнопкой
 
+    
+
+    def replase(self):
+        pass
 
 
     def backMainMenu(self):
