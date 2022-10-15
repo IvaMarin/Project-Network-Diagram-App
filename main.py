@@ -1,17 +1,17 @@
-
 import sys, os
 import numpy as np
 from pathlib import Path
 ### Для обработки .xlsx файлов ##############
 import openpyxl
+import copy
 
 ### Для обработки .pdf файлов ###############
 
-from borb.pdf import Document
-from borb.pdf import Page
-from borb.pdf import SingleColumnLayout
-from borb.pdf import Paragraph
-from borb.pdf import PDF
+# from borb.pdf import Document
+# from borb.pdf import Page
+# from borb.pdf import SingleColumnLayout
+# from borb.pdf import Paragraph
+# from borb.pdf import PDF
 
 # from matplotlib.backends.backend_qt4agg import (
 #     FigureCanvas,
@@ -31,6 +31,7 @@ from windowTask5 import Ui_MainWindow5
 from windowTask2 import Ui_MainWindow2
 from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
+from qt_designer_ui.task2SquadWidget import Ui_task2SquadWidget
 import Display
 import WinsDialog
 from WinsDialog import winSigReport,winLogin,winEditTable
@@ -38,6 +39,8 @@ from Color import Color
 from task1CheckForm import task1CheckForm
 import graph_model as gm
 import EditTable
+import Properties
+
 
 ############ глобальные переменные ###########
 
@@ -54,9 +57,58 @@ def maxSquadNum():
     return maxSquadNum
 
 
+# class Properties():
+#     def __init__(self):
+#         #свойства первого окна
+#         self.verification_passed_task_1 = False # проверка 1 задания пойдена
 
+#         #свойства второго окна
+#         self.verification_passed_task_2 = False # проверка 2 задания пойдена
+#         self.scaler = 3 # параметр увеличения радиуса для второго задания
+#         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
+#         self.radius_points_task_2 = self.radius_points * self.scaler # радиус во втором задании
 
+#         #свойства третьего окна
+#         self.verification_passed_task_3 = False # проверка 3 задания пойдена
 
+#         #свойства четвертого окна
+#         self.verification_passed_task_4 = False # проверка 4 задания пойдена
+
+#         #свойства пятого окна
+#         self.verification_passed_task_5 = False # проверка 5 задания пойдена
+
+#         #свойства, использующиеся в разных заданиях
+#             #свойства из таблицы
+#         self.number_of_squads = self.get_number_of_squads() #количество отделений
+#         # self.total_time #общее время работы (добавить + 3)
+        
+#         self.graph_for_task_1 = self.get_graph() # граф для первого задания
+#         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
+
+        
+
+#         self.step_grid = 100 # шаг сетки
+
+#     # функция подсчета количесва отделений
+#     def get_number_of_squads(self):
+#         number_of_squads = 1
+#         for row in range(MainWindow.ui.tableVar.rowCount()-1):
+#             if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
+#                 i = int(MainWindow.ui.tableVar.item(row, 1).text())
+#             if number_of_squads < i:
+#                 number_of_squads = i
+#         return number_of_squads
+
+#     # функция получения общего графа
+#     def get_graph(self):
+#         return gm.Graph(self.radius_points)
+
+#     # функция получения списка графов для 5 задания
+#     def get_graphs_for_task_5(self):
+#         graphs = []
+#         for i in range(self.number_of_squads):
+#             graphs.append(self.get_graph)
+#         return graphs
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -76,8 +128,11 @@ class Window1(QMainWindow):
         
         graph1.CorrectAdjacencyMatrix = MainWindow.getCorrectAdjacencyMatrix()
         graph1.CorrectWeights = MainWindow.getCorrectWeights()
-        self.centralWidget = Display.Display(self, graph1)
-        self.setCentralWidget(self.centralWidget)
+        self.DisplayObj = Display.Display(self, graph1)
+        self.scroll = QtWidgets.QScrollArea()
+        self.scroll.setWidget(self.DisplayObj)
+        self.setCentralWidget(self.scroll)
+        self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
 
         self._connectAction()
 
@@ -103,9 +158,9 @@ class Window1(QMainWindow):
 
     def addNode(self):
         if self.ui.actionbtnAddNode.isChecked() == False:
-            self.centralWidget.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.centralWidget.functionAble = "Добавить вершину"
+            self.DisplayObj.functionAble = "Добавить вершину"
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -113,9 +168,9 @@ class Window1(QMainWindow):
 
     def addArrow(self):
         if self.ui.actionbtnConnectNode.isChecked() == False:
-            self.centralWidget.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.centralWidget.functionAble = "Добавить связь"
+            self.DisplayObj.functionAble = "Добавить связь"
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -123,9 +178,9 @@ class Window1(QMainWindow):
 
     def removeArrow(self):
         if self.ui.actionbtnRemoveNodeConnection.isChecked() == False:
-            self.centralWidget.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.centralWidget.functionAble = "Удалить связь"
+            self.DisplayObj.functionAble = "Удалить связь"
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -133,9 +188,9 @@ class Window1(QMainWindow):
 
     def removeNode(self):
         if self.ui.actionbtnRemoveNode.isChecked() == False:
-            self.centralWidget.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.centralWidget.functionAble = "Удалить вершину"
+            self.DisplayObj.functionAble = "Удалить вершину"
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -144,24 +199,29 @@ class Window1(QMainWindow):
 
     def moveNode(self):
         if self.ui.actionbtnMoveNode.isChecked() == False:
-            self.centralWidget.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.centralWidget.functionAble = "Переместить вершины"
+            self.DisplayObj.functionAble = "Переместить вершины"
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnRemoveNode.setChecked(False)
 
     def makeNewFile(self):
-        self.centralWidget.functionAble = "Новый файл"
+        self.DisplayObj.functionAble = "Новый файл"
 
     def sizeGet(self):
         return self.size()
 
     def taskCheck(self):
-        mistakes = self.centralWidget.checkEvent()
-        self.checkForm1 = task1CheckForm(self, mistakes)
-        self.checkForm1.exec_()
+        mistakes = self.DisplayObj.checkEvent()
+        if type(mistakes) != QMessageBox:
+            if len(mistakes) == 0:
+                properties.set__verification_passed_task(1)
+            self.checkForm1 = task1CheckForm(self, mistakes)
+            self.checkForm1.exec_()
+        else:
+            mistakes.exec()
 
     def _connectAction(self):
         self.ui.actionbtnAddNode.triggered.connect(self.addNode)
@@ -177,7 +237,7 @@ class Window1(QMainWindow):
         self.close()
 
     def show(self):
-        self.centralWidget.functionAble = ""
+        self.DisplayObj.functionAble = ""
         self.showMaximized()
 
 
@@ -323,10 +383,15 @@ class Window2(QMainWindow):
             self.msg.show()
         else:
             mistakes = self.DisplayObj.checkEvent()
-            self.checkForm1 = task1CheckForm(self, mistakes)
-            self.checkForm1.Task2()
-            self.checkForm1.exec_()
-
+            if type(mistakes) != QMessageBox:
+                if len(mistakes) == 0:
+                    properties.set__verification_passed_task(2)
+                self.checkForm1 = task1CheckForm(self, mistakes)
+                self.checkForm1.Task2()
+                self.checkForm1.exec_()
+            else:
+                mistakes.exec()
+    
     def backMainMenu(self):
         MainWindow.show()
         self.close()
@@ -383,9 +448,13 @@ class Window3(QMainWindow):
 
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        
-        self.centralWidget = Display.Display3(self, graph1, 0, 0, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
-        self.setCentralWidget(self.centralWidget)
+
+
+        self.DisplayObj = Display.Display3(self, graph1, 0, 0, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
+        self.scroll = QtWidgets.QScrollArea()
+        self.scroll.setWidget(self.DisplayObj)
+        self.setCentralWidget(self.scroll)
+        self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
 
         self._connectAction()
 
@@ -409,22 +478,24 @@ class Window3(QMainWindow):
                 event.ignore()
 
     def addDottedArrow(self):
-        self.centralWidget.functionAble = "Добавить пунктирную связь"
+        self.DisplayObj.functionAble = "Добавить пунктирную связь"
         #self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
 
     def moveNode(self):
-        self.centralWidget.functionAble = "Переместить вершины"
+        self.DisplayObj.functionAble = "Переместить вершины"
         #self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionbtnDottedConnectNode.setChecked(False)
         
 
     def makeNewFile(self):
-        self.centralWidget.functionAble = "Новый файл"
+        self.DisplayObj.functionAble = "Новый файл"
 
     def taskCheck(self):
-        mistakes = self.centralWidget.checkEvent3()
+        mistakes = self.DisplayObj.checkEvent3()
         if type(mistakes) != QMessageBox:
+            if len(mistakes) == 0:
+                properties.set__verification_passed_task(3)
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()
             self.checkForm1.exec_()
@@ -442,7 +513,7 @@ class Window3(QMainWindow):
         self.close()
 
     def show(self):
-        self.centralWidget.functionAble = ""
+        self.DisplayObj.functionAble = ""
         self.showMaximized()
 
     def sizeGet(self):
@@ -464,8 +535,11 @@ class Window4(QMainWindow):
         self.setWindowTitle("Задача №4")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        self.centralWidget = Display.Display3(self, graph1, 0, 0, 100, [0, 0, 255, 200], horizontal = False, late_time=True, switch=False)
-        self.setCentralWidget(self.centralWidget)
+        self.DisplayObj = Display.Display3(self, graph1, 0, 0, 100, [0, 0, 255, 200], horizontal = False, late_time=True, switch=False)
+        self.scroll = QtWidgets.QScrollArea()
+        self.scroll.setWidget(self.DisplayObj)
+        self.setCentralWidget(self.scroll)
+        self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
 
         self._connectAction()
 
@@ -489,21 +563,23 @@ class Window4(QMainWindow):
                 event.ignore()
 
     def addDottedArrow(self):
-        self.centralWidget.functionAble = "Добавить пунктирную связь"
+        self.DisplayObj.functionAble = "Добавить пунктирную связь"
         #self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
 
     def moveNode(self):
-        self.centralWidget.functionAble = "Переместить вершины"
+        self.DisplayObj.functionAble = "Переместить вершины"
         #self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionbtnDottedConnectNode.setChecked(False)
 
     def makeNewFile(self):
-        self.centralWidget.functionAble = "Новый файл"
+        self.DisplayObj.functionAble = "Новый файл"
 
     def taskCheck(self):
-        mistakes = self.centralWidget.checkEvent4()
+        mistakes = self.DisplayObj.checkEvent4()
         if type(mistakes) != QMessageBox:
+            if len(mistakes) == 0:
+                properties.set__verification_passed_task(4)
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()        
             self.checkForm1.exec_()
@@ -521,7 +597,7 @@ class Window4(QMainWindow):
         self.close()
 
     def show(self):
-        self.centralWidget.functionAble = ""
+        self.DisplayObj.functionAble = ""
         self.showMaximized()
 
     def sizeGet(self):
@@ -563,8 +639,23 @@ class Window5(QMainWindow):
             # self.widget1.setMinimumSize(500, 500)
             # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
             self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            self.widgetList[i].setMinimumSize(500, 500)
-            layout.addWidget(self.widgetList[i])
+            self.widgetList[i].setMinimumSize(3000, 500)
+            scroll = QtWidgets.QScrollArea()
+            scroll.setWidget(self.widgetList[i])
+            # self.widgetList.append(QWidget())
+            # self.widgetList[int(i/2)+1].ui = Ui_task2SquadWidget()
+            # self.widgetList[int(i/2)+1].ui.setupUi(self.widgetList[int(i/2)+1])
+            # self.widgetList[int(i/2)+1].setMinimumSize(500, 500)
+            hLayout = QtWidgets.QHBoxLayout()
+            hLayout.addWidget(scroll)
+            # # self.hLayout.addWidget(self.widgetList[int(i/2)+1])
+            squadWidget = QWidget()
+            squadWidget.ui = Ui_task2SquadWidget()
+            squadWidget.ui.setupUi(squadWidget)
+            hLayout.addWidget(squadWidget)
+            hWidget = QWidget()
+            hWidget.setLayout(hLayout)
+            layout.addWidget(hWidget)
 
         # Задаём компоновку виджету
         self.widget = QWidget()
@@ -764,6 +855,7 @@ class Window6(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(widgetLeft)
 
+
         # AdjacencyMatrixPeople = np.zeros((len(graph1.AdjacencyMatrix), len(graph1.AdjacencyMatrix)))
         # for i in range(len(AdjacencyMatrixPeople)):
         #     for j in range(len(AdjacencyMatrixPeople[i])):
@@ -779,12 +871,14 @@ class Window6(QMainWindow):
         #             for k in range(len(intervals)):
         #                 if k*step <= graph1.Points[i][0] and (k+1)*step >= graph1.Points[j][0]:
         #                     intervals[k] += AdjacencyMatrixPeople[i][j]
+
         # print(intervals)
         # self._canvas = FigureCanvas(Figure(figsize=(5, 3)))
         # self._ax = self._canvas.figure.subplots()
         # n, bins, patches = self._ax.hist(
         #     intervals, int((X_max-X_min)/step), density=1, facecolor="green", alpha=0.75
         # )
+
         # self._ax.axis([0, int((X_max-X_min)/step), 0, 20])
         # self._ax.grid(True)
         # widgetRight = self._canvas
@@ -817,6 +911,7 @@ class Window6(QMainWindow):
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
 
+
         self.timer = QTimer()
         self.timer.setInterval(100)
         self.timer.timeout.connect(self.update_plot)
@@ -846,6 +941,7 @@ class Window6(QMainWindow):
         #self._canvas.axes.cla()  # Clear the canvas.
 
         #self._canvas.draw()
+
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
@@ -1087,5 +1183,7 @@ if __name__ == "__main__":
         graph5.append(gm.Graph(30))
     MainWindow5 = Window5()
     MainWindow6 = Window6()
+
+    properties = Properties.Properties
 
     sys.exit(app.exec_())

@@ -4,22 +4,20 @@ import main as windows
 class Properties():
 
     def __init__(self):
+
+        # массив пройденных заданий
+        self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
         #свойства первого окна
-        self.verification_passed_task_1 = False # проверка 1 задания пойдена
 
         #свойства второго окна
-        self.verification_passed_task_2 = False # проверка 2 задания пойдена
         self.scaler = 3 # параметр увеличения радиуса для второго задания
         self.radius_points_task_2 = self.radius_points * self.scaler # радиус во втором задании
 
         #свойства третьего окна
-        self.verification_passed_task_3 = False # проверка 3 задания пойдена
 
         #свойства четвертого окна
-        self.verification_passed_task_4 = False # проверка 4 задания пойдена
 
         #свойства пятого окна
-        self.verification_passed_task_5 = False # проверка 5 задания пойдена
 
         #свойства, использующиеся в разных заданиях
             #свойства из таблицы
@@ -27,6 +25,7 @@ class Properties():
         self.total_time #общее время работы (добавить + 3)
         
         self.graph_for_task_1 = self.get_graph() # граф для первого задания
+        self.graph_for_task_3_4 = self.get_graph() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
 
         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
@@ -45,8 +44,15 @@ class Properties():
         return number_of_squads
 
     # функция получения общего графа
-    def get_graph(self):
+    def get_graph_from_radius(self):
         return gm.Graph(self.radius_points)
+
+    # функция получения общего графа
+    def get_graph_from_graph(self, graph):
+        # new_object_graph = graph.__class__
+        # new_graph = new_object_graph()
+        new_graph = graph.copy()
+        return new_graph
 
     # функция получения списка графов для 5 задания
     def get_graphs_for_task_5(self):
@@ -54,6 +60,31 @@ class Properties():
         for i in range(self.number_of_squads):
             graphs.append(self.get_graph)
         return graphs
+
+    # функция получения подтверждения пройденых заданий
+    def get_verification_passed_tasks(self, current):
+        # for i in range(current):
+        #     if (self.verification_passed_tasks[i] == False):
+        #         return False
+        # return True
+        if (self.verification_passed_tasks[current - 1] == False):
+            return False
+        else:
+            return True
+
+    
+    # функция присваивания  подтверждения заданию
+    def set__verification_passed_task(self, number):
+        self.verification_passed_tasks[number] = True
+
+    def set__verification_passed_task_all(self, arg):
+        if (arg):
+            self.verification_passed_tasks = {1: True, 2: True, 3: True, 4: True, 5: True}
+        else:
+            self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
+        
+    
+
 
 
 
