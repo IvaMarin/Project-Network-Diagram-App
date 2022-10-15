@@ -3,11 +3,17 @@ import main as windows
 
 class Properties():
 
-    def __init__(self):
+    def __init__(self, MainWindow):
 
         # массив пройденных заданий
         self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
         #свойства первого окна
+
+        self.MainWindow = MainWindow
+
+        self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
+
+        self.step_grid = 100 # шаг сетки
 
         #свойства второго окна
         self.scaler = 3 # параметр увеличения радиуса для второго задания
@@ -22,23 +28,20 @@ class Properties():
         #свойства, использующиеся в разных заданиях
             #свойства из таблицы
         self.number_of_squads = self.get_number_of_squads() #количество отделений
-        self.total_time #общее время работы (добавить + 3)
+        #self.total_time #общее время работы (добавить + 3)
         
         self.graph_for_task_1 = self.get_graph_from_radius() # граф для первого задания
         self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
 
-        self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
-
-        self.step_grid = 100 # шаг сетки
 
     # функция подсчета количесва отделений
-    def get_number_of_squads():
-        MainWindow = windows.WindowMenu()
+    def get_number_of_squads(self):
+        
         number_of_squads = 1
-        for row in range(MainWindow.ui.tableVar.rowCount()-1):
-            if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
-                i = int(MainWindow.ui.tableVar.item(row, 1).text())
+        for row in range(self.MainWindow.ui.tableVar.rowCount()-1):
+            if self.MainWindow.ui.tableVar.item(row, 1).text() >= '1' and self.MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
+                i = int(self.MainWindow.ui.tableVar.item(row, 1).text())
             if number_of_squads < i:
                 number_of_squads = i
         return number_of_squads
@@ -61,7 +64,7 @@ class Properties():
             graphs.append(self.get_graph_from_radius)
         return graphs
 
-    def get_verification_passed_pretasks(self, current):
+    def get_verification_passed_tasks(self, current):
         return self.verification_passed_tasks[current]    
 
     # функция получения подтверждения пройденых заданий
