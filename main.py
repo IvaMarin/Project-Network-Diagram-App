@@ -1014,6 +1014,12 @@ class WindowMenu(QMainWindow):
         self.ui.btnReportSign.setEnabled(False)
         self.ui.btnGenVar.setEnabled(False)
         self.ui.btnEditTaskVariant.setEnabled(False)
+        self.ui.btnTask1.setEnabled(True)
+        self.ui.btnTask2.setEnabled(False)
+        self.ui.btnTask3.setEnabled(False)
+        self.ui.btnTask4.setEnabled(False)
+        self.ui.btnTask5.setEnabled(False)
+        #self.ui.btnTask6.setEnabled(False)
 
         self._connectAction()
         #self.creatReport()
@@ -1096,10 +1102,23 @@ class WindowMenu(QMainWindow):
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
             self.ui.btnEditTaskVariant.setEnabled(True)
+            self.ui.btnTask1.setEnabled(True)
+            self.ui.btnTask2.setEnabled(True)
+            self.ui.btnTask3.setEnabled(True)
+            self.ui.btnTask4.setEnabled(True)
+            self.ui.btnTask5.setEnabled(True)
+            #self.ui.btnTask6.setEnabled(True)
         else:
             self.ui.btnReportSign.setEnabled(False)
             self.ui.btnGenVar.setEnabled(False)
             self.ui.btnEditTaskVariant.setEnabled(False)
+            self.ui.btnTask1.setEnabled(True)
+            self.ui.btnTask2.setEnabled(False)
+            self.ui.btnTask3.setEnabled(False)
+            self.ui.btnTask4.setEnabled(False)
+            self.ui.btnTask5.setEnabled(False)
+            #self.ui.btnTask6.setEnabled(False)
+            self.ui.btnTeacherMode.setChecked(False)
     def activateDeveloperMode(self):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
@@ -1129,6 +1148,14 @@ class WindowMenu(QMainWindow):
 
 
     def openTask (self, numTask):
+        if self.ui.btnTeacherMode.isChecked():
+            self.ui.btnTask1.setEnabled(True)
+            self.ui.btnTask2.setEnabled(properties.get_verification_passed_tasks(2))
+            self.ui.btnTask3.setEnabled(properties.get_verification_passed_tasks(3))
+            self.ui.btnTask4.setEnabled(properties.get_verification_passed_tasks(4))
+            self.ui.btnTask5.setEnabled(properties.get_verification_passed_tasks(5))
+            #self.ui.btnTask6.setEnabled(properties.get_verification_passed_tasks(6))
+
         if numTask == "Задание 1":
             MainWindow1.show()
         elif numTask == "Задание 2":
@@ -1187,6 +1214,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     MainWindow = WindowMenu()
+    properties = Properties.Properties(MainWindow)
     squadNum = maxSquadNum()
     #MainWindow.show()
     MainWindow1 = Window1()
@@ -1198,6 +1226,6 @@ if __name__ == "__main__":
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 
-    properties = Properties.Properties
+    
 
     sys.exit(app.exec_())
