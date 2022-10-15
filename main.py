@@ -1148,7 +1148,7 @@ class WindowMenu(QMainWindow):
 
 
     def openTask (self, numTask):
-        if self.ui.btnTeacherMode.isChecked():
+        if not(self.ui.btnTeacherMode.isChecked()):
             self.ui.btnTask1.setEnabled(True)
             self.ui.btnTask2.setEnabled(properties.get_verification_passed_tasks(2))
             self.ui.btnTask3.setEnabled(properties.get_verification_passed_tasks(3))
