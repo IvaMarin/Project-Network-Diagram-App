@@ -815,16 +815,10 @@ class Window5(QMainWindow):
         # self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
-        for button in self.squadWidgetList:
-            button.ui.pushButton.clicked.connect(self.replace)
+
     
 
-    #здесь нужно написать функцию замены номера вершины в графе
-    # значения доставать так
-    # self.squadWidgetList[0].ui.lineEdit_oldValue.text()
-    # self.squadWidgetList[0].ui.lineEdit_newValue.text()
-    
-    def replace(self, old_value, new_value):
+    def replase(self):
         pass
 
 
@@ -1154,7 +1148,7 @@ class WindowMenu(QMainWindow):
 
 
     def openTask (self, numTask):
-        if self.ui.btnTeacherMode.isChecked():
+        if not(self.ui.btnTeacherMode.isChecked()):
             self.ui.btnTask1.setEnabled(True)
             self.ui.btnTask2.setEnabled(properties.get_verification_passed_tasks(2))
             self.ui.btnTask3.setEnabled(properties.get_verification_passed_tasks(3))
@@ -1232,10 +1226,6 @@ if __name__ == "__main__":
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 
-<<<<<<< HEAD
-    properties = Properties.Properties()
-=======
     
->>>>>>> 7447fdd5473d687c5b7d79d0d84b0a2eb66db424
 
     sys.exit(app.exec_())
