@@ -59,15 +59,17 @@ def createGrid(x0=0, y0=0, step=50, vertical=True, horizontal=True):
     lines = []
 
     if vertical:
-        number_vertical_lines = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
+
+        number_vertical_lines = (sizeWindow.width()*2 - x0) // step + 1  # количество вертикальных линий
+
         for i in range(number_vertical_lines):
             lines.append(QLineF(x0, 0, x0, sizeWindow.height()))
             x0 = x0 + step
 
     if horizontal:
-        number_horizontal_lines = (sizeWindow.height() - y0) // step + 1;  # количество горизонтальных линий
+        number_horizontal_lines = (sizeWindow.height()*2 - y0) // step + 1;  # количество горизонтальных линий
         for i in range(number_horizontal_lines):
-            lines.append(QLineF(0, y0, sizeWindow.width(), y0))
+            lines.append(QLineF(0, y0, sizeWindow.width()*2, y0))
             y0 = y0 + step
 
     return lines

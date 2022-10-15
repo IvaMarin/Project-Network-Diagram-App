@@ -61,8 +61,11 @@ class Properties():
             graphs.append(self.get_graph)
         return graphs
 
+    def get_verification_passed_pretasks(self, current):
+        return self.verification_passed_tasks[current]    
+
     # функция получения подтверждения пройденых заданий
-    def get_verification_passed_tasks(self, current):
+    def get_verification_passed_pretasks(self, current):
         # for i in range(current):
         #     if (self.verification_passed_tasks[i] == False):
         #         return False
