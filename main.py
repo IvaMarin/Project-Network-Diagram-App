@@ -33,8 +33,7 @@ from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
 from qt_designer_ui.task2SquadWidget import Ui_task2SquadWidget
 import Display
-import WinsDialog
-from WinsDialog import winSigReport,winLogin,winEditTable
+from WinsDialog import winSigReport,winLogin,winEditTable,winSearchKey
 from Color import Color
 from task1CheckForm import task1CheckForm
 import graph_model as gm
@@ -951,7 +950,7 @@ class Window6(QMainWindow):
                     for k in range(len(intervals)):
                         if k*step <= graph1.Points[i][0] and (k+1)*step >= graph1.Points[j][0]:
                             intervals[k] += AdjacencyMatrixPeople[i][j]
-        print(intervals)
+        #print(intervals)
         #self._canvas.axes.cla()  # Clear the canvas.
 
         #self._canvas.draw()
@@ -1002,10 +1001,12 @@ class WindowMenu(QMainWindow):
 
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
-        self.numINGroup = "9"  # данные о студенте проинициализированы
+        self.numINGroup = "9"  # данные о студенте проинициализированы    winSearchKey
 
-        self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.show()
+        self.winSearchKey = winSearchKey(self)
+        self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
+        self.winSearchKey.exec_()
         self.startWindow.exec_() # его запуск в отдельном потоке
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.winEditTable = winEditTable(self) #
@@ -1097,7 +1098,7 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        if self.ui.btnTeacherMode.isChecked() and (True): # вместо (True) вставить результат проверки шифрованого ключа
+        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
