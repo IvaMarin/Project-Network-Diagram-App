@@ -368,6 +368,7 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         for rowInSqdTbl in range(len(self.listNumPeopleInSquad)):
             for colInSqdTbl in range(len(self.listNumPeopleInSquad[rowInSqdTbl])):
                 sheet.cell(rowInSqdTbl + 1, colInSqdTbl + self.ui.tableTaskVar.columnCount()+1).value = self.listNumPeopleInSquad[rowInSqdTbl][colInSqdTbl]
+                
 
         self.book.save(self.pathToExcelFile)
 
@@ -427,7 +428,7 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
         self.ui = tableNumPeopleInSquad.Ui_winTableNumPeopleInSquad()  # инициализация ui
         self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
         self.winEditTable = root  # сохраняем нашего родителя
-        self.listNumPeopleInSquad = []
+        #self.listNumPeopleInSquad = []
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
         width = int(210*2+60)
