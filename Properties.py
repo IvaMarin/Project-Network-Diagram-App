@@ -1,5 +1,14 @@
+from traceback import print_tb
 import graph_model as gm
+from encrypt_module import decrypt_file
+import os
+from PyQt5 import QtWidgets
 import main as windows
+
+def join(*args):
+    return os.path.join(*args).replace(os.path.sep, "/")
+
+basedir = os.path.dirname(__file__) # путь до данного файла
 
 class Properties():
 
@@ -33,6 +42,9 @@ class Properties():
         self.graph_for_task_1 = self.get_graph_from_radius() # граф для первого задания
         self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
+
+        
+        self.key_path = "" # путь до ключа преподавателя 
 
 
     # функция подсчета количесва отделений
@@ -88,7 +100,60 @@ class Properties():
             self.verification_passed_tasks = {1: True, 2: True, 3: True, 4: True, 5: True}
         else:
             self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
+
+############    ФУНКЦИИ ДЛЯ РАБОТЫ С ШИФРОВАНИЕМ    ##############################
+    
+    def check_key(self, key_path) -> bool:
+        try:
+            with open(key_path, "rb") as file:
+                secret_key = file.read()
+            tmp_path = join(basedir, "encrypted_data")
+            print("TMP_PATH ", tmp_path)
+            teacher_token = decrypt_file(tmp_path, "teacher_token.txt") ####### ОШИБКА
+            print("teacher_token", teacher_token, "\t", "secret_key ", secret_key)
+            if teacher_token == b"ERROR_DECRYPT":
+                print("key_path not exist1: ERROR_DECRYPT")
+                return False
+            if secret_key == teacher_token:
+                print("key_path is exist")
+                return True
+        except Exception:
+            print("key_path not exist2 LOSE")
+            return False
+
+    def enter_key(self):
+        file_name = QtWidgets.QFileDialog.getOpenFileName()[0]
+        print(file_name)
+        if file_name == "":
+            print("key_path not exist1")
+            return False
+        if self.check_key(file_name):
+            self.key_path = file_name
+            print("key_path is exist")
+            return True
+        else:
+            print("key_path not exist2")
+            return False
+################################################################################################################
+
+    def get_num_squad(self):
+        self.tableNumSquad = []
+        for row in range(self.MainWindow.ui.tableVar.rowCount()):
+            if self.MainWindow.ui.tableVar.item(row, self.MainWindow.ui.tableVar.columnCount() - 1) and self.MainWindow.ui.tableVar.item(row, self.MainWindow.ui.tableVar.columnCount() - 1) != ' ':
+                self.tableNumSquad.append([])
+            #if self.MainWindow.ui.tableVar.item(row, self.MainWindow.ui.tableVar.columnCount() - 1) and self.MainWindow.ui.tableVar.item(row, self.MainWindow.ui.tableVar.columnCount() - 1) != ' ':
+                tmpItem = self.MainWindow.ui.tableVar.item(row, self.MainWindow.ui.tableVar.columnCount() - 1).text()
+                self.tableNumSquad[-1].append(tmpItem)
+            else:
+                break
+            #self.tableNumSquad[-1].append(tmpItem)
+            #print("item", row, self.MainWindow.ui.tableVar.columnCount() - 1, " ", self.tableNumSquad[-1][-1])
         
+        print(" ")
+        for i in self.tableNumSquad:
+            print(i)
+
+
     
 
 
