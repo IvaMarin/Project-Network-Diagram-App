@@ -984,7 +984,6 @@ class WindowMenu(QMainWindow):
         self.show()
         self.winSearchKey = winSearchKey(self)
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
-        self.winSearchKey.exec_()
         self.startWindow.exec_() # его запуск в отдельном потоке
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.winEditTable = winEditTable(self) #

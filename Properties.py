@@ -38,7 +38,6 @@ class Properties():
         self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
 
-        self.basedir = os.path.dirname(__file__) # путь до данного файла
         self.key_path = "" # путь до ключа преподавателя 
 
 
@@ -129,9 +128,6 @@ class Properties():
         else:
             print("key_path not exist2")
             return False
-
-    def join(self, *args):
-        return os.path.join(*args).replace(os.path.sep, "/")
 ################################################################################################################
 
     def get_num_squad(self):
