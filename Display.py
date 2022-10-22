@@ -531,22 +531,65 @@ class Display3(Display):
 
         self.update()
 
-class Canvas(FigureCanvas):
-    def __init__(self, parent, Points, AdjacencyMatrix, X_min, X_max, step):
-        fig, self.ax = plt.subplots(figsize=(2, 1), dpi=200)
-        super().__init__(fig)
-        self.setParent(parent)
+class DrawHist(QWidget):
+    def __init__(self, root, graph, start_coordination_X = 0, start_coordination_Y = 0, step = 75):
+        super().__init__(root)
+        self.step = step
+        self.graph = graph
+        self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, True)
+        self.whiteLines = createGaps(start_coordination_X, start_coordination_Y, step)
+        self.intervals = np.array([])
+    
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setPen(QColor(0, 0, 255, 90))
+        painter.drawLines(self.lines)
+        font_size = 12
 
-        """ 
-        Matplotlib Script
-        """
-        intervals = np.zeros(int((X_max-X_min)/step))
-        for i in range(len(AdjacencyMatrix)):
-            for j in range(len(AdjacencyMatrix[i])):
-                if AdjacencyMatrix[i][j] != 0:
-                    for k in range(len(intervals)):
-                        if k*step <= Points[i][0] and (k+1)*step >= Points[j][0]:
-                            intervals[k] += AdjacencyMatrix[i][j]
-        self.ax.axis([0, intervals.max(), 0, int(X_max-X_min)])
-        #n, bin, patches = plt.hist(intervals, X_max - X_min)
-        super(Canvas, self).__init__(plt.hist(intervals, X_max - X_min))
+        # отрисовка нумерации осей сетки
+        painter.setPen(QColor("black"))
+        x0 = 0
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
+        y0 = sizeWindow.height()-170
+        for i in range(number_vertical_lines):
+            if len(str(i+1)) < 2:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+            painter.drawText(self.step + self.step * i + offset[0], y0 + offset[1], f'{i}')
+
+        # отрисовка нумерации осей сетки
+        x0 = 0
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
+        y0 = sizeWindow.height()-170
+        for i in range(number_vertical_lines):
+            if len(str(i+1)) < 2:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+            painter.drawText(self.step + offset[0]-7, y0 - self.step * (i+1) - offset[1]/2, f'{i+1}')
+        intervals = np.zeros(18)
+        for p in range(len(self.graph)):
+            AdjacencyMatrix = self.graph[p].GetNumberOfPeople()
+            if AdjacencyMatrix is not None:
+                for i in range(len(AdjacencyMatrix)):
+                    for j in range(len(AdjacencyMatrix[i])):
+                        if AdjacencyMatrix[i][j] != 0:
+                            for k in range(len(intervals)):
+                                if k*self.step >= self.graph[p].Points[i][0] and self.graph[p].Points[j][0] >= (k+1)*self.step:
+                                    intervals[k] += AdjacencyMatrix[i][j]
+        # print(intervals)
+
+        painter.setPen(QPen(QColor("black"), 3))
+        lines = []
+        for i in range(len(intervals)):
+            lines.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step - 10, self.step*(i+2), y0-intervals[i]*self.step - 10))
+        painter.drawLines(lines)
+
+        linesVert = []
+        for i in range(1,len(intervals)):
+            if intervals[i] != intervals[i-1]:
+                linesVert.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step- 10, 0+self.step*(i+1), y0-intervals[i-1]*self.step- 10))
+        painter.drawLines(linesVert)
