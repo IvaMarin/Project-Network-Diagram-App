@@ -4,19 +4,15 @@ from pathlib import Path
 ### Для обработки .xlsx файлов ##############
 import openpyxl
 import copy
-
+from fpdf import FPDF
 ### Для обработки .pdf файлов ###############
 
-# from borb.pdf import Document
-# from borb.pdf import Page
-# from borb.pdf import SingleColumnLayout
-# from borb.pdf import Paragraph
-# from borb.pdf import PDF
+from borb.pdf import Document
+from borb.pdf import Page
+from borb.pdf import SingleColumnLayout
+from borb.pdf import Paragraph
+from borb.pdf import PDF
 
-# from matplotlib.backends.backend_qt4agg import (
-#     FigureCanvas,
-#     NavigationToolbar2QT as NavigationToolbar,
-# )
 from matplotlib.figure import Figure
 
 from PyQt5 import QtWidgets
@@ -1058,12 +1054,13 @@ class WindowMenu(QMainWindow):
 
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
-        #self.ui.previewReport.clicked.connect(lambda: self.creatReport()) #
+        self.ui.previewReport.clicked.connect(lambda: self.creatReport()) #
         self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
 
 
     def activateTeacherMode (self):
-        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
+        #and properties.enter_key()
+        if self.ui.btnTeacherMode.isChecked() : # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
@@ -1090,26 +1087,39 @@ class WindowMenu(QMainWindow):
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "1"  # данные о студенте проинициализированы
 
-    #def creatReport(self):
-        # create an empty Document
-        #pdf = Document()
+    # def creatReport(self):
+    #     create an empty Document
+    #     pdf = Document()
 
-        # add an empty Page
-        #page = Page()
-        #pdf.add_page(page)
+    #     add an empty Page
+    #     page = Page()
+    #     pdf.add_page(page)
 
-        # use a PageLayout (SingleColumnLayout in this case)
-        #layout = SingleColumnLayout(page)
+    #     use a PageLayout (SingleColumnLayout in this case)
+    #     layout = SingleColumnLayout(page)
 
-        # add a Paragraph object
-        #layout.add(Paragraph(self.name))
-        #layout.add(Paragraph(self.surname))
-        #layout.add(Paragraph(self.numGroup))
-        #layout.add(Paragraph(self.numINGroup))
+    #     add a Paragraph object
+    #     layout.add(Paragraph(self.name))
+    #     layout.add(Paragraph(self.surname))
+    #     layout.add(Paragraph(self.numGroup))
+    #     layout.add(Paragraph(self.numINGroup))
 
-        # store the PDF
-        #with open(Path("output.pdf"), "wb") as pdf_file_handle:
-        #    PDF.dumps(pdf_file_handle, pdf)
+    #     store the PDF
+    #     with open(Path("output.pdf"), "wb") as pdf_file_handle:
+    #        PDF.dumps(pdf_file_handle, pdf)
+    # def creatReport(self):
+    #     pdf = FPDF()
+    #     pdf.add_page()
+    #     pdf.add_font("Sans", style="", fname="Noto_Sans/NotoSans-Regular.ttf", uni=True)
+    #    # pdf.set_font("Arial", size=12, uni=True)
+    #     pdf.cell(200, 10, txt="Тест", ln=1, align="C")
+    #     pdf.output("simple_demo.pdf")
+        # pdf = FPDF()
+        # pdf.add_page()
+        # pdf.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
+        # pdf.set_font('DejaVu', '', 14)
+        # pdf.cell(200, 10, txt="Заявка №_01-000001", ln=1, align="C")
+        # pdf.output("simple_demo.pdf")
 
 
 
