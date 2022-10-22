@@ -455,10 +455,18 @@ class Display3(Display):
 
         # отрисовка вершин и цифр
         painter.setPen(QPen(QColor("black"), 2.5))
-        painter.setBrush(QColor("white")) # обеспечиваем закрашивание вершин графа
+
+        #painter.setBrush(QColor("white")) # обеспечиваем закрашивание вершин графа
         for i in range(len(self.graph.Points)):
             # если вершина существует
             if (not np.isnan(self.graph.Points[i][0])):
+
+                if (i != self.illumination):
+                    painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+                else:
+                    painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
+
+                
                 painter.drawEllipse(self.graph.Points[i][0]-self.graph.RadiusPoint, self.graph.Points[i][1]-self.graph.RadiusPoint, 
                                     2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
                 if len(str(i+1)) < 2:
@@ -484,6 +492,8 @@ class Display3(Display):
         elif (self.functionAble == "Добавить связь"):
             self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(
                 event.pos().x(), event.pos().y()))  # добавить в массив выбранных вершин
+            self.illumination = self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
+
             # если число выбранных вершин 2
             if len(self.TempPoints) == 2:
                 # проверка, если пользователь случайно нажал дважды по одной и той же вершине
@@ -491,22 +501,30 @@ class Display3(Display):
                     control.CConnectPoints(
                         self.graph, event, Qt.LeftButton, self.TempPoints)
                 self.TempPoints = np.empty(0)  # очистить массив
+                self.illumination = -1 #очистить  подсветку
 
         elif (self.functionAble == "Удалить связь"):
             self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(
                 event.pos().x(), event.pos().y()))  # добавить в массив выбранных вершин
+            self.illumination = self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
+
             # если число выбранных вершин 2
             if len(self.TempPoints) == 2:
                 control.CDeleteConnection(
                     self.graph, event, Qt.LeftButton, self.TempPoints)
                 self.TempPoints = np.empty(0)  # очистить массив
+                self.illumination = -1 
 
         elif (self.functionAble == "Удалить вершину"):
+
             control.CDeletePoint(self.graph, event, Qt.LeftButton)
+            self.illumination = -1
 
         elif (self.functionAble == "Переместить вершины"):
             self.FixedPoint = control.CIsCursorOnPoint(
                 self.graph, event, Qt.LeftButton)
+            self.illumination = -1
+            self.TempPoints = np.empty(0)
 
         elif (self.functionAble == "Добавить пунктирную связь"):
             self.FixedArrowPoint = control.CIsCursorOnArrowPoint(
