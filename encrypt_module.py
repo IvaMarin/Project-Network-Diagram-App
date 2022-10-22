@@ -62,7 +62,6 @@ def encrypt_files(directory: Path, key: str):
 def decrypt_file(directory, filename, key: str = None):
     try:
         with open(os.path.join(directory, filename), "rb") as input_file:
-<<<<<<< Updated upstream
             print("MISS IN ENCRYPT try 1")
             nonce = input_file.read(16)
             tag = input_file.read(16)
@@ -76,16 +75,6 @@ def decrypt_file(directory, filename, key: str = None):
                 return aes_decrypt(nonce, cipher_content, tag, key.encode())
     except Exception:
         print("MISS IN ENCRYPT")
-=======
-            nonce = input_file.read(16)
-            tag = input_file.read(16)
-            cipher_content = input_file.read()
-            if key is None:
-                return aes_decrypt(nonce, cipher_content, tag, aes_generate_key())
-            else:
-                return aes_decrypt(nonce, cipher_content, tag, key.encode())
-    except Exception:
->>>>>>> Stashed changes
         return b"ERROR_DECRYPT"
 
 

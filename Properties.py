@@ -95,7 +95,6 @@ class Properties():
             self.verification_passed_tasks = {1: True, 2: True, 3: True, 4: True, 5: True}
         else:
             self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
-<<<<<<< Updated upstream
 
 ############    ФУНКЦИИ ДЛЯ РАБОТЫ С ШИФРОВАНИЕМ    ##############################
     
@@ -134,7 +133,7 @@ class Properties():
     def join(self, *args):
         return os.path.join(*args).replace(os.path.sep, "/")
 ################################################################################################################
-=======
+
     def get_num_squad(self):
         self.tableNumSquad = []
         for row in range(self.MainWindow.ui.tableVar.rowCount()):
@@ -147,7 +146,6 @@ class Properties():
                 break
             #self.tableNumSquad[-1].append(tmpItem)
             #print("item", row, self.MainWindow.ui.tableVar.columnCount() - 1, " ", self.tableNumSquad[-1][-1])
->>>>>>> Stashed changes
         
         print(" ")
         for i in self.tableNumSquad:
