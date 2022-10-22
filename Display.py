@@ -582,13 +582,14 @@ class DrawHist(QWidget):
                                     intervals[k] += AdjacencyMatrix[i][j]
         # print(intervals)
 
+        painter.setPen(QPen(QColor("black"), 3))
         lines = []
         for i in range(len(intervals)):
-            lines.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step, self.step*(i+2), y0-intervals[i]*self.step))
+            lines.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step - 10, self.step*(i+2), y0-intervals[i]*self.step - 10))
         painter.drawLines(lines)
 
         linesVert = []
         for i in range(1,len(intervals)):
             if intervals[i] != intervals[i-1]:
-                linesVert.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step, 0+self.step*(i+1), y0-intervals[i-1]*self.step))
+                linesVert.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step- 10, 0+self.step*(i+1), y0-intervals[i-1]*self.step- 10))
         painter.drawLines(linesVert)
