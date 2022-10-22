@@ -550,9 +550,10 @@ class Display3(Display):
         self.update()
 
 class DrawHist(QWidget):
-    def __init__(self, root, graph, start_coordination_X = 0, start_coordination_Y = 0, step = 75):
+    def __init__(self, root, graph, start_coordination_X = 0, start_coordination_Y = 0, step = 25):
         super().__init__(root)
         self.step = step
+        self.stepAlg = 75
         self.graph = graph
         self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, True)
         self.whiteLines = createGaps(start_coordination_X, start_coordination_Y, step)
@@ -596,11 +597,12 @@ class DrawHist(QWidget):
                     for j in range(len(AdjacencyMatrix[i])):
                         if AdjacencyMatrix[i][j] != 0:
                             for k in range(len(intervals)):
-                                if k*self.step >= self.graph[p].Points[i][0] and self.graph[p].Points[j][0] >= (k+1)*self.step:
+                                #if k*self.step >= self.graph[p].Points[i][0] and self.graph[p].Points[j][0] >= (k+1)*self.step:
+                                if k*self.stepAlg >= self.graph[p].Points[i][0] and self.graph[p].Points[j][0] >= (k+1)*self.stepAlg:
                                     intervals[k] += AdjacencyMatrix[i][j]
         # print(intervals)
 
-        painter.setPen(QPen(QColor("black"), 3))
+        painter.setPen(QPen(QColor("red"), 3))
         lines = []
         for i in range(len(intervals)):
             lines.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step - 10, self.step*(i+2), y0-intervals[i]*self.step - 10))
