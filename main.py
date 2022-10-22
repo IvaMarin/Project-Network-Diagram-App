@@ -37,7 +37,7 @@ graph5 = [] # графы по количеству отделений
 
 def maxSquadNum():
     maxSquadNum = 1
-    for row in range(MainWindow.ui.tableVar.rowCount()-1):
+    for row in range(MainWindow.ui.tableVar.rowCount()):
         if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
             i = int(MainWindow.ui.tableVar.item(row, 1).text())
         if maxSquadNum < i:
@@ -1017,7 +1017,7 @@ class WindowMenu(QMainWindow):
     def getCorrectAdjacencyMatrix(self):
         arr = []
         n = 0
-        for row in range(self.ui.tableVar.rowCount()-1):
+        for row in range(self.ui.tableVar.rowCount()):
             i, j = self.ui.tableVar.item(row, 0).text().split("-")
             i, j = int(i), int(j)
             arr.append((i, j))
@@ -1040,7 +1040,7 @@ class WindowMenu(QMainWindow):
                 if (CorrectWeights[i][j] == 0):
                     CorrectWeights[i][j] = -1
 
-        for row in range(self.ui.tableVar.rowCount()-1):
+        for row in range(self.ui.tableVar.rowCount()):
             i, j = self.ui.tableVar.item(row, 0).text().split("-")
             i, j = int(i), int(j)
 
