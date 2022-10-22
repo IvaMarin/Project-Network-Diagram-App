@@ -396,7 +396,7 @@ class Window3(QMainWindow):
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
 
-        self.DisplayObj = Display.Display3(self, graph1, 0, 0, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
+        self.DisplayObj = Display.Display3(self, graph1, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
@@ -481,7 +481,7 @@ class Window4(QMainWindow):
         self.setWindowTitle("Задача №4")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        self.DisplayObj = Display.Display3(self, graph1, 0, 0, 100, [0, 0, 255, 200], horizontal = False, late_time=True, switch=False)
+        self.DisplayObj = Display.Display3(self, graph1, 100, [0, 0, 255, 200], horizontal = False, late_time=True, switch=False)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
@@ -582,7 +582,7 @@ class Window5(QMainWindow):
         self.squadWidgetList = []
 
         for i in range(squadNum):
-            self.widget1 = Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+            self.widget1 = Display.Display3(self, graph5[i], 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
             # self.widget1.setMinimumSize(500, 500)
             # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
             # self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
@@ -590,6 +590,8 @@ class Window5(QMainWindow):
             self.widgetList[i].setMinimumSize(3000, 500)
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
+            scroll.setMinimumSize(500, 500)
+            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             # self.widgetList.append(QWidget())
             # self.widgetList[int(i/2)+1].ui = Ui_task2SquadWidget()
             # self.widgetList[int(i/2)+1].ui.setupUi(self.widgetList[int(i/2)+1])
@@ -851,9 +853,16 @@ class Window6(QMainWindow):
             # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
             # self.widget1.setMinimumSize(500, 500)
             # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            self.widgetList[i].setMinimumSize(int(width/2), 500)
-            layoutLeft.addWidget(self.widgetList[i])
+            self.widgetList.append(Display.Display3(self, graph5[i], 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            #self.widgetList[i].setMinimumSize(int(width/2), 500)
+            self.widgetList[i].setMinimumSize(3000, 500)
+            scroll = QtWidgets.QScrollArea()
+            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+            scroll.setWidget(self.widgetList[i])
+            scroll.setMinimumSize(500, 500)
+            # scroll.setWidgetResizable(True)
+            layoutLeft.addWidget(scroll)
 
         widgetLeft = QWidget()
         widgetLeft.setLayout(layoutLeft)
