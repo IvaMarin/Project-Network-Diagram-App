@@ -635,10 +635,11 @@ class Window5(QMainWindow):
         self.squadWidgetList = []
 
         for i in range(squadNum):
-            # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+            self.widget1 = Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
             # self.widget1.setMinimumSize(500, 500)
             # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            # self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            self.widgetList.append(self.widget1)
             self.widgetList[i].setMinimumSize(3000, 500)
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
@@ -653,6 +654,7 @@ class Window5(QMainWindow):
             squadWidget.ui = Ui_task2SquadWidget()
             squadWidget.ui.setupUi(squadWidget)
             self.squadWidgetList.append(squadWidget)
+            squadWidget.ui.pushButton.clicked.connect(lambda checked, i=i: self.replace(i))
             hLayout.addWidget(squadWidget)
             hWidget = QWidget()
             hWidget.setLayout(hLayout)
@@ -817,8 +819,10 @@ class Window5(QMainWindow):
 
     
 
-    def replase(self):
-        pass
+    def replace(self, i):
+        # print(i)
+        self.widgetList[i].graph.AddPoint(50, 50)
+        self.widgetList[i].update()
 
 
     def backMainMenu(self):
@@ -950,7 +954,7 @@ class Window6(QMainWindow):
                     for k in range(len(intervals)):
                         if k*step <= graph1.Points[i][0] and (k+1)*step >= graph1.Points[j][0]:
                             intervals[k] += AdjacencyMatrixPeople[i][j]
-        #print(intervals)
+        print(intervals)
         #self._canvas.axes.cla()  # Clear the canvas.
 
         #self._canvas.draw()
