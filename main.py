@@ -872,39 +872,13 @@ class Window6(QMainWindow):
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(widgetLeft)
 
-
-        # AdjacencyMatrixPeople = np.zeros((len(graph1.AdjacencyMatrix), len(graph1.AdjacencyMatrix)))
-        # for i in range(len(AdjacencyMatrixPeople)):
-        #     for j in range(len(AdjacencyMatrixPeople[i])):
-        #         if AdjacencyMatrixPeople[i][j] != 0:
-        #             AdjacencyMatrixPeople = graph1.label[i][j].text()
-        # X_max = 1000
-        # X_min = 0
-        # step = 75
-        # intervals = np.zeros(int((X_max-X_min)/step))
-        # for i in range(len(AdjacencyMatrixPeople)):
-        #     for j in range(len(AdjacencyMatrixPeople[i])):
-        #         if AdjacencyMatrixPeople[i][j] != 0:
-        #             for k in range(len(intervals)):
-        #                 if k*step <= graph1.Points[i][0] and (k+1)*step >= graph1.Points[j][0]:
-        #                     intervals[k] += AdjacencyMatrixPeople[i][j]
-
-        # print(intervals)
-        # self._canvas = FigureCanvas(Figure(figsize=(5, 3)))
-        # self._ax = self._canvas.figure.subplots()
-        # n, bins, patches = self._ax.hist(
-        #     intervals, int((X_max-X_min)/step), density=1, facecolor="green", alpha=0.75
-        # )
-
-        # self._ax.axis([0, int((X_max-X_min)/step), 0, 20])
-        # self._ax.grid(True)
-        # widgetRight = self._canvas
-        # widgetRight.setMinimumSize(int(width/2), int(height/2))
+        self.widgetRight = Display.DrawHist(self, graph5)
+        self.widgetRight.setMinimumSize(int(width/2), 500)
         
         #слева отделения
         layout.addWidget(self.scroll) 
         #справа гистограмма       #Виджет вставлять сюда
-        #layout.addWidget(widgetRight)
+        layout.addWidget(self.widgetRight)
 
         # Задаём компоновку виджету
         widget = QWidget()
@@ -954,7 +928,7 @@ class Window6(QMainWindow):
                     for k in range(len(intervals)):
                         if k*step <= graph1.Points[i][0] and (k+1)*step >= graph1.Points[j][0]:
                             intervals[k] += AdjacencyMatrixPeople[i][j]
-        print(intervals)
+        # print(intervals)
         #self._canvas.axes.cla()  # Clear the canvas.
 
         #self._canvas.draw()
@@ -1214,7 +1188,6 @@ class WindowMenu(QMainWindow):
                 countColumns = countColumns + 1
             countColumns = 0
             
-
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 

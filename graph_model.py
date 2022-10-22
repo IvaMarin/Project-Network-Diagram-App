@@ -216,20 +216,22 @@ class Graph:
 						try:
 							PeopleMatrix[i][j] = int(self.label[i][j].text())
 						except ValueError:
-							warning = QMessageBox()
-							warning.setWindowTitle("Предупреждение")
-							warning.setText("Не введено значение продолжительности работы для одного или нескольких рёбер!")
-							warning.setIcon(QMessageBox.Warning)
-							warning.setStandardButtons(QMessageBox.Ok)
-							warning.exec()
+							pass
+							# warning = QMessageBox()
+							# warning.setWindowTitle("Предупреждение")
+							# warning.setText("Не введено значение продолжительности работы для одного или нескольких рёбер!")
+							# warning.setIcon(QMessageBox.Warning)
+							# warning.setStandardButtons(QMessageBox.Ok)
+							# warning.exec()
 			return PeopleMatrix
 		else:
-			warning = QMessageBox()
-			warning.setWindowTitle("Предупреждение")
-			warning.setText("Не отрисованы поля для ввода числа людей!")
-			warning.setIcon(QMessageBox.Warning)
-			warning.setStandardButtons(QMessageBox.Ok)
-			warning.exec()
+			# warning = QMessageBox()
+			# warning.setWindowTitle("Предупреждение")
+			# warning.setText("Не отрисованы поля для ввода числа людей!")
+			# warning.setIcon(QMessageBox.Warning)
+			# warning.setStandardButtons(QMessageBox.Ok)
+			# warning.exec()
+			return None
 
 # функция копирования графа (в разработке)
 	def copy_graph(self):
