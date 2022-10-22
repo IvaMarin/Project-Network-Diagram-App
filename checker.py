@@ -264,7 +264,7 @@ def checkTask2(Graph):
     if (old_mistakes):
         warning = QMessageBox()
         warning.setWindowTitle("Предупреждение")
-        warning.setText("Нарушено одно из условий проверки первого задания! Пожалуйста, проверьте каждое из условий:\n1. Верное количество вершин\n2. Верное количество связей\n3. Верные связи\n4. Связи не пересекаются")
+        warning.setText("Нарушено условие проверки первого задания, связи пересекаются!")
         warning.setIcon(QMessageBox.Warning)
         warning.setStandardButtons(QMessageBox.Ok)
         return warning
@@ -386,7 +386,7 @@ def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
     if (old_mistakes):
         warning = QMessageBox()
         warning.setWindowTitle("Предупреждение")
-        warning.setText("Нарушено одно из условий проверки первого задания! Пожалуйста, проверьте каждое из условий:\n1. Верное количество вершин\n2. Верное количество связей\n3. Верные связи\n4. Связи не пересекаются")
+        warning.setText("Нарушено условие проверки первого задания, связи пересекаются!")
         warning.setIcon(QMessageBox.Warning)
         warning.setStandardButtons(QMessageBox.Ok)
         return warning
@@ -447,7 +447,7 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
     if (old_mistakes):
         warning = QMessageBox()
         warning.setWindowTitle("Предупреждение")
-        warning.setText("Нарушено одно из условий проверки первого задания! Пожалуйста, проверьте каждое из условий:\n1. Верное количество вершин\n2. Верное количество связей\n3. Верные связи\n4. Связи не пересекаются")
+        warning.setText("Нарушено условие проверки первого задания, связи пересекаются!")
         warning.setIcon(QMessageBox.Warning)
         warning.setStandardButtons(QMessageBox.Ok)
         return warning
