@@ -982,7 +982,14 @@ class WindowMenu(QMainWindow):
         self.numINGroup = "9"  # данные о студенте проинициализированы    winSearchKey
 
         self.show()
-        self.winSearchKey = winSearchKey(self)
+        first_launch_txt_path = Properties.join(Properties.basedir,"first_launch", "first_launch.txt")
+        with open(first_launch_txt_path, "r") as file:
+            flag = file.read()
+
+        if flag == "true":
+            self.winSearchKey = winSearchKey(self)
+            self.winSearchKey.exec_()
+
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow.exec_() # его запуск в отдельном потоке
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)

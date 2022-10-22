@@ -5,6 +5,11 @@ import os
 from PyQt5 import QtWidgets
 import main as windows
 
+def join(*args):
+    return os.path.join(*args).replace(os.path.sep, "/")
+
+basedir = os.path.dirname(__file__) # путь до данного файла
+
 class Properties():
 
     def __init__(self, MainWindow):
@@ -38,6 +43,7 @@ class Properties():
         self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
 
+        
         self.key_path = "" # путь до ключа преподавателя 
 
 
@@ -101,7 +107,7 @@ class Properties():
         try:
             with open(key_path, "rb") as file:
                 secret_key = file.read()
-            tmp_path = self.join(self.basedir, "encrypted_data")
+            tmp_path = join(basedir, "encrypted_data")
             print("TMP_PATH ", tmp_path)
             teacher_token = decrypt_file(tmp_path, "teacher_token.txt") ####### ОШИБКА
             print("teacher_token", teacher_token, "\t", "secret_key ", secret_key)
