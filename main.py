@@ -591,6 +591,8 @@ class Window5(QMainWindow):
             self.widgetList[i].setMinimumSize(3000, 500)
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
+            scroll.setMinimumSize(500, 500)
+            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             # self.widgetList.append(QWidget())
             # self.widgetList[int(i/2)+1].ui = Ui_task2SquadWidget()
             # self.widgetList[int(i/2)+1].ui.setupUi(self.widgetList[int(i/2)+1])
