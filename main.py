@@ -33,8 +33,7 @@ from tableTask2 import Ui_tableTask2Widget
 from windowTask6 import Ui_MainWindow6
 from qt_designer_ui.task2SquadWidget import Ui_task2SquadWidget
 import Display
-import WinsDialog
-from WinsDialog import winSigReport,winLogin,winEditTable
+from WinsDialog import winSigReport,winLogin,winEditTable,winSearchKey
 from Color import Color
 from task1CheckForm import task1CheckForm
 import graph_model as gm
@@ -823,19 +822,24 @@ class Window6(QMainWindow):
         widgetLeft.setLayout(layoutLeft)
 
 
-        self.scroll = QtWidgets.QScrollArea()
-        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(widgetLeft)
+        self.scroll1 = QtWidgets.QScrollArea()
+        self.scroll1.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll1.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll1.setWidgetResizable(True)
+        self.scroll1.setWidget(widgetLeft)
 
+        
         self.widgetRight = Display.DrawHist(self, graph5)
         self.widgetRight.setMinimumSize(int(width/2), 500)
+        self.scroll2 = QtWidgets.QScrollArea()
+        self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll2.setWidgetResizable(True)
+        self.scroll2.setWidget(self.widgetRight)
         
         #слева отделения
-        layout.addWidget(self.scroll) 
+        layout.addWidget(self.scroll1) 
         #справа гистограмма       #Виджет вставлять сюда
-        layout.addWidget(self.widgetRight)
+        layout.addWidget(self.scroll2)
 
         # Задаём компоновку виджету
         widget = QWidget()
@@ -858,6 +862,37 @@ class Window6(QMainWindow):
 
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
+
+
+        self.timer = QTimer()
+        self.timer.setInterval(100)
+        self.timer.timeout.connect(self.update_plot)
+        self.timer.start()
+
+
+    def update_plot(self):
+        # Drop off the first y element, append a new one.
+        #self._canvas.axes.cla()  # Clear the canvas.
+        # Trigger the canvas to update and redraw.
+        AdjacencyMatrixPeople = np.zeros((len(graph1.AdjacencyMatrix), len(graph1.AdjacencyMatrix)))
+        for i in range(len(AdjacencyMatrixPeople)):
+            for j in range(len(AdjacencyMatrixPeople[i])):
+                if graph1.AdjacencyMatrix[i][j] != 0:
+                    AdjacencyMatrixPeople = graph5[0].label[i][j].text()
+        X_max = 1000
+        X_min = 0
+        step = 75
+        intervals = np.zeros(int((X_max-X_min)/step))
+        for i in range(len(AdjacencyMatrixPeople)):
+            for j in range(len(AdjacencyMatrixPeople[i])):
+                if AdjacencyMatrixPeople[i][j] != 0:
+                    for k in range(len(intervals)):
+                        if k*step <= graph1.Points[i][0] and (k+1)*step >= graph1.Points[j][0]:
+                            intervals[k] += AdjacencyMatrixPeople[i][j]
+        # print(intervals)
+        #self._canvas.axes.cla()  # Clear the canvas.
+
+        #self._canvas.draw()
 
 
     def closeEvent(self, event):
@@ -934,10 +969,18 @@ class WindowMenu(QMainWindow):
 
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
-        self.numINGroup = "9"  # данные о студенте проинициализированы
+        self.numINGroup = "9"  # данные о студенте проинициализированы    winSearchKey
+
+        self.show()
+        first_launch_txt_path = Properties.join(Properties.basedir,"first_launch", "first_launch.txt")
+        with open(first_launch_txt_path, "r") as file:
+            flag = file.read()
+
+        if flag == "true":
+            self.winSearchKey = winSearchKey(self)
+            self.winSearchKey.exec_()
 
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
-        self.show()
         self.startWindow.exec_() # его запуск в отдельном потоке
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.winEditTable = winEditTable(self) #
@@ -1029,7 +1072,7 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        if self.ui.btnTeacherMode.isChecked() and (True): # вместо (True) вставить результат проверки шифрованого ключа
+        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)

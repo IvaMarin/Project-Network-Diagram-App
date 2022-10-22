@@ -5,16 +5,31 @@ from os.path import isfile, join
 import openpyxl
 
 from PyQt5 import QtWidgets, QtGui ,QtCore
-from PyQt5.QtCore import Qt, QRect, QPointF
-from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QIntValidator
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction, QMessageBox, QDialog
+from PyQt5.QtCore import QRect
+from PyQt5.QtGui import QIntValidator
+from PyQt5.QtWidgets import QApplication, QAction, QMessageBox, QDialog
 import EditTable
 import tableNumPeopleInSquad
 import setNumSquad
+#############    Первый запуск    #######################
+from first_launch.win_first_launch import Ui_first_launch
+from encrypt_module import initial_decrypt_file, aes_encrypt, aes_generate_key
+from message_box_creator import message_box_create
+from pathlib import Path
+############################################################
 
 from login import Ui_login
 from startWindow import Ui_startWin
 from winEditTable import Ui_CreatEditTask
+
+
+def find_files(catalog: Path) -> list[Path]:
+    res = []
+    for root, dirs, files in os.walk(catalog.resolve()):
+        res += [Path(os.path.join(root, name)) for name in files
+                if Path(name).suffix.lower() in ['.json', '.jpg', '.txt']]
+    return res
+
 
 class winSigReport(QtWidgets.QDialog): # окно изменения личных данных студента в запущенном приложении (доступно только преподавателю)
 
@@ -353,6 +368,7 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         for rowInSqdTbl in range(len(self.listNumPeopleInSquad)):
             for colInSqdTbl in range(len(self.listNumPeopleInSquad[rowInSqdTbl])):
                 sheet.cell(rowInSqdTbl + 1, colInSqdTbl + self.ui.tableTaskVar.columnCount()+1).value = self.listNumPeopleInSquad[rowInSqdTbl][colInSqdTbl]
+                
 
         self.book.save(self.pathToExcelFile)
 
@@ -412,7 +428,7 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
         self.ui = tableNumPeopleInSquad.Ui_winTableNumPeopleInSquad()  # инициализация ui
         self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
         self.winEditTable = root  # сохраняем нашего родителя
-        self.listNumPeopleInSquad = []
+        #self.listNumPeopleInSquad = []
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
         width = int(210*2+60)
@@ -475,3 +491,90 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
             self.ui.tableNumPeopleInSquad.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
             self.ui.tableNumPeopleInSquad.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(i + 1)))  # заполняем "строку таблицы из файла", каждую ячейку
             
+
+class winSearchKey(QtWidgets.QDialog): # окно для загрузки ключа преподавателя при первом запуске программы
+
+    def __init__(self, root): # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
+        """Initializer."""
+        super().__init__(root) # инициализация
+
+        self.ui = Ui_first_launch() # инициализация ui
+        self.ui.setupUi(self) # инициализация ui окна (присвоение конкретных пар-ов)
+        self.mainMenu = root  # сохраняем нашего родителя
+
+
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
+        width = int(sizeWindow.width() - (sizeWindow.width()) * 2 / 3)      # выставляем ширину окна
+        height = int(sizeWindow.height() - (sizeWindow.height()) * 2 / 3)   # выставляем длину окна
+        # присваиваем параметры длины и ширины окну
+        self.resize(width, height)
+
+        self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
+
+        basedir = os.path.dirname(__file__)
+        self.encrypted_data_path = self.join(basedir, "encrypted_data")
+        self.first_launch_txt_path = self.join(basedir, "first_launch", "first_launch.txt")
+
+        self._connectAction() # ф-ия связи с эл-тами окна
+
+    def _connectAction(self):
+        self.ui.btnSearchPathToKey.clicked.connect(lambda: self.select_key()) # прописываем действие по кнопке
+
+    def select_key(self):
+        file_name = QtWidgets.QFileDialog.getOpenFileName()[0]
+        if file_name == "":
+            return
+
+        if not os.path.exists(file_name):
+            message_box_create("Первоначальная дешифровка файлов", "Выбранный ключ-файл не существует",
+                               QMessageBox.Critical)
+            return
+
+        try:
+            with open(file_name, "rb") as file:
+                key = file.read()
+        except Exception:
+            message_box_create("Первоначальная дешифровка файлов", "Выбранный ключ-файл повреждён",
+                               QMessageBox.Critical)
+            return
+
+        try:
+            found_files = find_files(Path(self.encrypted_data_path))
+        except Exception:
+            message_box_create("Первоначальная дешифровка файлов", "Не удалось дешифровать файлы программы",
+                               QMessageBox.Critical)
+            return
+
+        for file in found_files:
+            try:
+                content = initial_decrypt_file(file, key.decode())
+            except Exception:
+                message_box_create("Первоначальная дешифровка файлов",
+                                   "Выбранный ключ-файл не подходит для дешифровки файлов", QMessageBox.Critical)
+                return
+            if content == b"ERROR_DECRYPT":
+                message_box_create("Первоначальная дешифровка файлов",
+                                   "Выбранный ключ-файл не подходит для дешифровки файлов", QMessageBox.Critical)
+                return
+            nonce, cipher_content, tag = aes_encrypt(content, aes_generate_key())
+            try:
+                with open(file.resolve(), "wb") as output_file:
+                    output_file.write(nonce)
+                    output_file.write(tag)
+                    output_file.write(cipher_content)
+            except Exception:
+                message_box_create("Первоначальная дешифровка файлов", "Не удалось зашифровать файлы программы",
+                                   QMessageBox.Critical)
+                return
+        try:
+            with open(self.first_launch_txt_path, "w") as fd:
+                fd.write("false")
+        except Exception:
+            message_box_create("Первоначальная дешифровка файлов",
+                               "Файлы программы повреждены. Необходимо переустановить программу", QMessageBox.Critical)
+
+    def join(self,*args):
+        return os.path.join(*args).replace(os.path.sep, "/")
+
+
+
