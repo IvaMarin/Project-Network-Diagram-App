@@ -863,19 +863,24 @@ class Window6(QMainWindow):
         widgetLeft.setLayout(layoutLeft)
 
 
-        self.scroll = QtWidgets.QScrollArea()
-        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(widgetLeft)
+        self.scroll1 = QtWidgets.QScrollArea()
+        self.scroll1.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll1.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll1.setWidgetResizable(True)
+        self.scroll1.setWidget(widgetLeft)
 
+        
         self.widgetRight = Display.DrawHist(self, graph5)
         self.widgetRight.setMinimumSize(int(width/2), 500)
+        self.scroll2 = QtWidgets.QScrollArea()
+        self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll2.setWidgetResizable(True)
+        self.scroll2.setWidget(self.widgetRight)
         
         #слева отделения
-        layout.addWidget(self.scroll) 
+        layout.addWidget(self.scroll1) 
         #справа гистограмма       #Виджет вставлять сюда
-        layout.addWidget(self.widgetRight)
+        layout.addWidget(self.scroll2)
 
         # Задаём компоновку виджету
         widget = QWidget()
