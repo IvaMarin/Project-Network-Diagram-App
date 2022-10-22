@@ -4,14 +4,7 @@ from pathlib import Path
 ### Для обработки .xlsx файлов ##############
 import openpyxl
 import copy
-from fpdf import FPDF
 ### Для обработки .pdf файлов ###############
-
-from borb.pdf import Document
-from borb.pdf import Page
-from borb.pdf import SingleColumnLayout
-from borb.pdf import Paragraph
-from borb.pdf import PDF
 
 from matplotlib.figure import Figure
 
@@ -764,11 +757,15 @@ class Window5(QMainWindow):
 
     
 
-    def replace(self, i):
+    def replace(self, i):	
         try:
             point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
             new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
-            
+
+            for id in range(len(self.widgetList[i].graph.Points)):
+                if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
+                    return
+
             x, y = self.widgetList[i].graph.Points[point_id]
             n = len(self.widgetList[i].graph.AdjacencyMatrix)
 
@@ -789,6 +786,9 @@ class Window5(QMainWindow):
             for id in range(len(self.widgetList[i].graph.Points)):
                 if (id == point_id):
                     tmp[id] = None, None
+                    for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
+                        self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
+                        self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
                 elif (id == new_point_id):
                     tmp[id] = x, y
                 else:
@@ -904,13 +904,6 @@ class Window6(QMainWindow):
 
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
-
-
-        # self.timer = QTimer()
-        # self.timer.setInterval(100)
-        # self.timer.timeout.connect(self.update_plot)
-        # self.timer.start()
-
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
@@ -1089,8 +1082,8 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        #and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
+        # and properties.enter_key()
+        if self.ui.btnTeacherMode.isChecked(): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
