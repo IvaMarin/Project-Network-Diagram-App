@@ -154,6 +154,7 @@ class Window1(QMainWindow):
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
             self.checkForm1 = task1CheckForm(self, mistakes)
+            self.checkForm1.Task1()
             self.checkForm1.exec_()
         else:
             mistakes.exec()
@@ -264,6 +265,7 @@ class Window2(QMainWindow):
         # При вызове окна обновляется кол-во вершин графа
         self.showMaximized()
         self.cnt = len(graph1.CorrectAdjacencyMatrix)
+        # print(self.cnt)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
 
