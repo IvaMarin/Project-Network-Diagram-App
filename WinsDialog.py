@@ -23,7 +23,7 @@ from startWindow import Ui_startWin
 from winEditTable import Ui_CreatEditTask
 
 
-def find_files(catalog: Path) -> list[Path]:
+def find_files(catalog: Path):# -> list[Path]:
     res = []
     for root, dirs, files in os.walk(catalog.resolve()):
         res += [Path(os.path.join(root, name)) for name in files

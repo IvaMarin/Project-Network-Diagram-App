@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 from traceback import print_tb
 import graph_model as gm
 from encrypt_module import decrypt_file
@@ -16,6 +17,7 @@ class Properties():
 
         # массив пройденных заданий
         self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
+
         #свойства первого окна
 
         self.MainWindow = MainWindow
@@ -24,15 +26,22 @@ class Properties():
 
         self.step_grid = 100 # шаг сетки
 
+        self.state_of_graph_1 = nullcontext;
+
         #свойства второго окна
         self.scaler = 3 # параметр увеличения радиуса для второго задания
         self.radius_points_task_2 = self.radius_points * self.scaler # радиус во втором задании
 
+        self.state_of_graph_2 = nullcontext;
+
         #свойства третьего окна
+        self.state_of_graph_3 = nullcontext;
 
         #свойства четвертого окна
+        self.state_of_graph_4 = nullcontext;
 
         #свойства пятого окна
+        self.state_of_graph_5 = nullcontext;
 
         #свойства, использующиеся в разных заданиях
             #свойства из таблицы

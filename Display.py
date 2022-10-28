@@ -119,7 +119,7 @@ class Display(QWidget):
 
     def paintEvent(self, event):
         if self.horizontal:
-            print(self.size())
+            # print(self.size())
             self.lines = createGrid(self.size(), self.step, True, True)
         else:
             self.lines = createGrid(self.size(), self.step, True, False)
@@ -267,7 +267,7 @@ class Display2(Display):
     def paintEvent(self, event):
 
         if self.horizontal:
-            print(self.size())
+            # print(self.size())
             self.lines = createGrid(self.size(), self.step, True, True)
         else:
             self.lines = createGrid(self.size(), self.step, True, False)
@@ -389,7 +389,7 @@ class Display3(Display):
     def paintEvent(self, event):
 
         if self.horizontal:
-            print(self.size())
+            # print(self.size())
             self.lines = createGrid(self.size(), self.step, True, True)
         else:
             self.lines = createGrid(self.size(), self.step, True, False)
@@ -574,7 +574,7 @@ class Display3(Display):
 
 class DrawHist(QWidget):
 
-    def __init__(self, root, graph, step = 75):
+    def __init__(self, root, graph, step = 25):
 
         super().__init__(root)
         self.step = step
@@ -597,7 +597,7 @@ class DrawHist(QWidget):
         x0 = 0
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-        y0 = sizeWindow.height() - 50
+        y0 = sizeWindow.height() - 170
         for i in range(number_vertical_lines):
             if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
@@ -609,7 +609,7 @@ class DrawHist(QWidget):
         x0 = 0
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-        y0 = sizeWindow.height()-50
+        y0 = sizeWindow.height()-170
         for i in range(number_vertical_lines):
             if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
