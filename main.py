@@ -4,14 +4,7 @@ from pathlib import Path
 ### Для обработки .xlsx файлов ##############
 import openpyxl
 import copy
-from fpdf import FPDF
 ### Для обработки .pdf файлов ###############
-
-from borb.pdf import Document
-from borb.pdf import Page
-from borb.pdf import SingleColumnLayout
-from borb.pdf import Paragraph
-from borb.pdf import PDF
 
 from matplotlib.figure import Figure
 
@@ -44,7 +37,7 @@ graph5 = [] # графы по количеству отделений
 
 def maxSquadNum():
     maxSquadNum = 1
-    for row in range(MainWindow.ui.tableVar.rowCount()-1):
+    for row in range(MainWindow.ui.tableVar.rowCount()):
         if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
             i = int(MainWindow.ui.tableVar.item(row, 1).text())
         if maxSquadNum < i:
@@ -764,11 +757,15 @@ class Window5(QMainWindow):
 
     
 
-    def replace(self, i):
+    def replace(self, i):	
         try:
             point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
             new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
-            
+
+            for id in range(len(self.widgetList[i].graph.Points)):
+                if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
+                    return
+
             x, y = self.widgetList[i].graph.Points[point_id]
             n = len(self.widgetList[i].graph.AdjacencyMatrix)
 
@@ -789,6 +786,9 @@ class Window5(QMainWindow):
             for id in range(len(self.widgetList[i].graph.Points)):
                 if (id == point_id):
                     tmp[id] = None, None
+                    for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
+                        self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
+                        self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
                 elif (id == new_point_id):
                     tmp[id] = x, y
                 else:
@@ -905,38 +905,6 @@ class Window6(QMainWindow):
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
 
-
-        self.timer = QTimer()
-        self.timer.setInterval(100)
-        self.timer.timeout.connect(self.update_plot)
-        self.timer.start()
-
-
-    def update_plot(self):
-        # Drop off the first y element, append a new one.
-        #self._canvas.axes.cla()  # Clear the canvas.
-        # Trigger the canvas to update and redraw.
-        AdjacencyMatrixPeople = np.zeros((len(graph1.AdjacencyMatrix), len(graph1.AdjacencyMatrix)))
-        for i in range(len(AdjacencyMatrixPeople)):
-            for j in range(len(AdjacencyMatrixPeople[i])):
-                if graph1.AdjacencyMatrix[i][j] != 0:
-                    AdjacencyMatrixPeople = graph5[0].label[i][j].text()
-        X_max = 1000
-        X_min = 0
-        step = 75
-        intervals = np.zeros(int((X_max-X_min)/step))
-        for i in range(len(AdjacencyMatrixPeople)):
-            for j in range(len(AdjacencyMatrixPeople[i])):
-                if AdjacencyMatrixPeople[i][j] != 0:
-                    for k in range(len(intervals)):
-                        if k*step <= graph1.Points[i][0] and (k+1)*step >= graph1.Points[j][0]:
-                            intervals[k] += AdjacencyMatrixPeople[i][j]
-        # print(intervals)
-        #self._canvas.axes.cla()  # Clear the canvas.
-
-        #self._canvas.draw()
-
-
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
             self.ui.actionbtnHome.setChecked(False)
@@ -1049,7 +1017,7 @@ class WindowMenu(QMainWindow):
     def getCorrectAdjacencyMatrix(self):
         arr = []
         n = 0
-        for row in range(self.ui.tableVar.rowCount()-1):
+        for row in range(self.ui.tableVar.rowCount()):
             i, j = self.ui.tableVar.item(row, 0).text().split("-")
             i, j = int(i), int(j)
             arr.append((i, j))
@@ -1072,7 +1040,7 @@ class WindowMenu(QMainWindow):
                 if (CorrectWeights[i][j] == 0):
                     CorrectWeights[i][j] = -1
 
-        for row in range(self.ui.tableVar.rowCount()-1):
+        for row in range(self.ui.tableVar.rowCount()):
             i, j = self.ui.tableVar.item(row, 0).text().split("-")
             i, j = int(i), int(j)
 
@@ -1114,8 +1082,8 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        #and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked() : # вместо (True) вставить результат проверки шифрованого ключа
+        # and properties.enter_key()
+        if self.ui.btnTeacherMode.isChecked(): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)

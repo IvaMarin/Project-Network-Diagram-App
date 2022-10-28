@@ -60,7 +60,7 @@ class Properties():
     def get_number_of_squads(self):
         
         number_of_squads = 1
-        for row in range(self.MainWindow.ui.tableVar.rowCount()-1):
+        for row in range(self.MainWindow.ui.tableVar.rowCount()):
             if self.MainWindow.ui.tableVar.item(row, 1).text() >= '1' and self.MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
                 i = int(self.MainWindow.ui.tableVar.item(row, 1).text())
             if number_of_squads < i:
