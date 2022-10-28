@@ -153,6 +153,7 @@ class Window1(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
+                self.lockUi()
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task1()
             self.checkForm1.exec_()
@@ -175,6 +176,13 @@ class Window1(QMainWindow):
     def show(self):
         self.DisplayObj.functionAble = ""
         self.showMaximized()
+
+    def lockUi(self):
+        self.ui.toolBar.clear()
+        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
+        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
+        self.ui.toolBar.addAction(self.ui.actionbtnHome)
+
 
 
 #////////////////////////////////  КЛАСС ОКНА ВТОРОГО ЗАДАНИЯ  ////////////////////////////////////
