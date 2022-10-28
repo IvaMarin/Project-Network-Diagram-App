@@ -162,6 +162,7 @@ class Ui_MainWindow1(object):
         self.toolBar.addAction(self.actionbtnCheck)
         self.toolBar.addAction(self.actionbtnInfo)
         self.toolBar.addAction(self.actionbtnHome)
+        self.toolBar.removeAction(self.actionbtnHome)
         # self.toolBar.addAction(self.actionbtnZoomIn)
         # self.toolBar.addAction(self.actionbtnZoomOut)
 
