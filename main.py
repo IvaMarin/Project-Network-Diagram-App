@@ -4,14 +4,7 @@ from pathlib import Path
 ### Для обработки .xlsx файлов ##############
 import openpyxl
 import copy
-from fpdf import FPDF
 ### Для обработки .pdf файлов ###############
-
-from borb.pdf import Document
-from borb.pdf import Page
-from borb.pdf import SingleColumnLayout
-from borb.pdf import Paragraph
-from borb.pdf import PDF
 
 from matplotlib.figure import Figure
 
@@ -44,7 +37,7 @@ graph5 = [] # графы по количеству отделений
 
 def maxSquadNum():
     maxSquadNum = 1
-    for row in range(MainWindow.ui.tableVar.rowCount()-1):
+    for row in range(MainWindow.ui.tableVar.rowCount()):
         if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
             i = int(MainWindow.ui.tableVar.item(row, 1).text())
         if maxSquadNum < i:
@@ -160,7 +153,9 @@ class Window1(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
+                self.lockUi()
             self.checkForm1 = task1CheckForm(self, mistakes)
+            self.checkForm1.Task1()
             self.checkForm1.exec_()
         else:
             mistakes.exec()
@@ -181,6 +176,13 @@ class Window1(QMainWindow):
     def show(self):
         self.DisplayObj.functionAble = ""
         self.showMaximized()
+
+    def lockUi(self):
+        self.ui.toolBar.clear()
+        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
+        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
+        self.ui.toolBar.addAction(self.ui.actionbtnHome)
+
 
 
 #////////////////////////////////  КЛАСС ОКНА ВТОРОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -271,6 +273,7 @@ class Window2(QMainWindow):
         # При вызове окна обновляется кол-во вершин графа
         self.showMaximized()
         self.cnt = len(graph1.CorrectAdjacencyMatrix)
+        # print(self.cnt)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
 
@@ -764,11 +767,15 @@ class Window5(QMainWindow):
 
     
 
-    def replace(self, i):
+    def replace(self, i):	
         try:
             point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
             new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
-            
+
+            for id in range(len(self.widgetList[i].graph.Points)):
+                if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
+                    return
+
             x, y = self.widgetList[i].graph.Points[point_id]
             n = len(self.widgetList[i].graph.AdjacencyMatrix)
 
@@ -789,6 +796,9 @@ class Window5(QMainWindow):
             for id in range(len(self.widgetList[i].graph.Points)):
                 if (id == point_id):
                     tmp[id] = None, None
+                    for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
+                        self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
+                        self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
                 elif (id == new_point_id):
                     tmp[id] = x, y
                 else:
@@ -905,13 +915,6 @@ class Window6(QMainWindow):
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
 
-
-        # self.timer = QTimer()
-        # self.timer.setInterval(100)
-        # self.timer.timeout.connect(self.update_plot)
-        # self.timer.start()
-
-
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
             self.ui.actionbtnHome.setChecked(False)
@@ -1024,7 +1027,7 @@ class WindowMenu(QMainWindow):
     def getCorrectAdjacencyMatrix(self):
         arr = []
         n = 0
-        for row in range(self.ui.tableVar.rowCount()-1):
+        for row in range(self.ui.tableVar.rowCount()):
             i, j = self.ui.tableVar.item(row, 0).text().split("-")
             i, j = int(i), int(j)
             arr.append((i, j))
@@ -1047,7 +1050,7 @@ class WindowMenu(QMainWindow):
                 if (CorrectWeights[i][j] == 0):
                     CorrectWeights[i][j] = -1
 
-        for row in range(self.ui.tableVar.rowCount()-1):
+        for row in range(self.ui.tableVar.rowCount()):
             i, j = self.ui.tableVar.item(row, 0).text().split("-")
             i, j = int(i), int(j)
 
@@ -1089,8 +1092,8 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        #and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
+        # and properties.enter_key()
+        if self.ui.btnTeacherMode.isChecked(): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
@@ -1230,7 +1233,5 @@ if __name__ == "__main__":
         graph5.append(gm.Graph(30))
     MainWindow5 = Window5()
     MainWindow6 = Window6()
-
-    
 
     sys.exit(app.exec_())

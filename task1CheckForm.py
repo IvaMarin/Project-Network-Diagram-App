@@ -41,6 +41,12 @@ class task1CheckForm(QtWidgets.QDialog):
             elif mistakes[i] == 3: self.ui.label_3.setPixmap(incorrect)
             elif mistakes[i] == 4: self.ui.label_4.setPixmap(incorrect)
             elif mistakes[i] == 5: self.ui.label_6.setPixmap(incorrect)
+        
+    def Task1(self):
+        self.ui.gridLayout.removeWidget(self.ui.labelSoClose)
+        self.ui.labelSoClose.setParent(None)
+        self.ui.gridLayout.removeWidget(self.ui.label)
+        self.ui.label.setParent(None)
 
     def Task2(self):
         # self.ui.gridLayout.removeWidget(self.ui.labelConnectionCross)
