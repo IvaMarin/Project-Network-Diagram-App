@@ -43,8 +43,6 @@
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
    <addaction name="actionbtnHome"/>
-   <addaction name="actionbtnZoomIn"/>
-   <addaction name="actionbtnZoomOut"/>
   </widget>
   <action name="actionNewFile">
    <property name="icon">
@@ -114,9 +112,7 @@
     <string>Передвинуть элемент</string>
    </property>
    <property name="font">
-    <font>
-     <pointsize>8</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="priority">
     <enum>QAction::NormalPriority</enum>

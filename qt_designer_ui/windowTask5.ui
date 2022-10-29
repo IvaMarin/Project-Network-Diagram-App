@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Задание 3</string>
+   <string>Задание 5</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -23,7 +23,7 @@
      <x>0</x>
      <y>0</y>
      <width>1601</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -86,16 +86,14 @@
    </attribute>
    <addaction name="actionbtnAddNode"/>
    <addaction name="actionbtnRemoveNode"/>
+   <addaction name="actionbtnConnectNode"/>
    <addaction name="actionbtnRemoveNodeConnection"/>
    <addaction name="actionbtnMoveNode"/>
-   <addaction name="actionbtnConnectNode"/>
    <addaction name="actionbtnDottedConnectNode"/>
    <addaction name="separator"/>
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
    <addaction name="actionbtnHome"/>
-   <addaction name="actionbtnZoomIn"/>
-   <addaction name="actionbtnZoomOut"/>
   </widget>
   <action name="actionNewFile">
    <property name="icon">
@@ -198,9 +196,7 @@
     <string>Передвинуть элемент</string>
    </property>
    <property name="font">
-    <font>
-     <pointsize>8</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="priority">
     <enum>QAction::NormalPriority</enum>
