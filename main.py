@@ -4,7 +4,24 @@ from pathlib import Path
 ### Для обработки .xlsx файлов ##############
 import openpyxl
 import copy
+
+
 ### Для обработки .pdf файлов ###############
+
+from fpdf import FPDF
+from docx import Document
+from docx.shared import Inches
+import pyautogui
+
+# from borb.pdf import Document
+# from borb.pdf import Page
+# from borb.pdf import SingleColumnLayout
+# from borb.pdf import Paragraph
+# from borb.pdf import PDF
+
+
+### Для обработки .pdf файлов ###############
+
 
 from matplotlib.figure import Figure
 
@@ -29,6 +46,8 @@ import graph_model as gm
 import EditTable
 import Properties
 
+from pathlib import Path
+from PIL import Image
 
 ############ глобальные переменные ###########
 
@@ -44,7 +63,13 @@ def maxSquadNum():
             maxSquadNum = i
     return maxSquadNum
 
-
+def image_to_jpg(image_path):
+    path = Path(image_path)
+    if path.suffix not in {'.jpg', '.png', '.jfif', '.exif', '.gif', '.tiff', '.bmp'}:
+        jpg_image_path = f'{path.parent / path.stem}_result.jpg'
+        Image.open(image_path).convert('RGB').save(jpg_image_path)
+        return jpg_image_path
+    return image_path
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,6 +121,10 @@ class Window1(QMainWindow):
             self.DisplayObj.functionAble = ""
         else:
             self.DisplayObj.functionAble = "Добавить вершину"
+            # print(self.scroll.x())
+            # print(self.scroll.y())
+            # pyautogui.screenshot('screenshot1.png',region=(self.scroll.x(),self.scroll.y(), self.scroll.width(), self.scroll.height()))
+            
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -153,7 +182,14 @@ class Window1(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
+
+                #print(self.DisplayObj.size().height)
+                screen = QtWidgets.QApplication.primaryScreen()
+                screenshot = screen.grabWindow(self.scroll.winId())
+                screenshot.save('screenshot1.png','png')
+
                 self.lockUi()
+
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task1()
             self.checkForm1.exec_()
@@ -331,6 +367,9 @@ class Window2(QMainWindow):
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
                     properties.set__verification_passed_task(2)
+                    screen = QtWidgets.QApplication.primaryScreen()
+                    screenshot = screen.grabWindow(self.scroll.winId())
+                    screenshot.save('screenshot2.png','png')
                 self.checkForm1 = task1CheckForm(self, mistakes)
                 self.checkForm1.Task2()
                 self.checkForm1.exec_()
@@ -441,6 +480,9 @@ class Window3(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(3)
+                screen = QtWidgets.QApplication.primaryScreen()
+                screenshot = screen.grabWindow(self.scroll.winId())
+                screenshot.save('screenshot3.png','png')
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()
             self.checkForm1.exec_()
@@ -525,6 +567,9 @@ class Window4(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(4)
+                screen = QtWidgets.QApplication.primaryScreen()
+                screenshot = screen.grabWindow(self.scroll.winId())
+                screenshot.save('screenshot4.png','png')
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()        
             self.checkForm1.exec_()
@@ -1120,41 +1165,35 @@ class WindowMenu(QMainWindow):
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "1"  # данные о студенте проинициализированы
 
-    # def creatReport(self):
-    #     create an empty Document
-    #     pdf = Document()
+    def creatReport(self):
+        document = Document()
+        document.add_heading('Отчет по лабораторной работе', 0)
+        document.add_paragraph("ФИО: {0}".format(self.surname))
+        document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
+        document.add_paragraph("Вариант: {0}".format(self.numINGroup))
+        document.add_heading('Задание 1', 0)
+        try:
+            document.add_picture('screenshot1.png')
+        except:
+            pass
+        document.add_heading('Задание 2', 0)
+        try:
+            document.add_picture('screenshot2.png')
+        except:
+            pass
+        document.add_heading('Задание 3', 0)
+        try:
+            document.add_picture('screenshot3.png')
+        except:
+            pass
+        document.add_heading('Задание 4', 0)
+        try:
+            document.add_picture('screenshot4.png')
+        except:
+            pass
+        document.add_page_break()
 
-    #     add an empty Page
-    #     page = Page()
-    #     pdf.add_page(page)
-
-    #     use a PageLayout (SingleColumnLayout in this case)
-    #     layout = SingleColumnLayout(page)
-
-    #     add a Paragraph object
-    #     layout.add(Paragraph(self.name))
-    #     layout.add(Paragraph(self.surname))
-    #     layout.add(Paragraph(self.numGroup))
-    #     layout.add(Paragraph(self.numINGroup))
-
-    #     store the PDF
-    #     with open(Path("output.pdf"), "wb") as pdf_file_handle:
-    #        PDF.dumps(pdf_file_handle, pdf)
-    # def creatReport(self):
-    #     pdf = FPDF()
-    #     pdf.add_page()
-    #     pdf.add_font("Sans", style="", fname="Noto_Sans/NotoSans-Regular.ttf", uni=True)
-    #    # pdf.set_font("Arial", size=12, uni=True)
-    #     pdf.cell(200, 10, txt="Тест", ln=1, align="C")
-    #     pdf.output("simple_demo.pdf")
-        # pdf = FPDF()
-        # pdf.add_page()
-        # pdf.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
-        # pdf.set_font('DejaVu', '', 14)
-        # pdf.cell(200, 10, txt="Заявка №_01-000001", ln=1, align="C")
-        # pdf.output("simple_demo.pdf")
-
-
+        document.save('Отчет по лаборатрной работе.docx') 
 
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
