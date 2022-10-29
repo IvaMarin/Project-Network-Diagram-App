@@ -59,8 +59,7 @@ def find_point_and_check(p1, q1, p2, q2):
         # if (not(p2.y() - q2.y())):
         #     return False
         n = (p2.y() - p1.y()) / (p2.y() - q2.y())
-    dot = (p2.x() + (q2.x() - p2.x()) * n, p2.y() +
-           (q2.y() - p2.y()) * n)  # точка пересечения
+    dot = (p2.x() + (q2.x() - p2.x()) * n, p2.y() + (q2.y() - p2.y()) * n)  # точка пересечения
     if (dot[0] != p1.x() and dot[0] != q1.x() and dot[0] != p2.x() and dot[0] != q2.x() and
             dot[1] != p1.y() and dot[1] != q1.y() and dot[1] != p2.y() and dot[1] != q2.y()):
         return True
@@ -264,7 +263,7 @@ def checkTask2(Graph):
     if (old_mistakes):
         warning = QMessageBox()
         warning.setWindowTitle("Предупреждение")
-        warning.setText("Нарушено одно из условий проверки первого задания! Пожалуйста, проверьте каждое из условий:\n1. Верное количество вершин\n2. Верное количество связей\n3. Верные связи\n4. Связи не пересекаются")
+        warning.setText("Нарушено условие проверки первого задания, связи пересекаются!")
         warning.setIcon(QMessageBox.Warning)
         warning.setStandardButtons(QMessageBox.Ok)
         return warning
@@ -386,7 +385,7 @@ def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
     if (old_mistakes):
         warning = QMessageBox()
         warning.setWindowTitle("Предупреждение")
-        warning.setText("Нарушено одно из условий проверки первого задания! Пожалуйста, проверьте каждое из условий:\n1. Верное количество вершин\n2. Верное количество связей\n3. Верные связи\n4. Связи не пересекаются")
+        warning.setText("Нарушено условие проверки первого задания, связи пересекаются!")
         warning.setIcon(QMessageBox.Warning)
         warning.setStandardButtons(QMessageBox.Ok)
         return warning
@@ -447,7 +446,7 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
     if (old_mistakes):
         warning = QMessageBox()
         warning.setWindowTitle("Предупреждение")
-        warning.setText("Нарушено одно из условий проверки первого задания! Пожалуйста, проверьте каждое из условий:\n1. Верное количество вершин\n2. Верное количество связей\n3. Верные связи\n4. Связи не пересекаются")
+        warning.setText("Нарушено условие проверки первого задания, связи пересекаются!")
         warning.setIcon(QMessageBox.Warning)
         warning.setStandardButtons(QMessageBox.Ok)
         return warning
