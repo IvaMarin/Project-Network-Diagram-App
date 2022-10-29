@@ -54,12 +54,13 @@ def calculate_arrow_points(start_point, end_point, radius):
         return None
 
 # создание сетки 
-def createGrid(x0=0, y0=0, step=50, vertical=True, horizontal=True):
-    sizeWindow = QRect(QApplication.desktop().screenGeometry())
+def createGrid(size, step=50, vertical=True, horizontal=True):
+    x0=0
+    y0=0
+    sizeWindow = size
     lines = []
 
     if vertical:
-
         number_vertical_lines = (sizeWindow.width()*2 - x0) // step + 1  # количество вертикальных линий
 
         for i in range(number_vertical_lines):
@@ -75,8 +76,10 @@ def createGrid(x0=0, y0=0, step=50, vertical=True, horizontal=True):
     return lines
 
 # промежутки в сетке под цифры
-def createGaps(x0=0, y0=0, step=50, sizeNumber = 40, yNumber = 170):
-    sizeWindow = QRect(QApplication.desktop().screenGeometry())
+def createGaps(size, step=50, sizeNumber = 40, yNumber = 50):
+    x0=0
+    y0=0
+    sizeWindow = size
     lines = []
     sizeNumber = sizeNumber / 2
 
@@ -92,25 +95,22 @@ def createGaps(x0=0, y0=0, step=50, sizeNumber = 40, yNumber = 170):
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
     FixedArrowPoint = [-1, -1] # фиксированная стрелка
-    def __init__(self, root, graph_in, start_coordination_X = 0, start_coordination_Y = 0, step = 50, color = [0, 0, 255, 90], horizontal = True, late_time = None, base_graph = None, switch = True):
+    def __init__(self, root, graph_in, step = 50, color = [0, 0, 255, 90], horizontal = True, late_time = None, base_graph = None, switch = True):
         super().__init__(root)
         self.functionAble = ""
         self.TempPoints = np.empty(0) # массив временно выделенных вершин
         self.colorGrid = QColor(color[0],color[1],color[2],color[3])
-        self.start_coordination_X = start_coordination_X
-        self.start_coordination_Y = start_coordination_Y
+        self.start_coordination_X = 0
+        self.start_coordination_Y = 0
         self.step = step
         self.graph = graph_in
         self.late_time = late_time # поле определяющее как мы изображаем пунктирную стрелку, True - в поздних, False - в ранних, None - в зависимости от резерва времени
+        self.horizontal = horizontal
         if (base_graph == None):
             self.base_graph = self.graph
         else:
             self.base_graph = base_graph
-        if horizontal:
-            self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, True)
-        else:
-            self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, False)
-        self.whiteLines = createGaps(start_coordination_X, start_coordination_Y, step)
+
         self.graph_in = graph_in
         self.switch = switch
         self.illumination = -1  #подсветка кружков
@@ -118,6 +118,13 @@ class Display(QWidget):
 
 
     def paintEvent(self, event):
+        if self.horizontal:
+            print(self.size())
+            self.lines = createGrid(self.size(), self.step, True, True)
+        else:
+            self.lines = createGrid(self.size(), self.step, True, False)
+        self.whiteLines = createGaps(self.size(), self.step)
+
         painter = QPainter(self)
         painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
 
@@ -258,6 +265,14 @@ class Display2(Display):
         self.illumination = -1 
     
     def paintEvent(self, event):
+
+        if self.horizontal:
+            print(self.size())
+            self.lines = createGrid(self.size(), self.step, True, True)
+        else:
+            self.lines = createGrid(self.size(), self.step, True, False)
+        self.whiteLines = createGaps(self.size(), self.step)
+
         painter = QPainter(self)
         painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
 
@@ -372,6 +387,14 @@ class Display2(Display):
 
 class Display3(Display):
     def paintEvent(self, event):
+
+        if self.horizontal:
+            print(self.size())
+            self.lines = createGrid(self.size(), self.step, True, True)
+        else:
+            self.lines = createGrid(self.size(), self.step, True, False)
+        self.whiteLines = createGaps(self.size(), self.step)
+
         painter = QPainter(self)
         painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
 
@@ -392,9 +415,9 @@ class Display3(Display):
         # отрисовка нумерации осей сетки
         x0 = 0
         #step = 75
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        sizeWindow = self.size()
         number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-        y0 = sizeWindow.height()-170
+        y0 = sizeWindow.height() - 50 
         for i in range(number_vertical_lines):
             if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
@@ -550,16 +573,20 @@ class Display3(Display):
         self.update()
 
 class DrawHist(QWidget):
-    def __init__(self, root, graph, start_coordination_X = 0, start_coordination_Y = 0, step = 25):
+
+    def __init__(self, root, graph, step = 75):
+
         super().__init__(root)
         self.step = step
         self.stepAlg = 75
         self.graph = graph
-        self.lines = createGrid(start_coordination_X, start_coordination_Y, step, True, True)
-        self.whiteLines = createGaps(start_coordination_X, start_coordination_Y, step)
+        # self.lines = createGrid(self.size(), step, True, True)
+        # self.whiteLines = createGaps(self.size(), step)
         self.intervals = np.array([])
     
     def paintEvent(self, event):
+        self.lines = createGrid(self.size(), self.step, True, True)
+        self.whiteLines = createGaps(self.size(), self.step)
         painter = QPainter(self)
         painter.setPen(QColor(0, 0, 255, 90))
         painter.drawLines(self.lines)
@@ -570,7 +597,7 @@ class DrawHist(QWidget):
         x0 = 0
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-        y0 = sizeWindow.height()-170
+        y0 = sizeWindow.height() - 50
         for i in range(number_vertical_lines):
             if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
@@ -582,7 +609,7 @@ class DrawHist(QWidget):
         x0 = 0
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-        y0 = sizeWindow.height()-170
+        y0 = sizeWindow.height()-50
         for i in range(number_vertical_lines):
             if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
