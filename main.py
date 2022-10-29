@@ -1234,6 +1234,4 @@ if __name__ == "__main__":
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 
-    
-
     sys.exit(app.exec_())

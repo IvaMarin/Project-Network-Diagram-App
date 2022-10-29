@@ -4,6 +4,7 @@ from encrypt_module import decrypt_file
 import os
 from PyQt5 import QtWidgets
 import main as windows
+from checker import find_t_p
 
 def join(*args):
     return os.path.join(*args).replace(os.path.sep, "/")
@@ -23,6 +24,10 @@ class Properties():
         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
 
         self.step_grid = 100 # шаг сетки
+
+        correct_w = self.MainWindow.getCorrectWeights()
+        n = len(correct_w)
+        self.max_possible_time = find_t_p(correct_w, n)[n-1] # максимальное время (для сетки)
 
         #свойства второго окна
         self.scaler = 3 # параметр увеличения радиуса для второго задания
