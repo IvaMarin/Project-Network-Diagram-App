@@ -506,6 +506,10 @@ class Display3(Display):
         mistakes = checker.checkTask4(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
         return mistakes
 
+    def checkEvent5(self, id, squad_people_number):
+        mistakes = checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id, squad_people_number)
+        return mistakes
+
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
         if (self.functionAble == "Добавить вершину"):

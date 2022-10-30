@@ -88,6 +88,10 @@ class Window1(QMainWindow):
         
         graph1.CorrectAdjacencyMatrix = MainWindow.getCorrectAdjacencyMatrix()
         graph1.CorrectWeights = MainWindow.getCorrectWeights()
+        graph1.CorrectSquadsWork = MainWindow.getCorrectSquadsWork()
+        graph1.SquadsPeopleToWork = MainWindow.getCorrectSquadsPeopleToWork()
+        graph1.SquadsPeopleNumber = MainWindow.getCorrectSquadsPeopleNumber()
+
         self.DisplayObj = Display.Display(self, graph1)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -793,10 +797,25 @@ class Window5(QMainWindow):
     # def makeNewFile(self):
     #     self.centralWidget.functionAble = "Новый файл"
 
-    # def taskCheck(self):
-    #     mistakes = self.centralWidget.checkEvent()
-    #     self.checkForm1 = task1CheckForm(self, mistakes)
-    #     self.checkForm1.exec_()
+    def taskCheck(self):
+        mistakes_total = set()
+        for i in range(squadNum):
+            try:
+                squad_people_number = int(self.squadWidgetList[i].ui.lineEdit_countPerson.text())
+            except:
+                squad_people_number = -1
+
+            mistakes = self.widgetList[i].checkEvent5(i, squad_people_number)
+            if type(mistakes) == QMessageBox:
+                mistakes.exec()
+                return
+            for m in mistakes:
+                mistakes_total.add(m)
+        if len(mistakes_total) == 0:
+            properties.set__verification_passed_task(5)
+        self.checkForm1 = task1CheckForm(self, list(mistakes_total))
+        self.checkForm1.Task2()        
+        self.checkForm1.exec_()
 
     def _connectAction(self):
         self.ui.actionbtnAddNode.triggered.connect(self.addNode)
@@ -806,7 +825,7 @@ class Window5(QMainWindow):
         self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
 
-        # self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
 
@@ -1100,14 +1119,71 @@ class WindowMenu(QMainWindow):
             i, j = int(i), int(j)
 
             w = self.ui.tableVar.item(row, 3).text()
-            if w == "-" or w == " " or w == "":
-                w = 0
-            else:
+            try:
                 w = int(w)
+            except:
+                w = 0
             CorrectWeights[i][j] = w
             CorrectWeights[j][i] = w
            
         return CorrectWeights
+
+    def getCorrectSquadsWork(self):
+        arr = []
+        n = 0
+        for row in range(self.ui.tableVar.rowCount()):
+            i, j = self.ui.tableVar.item(row, 0).text().split("-")
+            i, j = int(i), int(j)
+            if (i > n):
+                n = i
+            if (j > n):
+                n = j
+            
+            k = self.ui.tableVar.item(row, 1).text()
+            try:
+                k = int(k)
+                arr.append((i, j, k))
+            except:
+                pass
+
+        CorrectSquadsWork = np.zeros((n+1, n+1), int)
+        for i, j, k in arr:
+            CorrectSquadsWork[i][j] = k
+           
+        return CorrectSquadsWork
+
+    def getCorrectSquadsPeopleToWork(self):
+        arr = []
+        n = 0
+        for row in range(self.ui.tableVar.rowCount()):
+            i, j = self.ui.tableVar.item(row, 0).text().split("-")
+            i, j = int(i), int(j)
+            if (i > n):
+                n = i
+            if (j > n):
+                n = j
+            
+            k = self.ui.tableVar.item(row, 2).text()
+            try:
+                k = int(k)
+                arr.append((i, j, k))
+            except:
+                pass
+
+        CorrectSquadsPeopleToWork = np.zeros((n+1, n+1), int)
+        for i, j, k in arr:
+            CorrectSquadsPeopleToWork[i][j] = k
+           
+        return CorrectSquadsPeopleToWork
+
+    def getCorrectSquadsPeopleNumber(self):
+        SquadsPeopleNumber = np.zeros((squadNum), int)
+
+        for row in range(squadNum):
+            SquadPeopleNumber = int(self.ui.tableVar.item(row, 5).text())
+            SquadsPeopleNumber[row] = SquadPeopleNumber
+    
+        return SquadsPeopleNumber
 
     def closeEvent(self, event):
         close = QMessageBox()

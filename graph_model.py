@@ -36,6 +36,10 @@ class Graph:
 		self.Points = np.empty((0, 2))  # массив координат центров вершин графа (если None, то вершина не существует)
 		self.AdjacencyMatrix = np.zeros((0, 0))  # матрица смежности
 		self.CorrectAdjacencyMatrix = None
+
+		self.CorrectSquadsWork = None  # верное распределение отделений по работам
+		self.SquadsPeopleToWork = None # верное число людей по работам
+		self.SquadsPeopleNumber = None # верное число людей в отделении
 		
 		self.CorrectWeights = None
 		self.PointsTimeEarly = None
