@@ -59,8 +59,7 @@ def find_point_and_check(p1, q1, p2, q2):
         # if (not(p2.y() - q2.y())):
         #     return False
         n = (p2.y() - p1.y()) / (p2.y() - q2.y())
-    dot = (p2.x() + (q2.x() - p2.x()) * n, p2.y() +
-           (q2.y() - p2.y()) * n)  # точка пересечения
+    dot = (p2.x() + (q2.x() - p2.x()) * n, p2.y() + (q2.y() - p2.y()) * n)  # точка пересечения
     if (dot[0] != p1.x() and dot[0] != q1.x() and dot[0] != p2.x() and dot[0] != q2.x() and
             dot[1] != p1.y() and dot[1] != q1.y() and dot[1] != p2.y() and dot[1] != q2.y()):
         return True
@@ -479,4 +478,85 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
                 if ((CorrectAdjacencyMatrix[i][j] == 1) and (Graph.ArrowPointsTimeLate[i][j] != Graph.PointsTimeLate[j] - CorrectWeights[i][j])):
                     mistakes.append(2)
                     return mistakes
+    return mistakes
+
+# проверка пятого задания
+def checkTask5(Graph, BaseGraph, GridBegin, GridStep, Id, SquadPeopleNumber):
+    CorrectPoints = set()
+    CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
+    for i in range(len(BaseGraph.CorrectSquadsWork)):
+        for j in range(len(BaseGraph.CorrectSquadsWork)):
+            if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
+                CorrectAdjacencyMatrix[i][j] = 1
+                CorrectPoints.add(i)
+                CorrectPoints.add(j)
+            else:
+                CorrectAdjacencyMatrix[i][j] = 0
+    CorrectPoints = list(CorrectPoints)
+    mistakes = []  # список ошибок:
+    #                   1 - неверная численность в отделении
+    #                   2 - неверные события в отделении
+    #                   3 - неверные работы в отделении
+    #                   4 - неверное расположение событий на временной оси
+    #                   5 - неверные промежутки времени у работ
+
+
+    # old_mistakes = []
+    # old_mistakes = checkTask1(Graph, CorrectAdjacencyMatrix, True)
+
+    # if (old_mistakes):
+    #     warning = QMessageBox()
+    #     warning.setWindowTitle("Предупреждение")
+    #     warning.setText("Нарушено условие проверки первого задания, связи пересекаются!")
+    #     warning.setIcon(QMessageBox.Warning)
+    #     warning.setStandardButtons(QMessageBox.Ok)
+    #     return warning
+
+    if BaseGraph.SquadsPeopleNumber[Id] != SquadPeopleNumber:
+        mistakes.append(1)
+
+    # считаем число точек
+    try:
+        CountOfNodes = 0
+        if (len(CorrectPoints) != 0 and len(Graph.Points) == 0):
+            mistakes.append(2)
+        else:
+            for i in range(len(Graph.Points)):
+                if (not np.isnan(Graph.Points[i][0])):
+                    if (i != CorrectPoints[CountOfNodes]):
+                        mistakes.append(2)
+                    CountOfNodes += 1
+    except:
+        mistakes.append(2)
+
+
+
+
+    # early = find_t_p(CorrectWeights, n)
+    # late = find_t_n(CorrectWeights, early, n)
+
+    # Graph.PointsTimeLate = np.zeros(n, int)
+    # for i in range(n):
+    #     Graph.PointsTimeLate[i] = round((Graph.Points[i][0] - GridBegin) / GridStep)
+
+    # points_on_correct_axes = True
+    # for i in range(n):
+    #     if (Graph.PointsTimeLate[i] != late[i]):
+    #         mistakes.append(1)
+    #         mistakes.append(2)
+    #         points_on_correct_axes = False
+    #         break
+
+    # Graph.ArrowPointsTimeLate = np.zeros((n, n), int)
+    # for i in range(len(CorrectAdjacencyMatrix)):
+    #     for j in range(len(CorrectAdjacencyMatrix)):
+    #         if (CorrectAdjacencyMatrix[i][j] == 1):
+    #             Graph.ArrowPointsTimeLate[i][j] = round((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
+
+    # if (points_on_correct_axes):
+    #     for i in range(len(CorrectAdjacencyMatrix)):
+    #         for j in range(len(CorrectAdjacencyMatrix)):
+    #             if ((CorrectAdjacencyMatrix[i][j] == 1) and (Graph.ArrowPointsTimeLate[i][j] != Graph.PointsTimeLate[j] - CorrectWeights[i][j])):
+    #                 mistakes.append(2)
+    #                 return mistakes
     return mistakes
