@@ -1,4 +1,6 @@
+from contextlib import nullcontext
 import sys, os
+from xml.sax.handler import property_interning_dict
 import numpy as np
 from pathlib import Path
 ### Для обработки .xlsx файлов ##############
@@ -77,8 +79,12 @@ def image_to_jpg(image_path):
 
 class Window1(QMainWindow):
 
+    
     def __init__(self, parent=None):
+        
         super().__init__(parent)
+
+        #graph1 = properties.get_graph(1)
 
         self.ui = Ui_MainWindow1()
         self.ui.setupUi(self)
@@ -88,15 +94,18 @@ class Window1(QMainWindow):
         
         graph1.CorrectAdjacencyMatrix = MainWindow.getCorrectAdjacencyMatrix()
         graph1.CorrectWeights = MainWindow.getCorrectWeights()
+
         graph1.CorrectSquadsWork = MainWindow.getCorrectSquadsWork()
         graph1.SquadsPeopleToWork = MainWindow.getCorrectSquadsPeopleToWork()
         graph1.SquadsPeopleNumber = MainWindow.getCorrectSquadsPeopleNumber()
 
         self.DisplayObj = Display.Display(self, graph1)
+
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+
 
         self._connectAction()
 
@@ -183,9 +192,24 @@ class Window1(QMainWindow):
 
     def taskCheck(self):
         mistakes = self.DisplayObj.checkEvent()
+        
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
+
+                
+                properties.save_graph(graph1, 1) # сохраняем граф в файл
+                # graph1 = properties.get_graph(1)
+                # print(graph1)
+                # graph1 = properties.get_graph(2)
+                # print(graph1)
+                # properties.state_of_graph_3 = properties.get_graph(1)
+                # graph1 = properties.get_graph(1)
+
+                save_graph_1 = properties.get_graph(1)
+                self.DisplayObj.graph = save_graph_1
+                
+
 
                 #print(self.DisplayObj.size().height)
                 screen = QtWidgets.QApplication.primaryScreen()
@@ -214,6 +238,7 @@ class Window1(QMainWindow):
         self.close()
 
     def show(self):
+
         self.DisplayObj.functionAble = ""
         self.showMaximized()
 
@@ -371,9 +396,16 @@ class Window2(QMainWindow):
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
                     properties.set__verification_passed_task(2)
+
+                    # properties.save_graph(graph1, 2) # сохраняем граф в файл
+
+                    # save_graph_2 = properties.get_graph(2)
+                    # self.DisplayObj.graph = save_graph_2
+
                     screen = QtWidgets.QApplication.primaryScreen()
                     screenshot = screen.grabWindow(self.scroll.winId())
                     screenshot.save('screenshot2.png','png')
+
                 self.checkForm1 = task1CheckForm(self, mistakes)
                 self.checkForm1.Task2()
                 self.checkForm1.exec_()
@@ -405,7 +437,7 @@ class Window3(QMainWindow):
         # Создаём компоновщик
         layout = QtWidgets.QVBoxLayout()
         layout.addWidget(Color('blue'))
-        layout.addWidget(Color('red'))
+        layout.addWidget(Color('red'))graph1
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
@@ -437,8 +469,9 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
-
+        
         self.DisplayObj = Display.Display3(self, graph1, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
+
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
@@ -484,9 +517,17 @@ class Window3(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(3)
+
+                properties.save_graph(graph1, 3) # сохраняем граф в файл
+
+                save_graph_3 = properties.get_graph(3)
+                self.DisplayObj.graph = save_graph_3
+
+
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot3.png','png')
+
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()
             self.checkForm1.exec_()
@@ -571,9 +612,17 @@ class Window4(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(4)
+
+                properties.save_graph(graph1, 4) # сохраняем граф в файл
+
+                save_graph_4 = properties.get_graph(4)
+                self.DisplayObj.graph = save_graph_4
+
+
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot4.png','png')
+
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()        
             self.checkForm1.exec_()
