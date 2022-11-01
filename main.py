@@ -1093,7 +1093,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         # and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked(): # вместо (True) вставить результат проверки шифрованого ключа
+        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)

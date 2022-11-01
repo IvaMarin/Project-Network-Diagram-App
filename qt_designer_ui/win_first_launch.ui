@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>397</width>
-    <height>279</height>
+    <width>399</width>
+    <height>282</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,6 +31,9 @@
    </property>
    <item>
     <widget class="QPushButton" name="btnSearchPathToKey">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="font">
       <font>
        <family>Times New Roman</family>
@@ -44,6 +47,12 @@
       <string>Указать путь до
 ключа преподаваьеля
 в файловой системе</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
