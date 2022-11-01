@@ -23,8 +23,11 @@
      <x>0</x>
      <y>0</y>
      <width>1601</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #b8ffc0;</string>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -61,7 +64,11 @@
    <addaction name="menuHelp"/>
    <addaction name="menu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background-color: #b8ffc0;</string>
+   </property>
+  </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -93,6 +100,7 @@
    <addaction name="separator"/>
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
+   <addaction name="actionHelp"/>
    <addaction name="actionbtnHome"/>
   </widget>
   <action name="actionNewFile">
@@ -335,6 +343,21 @@
    </property>
    <property name="toolTip">
     <string>Перемещение пунктирной стрелки</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/help.png</normaloff>resources/iconePack/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>подсказка</string>
+   </property>
+   <property name="toolTip">
+    <string>подсказка (режим преподавателя)</string>
    </property>
   </action>
  </widget>

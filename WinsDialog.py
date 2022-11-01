@@ -8,20 +8,20 @@ from PyQt5 import QtWidgets, QtGui ,QtCore
 from PyQt5.QtCore import QRect
 from PyQt5.QtGui import QIntValidator
 from PyQt5.QtWidgets import QApplication, QAction, QMessageBox, QDialog
-import EditTable
-import tableNumPeopleInSquad
-import setNumSquad
 #############    Первый запуск    #######################
 from first_launch.win_first_launch import Ui_first_launch
 from encrypt_module import initial_decrypt_file, aes_encrypt, aes_generate_key
 from message_box_creator import message_box_create
 from pathlib import Path
 ############################################################
-
-from login import Ui_login
-from startWindow import Ui_startWin
-from winEditTable import Ui_CreatEditTask
-
+########################     UI     #########################
+from qt_designer_ui.login import Ui_login
+from qt_designer_ui.startWindow import Ui_startWin
+from qt_designer_ui.winEditTable import Ui_CreatEditTask
+from qt_designer_ui.EditTable import Ui_Dialog
+from qt_designer_ui.tableNumPeopleInSquad import Ui_winTableNumPeopleInSquad
+from qt_designer_ui.setNumSquad import Ui_SetNumSquad
+#############################################################
 
 
 def find_files(catalog: Path):
@@ -292,7 +292,7 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         """Initializer."""
         super().__init__(root)  # инициализация
 
-        self.ui = EditTable.Ui_Dialog()  # инициализация ui
+        self.ui = Ui_Dialog()  # инициализация ui
         self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
         self.winEditTable = root  # сохраняем нашего родителя
 
@@ -319,7 +319,7 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
 
     def setNumPeopleInSquad(self):
         winNumSquads = QDialog()
-        winNumSquads.ui = setNumSquad.Ui_SetNumSquad() # вы
+        winNumSquads.ui = Ui_SetNumSquad() # вы
         winNumSquads.ui.setupUi(winNumSquads)
         winNumSquadsOut = winNumSquads.exec()
         
@@ -420,7 +420,7 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
         """Initializer."""
         super().__init__(root)  # инициализация
 
-        self.ui = tableNumPeopleInSquad.Ui_winTableNumPeopleInSquad()  # инициализация ui
+        self.ui = Ui_winTableNumPeopleInSquad()  # инициализация ui
         self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
         self.winEditTable = root  # сохраняем нашего родителя
         #self.listNumPeopleInSquad = []
