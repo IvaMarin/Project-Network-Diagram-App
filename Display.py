@@ -119,7 +119,9 @@ class Display(QWidget):
 
     def paintEvent(self, event):
         if self.horizontal:
-            #print(self.size())
+
+            # print(self.size())
+
             self.lines = createGrid(self.size(), self.step, True, True)
         else:
             self.lines = createGrid(self.size(), self.step, True, False)
@@ -267,7 +269,9 @@ class Display2(Display):
     def paintEvent(self, event):
 
         if self.horizontal:
-            #print(self.size())
+
+            # print(self.size())
+
             self.lines = createGrid(self.size(), self.step, True, True)
         else:
             self.lines = createGrid(self.size(), self.step, True, False)
@@ -389,7 +393,9 @@ class Display3(Display):
     def paintEvent(self, event):
 
         if self.horizontal:
-            #print(self.size())
+
+            # print(self.size())
+
             self.lines = createGrid(self.size(), self.step, True, True)
         else:
             self.lines = createGrid(self.size(), self.step, True, False)
@@ -504,6 +510,10 @@ class Display3(Display):
 
     def checkEvent4(self):
         mistakes = checker.checkTask4(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
+        return mistakes
+
+    def checkEvent5(self, id, squad_people_number):
+        mistakes = checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id, squad_people_number)
         return mistakes
 
     def mousePressEvent(self, event):

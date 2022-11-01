@@ -1,3 +1,7 @@
+from contextlib import nullcontext
+import pickle
+import dill
+from math import pi
 from traceback import print_tb
 import graph_model as gm
 from encrypt_module import decrypt_file
@@ -15,8 +19,16 @@ class Properties():
 
     def __init__(self, MainWindow):
 
+        #свойства, использующиеся в разных заданиях
+            #свойства из таблицы
+        #self.total_time #общее время работы (добавить + 3)
+
+        self.variant = MainWindow.numINGroup;
+        
+
         # массив пройденных заданий
         self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
+
         #свойства первого окна
 
         self.MainWindow = MainWindow
@@ -25,30 +37,38 @@ class Properties():
 
         self.step_grid = 100 # шаг сетки
 
+
+        #self.graph_for_task_1 = self.get_graph_from_radius() # граф для первого задания
+        #self.graph_for_task_1 = self.get_graph(1)
+
+
+        #self.state_of_graph_1 = self.graph_for_task_1;
+
         correct_w = self.MainWindow.getCorrectWeights()
         n = len(correct_w)
         self.max_possible_time = find_t_p(correct_w, n)[n-1] # максимальное время (для сетки)
+
 
         #свойства второго окна
         self.scaler = 3 # параметр увеличения радиуса для второго задания
         self.radius_points_task_2 = self.radius_points * self.scaler # радиус во втором задании
 
+        #self.state_of_graph_2 = self.get_graph(2);
+
         #свойства третьего окна
+        self.state_of_graph_3 = None;
 
         #свойства четвертого окна
+        self.state_of_graph_4 = None;
 
         #свойства пятого окна
+        self.state_of_graph_5 = None;
 
-        #свойства, использующиеся в разных заданиях
-            #свойства из таблицы
         self.number_of_squads = self.get_number_of_squads() #количество отделений
-        #self.total_time #общее время работы (добавить + 3)
-        
-        self.graph_for_task_1 = self.get_graph_from_radius() # граф для первого задания
+
         self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
 
-        
         self.key_path = "" # путь до ключа преподавателя 
 
 
@@ -158,6 +178,20 @@ class Properties():
         for i in self.tableNumSquad:
             print(i)
 
+
+####################____ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА____####################################################
+
+    def save_graph(self, graph, i):
+        with open(f'answer_var/states_of_graphs_{self.variant}/states_{i}.pickle', 'wb') as file:
+            pickle.dump(graph, file)
+
+
+    def get_graph(self, i = 0):
+        with open(f'answer_var/states_of_graphs_{self.variant}/states_{i}.pickle', 'rb') as file:
+            graph = pickle.load(file)
+
+        return graph
+#######################################################################################################################
 
     
 

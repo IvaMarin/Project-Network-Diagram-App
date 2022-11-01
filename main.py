@@ -1,10 +1,29 @@
+from contextlib import nullcontext
 import sys, os
+from xml.sax.handler import property_interning_dict
 import numpy as np
 from pathlib import Path
 ### Для обработки .xlsx файлов ##############
 import openpyxl
 import copy
+
+
 ### Для обработки .pdf файлов ###############
+
+from fpdf import FPDF
+from docx import Document
+from docx.shared import Inches
+import pyautogui
+
+# from borb.pdf import Document
+# from borb.pdf import Page
+# from borb.pdf import SingleColumnLayout
+# from borb.pdf import Paragraph
+# from borb.pdf import PDF
+
+
+### Для обработки .pdf файлов ###############
+
 
 from matplotlib.figure import Figure
 
@@ -29,6 +48,8 @@ import graph_model as gm
 import EditTable
 import Properties
 
+from pathlib import Path
+from PIL import Image
 
 ############ глобальные переменные ###########
 
@@ -44,7 +65,13 @@ def maxSquadNum():
             maxSquadNum = i
     return maxSquadNum
 
-
+def image_to_jpg(image_path):
+    path = Path(image_path)
+    if path.suffix not in {'.jpg', '.png', '.jfif', '.exif', '.gif', '.tiff', '.bmp'}:
+        jpg_image_path = f'{path.parent / path.stem}_result.jpg'
+        Image.open(image_path).convert('RGB').save(jpg_image_path)
+        return jpg_image_path
+    return image_path
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,8 +79,12 @@ def maxSquadNum():
 
 class Window1(QMainWindow):
 
+    
     def __init__(self, parent=None):
+        
         super().__init__(parent)
+
+        #graph1 = properties.get_graph(1)
 
         self.ui = Ui_MainWindow1()
         self.ui.setupUi(self)
@@ -63,11 +94,18 @@ class Window1(QMainWindow):
         
         graph1.CorrectAdjacencyMatrix = MainWindow.getCorrectAdjacencyMatrix()
         graph1.CorrectWeights = MainWindow.getCorrectWeights()
+
+        graph1.CorrectSquadsWork = MainWindow.getCorrectSquadsWork()
+        graph1.SquadsPeopleToWork = MainWindow.getCorrectSquadsPeopleToWork()
+        graph1.SquadsPeopleNumber = MainWindow.getCorrectSquadsPeopleNumber()
+
         self.DisplayObj = Display.Display(self, graph1)
+
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+
 
         self._connectAction()
 
@@ -96,6 +134,10 @@ class Window1(QMainWindow):
             self.DisplayObj.functionAble = ""
         else:
             self.DisplayObj.functionAble = "Добавить вершину"
+            # print(self.scroll.x())
+            # print(self.scroll.y())
+            # pyautogui.screenshot('screenshot1.png',region=(self.scroll.x(),self.scroll.y(), self.scroll.width(), self.scroll.height()))
+            
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -150,10 +192,32 @@ class Window1(QMainWindow):
 
     def taskCheck(self):
         mistakes = self.DisplayObj.checkEvent()
+        
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
+
+                
+                properties.save_graph(graph1, 1) # сохраняем граф в файл
+                # graph1 = properties.get_graph(1)
+                # print(graph1)
+                # graph1 = properties.get_graph(2)
+                # print(graph1)
+                # properties.state_of_graph_3 = properties.get_graph(1)
+                # graph1 = properties.get_graph(1)
+
+                save_graph_1 = properties.get_graph(1)
+                self.DisplayObj.graph = save_graph_1
+                
+
+
+                #print(self.DisplayObj.size().height)
+                screen = QtWidgets.QApplication.primaryScreen()
+                screenshot = screen.grabWindow(self.scroll.winId())
+                screenshot.save('screenshot1.png','png')
+
                 self.lockUi()
+
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task1()
             self.checkForm1.exec_()
@@ -174,6 +238,7 @@ class Window1(QMainWindow):
         self.close()
 
     def show(self):
+
         self.DisplayObj.functionAble = ""
         self.showMaximized()
 
@@ -331,6 +396,16 @@ class Window2(QMainWindow):
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
                     properties.set__verification_passed_task(2)
+
+                    # properties.save_graph(graph1, 2) # сохраняем граф в файл
+
+                    # save_graph_2 = properties.get_graph(2)
+                    # self.DisplayObj.graph = save_graph_2
+
+                    screen = QtWidgets.QApplication.primaryScreen()
+                    screenshot = screen.grabWindow(self.scroll.winId())
+                    screenshot.save('screenshot2.png','png')
+
                 self.checkForm1 = task1CheckForm(self, mistakes)
                 self.checkForm1.Task2()
                 self.checkForm1.exec_()
@@ -362,7 +437,7 @@ class Window3(QMainWindow):
         # Создаём компоновщик
         layout = QtWidgets.QVBoxLayout()
         layout.addWidget(Color('blue'))
-        layout.addWidget(Color('red'))
+        layout.addWidget(Color('red'))graph1
         # Задаём компоновку виджету
         widget = QWidget()
         widget.setLayout(layout)
@@ -394,8 +469,9 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
-
+        
         self.DisplayObj = Display.Display3(self, graph1, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
+
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
@@ -441,6 +517,17 @@ class Window3(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(3)
+
+                properties.save_graph(graph1, 3) # сохраняем граф в файл
+
+                save_graph_3 = properties.get_graph(3)
+                self.DisplayObj.graph = save_graph_3
+
+
+                screen = QtWidgets.QApplication.primaryScreen()
+                screenshot = screen.grabWindow(self.scroll.winId())
+                screenshot.save('screenshot3.png','png')
+
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()
             self.checkForm1.exec_()
@@ -525,6 +612,17 @@ class Window4(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(4)
+
+                properties.save_graph(graph1, 4) # сохраняем граф в файл
+
+                save_graph_4 = properties.get_graph(4)
+                self.DisplayObj.graph = save_graph_4
+
+
+                screen = QtWidgets.QApplication.primaryScreen()
+                screenshot = screen.grabWindow(self.scroll.winId())
+                screenshot.save('screenshot4.png','png')
+
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()        
             self.checkForm1.exec_()
@@ -748,10 +846,25 @@ class Window5(QMainWindow):
     # def makeNewFile(self):
     #     self.centralWidget.functionAble = "Новый файл"
 
-    # def taskCheck(self):
-    #     mistakes = self.centralWidget.checkEvent()
-    #     self.checkForm1 = task1CheckForm(self, mistakes)
-    #     self.checkForm1.exec_()
+    def taskCheck(self):
+        mistakes_total = set()
+        for i in range(squadNum):
+            try:
+                squad_people_number = int(self.squadWidgetList[i].ui.lineEdit_countPerson.text())
+            except:
+                squad_people_number = -1
+
+            mistakes = self.widgetList[i].checkEvent5(i, squad_people_number)
+            if type(mistakes) == QMessageBox:
+                mistakes.exec()
+                return
+            for m in mistakes:
+                mistakes_total.add(m)
+        if len(mistakes_total) == 0:
+            properties.set__verification_passed_task(5)
+        self.checkForm1 = task1CheckForm(self, list(mistakes_total))
+        self.checkForm1.Task2()        
+        self.checkForm1.exec_()
 
     def _connectAction(self):
         self.ui.actionbtnAddNode.triggered.connect(self.addNode)
@@ -761,7 +874,7 @@ class Window5(QMainWindow):
         self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
 
-        # self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
 
@@ -1055,14 +1168,71 @@ class WindowMenu(QMainWindow):
             i, j = int(i), int(j)
 
             w = self.ui.tableVar.item(row, 3).text()
-            if w == "-" or w == " " or w == "":
-                w = 0
-            else:
+            try:
                 w = int(w)
+            except:
+                w = 0
             CorrectWeights[i][j] = w
             CorrectWeights[j][i] = w
            
         return CorrectWeights
+
+    def getCorrectSquadsWork(self):
+        arr = []
+        n = 0
+        for row in range(self.ui.tableVar.rowCount()):
+            i, j = self.ui.tableVar.item(row, 0).text().split("-")
+            i, j = int(i), int(j)
+            if (i > n):
+                n = i
+            if (j > n):
+                n = j
+            
+            k = self.ui.tableVar.item(row, 1).text()
+            try:
+                k = int(k)
+                arr.append((i, j, k))
+            except:
+                pass
+
+        CorrectSquadsWork = np.zeros((n+1, n+1), int)
+        for i, j, k in arr:
+            CorrectSquadsWork[i][j] = k
+           
+        return CorrectSquadsWork
+
+    def getCorrectSquadsPeopleToWork(self):
+        arr = []
+        n = 0
+        for row in range(self.ui.tableVar.rowCount()):
+            i, j = self.ui.tableVar.item(row, 0).text().split("-")
+            i, j = int(i), int(j)
+            if (i > n):
+                n = i
+            if (j > n):
+                n = j
+            
+            k = self.ui.tableVar.item(row, 2).text()
+            try:
+                k = int(k)
+                arr.append((i, j, k))
+            except:
+                pass
+
+        CorrectSquadsPeopleToWork = np.zeros((n+1, n+1), int)
+        for i, j, k in arr:
+            CorrectSquadsPeopleToWork[i][j] = k
+           
+        return CorrectSquadsPeopleToWork
+
+    def getCorrectSquadsPeopleNumber(self):
+        SquadsPeopleNumber = np.zeros((squadNum), int)
+
+        for row in range(squadNum):
+            SquadPeopleNumber = int(self.ui.tableVar.item(row, 5).text())
+            SquadsPeopleNumber[row] = SquadPeopleNumber
+    
+        return SquadsPeopleNumber
 
     def closeEvent(self, event):
         close = QMessageBox()
@@ -1120,41 +1290,35 @@ class WindowMenu(QMainWindow):
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "1"  # данные о студенте проинициализированы
 
-    # def creatReport(self):
-    #     create an empty Document
-    #     pdf = Document()
+    def creatReport(self):
+        document = Document()
+        document.add_heading('Отчет по лабораторной работе', 0)
+        document.add_paragraph("ФИО: {0}".format(self.surname))
+        document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
+        document.add_paragraph("Вариант: {0}".format(self.numINGroup))
+        document.add_heading('Задание 1', 0)
+        try:
+            document.add_picture('screenshot1.png')
+        except:
+            pass
+        document.add_heading('Задание 2', 0)
+        try:
+            document.add_picture('screenshot2.png')
+        except:
+            pass
+        document.add_heading('Задание 3', 0)
+        try:
+            document.add_picture('screenshot3.png')
+        except:
+            pass
+        document.add_heading('Задание 4', 0)
+        try:
+            document.add_picture('screenshot4.png')
+        except:
+            pass
+        document.add_page_break()
 
-    #     add an empty Page
-    #     page = Page()
-    #     pdf.add_page(page)
-
-    #     use a PageLayout (SingleColumnLayout in this case)
-    #     layout = SingleColumnLayout(page)
-
-    #     add a Paragraph object
-    #     layout.add(Paragraph(self.name))
-    #     layout.add(Paragraph(self.surname))
-    #     layout.add(Paragraph(self.numGroup))
-    #     layout.add(Paragraph(self.numINGroup))
-
-    #     store the PDF
-    #     with open(Path("output.pdf"), "wb") as pdf_file_handle:
-    #        PDF.dumps(pdf_file_handle, pdf)
-    # def creatReport(self):
-    #     pdf = FPDF()
-    #     pdf.add_page()
-    #     pdf.add_font("Sans", style="", fname="Noto_Sans/NotoSans-Regular.ttf", uni=True)
-    #    # pdf.set_font("Arial", size=12, uni=True)
-    #     pdf.cell(200, 10, txt="Тест", ln=1, align="C")
-    #     pdf.output("simple_demo.pdf")
-        # pdf = FPDF()
-        # pdf.add_page()
-        # pdf.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
-        # pdf.set_font('DejaVu', '', 14)
-        # pdf.cell(200, 10, txt="Заявка №_01-000001", ln=1, align="C")
-        # pdf.output("simple_demo.pdf")
-
-
+        document.save('Отчет по лаборатрной работе.docx') 
 
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
