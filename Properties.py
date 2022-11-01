@@ -23,7 +23,8 @@ class Properties():
             #свойства из таблицы
         #self.total_time #общее время работы (добавить + 3)
 
-        self.variant = MainWindow.numINGroup;
+        self.variant = MainWindow.numINGroup
+        self.teacherMode = False
         
 
         # массив пройденных заданий

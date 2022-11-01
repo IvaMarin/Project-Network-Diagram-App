@@ -8,20 +8,20 @@ from PyQt5 import QtWidgets, QtGui ,QtCore
 from PyQt5.QtCore import QRect
 from PyQt5.QtGui import QIntValidator
 from PyQt5.QtWidgets import QApplication, QAction, QMessageBox, QDialog
-import EditTable
-import tableNumPeopleInSquad
-import setNumSquad
 #############    Первый запуск    #######################
 from first_launch.win_first_launch import Ui_first_launch
 from encrypt_module import initial_decrypt_file, aes_encrypt, aes_generate_key
 from message_box_creator import message_box_create
 from pathlib import Path
 ############################################################
-
-from login import Ui_login
-from startWindow import Ui_startWin
-from winEditTable import Ui_CreatEditTask
-
+########################     UI     #########################
+from qt_designer_ui.login import Ui_login
+from qt_designer_ui.startWindow import Ui_startWin
+from qt_designer_ui.winEditTable import Ui_CreatEditTask
+from qt_designer_ui.EditTable import Ui_Dialog
+from qt_designer_ui.tableNumPeopleInSquad import Ui_winTableNumPeopleInSquad
+from qt_designer_ui.setNumSquad import Ui_SetNumSquad
+#############################################################
 
 
 def find_files(catalog: Path):
@@ -292,7 +292,7 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         """Initializer."""
         super().__init__(root)  # инициализация
 
-        self.ui = EditTable.Ui_Dialog()  # инициализация ui
+        self.ui = Ui_Dialog()  # инициализация ui
         self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
         self.winEditTable = root  # сохраняем нашего родителя
 
@@ -314,12 +314,12 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.ui.btnSaveTable.clicked.connect(lambda: self.saveTable())          #
         self.ui.btnAddStrInTable.clicked.connect(lambda: self.AddStrInTable())          #
         self.ui.btnDelStrLast.clicked.connect(lambda: self.delStrLast())           #
-        self.ui.btnExitAndClose.clicked.connect(lambda: self.closeWinCreatTable())  #
+        self.ui.btnExitAndClose.clicked.connect(lambda: self.close())  #
         self.ui.btnSetNumPeopleInSquad.clicked.connect(lambda: self.setNumPeopleInSquad())  #
 
     def setNumPeopleInSquad(self):
         winNumSquads = QDialog()
-        winNumSquads.ui = setNumSquad.Ui_SetNumSquad() 
+        winNumSquads.ui = Ui_SetNumSquad() # вы
         winNumSquads.ui.setupUi(winNumSquads)
         winNumSquadsOut = winNumSquads.exec()
         
@@ -327,15 +327,9 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
             NumSquads = winNumSquads.ui.lineEditSetNumSquad.text() 
         else:  # иначе игнорируем
             return
-        
         winTableNumPeopleInSquad = creatTableNumPeopleInSquad(self, int(NumSquads))
-        #winTableNumPeopleInSquad.creatTable(int(NumSquads))\
-        #self.hide()
         winTableNumPeopleInSquad.exec_()
-        #winTableNumPeopleInSquad = winTableNumPeopleInSquad.exec()
-        #self.listNumPeopleInSquad = winTableNumPeopleInSquad.listNumPeopleInSquad
         
-
 
     def delStrLast(self):
         rowInTblTsk = self.ui.tableTaskVar.rowCount()
@@ -345,12 +339,9 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         if sheet.max_row > 0:
             sheet.delete_cols(sheet.max_row,1)
 
-    def closeWinCreatTable(self):
-        self.saveTable()
-        # for item in self.listNumPeopleInSquad:
-        #     for i in item:
-        #         print(i)
-        self.close()
+    # def closeWinCreatTable(self):
+    #     self.saveTable()
+    #     self.close()
 
     def saveTable(self):
         sheet = self.book.active
@@ -371,7 +362,6 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
             for colInSqdTbl in range(len(self.listNumPeopleInSquad[rowInSqdTbl])):
                 sheet.cell(rowInSqdTbl + 1, colInSqdTbl + self.ui.tableTaskVar.columnCount()+1).value = self.listNumPeopleInSquad[rowInSqdTbl][colInSqdTbl]
                 
-
         self.book.save(self.pathToExcelFile)
 
     def AddStrInTable(self): # генерируем строку в таблице для записи в нее чиселок
@@ -379,22 +369,6 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.ui.tableTaskVar.insertRow(self.ui.tableTaskVar.rowCount() )  # вставляем в таблицу "строку таблицы из файла"
         #for colInTblTsk in range(self.ui.tableTaskVar.columnCount() + 1):
         #    self.ui.tableTaskVar.setItem(self.ui.tableTaskVar.rowCount() - 1, colInTblTsk, QtWidgets.QTableWidgetItem(' '))  # заполняем "строку таблицы из файла", каждую ячейку
-
-    def closeEvent(self, event):
-        close = QMessageBox()
-        close.setWindowTitle("Закрыть редактор")
-        close.setText("Вы уверены, что хотите закрыть редактор?")  #
-        close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
-        close = close.exec()
-        if close == QMessageBox.Ok:  # если нажали да
-            self.book.close()
-            event.accept()  # подтверждаем ивент
-            #self.winEditTable.mainMenu.show()
-        else:  # иначе игнорируем
-            event.ignore()
-
-    #def saveTable(self):
-    #    self.book.save(self.pathToExcelFile)
 
     def openFile(self, pathToExcelFile): # открываем указанный файл в окне для редактирования вариантов
         self.pathToExcelFile = pathToExcelFile # сохраняем путь до файла
@@ -411,6 +385,11 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
                 rowVar.append(cell.value)
             tabelVar.append(rowVar)
 
+        for row in tabelVar:
+            for cell in row:
+                print(cell, "\t", sep="")
+            print()
+
         self.ui.tableTaskVar.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
 
         for list in tabelVar:
@@ -422,12 +401,26 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
                 countColumns = countColumns + 1
             countColumns = 0
 
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setWindowTitle("Закрыть редактор")
+        close.setText("Вы уверены, что хотите закрыть редактор?")  #
+        close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
+        self.saveTable()
+        close = close.exec()
+        if close == QMessageBox.Ok:  # если нажали да
+            self.book.close()
+            event.accept()  # подтверждаем ивент
+            #self.winEditTable.mainMenu.show()
+        else:  # иначе игнорируем
+            event.ignore()
+
 class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблицей количества людей в отделении
     def __init__(self, root, numPeopleInSquad):  # 
         """Initializer."""
         super().__init__(root)  # инициализация
 
-        self.ui = tableNumPeopleInSquad.Ui_winTableNumPeopleInSquad()  # инициализация ui
+        self.ui = Ui_winTableNumPeopleInSquad()  # инициализация ui
         self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
         self.winEditTable = root  # сохраняем нашего родителя
         #self.listNumPeopleInSquad = []
@@ -447,6 +440,8 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
 
         self.creatTable(numPeopleInSquad)
 
+        self.openFile(self.winEditTable.pathToExcelFile)
+
         self._connectAction()  # ф-ия связи с эл-тами окна
 
     def _connectAction(self):
@@ -455,6 +450,37 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
     def closeWinCreatTable(self):
         self.saveTable()
         self.close()
+
+    def openFile(self, pathToExcelFile): # открываем указанный файл в окне для редактирования вариантов
+        self.pathToExcelFile = pathToExcelFile # сохраняем путь до файла
+        # файлик с таблицой должен называться "В" + номер студента по списку + ".xlsx" (расширение файла)
+        self.book = openpyxl.load_workbook(self.pathToExcelFile)  # открываем файл с помощью либы для обработки .xlsx
+        sheet = self.book.active  # active - выбирает номер страницы в книге без параметров (по умолчанию) первая страница
+
+        countColumns = 0 # счетчик колонок
+        tabelVar = [] # список строк
+
+        for row in sheet.iter_rows(sheet.min_row, sheet.max_row):  # подкачиваем данные из xlsx файла
+            rowVar = []
+            for cell in row: # Две последнии колонки обрезаются т к их некуда вписать !!!!!!!!!
+                rowVar.append(cell.value)
+            tabelVar.append(rowVar)
+
+        # for row in tabelVar:
+        #     for cell in row:
+        #         print(cell, "\t", sep="")
+        #     print()
+
+        self.ui.tableTaskVar.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
+
+        for list in tabelVar:
+            rowPosition = self.ui.tableTaskVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
+            self.ui.tableTaskVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
+            for item in list:
+                if countColumns >= 0:
+                    self.ui.tableTaskVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
+                countColumns = countColumns + 1
+            countColumns = 0
 
     def saveTable(self):
         self.winEditTable.listNumPeopleInSquad = []
@@ -517,6 +543,11 @@ class winSearchKey(QtWidgets.QDialog): # окно для загрузки клю
         self.encrypted_data_path = self.join(basedir, "encrypted_data")
         self.first_launch_txt_path = self.join(basedir, "first_launch", "first_launch.txt")
 
+        quit = QAction("Quit", self)  # событие выхода
+        quit.triggered.connect(self.closeEvent)  # если событие выхода срабатывает то вызывается closeEvent
+
+        self.ui.btnSearchPathToKey.setCheckable(True)
+
         self._connectAction() # ф-ия связи с эл-тами окна
 
     def _connectAction(self):
@@ -574,9 +605,24 @@ class winSearchKey(QtWidgets.QDialog): # окно для загрузки клю
         except Exception:
             message_box_create("Первоначальная дешифровка файлов",
                                "Файлы программы повреждены. Необходимо переустановить программу", QMessageBox.Critical)
+        self.close()
 
     def join(self,*args):
         return os.path.join(*args).replace(os.path.sep, "/")
+    
+    def closeEvent(self, event):
+        close = QMessageBox()
+        close.setWindowTitle("Закрыть окно")
+        close.setText("Вы уверены, что хотите закрыть окно?")  #
+        close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
+        close = close.exec()
+        if close == QMessageBox.Ok:  # если нажали да
+            event.accept()  # подтверждаем ивент
+            if not( self.ui.btnSearchPathToKey.isChecked()):
+                sys.exit()
+        else:  # иначе игнорируем
+            event.ignore()
+        self.ui.btnSearchPathToKey.setChecked(False)
 
 
 

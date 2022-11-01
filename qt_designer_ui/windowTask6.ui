@@ -35,11 +35,27 @@
    <addaction name="separator"/>
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
+   <addaction name="actionHelp"/>
    <addaction name="actionbtnHome"/>
-   <addaction name="actionbtnZoomIn"/>
-   <addaction name="actionbtnZoomOut"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background-color: #b8ffc0;</string>
+   </property>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1611</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #b8ffc0;</string>
+   </property>
+  </widget>
   <action name="actionNewFile">
    <property name="icon">
     <iconset>
@@ -213,12 +229,25 @@
     <string>Передвинуть элемент</string>
    </property>
    <property name="font">
-    <font>
-     <pointsize>8</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="priority">
     <enum>QAction::NormalPriority</enum>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/help.png</normaloff>resources/iconePack/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>подсказка</string>
+   </property>
+   <property name="toolTip">
+    <string>подсказка (режим преподавателя)</string>
    </property>
   </action>
  </widget>

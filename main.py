@@ -31,21 +31,24 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import QRect, Qt, QSize, QTimer
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction
 
-############# Кастомные файлы для проги #####################
-from MainMenu import Ui_MainMenu
-from windowTask1 import Ui_MainWindow1
-from windowTask3 import Ui_MainWindow3
-from windowTask5 import Ui_MainWindow5
+############# Кастомные файлы для проги ######################
+###############     UI     ###################################
+from qt_designer_ui.MainMenu import Ui_MainMenu
+from qt_designer_ui.windowTask1 import Ui_MainWindow1
+from qt_designer_ui.windowTask3 import Ui_MainWindow3
+from qt_designer_ui.windowTask5 import Ui_MainWindow5
 from windowTask2 import Ui_MainWindow2
-from tableTask2 import Ui_tableTask2Widget
-from windowTask6 import Ui_MainWindow6
+from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
+from qt_designer_ui.windowTask6 import Ui_MainWindow6
 from qt_designer_ui.task2SquadWidget import Ui_task2SquadWidget
+#from qt_designer_ui.EditTable import Ui_Dialog
+
+#######################################################
 import Display
 from WinsDialog import winSigReport,winLogin,winEditTable,winSearchKey
 from Color import Color
 from task1CheckForm import task1CheckForm
 import graph_model as gm
-import EditTable
 import Properties
 
 from pathlib import Path
@@ -105,6 +108,7 @@ class Window1(QMainWindow):
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+
 
 
         self._connectAction()
@@ -238,8 +242,15 @@ class Window1(QMainWindow):
         self.close()
 
     def show(self):
-
+        if properties.teacherMode:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
+        
         self.DisplayObj.functionAble = ""
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
     def lockUi(self):
@@ -335,8 +346,15 @@ class Window2(QMainWindow):
                 event.ignore()
 
     def show(self):
+        if properties.teacherMode:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         # При вызове окна обновляется кол-во вершин графа
         self.showMaximized()
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.cnt = len(graph1.CorrectAdjacencyMatrix)
         # print(self.cnt)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
@@ -477,6 +495,7 @@ class Window3(QMainWindow):
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
 
+
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -545,7 +564,14 @@ class Window3(QMainWindow):
         self.close()
 
     def show(self):
+        if properties.teacherMode:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.DisplayObj.functionAble = ""
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
     def sizeGet(self):
@@ -572,6 +598,7 @@ class Window4(QMainWindow):
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+
 
         self._connectAction()
 
@@ -640,7 +667,14 @@ class Window4(QMainWindow):
         self.close()
 
     def show(self):
+        if properties.teacherMode:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.DisplayObj.functionAble = ""
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
     def sizeGet(self):
@@ -736,6 +770,7 @@ class Window5(QMainWindow):
         self.resize(width, height)
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+
 
         self._connectAction()
 
@@ -974,9 +1009,16 @@ class Window5(QMainWindow):
         self.close()
 
     def show(self):
+        if properties.teacherMode:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         for i in self.widgetList:
             i.functionable = ""
         self.showMaximized()
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
 
 
 #////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -1053,6 +1095,7 @@ class Window6(QMainWindow):
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
+        
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -1087,9 +1130,7 @@ class Window6(QMainWindow):
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNode.setChecked(False)
-
     
-
     def addDottedArrow(self):
         if self.ui.actionbtnDottedConnectNode.isChecked() == False:
             for i in self.widgetList:
@@ -1100,8 +1141,6 @@ class Window6(QMainWindow):
           
             self.ui.actionbtnMoveNode.setChecked(False)
         
-
-
     def _connectAction(self):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
@@ -1112,8 +1151,15 @@ class Window6(QMainWindow):
         self.close()
 
     def show(self):
+        if properties.teacherMode:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         for i in range(squadNum):
             self.widgetList[i].functionable = ""
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
 
@@ -1293,7 +1339,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         # and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked(): # вместо (True) вставить результат проверки шифрованого ключа
+        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
@@ -1303,6 +1349,8 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask3.setEnabled(True)
             self.ui.btnTask4.setEnabled(True)
             self.ui.btnTask5.setEnabled(True)
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
             #self.ui.btnTask6.setEnabled(True)
         else:
             self.ui.btnReportSign.setEnabled(False)
@@ -1315,6 +1363,9 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask5.setEnabled(False)
             #self.ui.btnTask6.setEnabled(False)
             self.ui.btnTeacherMode.setChecked(False)
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
+        properties.teacherMode = self.ui.btnTeacherMode.isChecked()
     def activateDeveloperMode(self):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
@@ -1374,6 +1425,12 @@ class WindowMenu(QMainWindow):
         self.hide()
 
     def show(self):
+        if self.ui.btnTeacherMode.isChecked():
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.showMaximized()
         self.ui.tableVar.horizontalHeader().setDefaultSectionSize(int(self.sizeWindow.width() / self.ui.tableVar.columnCount()))
 
