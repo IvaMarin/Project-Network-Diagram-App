@@ -119,9 +119,6 @@ class Display(QWidget):
 
     def paintEvent(self, event):
         if self.horizontal:
-
-            # print(self.size())
-
             self.lines = createGrid(self.size(), self.step, True, True)
         else:
             self.lines = createGrid(self.size(), self.step, True, False)
@@ -391,11 +388,7 @@ class Display2(Display):
 
 class Display3(Display):
     def paintEvent(self, event):
-
         if self.horizontal:
-
-            # print(self.size())
-
             self.lines = createGrid(self.size(), self.step, True, True)
         else:
             self.lines = createGrid(self.size(), self.step, True, False)
@@ -430,7 +423,7 @@ class Display3(Display):
             else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
             painter.drawText(self.step + self.step * i + offset[0], y0 + offset[1], f'{i}')
-       
+
         # отрисовка стрелок
         for i in range(len(self.graph.AdjacencyMatrix)):
             for j in range(len(self.graph.AdjacencyMatrix)):
@@ -459,8 +452,8 @@ class Display3(Display):
                                                          self.graph.Points[i][1]),
                                                  triangle_source[1])
                                 painter.setPen(Qt.PenStyle.SolidLine)
-                                painter.drawLine(triangle_source[1],
-                                                 QPointF(self.graph.Points[j][0],
+                                painter.drawLine(triangle_source[1], 
+                                                 QPointF(self.graph.Points[j][0], 
                                                          self.graph.Points[j][1]))
                         elif (self.late_time == True):  # в поздних сроках
                             painter.setPen(Qt.PenStyle.DashLine)
@@ -503,7 +496,80 @@ class Display3(Display):
                 else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i}')
-    
+        
+        if hasattr(self, 'sub_graphs'):
+            for graph in self.sub_graphs:
+                # отрисовка стрелок
+                for i in range(len(graph.AdjacencyMatrix)):
+                    for j in range(len(graph.AdjacencyMatrix)):
+                        # если существует связь
+                        if (graph.AdjacencyMatrix[i][j] != 0 and
+                           (not np.isnan(graph.Points[i][0])) and
+                           (not np.isnan(graph.Points[j][0]))):
+                            triangle_source = calculate_arrow_points(
+                                graph.Points[i], graph.ArrowPoints[i][j], 0)
+                            if triangle_source is not None:
+                                painter.drawPolygon(triangle_source)
+                                if (self.late_time == None):  # в зависимости от резерва
+                                    if (len(self.base_graph.R) > i) and (self.base_graph.R[i] > 0):
+                                        painter.setPen(Qt.PenStyle.SolidLine)
+                                        painter.drawLine(QPointF(graph.Points[i][0],
+                                                                    graph.Points[i][1]),
+                                                            triangle_source[1])
+                                        painter.setPen(Qt.PenStyle.DashLine)
+                                        painter.drawLine(triangle_source[1],
+                                                            QPointF(graph.Points[j][0],
+                                                                    graph.Points[j][1]))
+                                        painter.setPen(Qt.PenStyle.SolidLine)
+                                    else:
+                                        painter.setPen(Qt.PenStyle.DashLine)
+                                        painter.drawLine(QPointF(graph.Points[i][0],
+                                                                    graph.Points[i][1]),
+                                                            triangle_source[1])
+                                        painter.setPen(Qt.PenStyle.SolidLine)
+                                        painter.drawLine(triangle_source[1],
+                                                            QPointF(graph.Points[j][0],
+                                                                    graph.Points[j][1]))
+                                elif (self.late_time == True):  # в поздних сроках
+                                    painter.setPen(Qt.PenStyle.DashLine)
+                                    painter.drawLine(QPointF(graph.Points[i][0],
+                                                                graph.Points[i][1]),
+                                                        triangle_source[1])
+                                    painter.setPen(Qt.PenStyle.SolidLine)
+                                    painter.drawLine(triangle_source[1],
+                                                        QPointF(graph.Points[j][0],
+                                                                graph.Points[j][1]))
+                                else:  # в ранних сроках
+                                    painter.setPen(Qt.PenStyle.SolidLine)
+                                    painter.drawLine(QPointF(graph.Points[i][0],
+                                                                graph.Points[i][1]),
+                                                        triangle_source[1])
+                                    painter.setPen(Qt.PenStyle.DashLine)
+                                    painter.drawLine(triangle_source[1],
+                                                        QPointF(graph.Points[j][0],
+                                                                graph.Points[j][1]))
+                                    painter.setPen(Qt.PenStyle.SolidLine)
+
+                # отрисовка вершин и цифр
+                painter.setPen(QPen(QColor("black"), 2.5))
+
+                for i in range(len(graph.Points)):
+                    # если вершина существует
+                    if (not np.isnan(graph.Points[i][0])):
+
+                        # if (i != self.illumination):
+                        painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+                        # else:
+                        #     painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
+
+                        painter.drawEllipse(graph.Points[i][0]-graph.RadiusPoint, graph.Points[i][1]-graph.RadiusPoint, 
+                                            2*graph.RadiusPoint, 2*graph.RadiusPoint)
+                        if len(str(i+1)) < 2:
+                            offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+                        else:
+                            offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+                        painter.drawText(graph.Points[i][0] + offset[0], graph.Points[i][1] + offset[1], f'{i}')
+
     def checkEvent3(self):
         mistakes = checker.checkTask3(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
         return mistakes
@@ -575,7 +641,13 @@ class Display3(Display):
         if (self.functionAble == "Переместить вершины"):
             control.CMovePointGrid(self.graph, event, Qt.LeftButton,
                                    self.FixedPoint, self.start_coordination_X, self.step, None)
-                                   
+
+            if hasattr(self, 'sub_graphs'):
+                for graph in self.sub_graphs:
+                    FixedPoint = graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
+                    if (FixedPoint != -1):
+                        control.CMovePointGrid(graph, event, Qt.LeftButton,
+                                   FixedPoint, self.start_coordination_X, self.step, None)                                 
         elif (self.functionAble == "Добавить пунктирную связь"):
             control.CMoveArrowPointGrid(
                 self.graph, event, Qt.LeftButton, self.FixedArrowPoint, self.start_coordination_X, self.step)
