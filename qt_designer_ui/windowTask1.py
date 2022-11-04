@@ -217,13 +217,3 @@ class Ui_MainWindow1(object):
         self.actionbtnCheck.setToolTip(_translate("MainWindow1", "<html><head/><body><p>Проверить задание</p></body></html>"))
         self.actionHelp.setText(_translate("MainWindow1", "подсказка"))
         self.actionHelp.setToolTip(_translate("MainWindow1", "подсказка (режим преподавателя)"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow1 = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow1()
-    ui.setupUi(MainWindow1)
-    MainWindow1.show()
-    sys.exit(app.exec_())

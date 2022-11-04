@@ -56,6 +56,15 @@
    <property name="styleSheet">
     <string notr="true">background-color: #b8ffc0;</string>
    </property>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>справка</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionHelpStud"/>
+    <addaction name="actionHelpTeach"/>
+   </widget>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="styleSheet">
@@ -254,6 +263,16 @@
    </property>
    <property name="toolTip">
     <string>подсказка (режим преподавателя)</string>
+   </property>
+  </action>
+  <action name="actionHelpStud">
+   <property name="text">
+    <string>студенту</string>
+   </property>
+  </action>
+  <action name="actionHelpTeach">
+   <property name="text">
+    <string>преподавателю</string>
    </property>
   </action>
  </widget>
