@@ -360,8 +360,8 @@ class Window2(QMainWindow):
 
     def show(self):
         if properties.teacherMode:
-            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
-            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            # self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
 
         else:
             self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
