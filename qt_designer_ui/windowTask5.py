@@ -225,13 +225,3 @@ class Ui_MainWindow5(object):
         self.actionbtnDottedConnectNode.setToolTip(_translate("MainWindow5", "Перемещение пунктирной стрелки"))
         self.actionHelp.setText(_translate("MainWindow5", "подсказка"))
         self.actionHelp.setToolTip(_translate("MainWindow5", "подсказка (режим преподавателя)"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow5 = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow5()
-    ui.setupUi(MainWindow5)
-    MainWindow5.show()
-    sys.exit(app.exec_())

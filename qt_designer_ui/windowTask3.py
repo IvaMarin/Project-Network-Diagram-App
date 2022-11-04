@@ -31,6 +31,8 @@ class Ui_MainWindow3(object):
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 1603, 21))
         self.menuBar.setStyleSheet("background-color: #b8ffc0;")
         self.menuBar.setObjectName("menuBar")
+        self.menuHelp = QtWidgets.QMenu(self.menuBar)
+        self.menuHelp.setObjectName("menuHelp")
         MainWindow3.setMenuBar(self.menuBar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow3)
         self.statusbar.setStyleSheet("background-color: #b8ffc0;")
@@ -120,6 +122,10 @@ class Ui_MainWindow3(object):
         icon12.addPixmap(QtGui.QPixmap("resources/iconePack/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionHelp.setIcon(icon12)
         self.actionHelp.setObjectName("actionHelp")
+        self.actionHelpStud = QtWidgets.QAction(MainWindow3)
+        self.actionHelpStud.setObjectName("actionHelpStud")
+        self.actionHelpTeach = QtWidgets.QAction(MainWindow3)
+        self.actionHelpTeach.setObjectName("actionHelpTeach")
         self.toolBar.addAction(self.actionbtnMoveNode)
         self.toolBar.addAction(self.actionbtnDottedConnectNode)
         self.toolBar.addSeparator()
@@ -127,6 +133,10 @@ class Ui_MainWindow3(object):
         self.toolBar.addAction(self.actionbtnInfo)
         self.toolBar.addAction(self.actionHelp)
         self.toolBar.addAction(self.actionbtnHome)
+        self.menuHelp.addSeparator()
+        self.menuHelp.addAction(self.actionHelpStud)
+        self.menuHelp.addAction(self.actionHelpTeach)
+        self.menuBar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(MainWindow3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow3)
@@ -135,6 +145,7 @@ class Ui_MainWindow3(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow3.setWindowTitle(_translate("MainWindow3", "Задание 3"))
         self.toolBar.setWindowTitle(_translate("MainWindow3", "toolBar"))
+        self.menuHelp.setTitle(_translate("MainWindow3", "справка"))
         self.actionNewFile.setText(_translate("MainWindow3", "Новый файл"))
         self.actionNewFile.setToolTip(_translate("MainWindow3", "Создать новый файл"))
         self.actionOpenFile.setText(_translate("MainWindow3", "Открыть файл"))
@@ -161,13 +172,5 @@ class Ui_MainWindow3(object):
         self.actionbtnDottedConnectNode.setToolTip(_translate("MainWindow3", "Перемещение пунктирной стрелки"))
         self.actionHelp.setText(_translate("MainWindow3", "подсказка"))
         self.actionHelp.setToolTip(_translate("MainWindow3", "подсказка (режим преподавателя)"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow3 = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow3()
-    ui.setupUi(MainWindow3)
-    MainWindow3.show()
-    sys.exit(app.exec_())
+        self.actionHelpStud.setText(_translate("MainWindow3", "студенту"))
+        self.actionHelpTeach.setText(_translate("MainWindow3", "преподавателю"))

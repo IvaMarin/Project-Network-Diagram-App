@@ -30,6 +30,8 @@ class Ui_MainWindow6(object):
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 1611, 21))
         self.menuBar.setStyleSheet("background-color: #b8ffc0;")
         self.menuBar.setObjectName("menuBar")
+        self.menuHelp = QtWidgets.QMenu(self.menuBar)
+        self.menuHelp.setObjectName("menuHelp")
         MainWindow6.setMenuBar(self.menuBar)
         self.actionNewFile = QtWidgets.QAction(MainWindow6)
         icon = QtGui.QIcon()
@@ -115,6 +117,10 @@ class Ui_MainWindow6(object):
         icon12.addPixmap(QtGui.QPixmap("resources/iconePack/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionHelp.setIcon(icon12)
         self.actionHelp.setObjectName("actionHelp")
+        self.actionHelpStud = QtWidgets.QAction(MainWindow6)
+        self.actionHelpStud.setObjectName("actionHelpStud")
+        self.actionHelpTeach = QtWidgets.QAction(MainWindow6)
+        self.actionHelpTeach.setObjectName("actionHelpTeach")
         self.toolBar.addAction(self.actionbtnMoveNode)
         self.toolBar.addAction(self.actionbtnDottedConnectNode)
         self.toolBar.addSeparator()
@@ -122,6 +128,9 @@ class Ui_MainWindow6(object):
         self.toolBar.addAction(self.actionbtnInfo)
         self.toolBar.addAction(self.actionHelp)
         self.toolBar.addAction(self.actionbtnHome)
+        self.menuHelp.addAction(self.actionHelpStud)
+        self.menuHelp.addAction(self.actionHelpTeach)
+        self.menuBar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(MainWindow6)
         QtCore.QMetaObject.connectSlotsByName(MainWindow6)
@@ -130,6 +139,7 @@ class Ui_MainWindow6(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow6.setWindowTitle(_translate("MainWindow6", "Задание 6"))
         self.toolBar.setWindowTitle(_translate("MainWindow6", "toolBar"))
+        self.menuHelp.setTitle(_translate("MainWindow6", "справка"))
         self.actionNewFile.setText(_translate("MainWindow6", "Новый файл"))
         self.actionNewFile.setToolTip(_translate("MainWindow6", "Создать новый файл"))
         self.actionOpenFile.setText(_translate("MainWindow6", "Открыть файл"))
@@ -156,13 +166,5 @@ class Ui_MainWindow6(object):
         self.actionbtnMoveNode.setToolTip(_translate("MainWindow6", "Передвинуть элемент"))
         self.actionHelp.setText(_translate("MainWindow6", "подсказка"))
         self.actionHelp.setToolTip(_translate("MainWindow6", "подсказка (режим преподавателя)"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow6 = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow6()
-    ui.setupUi(MainWindow6)
-    MainWindow6.show()
-    sys.exit(app.exec_())
+        self.actionHelpStud.setText(_translate("MainWindow6", "студенту"))
+        self.actionHelpTeach.setText(_translate("MainWindow6", "преподавателю"))
