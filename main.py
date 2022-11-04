@@ -38,6 +38,7 @@ from qt_designer_ui.windowTask1 import Ui_MainWindow1
 from qt_designer_ui.windowTask3 import Ui_MainWindow3
 from qt_designer_ui.windowTask5 import Ui_MainWindow5
 from windowTask2 import Ui_MainWindow2
+from qt_designer_ui.tableTask1 import Ui_tableTask1
 from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
 from qt_designer_ui.windowTask6 import Ui_MainWindow6
 from qt_designer_ui.task2SquadWidget import Ui_task2SquadWidget
@@ -108,6 +109,14 @@ class Window1(QMainWindow):
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.table.ui.tableWidget.setItem(row, 0, self.item)
 
 
 
@@ -236,10 +245,14 @@ class Window1(QMainWindow):
         self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
 
     def backMainMenu(self):
         MainWindow.show()
         self.close()
+
+    def help(self):
+        self.table.show()
 
     def show(self):
         if properties.teacherMode:
@@ -348,13 +361,13 @@ class Window2(QMainWindow):
     def show(self):
         if properties.teacherMode:
             self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
-            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+            # self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
         else:
             self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
-            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
+            # self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         # При вызове окна обновляется кол-во вершин графа
         self.showMaximized()
-        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
+        # self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.cnt = len(graph1.CorrectAdjacencyMatrix)
         # print(self.cnt)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
@@ -733,6 +746,7 @@ class Window5(QMainWindow):
             squadWidget = QWidget()
             squadWidget.ui = Ui_task2SquadWidget()
             squadWidget.ui.setupUi(squadWidget)
+            squadWidget.ui.lineEdit_numberSquad.setText(str(i+1))
             self.squadWidgetList.append(squadWidget)
             squadWidget.ui.pushButton.clicked.connect(lambda checked, i=i: self.replace(i))
             hLayout.addWidget(squadWidget)
@@ -1339,7 +1353,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         # and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
+        if self.ui.btnTeacherMode.isChecked() and (True): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
