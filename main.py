@@ -361,14 +361,14 @@ class Window2(QMainWindow):
     def show(self):
         if properties.teacherMode:
             self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
-            # self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
 
         else:
             self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
-            # self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         # При вызове окна обновляется кол-во вершин графа
         self.showMaximized()
-        # self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.cnt = len(graph1.CorrectAdjacencyMatrix)
         # print(self.cnt)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
@@ -1354,7 +1354,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         # and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked() and (True): # вместо (True) вставить результат проверки шифрованого ключа
+        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)

@@ -611,6 +611,9 @@ class winSearchKey(QtWidgets.QDialog): # окно для загрузки клю
         return os.path.join(*args).replace(os.path.sep, "/")
     
     def closeEvent(self, event):
+        if self.ui.btnSearchPathToKey.isChecked():
+            event.accept()  # подтверждаем ивент
+            return
         close = QMessageBox()
         close.setWindowTitle("Закрыть окно")
         close.setText("Вы уверены, что хотите закрыть окно?")  #
