@@ -256,10 +256,10 @@ class Window1(QMainWindow):
 
     def show(self):
         if properties.teacherMode:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
         else:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         
         self.DisplayObj.functionAble = ""
@@ -360,13 +360,13 @@ class Window2(QMainWindow):
 
     def show(self):
         if properties.teacherMode:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
 
         else:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
-        # При вызове окна обновляется кол-во вершин графа
+        # При вызове окна обновляется кол                                                                                                               -во вершин графа
         self.showMaximized()
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.cnt = len(graph1.CorrectAdjacencyMatrix)
@@ -1025,10 +1025,10 @@ class Window5(QMainWindow):
 
     def show(self):
         if properties.teacherMode:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
         else:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         for i in self.widgetList:
             i.functionable = ""
@@ -1364,7 +1364,7 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask3.setEnabled(True)
             self.ui.btnTask4.setEnabled(True)
             self.ui.btnTask5.setEnabled(True)
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
             #self.ui.btnTask6.setEnabled(True)
         else:
@@ -1378,7 +1378,7 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask5.setEnabled(False)
             #self.ui.btnTask6.setEnabled(False)
             self.ui.btnTeacherMode.setChecked(False)
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         properties.teacherMode = self.ui.btnTeacherMode.isChecked()
     def activateDeveloperMode(self):
@@ -1441,10 +1441,10 @@ class WindowMenu(QMainWindow):
 
     def show(self):
         if self.ui.btnTeacherMode.isChecked():
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
         else:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.showMaximized()
         self.ui.tableVar.horizontalHeader().setDefaultSectionSize(int(self.sizeWindow.width() / self.ui.tableVar.columnCount()))
