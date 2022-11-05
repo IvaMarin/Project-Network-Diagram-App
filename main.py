@@ -187,6 +187,7 @@ class Window1(QMainWindow):
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot1.png','png')
+                MainWindow.ui.btnTask2.setEnabled(True)
 
                 self.lockUi()
 
@@ -308,7 +309,7 @@ class Window2(QMainWindow):
     def show(self):
         # При вызове окна обновляется кол-во вершин графа
         self.showMaximized()
-        self.cnt = len(graph1.CorrectAdjacencyMatrix)
+        self.cnt = len(graph1.Points)
         # print(self.cnt)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
@@ -370,6 +371,8 @@ class Window2(QMainWindow):
                     screen = QtWidgets.QApplication.primaryScreen()
                     screenshot = screen.grabWindow(self.scroll.winId())
                     screenshot.save('screenshot2.png','png')
+                    MainWindow.ui.btnTask3.setEnabled(True)
+                    self.lockUi()
                 self.checkForm1 = task1CheckForm(self, mistakes)
                 self.checkForm1.Task2()
                 self.checkForm1.exec_()
@@ -389,6 +392,13 @@ class Window2(QMainWindow):
 
     def sizeGet(self):
         return self.size()
+
+    def lockUi(self):
+        self.ui.toolBar.clear()
+        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
+        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
+        self.ui.toolBar.addAction(self.ui.actionbtnHome)
+
 
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
@@ -483,6 +493,8 @@ class Window3(QMainWindow):
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot3.png','png')
+                MainWindow.ui.btnTask4.setEnabled(True)
+                self.lockUi()
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()
             self.checkForm1.exec_()
@@ -505,6 +517,13 @@ class Window3(QMainWindow):
 
     def sizeGet(self):
         return self.size()
+
+    def lockUi(self):
+        self.ui.toolBar.clear()
+        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
+        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
+        self.ui.toolBar.addAction(self.ui.actionbtnHome)
+
 
     
 
@@ -570,6 +589,8 @@ class Window4(QMainWindow):
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot4.png','png')
+                MainWindow.ui.btnTask5.setEnabled(True)
+                self.lockUi()
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()        
             self.checkForm1.exec_()
@@ -592,6 +613,12 @@ class Window4(QMainWindow):
 
     def sizeGet(self):
         return self.size()
+
+    def lockUi(self):
+        self.ui.toolBar.clear()
+        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
+        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
+        self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЯТОЕ ЗАДАНИЯ  ////////////////////////////////////
@@ -1138,7 +1165,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         # and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked(): # вместо (True) вставить результат проверки шифрованого ключа
+        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
@@ -1173,22 +1200,22 @@ class WindowMenu(QMainWindow):
         document.add_paragraph("Вариант: {0}".format(self.numINGroup))
         document.add_heading('Задание 1', 0)
         try:
-            document.add_picture('screenshot1.png')
+            document.add_picture('screenshot1.png', width=Inches(7))
         except:
             pass
         document.add_heading('Задание 2', 0)
         try:
-            document.add_picture('screenshot2.png')
+            document.add_picture('screenshot2.png', width=Inches(7))
         except:
             pass
         document.add_heading('Задание 3', 0)
         try:
-            document.add_picture('screenshot3.png')
+            document.add_picture('screenshot3.png', width=Inches(7))
         except:
             pass
         document.add_heading('Задание 4', 0)
         try:
-            document.add_picture('screenshot4.png')
+            document.add_picture('screenshot4.png', width=Inches(7))
         except:
             pass
         document.add_page_break()
