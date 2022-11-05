@@ -165,13 +165,13 @@ class Display(QWidget):
                 else:
                     painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
 
-                painter.drawEllipse(self.graph.Points[i][0]-self.graph.RadiusPoint, self.graph.Points[i][1]-self.graph.RadiusPoint, 
+                painter.drawEllipse(int(self.graph.Points[i][0]-self.graph.RadiusPoint), int(self.graph.Points[i][1]-self.graph.RadiusPoint), 
                                     2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
                 if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-                painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i}')
+                painter.drawText(int(self.graph.Points[i][0] + offset[0]), int(self.graph.Points[i][1] + offset[1]), f'{i}')
 
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
@@ -247,7 +247,7 @@ class Display(QWidget):
                     font_size = 12
                     self.graph.label[i][j].setFont(QFont(font, font_size))
                     
-                    self.graph.label[i][j].move(x, y)
+                    self.graph.label[i][j].move(int(x), int(y))
                     self.graph.label[i][j].resize(50,50)
 
                     self.graph.label[i][j].setStyleSheet("border :2px solid black;")
@@ -325,12 +325,12 @@ class Display2(Display):
             if (not np.isnan(self.graph.Points[i][0])):
                 x, y = self.graph.Points[i]
                 
-                painter.drawEllipse(x-radius/2, y-radius/2, radius, radius)
+                painter.drawEllipse(int(x-radius/2), int(y-radius/2), int(radius), int(radius))
 
                 line_off = (radius/2) * np.cos(np.pi/4)
 
-                painter.drawLine(x-line_off, y-line_off, x+line_off, y+line_off)
-                painter.drawLine(x-line_off, y+line_off, x+line_off, y-line_off)
+                painter.drawLine(int(x-line_off), int(y-line_off), int(x+line_off), int(y+line_off))
+                painter.drawLine(int(x-line_off), int(y+line_off), int(x+line_off), int(y-line_off))
                 
                 if (self.graph.tp.size > i):
                     t_p = str(int(self.graph.tp[i]))
@@ -349,16 +349,16 @@ class Display2(Display):
 
                 x_off = -(5*len(str(t_p))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
                 y_off = 5*font_size/8                          # по оси y смещение не зависист от длины строки 
-                painter.drawText(x-line_off+x_off/2, y+y_off, f'{t_p}')
+                painter.drawText(int(x-line_off+x_off/2), int(y+y_off), f'{t_p}')
 
                 x_off = -(5*len(str(t_n))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
-                painter.drawText(x+line_off+1.5*x_off, y+y_off, f'{t_n}')
+                painter.drawText(int(x+line_off+1.5*x_off), int(y+y_off), f'{t_n}')
 
                 x_off = -(5*len(str(i+1))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
-                painter.drawText(x+x_off, y-line_off+1.5*y_off, f'{i}')
+                painter.drawText(int(x+x_off), int(y-line_off+1.5*y_off), f'{i}')
 
                 x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
-                painter.drawText(x+x_off, y+line_off+0.5*y_off, f'{R}')
+                painter.drawText(int(x+x_off), int(y+line_off+0.5*y_off), f'{R}')
         
         if self.switch:
             self._drawLabels()
@@ -422,7 +422,7 @@ class Display3(Display):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
             else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-            painter.drawText(self.step + self.step * i + offset[0], y0 + offset[1], f'{i}')
+            painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
 
         # отрисовка стрелок
         for i in range(len(self.graph.AdjacencyMatrix)):
@@ -489,13 +489,13 @@ class Display3(Display):
                     painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
 
                 
-                painter.drawEllipse(self.graph.Points[i][0]-self.graph.RadiusPoint, self.graph.Points[i][1]-self.graph.RadiusPoint, 
-                                    2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
+                painter.drawEllipse(int(self.graph.Points[i][0]-self.graph.RadiusPoint), int(self.graph.Points[i][1]-self.graph.RadiusPoint), 
+                                    int(2*self.graph.RadiusPoint), int(2*self.graph.RadiusPoint))
                 if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-                painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i}')
+                painter.drawText(int(self.graph.Points[i][0] + offset[0]), int(self.graph.Points[i][1] + offset[1]), f'{i}')
         
         if hasattr(self, 'sub_graphs'):
             for graph in self.sub_graphs:
@@ -685,7 +685,7 @@ class DrawHist(QWidget):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
             else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-            painter.drawText(self.step + self.step * i + offset[0], y0 + offset[1], f'{i}')
+            painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
 
         # отрисовка нумерации осей сетки
         x0 = 0
@@ -697,7 +697,7 @@ class DrawHist(QWidget):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
             else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-            painter.drawText(self.step + offset[0]-7, y0 - self.step * (i+1) - offset[1]/2, f'{i+1}')
+            painter.drawText(int(self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
         intervals = np.zeros(18)
         for p in range(len(self.graph)):
             AdjacencyMatrix = self.graph[p].GetNumberOfPeople()
