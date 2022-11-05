@@ -62,14 +62,14 @@
     <addaction name="actionHelpStud"/>
     <addaction name="actionHelpTeach"/>
    </widget>
-   <widget class="QMenu" name="menu_6">
+   <widget class="QMenu" name="menuTask">
     <property name="title">
      <string>Задание 6</string>
     </property>
-    <addaction name="action_6"/>
+    <addaction name="actionViewTask"/>
    </widget>
    <addaction name="menuHelp"/>
-   <addaction name="menu_6"/>
+   <addaction name="menuTask"/>
   </widget>
   <action name="actionNewFile">
    <property name="icon">
@@ -275,7 +275,7 @@
     <string>преподавателю</string>
    </property>
   </action>
-  <action name="action_6">
+  <action name="actionViewTask">
    <property name="text">
     <string>Задание 6</string>
    </property>

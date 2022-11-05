@@ -64,14 +64,14 @@
     <addaction name="actionHelpStud"/>
     <addaction name="actionHelpTeach"/>
    </widget>
-   <widget class="QMenu" name="menu_3">
+   <widget class="QMenu" name="menuTask3">
     <property name="title">
      <string>Задание 3</string>
     </property>
-    <addaction name="action_3"/>
+    <addaction name="actionViewTask"/>
    </widget>
    <addaction name="menuHelp"/>
-   <addaction name="menu_3"/>
+   <addaction name="menuTask3"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="styleSheet">
@@ -282,7 +282,7 @@
     <string>преподавателю</string>
    </property>
   </action>
-  <action name="action_3">
+  <action name="actionViewTask">
    <property name="text">
     <string>Задание 3</string>
    </property>

@@ -40,7 +40,7 @@
     <property name="title">
      <string>Задание 1</string>
     </property>
-    <addaction name="actionTask1"/>
+    <addaction name="actionViewTask"/>
    </widget>
    <addaction name="menuHelp"/>
    <addaction name="menuTask1"/>
@@ -328,7 +328,7 @@
     <string>подсказка (режим преподавателя)</string>
    </property>
   </action>
-  <action name="actionTask1">
+  <action name="actionViewTask">
    <property name="text">
     <string>Задание 1</string>
    </property>

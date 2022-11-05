@@ -29,7 +29,7 @@ from matplotlib.figure import Figure
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QRect, Qt, QSize, QTimer
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
 
 ############# Кастомные файлы для проги ######################
 ###############     UI     ###################################
@@ -42,6 +42,12 @@ from qt_designer_ui.tableTask1 import Ui_tableTask1
 from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
 from qt_designer_ui.windowTask6 import Ui_MainWindow6
 from qt_designer_ui.task2SquadWidget import Ui_task2SquadWidget
+from qt_designer_ui.TextTask1 import Ui_TextTask1
+from qt_designer_ui.TextTask2 import Ui_TextTask2
+from qt_designer_ui.TextTask3 import Ui_TextTask3
+from qt_designer_ui.TextTask4 import Ui_TextTask4
+from qt_designer_ui.TextTask5 import Ui_TextTask5
+from qt_designer_ui.TextTask6 import Ui_TextTask6
 #from qt_designer_ui.EditTable import Ui_Dialog
 
 #######################################################
@@ -246,6 +252,15 @@ class Window1(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnInfo.triggered.connect(self.help)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask1()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
+
+        # self.ui = Ui_MainWindow1()
+        # self.ui.setupUi(self)
 
     def backMainMenu(self):
         MainWindow.show()
@@ -453,10 +468,13 @@ class Window2(QMainWindow):
         self.table2.ui.tableCheckButton.clicked.connect(self.table2Check)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCritPath.triggered.connect(self.critPath)
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
 
-    def sizeGet(self):
-        return self.size()
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask2()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
@@ -501,7 +519,7 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
-        
+        #self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
         self.DisplayObj = Display.Display3(self, graph1, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
 
         self.scroll = QtWidgets.QScrollArea()
@@ -572,6 +590,13 @@ class Window3(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask3()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def backMainMenu(self):
         MainWindow.show()
@@ -675,6 +700,13 @@ class Window4(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask4()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def backMainMenu(self):
         MainWindow.show()
@@ -927,6 +959,13 @@ class Window5(QMainWindow):
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask5()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def replace(self, i):	
         try:
@@ -1160,6 +1199,13 @@ class Window6(QMainWindow):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask6()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def backMainMenu(self):
         MainWindow.show()
