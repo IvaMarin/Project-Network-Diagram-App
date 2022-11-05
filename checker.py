@@ -258,18 +258,9 @@ def checkTask1(Graph, CorrectAdjacencyMatrix, ignore=False):
 
 
 # проверка второго задания
-def checkTask2(Graph):
+def checkTask2(Graph, Display):
     CorrectWeights = Graph.CorrectWeights
     CorrectAdjacencyMatrix = Graph.CorrectAdjacencyMatrix
-
-    # CorrectWeights = np.array([[-1, 1, -1, -1],
-    #                            [1, -1, 2, -1],
-    #                            [-1, 2, -1, 3],
-    #                            [-1, -1, 3, -1]])
-    # CorrectAdjacencyMatrix = np.array([[0, 1, 0, 0],
-    #                                    [0, 0, 1, 0],
-    #                                    [0, 0, 0, 1],
-    #                                    [0, 0, 0, 0]])
 
     n = len(CorrectWeights)
 
@@ -302,9 +293,9 @@ def checkTask2(Graph):
 
     for i in range(n):
         for j in range(n):
-            if (type(Graph.label[i][j]) == QLineEdit):
+            if (type(Display.QLineEdits[i][j]) == QLineEdit):
                 try:
-                    if (int(Graph.label[i][j].text()) != CorrectWeights[i][j]):
+                    if (int(Display.QLineEdits[i][j].text()) != CorrectWeights[i][j]):
                         mistakes.append(TaskTwoMistakes.WRONG_DURATIONS.value)
                         mistakes.append(TaskTwoMistakes.WRONG_CRITICAL_PATHS.value)
                         return mistakes
@@ -381,15 +372,7 @@ def checkTask2(Graph):
 # проверка третьего задания
 def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
     CorrectAdjacencyMatrix = Graph.CorrectAdjacencyMatrix
-
-    # CorrectWeights = np.array([[-1, 1, -1, -1],
-    #                            [1, -1, 2, -1],
-    #                            [-1, 2, -1, 3],
-    #                            [-1, -1, 3, -1]])
-    # CorrectAdjacencyMatrix = np.array([[0, 1, 0, 0],
-    #                                    [0, 0, 1, 0],
-    #                                    [0, 0, 0, 1],
-    #                                    [0, 0, 0, 0]])
+    Indent = 1
 
     n = len(CorrectWeights)
 
@@ -410,7 +393,7 @@ def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
 
     Graph.PointsTimeEarly = np.zeros(n, int)
     for i in range(n):
-        Graph.PointsTimeEarly[i] = round((Graph.Points[i][0] - GridBegin) / GridStep)
+        Graph.PointsTimeEarly[i] = round((Graph.Points[i][0] - GridBegin) / GridStep) - Indent
 
     points_on_correct_axes = True
     for i in range(n):
@@ -424,7 +407,7 @@ def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
     for i in range(len(CorrectAdjacencyMatrix)):
         for j in range(len(CorrectAdjacencyMatrix)):
             if (CorrectAdjacencyMatrix[i][j] == 1):
-                Graph.ArrowPointsTimeEarly[i][j] = round((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
+                Graph.ArrowPointsTimeEarly[i][j] = round((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep) - Indent
             else:
                 Graph.ArrowPointsTimeEarly[i][j] = -1
 
@@ -440,15 +423,7 @@ def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
 # проверка четвертого задания
 def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
     CorrectAdjacencyMatrix = Graph.CorrectAdjacencyMatrix
-
-    # CorrectWeights = np.array([[-1, 1, -1, -1],
-    #                            [1, -1, 2, -1],
-    #                            [-1, 2, -1, 3],
-    #                            [-1, -1, 3, -1]])
-    # CorrectAdjacencyMatrix = np.array([[0, 1, 0, 0],
-    #                                    [0, 0, 1, 0],
-    #                                    [0, 0, 0, 1],
-    #                                    [0, 0, 0, 0]])
+    Indent = 1
 
     n = len(CorrectWeights)
 
@@ -470,7 +445,7 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
 
     Graph.PointsTimeLate = np.zeros(n, int)
     for i in range(n):
-        Graph.PointsTimeLate[i] = round((Graph.Points[i][0] - GridBegin) / GridStep)
+        Graph.PointsTimeLate[i] = round((Graph.Points[i][0] - GridBegin) / GridStep) - Indent
 
     points_on_correct_axes = True
     for i in range(n):
@@ -484,7 +459,7 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
     for i in range(len(CorrectAdjacencyMatrix)):
         for j in range(len(CorrectAdjacencyMatrix)):
             if (CorrectAdjacencyMatrix[i][j] == 1):
-                Graph.ArrowPointsTimeLate[i][j] = round((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
+                Graph.ArrowPointsTimeLate[i][j] = round((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep) - Indent
 
     if (points_on_correct_axes):
         for i in range(len(CorrectAdjacencyMatrix)):

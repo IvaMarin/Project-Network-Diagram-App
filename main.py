@@ -212,12 +212,6 @@ class Window1(QMainWindow):
 
                 
                 properties.save_graph(graph1, 1) # сохраняем граф в файл
-                # graph1 = properties.get_graph(1)
-                # print(graph1)
-                # graph1 = properties.get_graph(2)
-                # print(graph1)
-                # properties.state_of_graph_3 = properties.get_graph(1)
-                # graph1 = properties.get_graph(1)
 
                 save_graph_1 = properties.get_graph(1)
                 self.DisplayObj.graph = save_graph_1
@@ -928,95 +922,95 @@ class Window5(QMainWindow):
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
 
-    def replace(self, i):	
-        try:
-            point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
-            new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
+    # def replace(self, i):	
+    #     try:
+    #         point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
+    #         new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
 
-            for id in range(len(self.widgetList[i].graph.Points)):
-                if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
-                    return
+    #         for id in range(len(self.widgetList[i].graph.Points)):
+    #             if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
+    #                 return
 
-            x, y = self.widgetList[i].graph.Points[point_id]
-            n = len(self.widgetList[i].graph.AdjacencyMatrix)
+    #         x, y = self.widgetList[i].graph.Points[point_id]
+    #         n = len(self.widgetList[i].graph.AdjacencyMatrix)
             
-            dont_move = False
-            # создание нового графа в случае если добавляется уже существующая вершина
-            for id in range(len(self.widgetList[i].graph.Points)):
-                if (not np.isnan(self.widgetList[i].graph.Points[id][0]) and id == new_point_id):
-                    if (not hasattr(self.widgetList[i], 'sub_graphs')):
-                        self.widgetList[i].sub_graphs = list()
+    #         dont_move = False
+    #         # создание нового графа в случае если добавляется уже существующая вершина
+    #         for id in range(len(self.widgetList[i].graph.Points)):
+    #             if (not np.isnan(self.widgetList[i].graph.Points[id][0]) and id == new_point_id):
+    #                 if (not hasattr(self.widgetList[i], 'sub_graphs')):
+    #                     self.widgetList[i].sub_graphs = list()
 
-                    new_graph = gm.Graph(self.widget1.graph_in.RadiusPoint)
-                    self.widgetList[i].sub_graphs.append(new_graph)
+    #                 new_graph = gm.Graph(self.widget1.graph_in.RadiusPoint)
+    #                 self.widgetList[i].sub_graphs.append(new_graph)
 
-                    idx = len(self.widgetList[i].sub_graphs) - 1
+    #                 idx = len(self.widgetList[i].sub_graphs) - 1
 
-                    cnt = max(new_point_id, len(self.widgetList[i].graph.Points), len(self.widgetList[i].sub_graphs[idx].Points))
-                    tmp= np.full((cnt+1, 2), None, dtype=np.float64)
+    #                 cnt = max(new_point_id, len(self.widgetList[i].graph.Points), len(self.widgetList[i].sub_graphs[idx].Points))
+    #                 tmp= np.full((cnt+1, 2), None, dtype=np.float64)
 
-                    for id in range(len(self.widgetList[i].sub_graphs[idx].Points)):
-                        pass # тут вообще нужно как-то сохранять значения прошлого графа
+    #                 for id in range(len(self.widgetList[i].sub_graphs[idx].Points)):
+    #                     pass # тут вообще нужно как-то сохранять значения прошлого графа
                     
-                    if (cnt > len(self.widgetList[i].sub_graphs[idx].Points)):
-                        tmp[new_point_id] = x, y
-                        for _ in range((cnt-len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))+1):
-                            self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.vstack([self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))])	
-                            self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.c_[self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix[0]) + 1)]
+    #                 if (cnt > len(self.widgetList[i].sub_graphs[idx].Points)):
+    #                     tmp[new_point_id] = x, y
+    #                     for _ in range((cnt-len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))+1):
+    #                         self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.vstack([self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))])	
+    #                         self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.c_[self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix[0]) + 1)]
 
-                            self.widgetList[i].sub_graphs[idx].ArrowPoints = np.vstack([self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints))])	
-                            self.widgetList[i].sub_graphs[idx].ArrowPoints = np.c_[self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints[0]) + 1)]
+    #                         self.widgetList[i].sub_graphs[idx].ArrowPoints = np.vstack([self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints))])	
+    #                         self.widgetList[i].sub_graphs[idx].ArrowPoints = np.c_[self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints[0]) + 1)]
 
-                    self.widgetList[i].sub_graphs[idx].Points = tmp.copy()
-                    self.widgetList[i].sub_graphs[idx].MovePoint(new_point_id, x, y)
-                    dont_move = True
+    #                 self.widgetList[i].sub_graphs[idx].Points = tmp.copy()
+    #                 self.widgetList[i].sub_graphs[idx].MovePoint(new_point_id, x, y)
+    #                 dont_move = True
                            
-            out_connections = []
-            for column in range(n):
-                if (int(self.widgetList[i].graph.AdjacencyMatrix[point_id][column]) >= 1):
-                    out_connections.append(column)
+    #         out_connections = []
+    #         for column in range(n):
+    #             if (int(self.widgetList[i].graph.AdjacencyMatrix[point_id][column]) >= 1):
+    #                 out_connections.append(column)
 
-            in_connections = []
-            for row in range(n):
-                if (int(self.widgetList[i].graph.AdjacencyMatrix[row][point_id]) >= 1):
-                    in_connections.append(row)
+    #         in_connections = []
+    #         for row in range(n):
+    #             if (int(self.widgetList[i].graph.AdjacencyMatrix[row][point_id]) >= 1):
+    #                 in_connections.append(row)
 
-            cnt = max(new_point_id, point_id, len(self.widgetList[i].graph.Points))
+    #         cnt = max(new_point_id, point_id, len(self.widgetList[i].graph.Points))
 
-            tmp= np.full((cnt+1, 2), None, dtype=np.float64)
+    #         tmp= np.full((cnt+1, 2), None, dtype=np.float64)
 
-            for id in range(len(self.widgetList[i].graph.Points)):
-                if (id == point_id):
-                    tmp[id] = None, None
-                    for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
-                        self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
-                        self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
-                elif (id == new_point_id) and (not dont_move):
-                    tmp[id] = x, y
-                else:
-                    tmp[id] = self.widgetList[i].graph.Points[id]
+    #         for id in range(len(self.widgetList[i].graph.Points)):
+    #             if (id == point_id):
+    #                 tmp[id] = None, None
+    #                 for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
+    #                     self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
+    #                     self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
+    #             elif (id == new_point_id) and (not dont_move):
+    #                 tmp[id] = x, y
+    #             else:
+    #                 tmp[id] = self.widgetList[i].graph.Points[id]
             
-            if (cnt > len(self.widgetList[i].graph.Points)):
-                tmp[new_point_id] = x, y
-                for _ in range((cnt-len(self.widgetList[i].graph.AdjacencyMatrix))+1):
-                    self.widgetList[i].graph.AdjacencyMatrix = np.vstack([self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix))])	
-                    self.widgetList[i].graph.AdjacencyMatrix = np.c_[self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix[0]) + 1)]
+    #         if (cnt > len(self.widgetList[i].graph.Points)):
+    #             tmp[new_point_id] = x, y
+    #             for _ in range((cnt-len(self.widgetList[i].graph.AdjacencyMatrix))+1):
+    #                 self.widgetList[i].graph.AdjacencyMatrix = np.vstack([self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix))])	
+    #                 self.widgetList[i].graph.AdjacencyMatrix = np.c_[self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix[0]) + 1)]
 
-                    self.widgetList[i].graph.ArrowPoints = np.vstack([self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints))])	
-                    self.widgetList[i].graph.ArrowPoints = np.c_[self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints[0]) + 1)]
+    #                 self.widgetList[i].graph.ArrowPoints = np.vstack([self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints))])	
+    #                 self.widgetList[i].graph.ArrowPoints = np.c_[self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints[0]) + 1)]
 
-            self.widgetList[i].graph.Points = tmp.copy()
+    #         self.widgetList[i].graph.Points = tmp.copy()
 
-            if (not dont_move):
-                self.widgetList[i].graph.MovePoint(new_point_id, x, y)
-            if (not dont_move):
-                for column in out_connections:
-                    self.widgetList[i].graph.ConnectPoints(new_point_id, column)
-                for row in in_connections:
-                    self.widgetList[i].graph.ConnectPoints(row, new_point_id)
-        except Exception:
-            pass
-        self.widgetList[i].update()
+    #         if (not dont_move):
+    #             self.widgetList[i].graph.MovePoint(new_point_id, x, y)
+    #         if (not dont_move):
+    #             for column in out_connections:
+    #                 self.widgetList[i].graph.AddConnection(new_point_id, column)
+    #             for row in in_connections:
+    #                 self.widgetList[i].graph.AddConnection(row, new_point_id)
+    #     except Exception:
+    #         pass
+    #     self.widgetList[i].update()
 
 
     def backMainMenu(self):
@@ -1353,8 +1347,9 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        # and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
+        isKeyVerified = True
+        isKeyVerified = properties.enter_key()
+        if self.ui.btnTeacherMode.isChecked() and isKeyVerified:
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
