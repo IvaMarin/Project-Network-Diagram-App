@@ -36,6 +36,7 @@ from qt_designer_ui.MainMenu import Ui_MainMenu
 from qt_designer_ui.windowTask1 import Ui_MainWindow1
 from qt_designer_ui.windowTask3 import Ui_MainWindow3
 from qt_designer_ui.windowTask5 import Ui_MainWindow5
+from qt_designer_ui.task5AddSeq import Ui_task5AddSeq
 from windowTask2 import Ui_MainWindow2
 from qt_designer_ui.tableTask1 import Ui_tableTask1
 from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
@@ -48,6 +49,7 @@ import Display
 from WinsDialog import winSigReport,winLogin,winEditTable,winSearchKey
 from Color import Color
 from task1CheckForm import task1CheckForm
+from task5AddSeq import task5AddSeq
 import graph_model as gm
 import Properties
 
@@ -773,7 +775,7 @@ class Window5(QMainWindow):
             squadWidget.ui.setupUi(squadWidget)
             squadWidget.ui.lineEdit_numberSquad.setText(str(i+1))
             self.squadWidgetList.append(squadWidget)
-            squadWidget.ui.pushButton.clicked.connect(lambda checked, i=i: self.replace(i))
+            # squadWidget.ui.pushButton.clicked.connect(lambda checked, i=i: self.replace(i))
             hLayout.addWidget(squadWidget)
             hWidget = QWidget()
             hWidget.setLayout(hLayout)
@@ -798,6 +800,13 @@ class Window5(QMainWindow):
         # self.squadWidgetList[0].ui.lineEdit_newValue.setText("2")
         # self.squadWidgetList[0].ui.lineEdit_numberSquad.setText("1")
         # self.squadWidgetList[0].ui.lineEdit_countPerson.setText("10")   #text
+        self.ui.actionbtnConnectNode.setVisible(False)
+        self.ui.actionbtnRemoveNodeConnection.setVisible(False)
+        self.ui.actionbtnMoveNode.setVisible(False)
+        self.ui.actionbtnDottedConnectNode.setVisible(False)
+
+
+        
 
 
 
@@ -833,19 +842,29 @@ class Window5(QMainWindow):
                 event.ignore()
 
 
-    def addNode(self):
-        if self.ui.actionbtnAddNode.isChecked() == False:
+    # def addNode(self):
+    def addSeq(self):
+        if self.ui.actionbtnAddSeq.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
         else:
             for i in self.widgetList:
-                i.functionAble = "Добавить вершину"
+                i.functionAble = "Добавить последовательность"
+            self.AddSeq = task5AddSeq(self)
+            self.AddSeq.exec_()
+
 
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
+
+    def displayAddSeq(self, numS, sequence):
+        print(sequence)
+        msg = QMessageBox()
+        msg.setText(numS)
+        msg.exec()
 
     def addArrow(self):
         if self.ui.actionbtnConnectNode.isChecked() == False:
@@ -855,11 +874,11 @@ class Window5(QMainWindow):
             for i in self.widgetList:
                 i.functionAble = "Добавить связь"
             
-            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnAddSeq.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
 
     def addDottedArrow(self):
         if self.ui.actionbtnDottedConnectNode.isChecked() == False:
@@ -869,11 +888,11 @@ class Window5(QMainWindow):
             for i in self.widgetList:
                 i.functionAble = "Добавить пунктирную связь"
           
-            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnAddSeq.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
 
     def removeArrow(self):
         if self.ui.actionbtnRemoveNodeConnection.isChecked() == False:
@@ -884,21 +903,21 @@ class Window5(QMainWindow):
                 i.functionAble = "Удалить связь"
           
             self.ui.actionbtnConnectNode.setChecked(False)
-            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnAddSeq.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
 
-    def removeNode(self):
-        if self.ui.actionbtnRemoveNode.isChecked() == False:
+    def removeSeq(self):
+        if self.ui.actionbtnRemoveSeq.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
         else:
             for i in self.widgetList:
-                i.functionAble = "Удалить вершину"
+                i.functionAble = "Удалить последовательность"
             
             self.ui.actionbtnConnectNode.setChecked(False)
-            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnAddSeq.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
@@ -912,43 +931,83 @@ class Window5(QMainWindow):
                 i.functionAble = "Переместить вершины"
            
             self.ui.actionbtnConnectNode.setChecked(False)
-            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnAddSeq.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
 
     # def makeNewFile(self):
     #     self.centralWidget.functionAble = "Новый файл"
 
-    def taskCheck(self):
-        mistakes_total = set()
-        for i in range(squadNum):
-            try:
-                squad_people_number = int(self.squadWidgetList[i].ui.lineEdit_countPerson.text())
-            except:
-                squad_people_number = -1
+    # def taskCheck(self):
+    #     mistakes_total = set()
+    #     for i in range(squadNum):
+    #         try:
+    #             squad_people_number = int(self.squadWidgetList[i].ui.lineEdit_countPerson.text())
+    #         except:
+    #             squad_people_number = -1
 
-            mistakes = self.widgetList[i].checkEvent5(i, squad_people_number)
-            if type(mistakes) == QMessageBox:
-                mistakes.exec()
-                return
-            for m in mistakes:
-                mistakes_total.add(m)
-        if len(mistakes_total) == 0:
-            properties.set__verification_passed_task(5)
-        self.checkForm1 = task1CheckForm(self, list(mistakes_total))
-        self.checkForm1.Task2()        
-        self.checkForm1.exec_()
+    #         mistakes = self.widgetList[i].checkEvent5(i, squad_people_number)
+    #         if type(mistakes) == QMessageBox:
+    #             mistakes.exec()
+    #             return
+    #         for m in mistakes:
+    #             mistakes_total.add(m)
+    #     if len(mistakes_total) == 0:
+    #         properties.set__verification_passed_task(5)
+    #     self.checkForm1 = task1CheckForm(self, list(mistakes_total))
+    #     self.checkForm1.Task2()        
+    #     self.checkForm1.exec_()
+
+    def taskCheck1(self):
+
+        # mistakes = self.DisplayObj.checkEvent()
+        mistakes = []
+        if type(mistakes) != QMessageBox:
+            if len(mistakes) == 0:
+                self.ui.actionbtnCheck.triggered.connect(self.taskCheck2)
+
+                self.ui.actionbtnAddSeq.setVisible(False)
+                self.ui.actionbtnRemoveSeq.setVisible(False)
+
+                self.ui.actionbtnConnectNode.setVisible(True)
+                self.ui.actionbtnRemoveNodeConnection.setVisible(True)
+                self.ui.actionbtnMoveNode.setVisible(True)
+                self.ui.actionbtnDottedConnectNode.setVisible(True)
+
+            self.checkForm = task1CheckForm(self, mistakes)
+            self.checkForm.Task51()
+            self.checkForm.exec_()
+        else:
+            mistakes.exec()
+
+    def taskCheck2(self):
+        if (True):
+            self.ui.actionbtnCheck.triggered.connect(self.taskCheck3)
+            
+            self.ui.actionbtnConnectNode.setVisible(False)
+            self.ui.actionbtnRemoveNodeConnection.setVisible(False)
+            self.ui.actionbtnMoveNode.setVisible(False)
+            self.ui.actionbtnDottedConnectNode.setVisible(False)
+        else:
+            print("clown")
+
+    def taskCheck3(self):
+        if (True):
+            msg = QMessageBox()
+            msg.exec()
+        else:
+            print("clown")
 
     def _connectAction(self):
-        self.ui.actionbtnAddNode.triggered.connect(self.addNode)
+        self.ui.actionbtnAddSeq.triggered.connect(self.addSeq)
         self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
         self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
-        self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
+        self.ui.actionbtnRemoveSeq.triggered.connect(self.removeSeq)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
 
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck1)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
 
@@ -1168,7 +1227,7 @@ class Window6(QMainWindow):
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
     
     def addDottedArrow(self):
         if self.ui.actionbtnDottedConnectNode.isChecked() == False:
@@ -1378,7 +1437,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         # and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked() and properties.enter_key(): # вместо (True) вставить результат проверки шифрованого ключа
+        if self.ui.btnTeacherMode.isChecked() and (True): # вместо (True) вставить результат проверки шифрованого ключа
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
