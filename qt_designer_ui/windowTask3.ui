@@ -50,7 +50,7 @@
      <x>0</x>
      <y>0</y>
      <width>1603</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -58,13 +58,20 @@
    </property>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>справка</string>
+     <string>Справка</string>
     </property>
     <addaction name="separator"/>
     <addaction name="actionHelpStud"/>
     <addaction name="actionHelpTeach"/>
    </widget>
+   <widget class="QMenu" name="menuTask3">
+    <property name="title">
+     <string>Задание 3</string>
+    </property>
+    <addaction name="actionViewTask"/>
+   </widget>
    <addaction name="menuHelp"/>
+   <addaction name="menuTask3"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="styleSheet">
@@ -273,6 +280,11 @@
   <action name="actionHelpTeach">
    <property name="text">
     <string>преподавателю</string>
+   </property>
+  </action>
+  <action name="actionViewTask">
+   <property name="text">
+    <string>Задание 3</string>
    </property>
   </action>
  </widget>

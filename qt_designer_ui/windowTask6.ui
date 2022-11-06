@@ -49,7 +49,7 @@
      <x>0</x>
      <y>0</y>
      <width>1611</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -57,12 +57,19 @@
    </property>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>справка</string>
+     <string>Справка</string>
     </property>
     <addaction name="actionHelpStud"/>
     <addaction name="actionHelpTeach"/>
    </widget>
+   <widget class="QMenu" name="menuTask">
+    <property name="title">
+     <string>Задание 6</string>
+    </property>
+    <addaction name="actionViewTask"/>
+   </widget>
    <addaction name="menuHelp"/>
+   <addaction name="menuTask"/>
   </widget>
   <action name="actionNewFile">
    <property name="icon">
@@ -266,6 +273,11 @@
   <action name="actionHelpTeach">
    <property name="text">
     <string>преподавателю</string>
+   </property>
+  </action>
+  <action name="actionViewTask">
+   <property name="text">
+    <string>Задание 6</string>
    </property>
   </action>
  </widget>

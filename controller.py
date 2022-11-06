@@ -36,10 +36,10 @@ def CDeletePoint(graph, event, but):
 		graph.DeletePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # удалить вершину
 
 # связать вершины по нажатию; параметры: объект "граф", событие, кнопка, выделенные точки
-def CConnectPoints(graph, event, but, points):
+def CAddConnection(graph, event, but, points):
 	# если нажата кнопка
 	if event.button() == but:
-		graph.ConnectPoints(int(points[0]), int(points[1])) # связать вершины
+		graph.AddConnection(int(points[0]), int(points[1])) # связать вершины
 
 # удалить связь между вершинами по нажатию; параметры: объект "граф", событие, кнопка
 def CDeleteConnection(graph, event, but, points):

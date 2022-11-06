@@ -28,7 +28,7 @@ from docx.shared import Inches
 from matplotlib.figure import Figure
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QRect, Qt, QSize, QTimer
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
 
 ############# Кастомные файлы для проги ######################
 ###############     UI     ###################################
@@ -42,6 +42,12 @@ from qt_designer_ui.tableTask1 import Ui_tableTask1
 from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
 from qt_designer_ui.windowTask6 import Ui_MainWindow6
 from qt_designer_ui.task2SquadWidget import Ui_task2SquadWidget
+from qt_designer_ui.TextTask1 import Ui_TextTask1
+from qt_designer_ui.TextTask2 import Ui_TextTask2
+from qt_designer_ui.TextTask3 import Ui_TextTask3
+from qt_designer_ui.TextTask4 import Ui_TextTask4
+from qt_designer_ui.TextTask5 import Ui_TextTask5
+from qt_designer_ui.TextTask6 import Ui_TextTask6
 #from qt_designer_ui.EditTable import Ui_Dialog
 
 #######################################################
@@ -212,16 +218,10 @@ class Window1(QMainWindow):
                 properties.set__verification_passed_task(1)
 
                 
-                # properties.save_graph(graph1, 1) # сохраняем граф в файл
-                # graph1 = properties.get_graph(1)
-                # print(graph1)
-                # graph1 = properties.get_graph(2)
-                # print(graph1)
-                # properties.state_of_graph_3 = properties.get_graph(1)
-                # graph1 = properties.get_graph(1)
+                properties.save_graph(graph1, 1) # сохраняем граф в файл
 
-                # save_graph_1 = properties.get_graph(1)
-                # self.DisplayObj.graph = save_graph_1
+                save_graph_1 = properties.get_graph(1)
+                self.DisplayObj.graph = save_graph_1
                 
 
 
@@ -248,6 +248,15 @@ class Window1(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnInfo.triggered.connect(self.help)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask1()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
+
+        # self.ui = Ui_MainWindow1()
+        # self.ui.setupUi(self)
 
     def backMainMenu(self):
         MainWindow.show()
@@ -258,10 +267,10 @@ class Window1(QMainWindow):
 
     def show(self):
         if properties.teacherMode:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
         else:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         
         self.DisplayObj.functionAble = ""
@@ -362,17 +371,16 @@ class Window2(QMainWindow):
 
     def show(self):
         if properties.teacherMode:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
 
         else:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
-        # При вызове окна обновляется кол-во вершин графа
+        # При вызове окна обновляется кол                                                                                                               -во вершин графа
         self.showMaximized()
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
-        self.cnt = len(graph1.Points)
-        print(self.cnt)
+        self.cnt = len(graph1.CorrectAdjacencyMatrix)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
 
@@ -457,10 +465,13 @@ class Window2(QMainWindow):
         self.table2.ui.tableCheckButton.clicked.connect(self.table2Check)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCritPath.triggered.connect(self.critPath)
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
 
-    def sizeGet(self):
-        return self.size()
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask2()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def lockUi(self):
         self.ui.toolBar.clear()
@@ -511,7 +522,7 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
-        
+        #self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
         self.DisplayObj = Display.Display3(self, graph1, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
 
         self.scroll = QtWidgets.QScrollArea()
@@ -584,6 +595,13 @@ class Window3(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask3()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def backMainMenu(self):
         MainWindow.show()
@@ -695,6 +713,13 @@ class Window4(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask4()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def backMainMenu(self):
         MainWindow.show()
@@ -1010,96 +1035,103 @@ class Window5(QMainWindow):
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck1)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
 
-    def replace(self, i):	
-        try:
-            point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
-            new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask5()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
-            for id in range(len(self.widgetList[i].graph.Points)):
-                if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
-                    return
+    # def replace(self, i):	
+    #     try:
+    #         point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
+    #         new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
 
-            x, y = self.widgetList[i].graph.Points[point_id]
-            n = len(self.widgetList[i].graph.AdjacencyMatrix)
+    #         for id in range(len(self.widgetList[i].graph.Points)):
+    #             if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
+    #                 return
+
+    #         x, y = self.widgetList[i].graph.Points[point_id]
+    #         n = len(self.widgetList[i].graph.AdjacencyMatrix)
             
-            dont_move = False
-            # создание нового графа в случае если добавляется уже существующая вершина
-            for id in range(len(self.widgetList[i].graph.Points)):
-                if (not np.isnan(self.widgetList[i].graph.Points[id][0]) and id == new_point_id):
-                    if (not hasattr(self.widgetList[i], 'sub_graphs')):
-                        self.widgetList[i].sub_graphs = list()
+    #         dont_move = False
+    #         # создание нового графа в случае если добавляется уже существующая вершина
+    #         for id in range(len(self.widgetList[i].graph.Points)):
+    #             if (not np.isnan(self.widgetList[i].graph.Points[id][0]) and id == new_point_id):
+    #                 if (not hasattr(self.widgetList[i], 'sub_graphs')):
+    #                     self.widgetList[i].sub_graphs = list()
 
-                    new_graph = gm.Graph(self.widget1.graph_in.RadiusPoint)
-                    self.widgetList[i].sub_graphs.append(new_graph)
+    #                 new_graph = gm.Graph(self.widget1.graph_in.RadiusPoint)
+    #                 self.widgetList[i].sub_graphs.append(new_graph)
 
-                    idx = len(self.widgetList[i].sub_graphs) - 1
+    #                 idx = len(self.widgetList[i].sub_graphs) - 1
 
-                    cnt = max(new_point_id, len(self.widgetList[i].graph.Points), len(self.widgetList[i].sub_graphs[idx].Points))
-                    tmp= np.full((cnt+1, 2), None, dtype=np.float64)
+    #                 cnt = max(new_point_id, len(self.widgetList[i].graph.Points), len(self.widgetList[i].sub_graphs[idx].Points))
+    #                 tmp= np.full((cnt+1, 2), None, dtype=np.float64)
 
-                    for id in range(len(self.widgetList[i].sub_graphs[idx].Points)):
-                        pass # тут вообще нужно как-то сохранять значения прошлого графа
+    #                 for id in range(len(self.widgetList[i].sub_graphs[idx].Points)):
+    #                     pass # тут вообще нужно как-то сохранять значения прошлого графа
                     
-                    if (cnt > len(self.widgetList[i].sub_graphs[idx].Points)):
-                        tmp[new_point_id] = x, y
-                        for _ in range((cnt-len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))+1):
-                            self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.vstack([self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))])	
-                            self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.c_[self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix[0]) + 1)]
+    #                 if (cnt > len(self.widgetList[i].sub_graphs[idx].Points)):
+    #                     tmp[new_point_id] = x, y
+    #                     for _ in range((cnt-len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))+1):
+    #                         self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.vstack([self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))])	
+    #                         self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.c_[self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix[0]) + 1)]
 
-                            self.widgetList[i].sub_graphs[idx].ArrowPoints = np.vstack([self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints))])	
-                            self.widgetList[i].sub_graphs[idx].ArrowPoints = np.c_[self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints[0]) + 1)]
+    #                         self.widgetList[i].sub_graphs[idx].ArrowPoints = np.vstack([self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints))])	
+    #                         self.widgetList[i].sub_graphs[idx].ArrowPoints = np.c_[self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints[0]) + 1)]
 
-                    self.widgetList[i].sub_graphs[idx].Points = tmp.copy()
-                    self.widgetList[i].sub_graphs[idx].MovePoint(new_point_id, x, y)
-                    dont_move = True
+    #                 self.widgetList[i].sub_graphs[idx].Points = tmp.copy()
+    #                 self.widgetList[i].sub_graphs[idx].MovePoint(new_point_id, x, y)
+    #                 dont_move = True
                            
-            out_connections = []
-            for column in range(n):
-                if (int(self.widgetList[i].graph.AdjacencyMatrix[point_id][column]) >= 1):
-                    out_connections.append(column)
+    #         out_connections = []
+    #         for column in range(n):
+    #             if (int(self.widgetList[i].graph.AdjacencyMatrix[point_id][column]) >= 1):
+    #                 out_connections.append(column)
 
-            in_connections = []
-            for row in range(n):
-                if (int(self.widgetList[i].graph.AdjacencyMatrix[row][point_id]) >= 1):
-                    in_connections.append(row)
+    #         in_connections = []
+    #         for row in range(n):
+    #             if (int(self.widgetList[i].graph.AdjacencyMatrix[row][point_id]) >= 1):
+    #                 in_connections.append(row)
 
-            cnt = max(new_point_id, point_id, len(self.widgetList[i].graph.Points))
+    #         cnt = max(new_point_id, point_id, len(self.widgetList[i].graph.Points))
 
-            tmp= np.full((cnt+1, 2), None, dtype=np.float64)
+    #         tmp= np.full((cnt+1, 2), None, dtype=np.float64)
 
-            for id in range(len(self.widgetList[i].graph.Points)):
-                if (id == point_id):
-                    tmp[id] = None, None
-                    for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
-                        self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
-                        self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
-                elif (id == new_point_id) and (not dont_move):
-                    tmp[id] = x, y
-                else:
-                    tmp[id] = self.widgetList[i].graph.Points[id]
+    #         for id in range(len(self.widgetList[i].graph.Points)):
+    #             if (id == point_id):
+    #                 tmp[id] = None, None
+    #                 for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
+    #                     self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
+    #                     self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
+    #             elif (id == new_point_id) and (not dont_move):
+    #                 tmp[id] = x, y
+    #             else:
+    #                 tmp[id] = self.widgetList[i].graph.Points[id]
             
-            if (cnt > len(self.widgetList[i].graph.Points)):
-                tmp[new_point_id] = x, y
-                for _ in range((cnt-len(self.widgetList[i].graph.AdjacencyMatrix))+1):
-                    self.widgetList[i].graph.AdjacencyMatrix = np.vstack([self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix))])	
-                    self.widgetList[i].graph.AdjacencyMatrix = np.c_[self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix[0]) + 1)]
+    #         if (cnt > len(self.widgetList[i].graph.Points)):
+    #             tmp[new_point_id] = x, y
+    #             for _ in range((cnt-len(self.widgetList[i].graph.AdjacencyMatrix))+1):
+    #                 self.widgetList[i].graph.AdjacencyMatrix = np.vstack([self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix))])	
+    #                 self.widgetList[i].graph.AdjacencyMatrix = np.c_[self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix[0]) + 1)]
 
-                    self.widgetList[i].graph.ArrowPoints = np.vstack([self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints))])	
-                    self.widgetList[i].graph.ArrowPoints = np.c_[self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints[0]) + 1)]
+    #                 self.widgetList[i].graph.ArrowPoints = np.vstack([self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints))])	
+    #                 self.widgetList[i].graph.ArrowPoints = np.c_[self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints[0]) + 1)]
 
-            self.widgetList[i].graph.Points = tmp.copy()
+    #         self.widgetList[i].graph.Points = tmp.copy()
 
-            if (not dont_move):
-                self.widgetList[i].graph.MovePoint(new_point_id, x, y)
-            if (not dont_move):
-                for column in out_connections:
-                    self.widgetList[i].graph.ConnectPoints(new_point_id, column)
-                for row in in_connections:
-                    self.widgetList[i].graph.ConnectPoints(row, new_point_id)
-        except Exception:
-            pass
-        self.widgetList[i].update()
+    #         if (not dont_move):
+    #             self.widgetList[i].graph.MovePoint(new_point_id, x, y)
+    #         if (not dont_move):
+    #             for column in out_connections:
+    #                 self.widgetList[i].graph.AddConnection(new_point_id, column)
+    #             for row in in_connections:
+    #                 self.widgetList[i].graph.AddConnection(row, new_point_id)
+    #     except Exception:
+    #         pass
+    #     self.widgetList[i].update()
 
 
     def backMainMenu(self):
@@ -1108,10 +1140,10 @@ class Window5(QMainWindow):
 
     def show(self):
         if properties.teacherMode:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
         else:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         for i in self.widgetList:
             i.functionable = ""
@@ -1243,6 +1275,13 @@ class Window6(QMainWindow):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask6()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def backMainMenu(self):
         MainWindow.show()
@@ -1436,8 +1475,9 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        # and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked() and (True): # вместо (True) вставить результат проверки шифрованого ключа
+        isKeyVerified = True
+        isKeyVerified = properties.enter_key()
+        if self.ui.btnTeacherMode.isChecked() and isKeyVerified:
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
@@ -1447,7 +1487,7 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask3.setEnabled(True)
             self.ui.btnTask4.setEnabled(True)
             self.ui.btnTask5.setEnabled(True)
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
             #self.ui.btnTask6.setEnabled(True)
         else:
@@ -1461,7 +1501,7 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask5.setEnabled(False)
             #self.ui.btnTask6.setEnabled(False)
             self.ui.btnTeacherMode.setChecked(False)
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         properties.teacherMode = self.ui.btnTeacherMode.isChecked()
     def activateDeveloperMode(self):
@@ -1524,10 +1564,10 @@ class WindowMenu(QMainWindow):
 
     def show(self):
         if self.ui.btnTeacherMode.isChecked():
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
         else:
-            self.ui.menubar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.showMaximized()
         self.ui.tableVar.horizontalHeader().setDefaultSectionSize(int(self.sizeWindow.width() / self.ui.tableVar.columnCount()))

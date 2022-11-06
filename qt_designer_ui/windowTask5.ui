@@ -17,28 +17,18 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>1601</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #b8ffc0;</string>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>Файл</string>
-    </property>
-    <addaction name="actionNewFile"/>
-    <addaction name="actionOpenFile"/>
-    <addaction name="actionSaveFile"/>
-    <addaction name="actionSaveFileAs"/>
-    <addaction name="separator"/>
-   </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Справка</string>
@@ -46,23 +36,14 @@
     <addaction name="actionHelpTask"/>
     <addaction name="actionHelpProgram"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
+   <widget class="QMenu" name="menuTask5">
     <property name="title">
-     <string>Редактор</string>
+     <string>Здание 5</string>
     </property>
-    <addaction name="actionForward"/>
-    <addaction name="actionBackward"/>
+    <addaction name="actionViewTask"/>
    </widget>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>Настройки</string>
-    </property>
-    <addaction name="actionSetting"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
    <addaction name="menuHelp"/>
-   <addaction name="menu"/>
+   <addaction name="menuTask5"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="styleSheet">
@@ -358,6 +339,11 @@
    </property>
    <property name="toolTip">
     <string>подсказка (режим преподавателя)</string>
+   </property>
+  </action>
+  <action name="actionViewTask">
+   <property name="text">
+    <string>Задание 5</string>
    </property>
   </action>
  </widget>
