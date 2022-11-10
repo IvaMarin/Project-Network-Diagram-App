@@ -14,25 +14,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_tableTask2Widget(object):
     def setupUi(self, tableTask2Widget):
         tableTask2Widget.setObjectName("tableTask2Widget")
+        tableTask2Widget.resize(400, 300)
         self.verticalLayout = QtWidgets.QVBoxLayout(tableTask2Widget)
         self.verticalLayout.setObjectName("verticalLayout")
         self.tableWidget = QtWidgets.QTableWidget(tableTask2Widget)
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(1)
-        self.tableWidget.setRowCount(50)
-        self.tableWidget.setMinimumWidth(145)
-        self.tableWidget.setMaximumWidth(145)
-        item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        item.setFont(font)
-        self.tableWidget.setHorizontalHeaderItem(0, item)
-        self.tableWidget.setHorizontalHeaderLabels(["Ранний срок"]) #, "Поздний срок"
-        
+        self.tableWidget.setColumnCount(0)
+        self.tableWidget.setRowCount(0)
         self.verticalLayout.addWidget(self.tableWidget)
         self.tableCheckButton = QtWidgets.QPushButton(tableTask2Widget)
         self.tableCheckButton.setObjectName("tableCheckButton")
-        self.tableCheckButton.setFont(font)
         self.verticalLayout.addWidget(self.tableCheckButton)
 
         self.retranslateUi(tableTask2Widget)
@@ -41,5 +32,14 @@ class Ui_tableTask2Widget(object):
     def retranslateUi(self, tableTask2Widget):
         _translate = QtCore.QCoreApplication.translate
         tableTask2Widget.setWindowTitle(_translate("tableTask2Widget", "Form"))
-        self.tableCheckButton.setText(_translate("tableTask2Widget", "Заполнить"))
+        self.tableCheckButton.setText(_translate("tableTask2Widget", "PushButton"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    tableTask2Widget = QtWidgets.QWidget()
+    ui = Ui_tableTask2Widget()
+    ui.setupUi(tableTask2Widget)
+    tableTask2Widget.show()
+    sys.exit(app.exec_())

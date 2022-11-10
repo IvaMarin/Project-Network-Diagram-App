@@ -381,7 +381,7 @@ class Window2(QMainWindow):
         # При вызове окна обновляется кол                                                                                                               -во вершин графа
         self.showMaximized()
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
-        self.cnt = len(graph1.CorrectAdjacencyMatrix)
+        self.cnt = len(graph1.Points)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
 
@@ -1446,7 +1446,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         isKeyVerified = True
-        #isKeyVerified = properties.enter_key()
+        # isKeyVerified = properties.enter_key()
         if self.ui.btnTeacherMode.isChecked() and isKeyVerified:
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
