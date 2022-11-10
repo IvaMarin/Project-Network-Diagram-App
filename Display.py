@@ -640,7 +640,7 @@ class DrawHist(QWidget):
             painter.drawText(int(self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
         intervals = np.zeros(18)
         for p in range(len(self.graph)):
-            AdjacencyMatrix = self.graph[p].PeopleMatrix
+            AdjacencyMatrix = self.graph[p].PeopleWeights
             if AdjacencyMatrix is not None:
                 for i in range(len(AdjacencyMatrix)):
                     for j in range(len(AdjacencyMatrix[i])):
