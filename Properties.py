@@ -36,7 +36,7 @@ class Properties():
 
         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
 
-        self.step_grid = 100 # шаг сетки
+        self.step_grid = 75 # шаг сетки
 
 
         #self.graph_for_task_1 = self.get_graph_from_radius() # граф для первого задания
