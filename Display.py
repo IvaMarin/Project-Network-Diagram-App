@@ -594,6 +594,161 @@ class Display3(Display):
 
         self.update()
 
+class Display5(Display):
+    def paintEvent(self, event):
+        if self.horizontal:
+            self.lines = createGrid(self.size(), self.step, True, True)
+        else:
+            self.lines = createGrid(self.size(), self.step, True, False)
+        self.whiteLines = createGaps(self.size(), self.step)
+
+        painter = QPainter(self)
+        painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
+
+        # отрисовка сетки
+        painter.setPen(self.colorGrid)
+        #lines = createGrid(0, 0, 50, True, True)
+        painter.drawLines(self.lines)
+        painter.setPen(QColor(255, 255, 255, 255))
+        painter.drawLines(self.whiteLines)
+
+        painter.setPen(QColor("black"))
+        font = 'Times'
+        font_size = 12
+        painter.setFont(QFont(font, font_size))
+        painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
+        painter.setBrush(QColor("black"))
+        
+        # отрисовка нумерации осей сетки
+        x0 = 0
+        #step = 75
+        sizeWindow = self.size()
+        number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
+        y0 = sizeWindow.height() - 50 
+        for i in range(number_vertical_lines):
+            if len(str(i+1)) < 2:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+            painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
+
+        # отрисовка стрелок
+        for p1, p2 in self.graph.AdjacencyList.items():
+            triangle_source = calculate_arrow_points(p1, self.graph.Arrows[(p1, p2)], 0)
+            if triangle_source is not None:
+                painter.drawPolygon(triangle_source)
+                if (self.late_time == None):  # в зависимости от резерва
+                    if (len(self.base_graph.R) > i) and (self.base_graph.R[i] > 0):
+                        painter.setPen(Qt.PenStyle.SolidLine)
+                        painter.drawLine(QPointF(p1[0], p1[1]), triangle_source[1])
+                        painter.setPen(Qt.PenStyle.DashLine)
+                        painter.drawLine(triangle_source[1], QPointF(p2[0], p2[1]))
+                        painter.setPen(Qt.PenStyle.SolidLine)
+                    else:
+                        painter.setPen(Qt.PenStyle.DashLine)
+                        painter.drawLine(QPointF(p1[0], p1[1]), triangle_source[1])
+                        painter.setPen(Qt.PenStyle.SolidLine)
+                        painter.drawLine(triangle_source[1], QPointF(p2[0], p2[1]))
+                elif (self.late_time == True):  # в поздних сроках
+                    painter.setPen(Qt.PenStyle.DashLine)
+                    painter.drawLine(QPointF(p1[0], p1[1]), triangle_source[1])
+                    painter.setPen(Qt.PenStyle.SolidLine)
+                    painter.drawLine(triangle_source[1], QPointF(p2[0], p2[1]))
+                else:  # в ранних сроках
+                    painter.setPen(Qt.PenStyle.SolidLine)
+                    painter.drawLine(QPointF(p1[0], p1[1]), triangle_source[1])
+                    painter.setPen(Qt.PenStyle.DashLine)
+                    painter.drawLine(triangle_source[1], QPointF(p2[0], p2[1]))
+                    painter.setPen(Qt.PenStyle.SolidLine)
+
+        # отрисовка вершин и цифр
+        painter.setPen(QPen(QColor("black"), 2.5))
+
+        for (digit, id), (x, y) in self.graph.Points.items():
+            if (i != self.illumination):
+                painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+            else:
+                painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
+
+            painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
+                                int(2*self.graph.Radius), int(2*self.graph.Radius))
+            if len(str(i+1)) < 2:
+                offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+            painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
+
+        self.graph_in.PeopleWeights = self.GetNumberOfPeople()
+
+    # def checkEvent5(self, id, squad_people_number):
+    #     mistakes = checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id, squad_people_number)
+    #     return mistakes
+
+    # def mousePressEvent(self, event):
+    #     # нажатие на ЛКМ
+    #     if (self.functionAble == "Добавить вершину"):
+    #         control.CAddPointGrid(
+    #             self.graph, event, Qt.LeftButton, self.start_coordination_X, self.step, None)
+
+    #     elif (self.functionAble == "Добавить связь"):
+    #         self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(
+    #             event.pos().x(), event.pos().y()))  # добавить в массив выбранных вершин
+    #         self.illumination = self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
+
+    #         # если число выбранных вершин 2
+    #         if len(self.TempPoints) == 2:
+    #             # проверка, если пользователь случайно нажал дважды по одной и той же вершине
+    #             if (self.TempPoints[0] != self.TempPoints[1]):
+    #                 control.CAddConnection(
+    #                     self.graph, event, Qt.LeftButton, self.TempPoints)
+    #             self.TempPoints = np.empty(0)  # очистить массив
+    #             self.illumination = -1 #очистить  подсветку
+
+    #     elif (self.functionAble == "Удалить связь"):
+    #         self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(
+    #             event.pos().x(), event.pos().y()))  # добавить в массив выбранных вершин
+    #         self.illumination = self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
+
+    #         # если число выбранных вершин 2
+    #         if len(self.TempPoints) == 2:
+    #             control.CDeleteConnection(
+    #                 self.graph, event, Qt.LeftButton, self.TempPoints)
+    #             self.TempPoints = np.empty(0)  # очистить массив
+    #             self.illumination = -1 
+
+    #     elif (self.functionAble == "Удалить вершину"):
+
+    #         control.CDeletePoint(self.graph, event, Qt.LeftButton)
+    #         self.illumination = -1
+
+    #     elif (self.functionAble == "Переместить вершины"):
+    #         self.FixedPoint = control.CIsCursorOnPoint(
+    #             self.graph, event, Qt.LeftButton)
+    #         self.illumination = -1
+    #         self.TempPoints = np.empty(0)
+
+    #     elif (self.functionAble == "Добавить пунктирную связь"):
+    #         self.FixedArrowPoint = control.CIsCursorOnArrowPoint(
+    #             self.graph, event, Qt.LeftButton)  
+
+    #         # !!! необходимо этот код перенсти в отдельную кнопку   
+    #         if self.switch == True:
+    #             self._drawLabels()
+    #             self.switch = False
+    #         # !!!
+
+    #     self.update()
+
+    # def mouseMoveEvent(self, event):
+    #     if (self.functionAble == "Переместить вершины"):
+    #         control.CMovePointGrid(self.graph, event, Qt.LeftButton,
+    #                                self.FixedPoint, self.start_coordination_X, self.step, None)                               
+    #     elif (self.functionAble == "Добавить пунктирную связь"):
+    #         control.CMoveArrowPointGrid(
+    #             self.graph, event, Qt.LeftButton, self.FixedArrowPoint, self.start_coordination_X, self.step)
+
+    #     self.update()
+
 class DrawHist(QWidget):
 
     def __init__(self, root, graph, step = 25):
