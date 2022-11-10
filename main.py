@@ -523,13 +523,16 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
+        
+        self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
+
         #self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
-        self.DisplayObj = Display.Display3(self, graph1, 100, [0, 0, 255, 200], horizontal = False, late_time=False, switch=False)
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
-        self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+        #print(self.DisplayObj.max_time)
+        self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
 
         self._connectAction()
@@ -644,11 +647,11 @@ class Window4(QMainWindow):
         self.setWindowTitle("Задача №4")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        self.DisplayObj = Display.Display3(self, graph1, 100, [0, 0, 255, 200], horizontal = False, late_time=True, switch=False)
+        self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
-        self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+        self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
 
         self._connectAction()
@@ -761,9 +764,13 @@ class Window5(QMainWindow):
         self.squadWidgetList = []
 
         for i in range(squadNum):
-            self.widget1 = Display.Display5(self, graph5_ort[i], 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
+            self.widget1 = Display.Display3(self, graph5[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1)
+            # self.widget1.setMinimumSize(500, 500)
+            # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            # self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+
             self.widgetList.append(self.widget1)
-            self.widgetList[i].setMinimumSize(3000, 500)
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
@@ -1137,9 +1144,9 @@ class Window6(QMainWindow):
             # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
             # self.widget1.setMinimumSize(500, 500)
             # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            self.widgetList.append(Display.Display3(self, graph5[i], 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+            self.widgetList.append(Display.Display3(self, graph5[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1))
             #self.widgetList[i].setMinimumSize(int(width/2), 500)
-            self.widgetList[i].setMinimumSize(3000, 500)
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -1439,7 +1446,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         isKeyVerified = True
-        isKeyVerified = properties.enter_key()
+        #isKeyVerified = properties.enter_key()
         if self.ui.btnTeacherMode.isChecked() and isKeyVerified:
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)

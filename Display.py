@@ -54,14 +54,17 @@ def calculate_arrow_points(start_point, end_point, radius):
         return None
 
 # создание сетки 
-def createGrid(size, step=50, vertical=True, horizontal=True):
+def createGrid(size, step=50, vertical=True, horizontal=True, max_time = -1):
     x0=0
     y0=0
     sizeWindow = size
     lines = []
 
     if vertical:
-        number_vertical_lines = (sizeWindow.width()*2 - x0) // step + 1  # количество вертикальных линий
+        if (max_time == -1):
+            number_vertical_lines = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
+        else:
+            number_vertical_lines = max_time + 1 + 3
 
         for i in range(number_vertical_lines):
             lines.append(QLineF(x0, 0, x0, sizeWindow.height()))
@@ -76,7 +79,7 @@ def createGrid(size, step=50, vertical=True, horizontal=True):
     return lines
 
 # промежутки в сетке под цифры
-def createGaps(size, step=50, sizeNumber = 40, yNumber = 50):
+def createGaps(size, step=50, sizeNumber = 40, yNumber = 50, max_time = -1):
     x0=0
     y0=0
     sizeWindow = size
@@ -84,8 +87,11 @@ def createGaps(size, step=50, sizeNumber = 40, yNumber = 50):
     sizeNumber = sizeNumber / 2
 
     x0 = x0 + step
-    
-    number_vertical_lines = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
+
+    if (max_time == -1):
+        number_vertical_lines = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
+    else:
+        number_vertical_lines = max_time +1 + 3
     for i in range(number_vertical_lines):
         lines.append(QLineF(x0, sizeWindow.height() - yNumber - sizeNumber, x0, sizeWindow.height() - yNumber + sizeNumber))
         x0 = x0 + step
@@ -95,11 +101,11 @@ def createGaps(size, step=50, sizeNumber = 40, yNumber = 50):
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
     FixedArrowPoint = [-1, -1] # фиксированная стрелка
-    def __init__(self, root, graph_in, step = 50, color = [0, 0, 255, 90], horizontal = True, late_time = None, base_graph = None, switch = True):
+    def __init__(self, root, graph_in, step = 50, max_time = -1, horizontal = True, late_time = None, base_graph = None, switch = True):
         super().__init__(root)
         self.functionAble = ""
         self.TempPoints = np.empty(0) # массив временно выделенных вершин
-        self.colorGrid = QColor(color[0],color[1],color[2],color[3])
+        self.colorGrid = QColor(0, 0, 255, 90)
         self.start_coordination_X = 0
         self.start_coordination_Y = 0
         self.step = step
@@ -114,16 +120,21 @@ class Display(QWidget):
         self.graph_in = graph_in
         self.switch = switch
         self.illumination = -1  #подсветка кружков
+
+        self.max_time = max_time
         self.QLineEdits = None
+
         # print(root.sizeGet())
 
 
     def paintEvent(self, event):
         if self.horizontal:
-            self.lines = createGrid(self.size(), self.step, True, True)
+
+            self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
+
         else:
-            self.lines = createGrid(self.size(), self.step, True, False)
-        self.whiteLines = createGaps(self.size(), self.step)
+            self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
+        self.whiteLines = createGaps(self.size(), self.step, self.max_time)
 
         painter = QPainter(self)
         painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
@@ -284,10 +295,10 @@ class Display2(Display):
 
             # print(self.size())
 
-            self.lines = createGrid(self.size(), self.step, True, True)
+            self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
         else:
-            self.lines = createGrid(self.size(), self.step, True, False)
-        self.whiteLines = createGaps(self.size(), self.step)
+            self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
+        self.whiteLines = createGaps(self.size(), self.step, self.max_time)
 
         painter = QPainter(self)
         painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
@@ -348,7 +359,7 @@ class Display2(Display):
                 painter.drawLine(int(x-line_off), int(y+line_off), int(x+line_off), int(y-line_off))
                 
                 if (self.graph.tp.size > i):
-                    t_p = str(int(self.graph.tp[i]))
+                    t_p = str(int(self.graph.tp[i])) 
                 else:
                     t_p = '0'
 
@@ -407,10 +418,10 @@ class Display2(Display):
 class Display3(Display):
     def paintEvent(self, event):
         if self.horizontal:
-            self.lines = createGrid(self.size(), self.step, True, True)
+            self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
         else:
-            self.lines = createGrid(self.size(), self.step, True, False)
-        self.whiteLines = createGaps(self.size(), self.step)
+            self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
+        self.whiteLines = createGaps(self.size(), self.step, self.max_time)
 
         painter = QPainter(self)
         painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
@@ -433,7 +444,10 @@ class Display3(Display):
         x0 = 0
         #step = 75
         sizeWindow = self.size()
-        number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
+        if (self.max_time == -1):
+            number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
+        else:
+            number_vertical_lines = self.max_time + 3
         y0 = sizeWindow.height() - 50 
         for i in range(number_vertical_lines):
             if len(str(i+1)) < 2:
@@ -762,7 +776,7 @@ class DrawHist(QWidget):
         self.intervals = np.array([])
     
     def paintEvent(self, event):
-        self.lines = createGrid(self.size(), self.step, True, True)
+        self.lines = createGrid(self.size(), self.step, True, True, )
         self.whiteLines = createGaps(self.size(), self.step)
         painter = QPainter(self)
         painter.setPen(QColor(0, 0, 255, 90))
@@ -793,6 +807,7 @@ class DrawHist(QWidget):
             else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
             painter.drawText(int(self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
+
         intervals = np.zeros(18)
         for p in range(len(self.graph)):
             AdjacencyMatrix = self.graph[p].PeopleWeights
