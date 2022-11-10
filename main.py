@@ -1446,7 +1446,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         isKeyVerified = True
-        isKeyVerified = properties.enter_key()
+        #isKeyVerified = properties.enter_key()
         if self.ui.btnTeacherMode.isChecked() and isKeyVerified:
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
