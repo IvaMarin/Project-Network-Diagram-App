@@ -120,16 +120,18 @@ class Display(QWidget):
         self.graph_in = graph_in
         self.switch = switch
         self.illumination = -1  #подсветка кружков
+
         self.max_time = max_time
+        self.QLineEdits = None
+
         # print(root.sizeGet())
 
 
     def paintEvent(self, event):
         if self.horizontal:
 
-            # print(self.size())
-
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
+
         else:
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
         self.whiteLines = createGaps(self.size(), self.step, self.max_time)
@@ -175,13 +177,13 @@ class Display(QWidget):
                 else:
                     painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
 
-                painter.drawEllipse(self.graph.Points[i][0]-self.graph.RadiusPoint, self.graph.Points[i][1]-self.graph.RadiusPoint, 
+                painter.drawEllipse(int(self.graph.Points[i][0]-self.graph.RadiusPoint), int(self.graph.Points[i][1]-self.graph.RadiusPoint), 
                                     2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
                 if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-                painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i}')
+                painter.drawText(int(self.graph.Points[i][0] + offset[0]), int(self.graph.Points[i][1] + offset[1]), f'{i}')
 
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
@@ -195,7 +197,7 @@ class Display(QWidget):
             if len(self.TempPoints) == 2:
                 # проверка, если пользователь случайно нажал дважды по одной и той же вершине
                 if (self.TempPoints[0] != self.TempPoints[1]):
-                    control.CConnectPoints(self.graph, event, Qt.LeftButton, self.TempPoints)
+                    control.CAddConnection(self.graph, event, Qt.LeftButton, self.TempPoints)
 
                 self.TempPoints = np.empty(0) # очистить массив
                 self.illumination = -1 #очистить  подсветку
@@ -231,8 +233,7 @@ class Display(QWidget):
         return mistakes
 
     def _drawLabels(self):
-        self.graph.label = np.zeros_like(self.graph.AdjacencyMatrix, dtype=QLineEdit)
-
+        self.QLineEdits = np.zeros_like(self.graph.AdjacencyMatrix, dtype=QLineEdit)
         for i in range(len(self.graph.AdjacencyMatrix)):
             for j in range(len(self.graph.AdjacencyMatrix)):
                 # если существует связь
@@ -250,20 +251,35 @@ class Display(QWidget):
                         x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 - offset
                     y = ((int)(self.graph.Points[i][1]) + (int)(self.graph.Points[j][1])) / 2 - offset
 
-                    self.graph.label[i][j] = (QLineEdit(self))
-                    self.graph.label[i][j].setAlignment(Qt.AlignHCenter)
+                    self.QLineEdits[i][j] = (QLineEdit(self))
+                    self.QLineEdits[i][j].setAlignment(Qt.AlignHCenter)
 
                     font = 'Times'
                     font_size = 12
-                    self.graph.label[i][j].setFont(QFont(font, font_size))
+                    self.QLineEdits[i][j].setFont(QFont(font, font_size))
                     
-                    self.graph.label[i][j].move(x, y)
-                    self.graph.label[i][j].resize(50,50)
+                    self.QLineEdits[i][j].move(int(x), int(y))
+                    self.QLineEdits[i][j].resize(50,50)
 
-                    self.graph.label[i][j].setStyleSheet("border :2px solid black;")
+                    self.QLineEdits[i][j].setStyleSheet("border :2px solid black;")
                     
-                    self.graph.label[i][j].setInputMask("00")
-                    self.graph.label[i][j].show()
+                    self.QLineEdits[i][j].setInputMask("00")
+                    self.QLineEdits[i][j].show()
+
+    def GetNumberOfPeople(self):
+        if not(self.QLineEdits is None):
+            self.PeopleWeights = np.zeros_like(self.QLineEdits, dtype=int)
+            n = len(self.QLineEdits)
+            for i in range(n):
+                for j in range(n):
+                    if (type(self.QLineEdits[i][j]) == QLineEdit):
+                        try:
+                            self.PeopleWeights[i][j] = int(self.QLineEdits[i][j].text())
+                        except ValueError:
+                            pass
+            return self.PeopleWeights
+        else:
+            return None
 
 class Display2(Display):
 
@@ -271,7 +287,7 @@ class Display2(Display):
         super().__init__(root, graph_in)
         self.graph = graph_in
         self.switch = True
-        self.illumination = -1 
+        self.illumination = -1
     
     def paintEvent(self, event):
 
@@ -335,15 +351,15 @@ class Display2(Display):
             if (not np.isnan(self.graph.Points[i][0])):
                 x, y = self.graph.Points[i]
                 
-                painter.drawEllipse(x-radius/2, y-radius/2, radius, radius)
+                painter.drawEllipse(int(x-radius/2), int(y-radius/2), int(radius), int(radius))
 
                 line_off = (radius/2) * np.cos(np.pi/4)
 
-                painter.drawLine(x-line_off, y-line_off, x+line_off, y+line_off)
-                painter.drawLine(x-line_off, y+line_off, x+line_off, y-line_off)
+                painter.drawLine(int(x-line_off), int(y-line_off), int(x+line_off), int(y+line_off))
+                painter.drawLine(int(x-line_off), int(y+line_off), int(x+line_off), int(y-line_off))
                 
                 if (self.graph.tp.size > i):
-                    t_p = str(int(self.graph.tp[i]))
+                    t_p = str(int(self.graph.tp[i])) 
                 else:
                     t_p = '0'
 
@@ -359,20 +375,23 @@ class Display2(Display):
 
                 x_off = -(5*len(str(t_p))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
                 y_off = 5*font_size/8                          # по оси y смещение не зависист от длины строки 
-                painter.drawText(x-line_off+x_off/2, y+y_off, f'{t_p}')
+                painter.drawText(int(x-line_off+x_off/2), int(y+y_off), f'{t_p}')
 
                 x_off = -(5*len(str(t_n))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
-                painter.drawText(x+line_off+1.5*x_off, y+y_off, f'{t_n}')
+                painter.drawText(int(x+line_off+1.5*x_off), int(y+y_off), f'{t_n}')
 
                 x_off = -(5*len(str(i+1))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
-                painter.drawText(x+x_off, y-line_off+1.5*y_off, f'{i}')
+                painter.drawText(int(x+x_off), int(y-line_off+1.5*y_off), f'{i}')
 
                 x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
-                painter.drawText(x+x_off, y+line_off+0.5*y_off, f'{R}')
+                painter.drawText(int(x+x_off), int(y+line_off+0.5*y_off), f'{R}')
         
         if self.switch:
             self._drawLabels()
             self.switch = False
+
+
+        self.graph.PeopleWeights = self.GetNumberOfPeople()
 
         self.update()
 
@@ -393,16 +412,12 @@ class Display2(Display):
 
     # проверка для второго задания
     def checkEvent(self):
-        mistakes = checker.checkTask2(self.graph)
+        mistakes = checker.checkTask2(self.graph, self)
         return mistakes
 
 class Display3(Display):
     def paintEvent(self, event):
-
         if self.horizontal:
-
-            # primax_timent(self.size())
-
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
         else:
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
@@ -439,8 +454,8 @@ class Display3(Display):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
             else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-            painter.drawText(self.step + self.step * i + offset[0], y0 + offset[1], f'{i}')
-       
+            painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
+
         # отрисовка стрелок
         for i in range(len(self.graph.AdjacencyMatrix)):
             for j in range(len(self.graph.AdjacencyMatrix)):
@@ -469,8 +484,8 @@ class Display3(Display):
                                                          self.graph.Points[i][1]),
                                                  triangle_source[1])
                                 painter.setPen(Qt.PenStyle.SolidLine)
-                                painter.drawLine(triangle_source[1],
-                                                 QPointF(self.graph.Points[j][0],
+                                painter.drawLine(triangle_source[1], 
+                                                 QPointF(self.graph.Points[j][0], 
                                                          self.graph.Points[j][1]))
                         elif (self.late_time == True):  # в поздних сроках
                             painter.setPen(Qt.PenStyle.DashLine)
@@ -506,14 +521,16 @@ class Display3(Display):
                     painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
 
                 
-                painter.drawEllipse(self.graph.Points[i][0]-self.graph.RadiusPoint, self.graph.Points[i][1]-self.graph.RadiusPoint, 
-                                    2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
+                painter.drawEllipse(int(self.graph.Points[i][0]-self.graph.RadiusPoint), int(self.graph.Points[i][1]-self.graph.RadiusPoint), 
+                                    int(2*self.graph.RadiusPoint), int(2*self.graph.RadiusPoint))
                 if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-                painter.drawText(self.graph.Points[i][0] + offset[0], self.graph.Points[i][1] + offset[1], f'{i}')
-    
+                painter.drawText(int(self.graph.Points[i][0] + offset[0]), int(self.graph.Points[i][1] + offset[1]), f'{i}')
+
+        self.graph_in.PeopleWeights = self.GetNumberOfPeople()
+
     def checkEvent3(self):
         mistakes = checker.checkTask3(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
         return mistakes
@@ -541,7 +558,7 @@ class Display3(Display):
             if len(self.TempPoints) == 2:
                 # проверка, если пользователь случайно нажал дважды по одной и той же вершине
                 if (self.TempPoints[0] != self.TempPoints[1]):
-                    control.CConnectPoints(
+                    control.CAddConnection(
                         self.graph, event, Qt.LeftButton, self.TempPoints)
                 self.TempPoints = np.empty(0)  # очистить массив
                 self.illumination = -1 #очистить  подсветку
@@ -584,13 +601,167 @@ class Display3(Display):
     def mouseMoveEvent(self, event):
         if (self.functionAble == "Переместить вершины"):
             control.CMovePointGrid(self.graph, event, Qt.LeftButton,
-                                   self.FixedPoint, self.start_coordination_X, self.step, None)
-                                   
+                                   self.FixedPoint, self.start_coordination_X, self.step, None)                               
         elif (self.functionAble == "Добавить пунктирную связь"):
             control.CMoveArrowPointGrid(
                 self.graph, event, Qt.LeftButton, self.FixedArrowPoint, self.start_coordination_X, self.step)
 
         self.update()
+
+class Display5(Display):
+    def paintEvent(self, event):
+        if self.horizontal:
+            self.lines = createGrid(self.size(), self.step, True, True)
+        else:
+            self.lines = createGrid(self.size(), self.step, True, False)
+        self.whiteLines = createGaps(self.size(), self.step)
+
+        painter = QPainter(self)
+        painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
+
+        # отрисовка сетки
+        painter.setPen(self.colorGrid)
+        #lines = createGrid(0, 0, 50, True, True)
+        painter.drawLines(self.lines)
+        painter.setPen(QColor(255, 255, 255, 255))
+        painter.drawLines(self.whiteLines)
+
+        painter.setPen(QColor("black"))
+        font = 'Times'
+        font_size = 12
+        painter.setFont(QFont(font, font_size))
+        painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
+        painter.setBrush(QColor("black"))
+        
+        # отрисовка нумерации осей сетки
+        x0 = 0
+        #step = 75
+        sizeWindow = self.size()
+        number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
+        y0 = sizeWindow.height() - 50 
+        for i in range(number_vertical_lines):
+            if len(str(i+1)) < 2:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+            painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
+
+        # отрисовка стрелок
+        for p1, p2 in self.graph.AdjacencyList.items():
+            triangle_source = calculate_arrow_points(p1, self.graph.Arrows[(p1, p2)], 0)
+            if triangle_source is not None:
+                painter.drawPolygon(triangle_source)
+                if (self.late_time == None):  # в зависимости от резерва
+                    if (len(self.base_graph.R) > i) and (self.base_graph.R[i] > 0):
+                        painter.setPen(Qt.PenStyle.SolidLine)
+                        painter.drawLine(QPointF(p1[0], p1[1]), triangle_source[1])
+                        painter.setPen(Qt.PenStyle.DashLine)
+                        painter.drawLine(triangle_source[1], QPointF(p2[0], p2[1]))
+                        painter.setPen(Qt.PenStyle.SolidLine)
+                    else:
+                        painter.setPen(Qt.PenStyle.DashLine)
+                        painter.drawLine(QPointF(p1[0], p1[1]), triangle_source[1])
+                        painter.setPen(Qt.PenStyle.SolidLine)
+                        painter.drawLine(triangle_source[1], QPointF(p2[0], p2[1]))
+                elif (self.late_time == True):  # в поздних сроках
+                    painter.setPen(Qt.PenStyle.DashLine)
+                    painter.drawLine(QPointF(p1[0], p1[1]), triangle_source[1])
+                    painter.setPen(Qt.PenStyle.SolidLine)
+                    painter.drawLine(triangle_source[1], QPointF(p2[0], p2[1]))
+                else:  # в ранних сроках
+                    painter.setPen(Qt.PenStyle.SolidLine)
+                    painter.drawLine(QPointF(p1[0], p1[1]), triangle_source[1])
+                    painter.setPen(Qt.PenStyle.DashLine)
+                    painter.drawLine(triangle_source[1], QPointF(p2[0], p2[1]))
+                    painter.setPen(Qt.PenStyle.SolidLine)
+
+        # отрисовка вершин и цифр
+        painter.setPen(QPen(QColor("black"), 2.5))
+
+        for (digit, id), (x, y) in self.graph.Points.items():
+            if (i != self.illumination):
+                painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+            else:
+                painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
+
+            painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
+                                int(2*self.graph.Radius), int(2*self.graph.Radius))
+            if len(str(i+1)) < 2:
+                offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+            painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
+
+        self.graph_in.PeopleWeights = self.GetNumberOfPeople()
+
+    # def checkEvent5(self, id, squad_people_number):
+    #     mistakes = checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id, squad_people_number)
+    #     return mistakes
+
+    # def mousePressEvent(self, event):
+    #     # нажатие на ЛКМ
+    #     if (self.functionAble == "Добавить вершину"):
+    #         control.CAddPointGrid(
+    #             self.graph, event, Qt.LeftButton, self.start_coordination_X, self.step, None)
+
+    #     elif (self.functionAble == "Добавить связь"):
+    #         self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(
+    #             event.pos().x(), event.pos().y()))  # добавить в массив выбранных вершин
+    #         self.illumination = self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
+
+    #         # если число выбранных вершин 2
+    #         if len(self.TempPoints) == 2:
+    #             # проверка, если пользователь случайно нажал дважды по одной и той же вершине
+    #             if (self.TempPoints[0] != self.TempPoints[1]):
+    #                 control.CAddConnection(
+    #                     self.graph, event, Qt.LeftButton, self.TempPoints)
+    #             self.TempPoints = np.empty(0)  # очистить массив
+    #             self.illumination = -1 #очистить  подсветку
+
+    #     elif (self.functionAble == "Удалить связь"):
+    #         self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(
+    #             event.pos().x(), event.pos().y()))  # добавить в массив выбранных вершин
+    #         self.illumination = self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
+
+    #         # если число выбранных вершин 2
+    #         if len(self.TempPoints) == 2:
+    #             control.CDeleteConnection(
+    #                 self.graph, event, Qt.LeftButton, self.TempPoints)
+    #             self.TempPoints = np.empty(0)  # очистить массив
+    #             self.illumination = -1 
+
+    #     elif (self.functionAble == "Удалить вершину"):
+
+    #         control.CDeletePoint(self.graph, event, Qt.LeftButton)
+    #         self.illumination = -1
+
+    #     elif (self.functionAble == "Переместить вершины"):
+    #         self.FixedPoint = control.CIsCursorOnPoint(
+    #             self.graph, event, Qt.LeftButton)
+    #         self.illumination = -1
+    #         self.TempPoints = np.empty(0)
+
+    #     elif (self.functionAble == "Добавить пунктирную связь"):
+    #         self.FixedArrowPoint = control.CIsCursorOnArrowPoint(
+    #             self.graph, event, Qt.LeftButton)  
+
+    #         # !!! необходимо этот код перенсти в отдельную кнопку   
+    #         if self.switch == True:
+    #             self._drawLabels()
+    #             self.switch = False
+    #         # !!!
+
+    #     self.update()
+
+    # def mouseMoveEvent(self, event):
+    #     if (self.functionAble == "Переместить вершины"):
+    #         control.CMovePointGrid(self.graph, event, Qt.LeftButton,
+    #                                self.FixedPoint, self.start_coordination_X, self.step, None)                               
+    #     elif (self.functionAble == "Добавить пунктирную связь"):
+    #         control.CMoveArrowPointGrid(
+    #             self.graph, event, Qt.LeftButton, self.FixedArrowPoint, self.start_coordination_X, self.step)
+
+    #     self.update()
 
 class DrawHist(QWidget):
 
@@ -623,12 +794,23 @@ class DrawHist(QWidget):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
             else:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-            painter.drawText(self.step + self.step * i + offset[0], y0 + offset[1], f'{i}')
+            painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
 
+        # отрисовка нумерации осей сетки
+        x0 = 0
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
+        y0 = sizeWindow.height()-170
+        for i in range(number_vertical_lines):
+            if len(str(i+1)) < 2:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+            painter.drawText(int(self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
 
         intervals = np.zeros(18)
         for p in range(len(self.graph)):
-            AdjacencyMatrix = self.graph[p].GetNumberOfPeople()
+            AdjacencyMatrix = self.graph[p].PeopleWeights
             if AdjacencyMatrix is not None:
                 for i in range(len(AdjacencyMatrix)):
                     for j in range(len(AdjacencyMatrix[i])):

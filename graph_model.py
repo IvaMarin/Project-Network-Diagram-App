@@ -56,7 +56,7 @@ class Graph:
 		# графические характеристики графа
 		self.RadiusPoint = RadiusPoint  # радиус вершины
 
-		self.label = None
+		self.PeopleWeights = None
 
 	# добавить вершину; параметры: координата х, координата у
 	def AddPoint(self, x, y):
@@ -115,7 +115,7 @@ class Graph:
 			self.AdjacencyMatrix[index][i] = 0
 
 	# связать вершины; параметры: индекс вершины
-	def ConnectPoints(self, firstIndex, secondIndex):
+	def AddConnection(self, firstIndex, secondIndex):
 		# если курсор не наведен на вершину
 		if firstIndex == -1 or secondIndex == -1:
 			return # ничего не делать
@@ -150,10 +150,8 @@ class Graph:
 
 	# переместить пунктирную стрелку; параметры: номера вершин, координата х, координата y
 	def MoveArrowPoint(self, index, x, y):
-		# если курсор не наведен на стрелку
-		# if index == [-1, -1]:
-		# 	return # ничего не делать
-
+		if index == [-1, -1]:
+			return
 		start_point = self.Points[index[0]]
 		end_point = self.Points[index[1]]
 
@@ -210,33 +208,6 @@ class Graph:
 		if self.AdjacencyMatrix[firstIndex][secondIndex] == 1:
 			self.AdjacencyMatrix[firstIndex][secondIndex] = 2 # выделить критическую связь
 
-	def GetNumberOfPeople(self):
-		if not(self.label is None):
-			PeopleMatrix = np.zeros_like(self.label, dtype=int)
-			n = len(self.label)
-			for i in range(n):
-				for j in range(n):
-					if (type(self.label[i][j]) == QLineEdit):
-						try:
-							PeopleMatrix[i][j] = int(self.label[i][j].text())
-						except ValueError:
-							pass
-							# warning = QMessageBox()
-							# warning.setWindowTitle("Предупреждение")
-							# warning.setText("Не введено значение продолжительности работы для одного или нескольких рёбер!")
-							# warning.setIcon(QMessageBox.Warning)
-							# warning.setStandardButtons(QMessageBox.Ok)
-							# warning.exec()
-			return PeopleMatrix
-		else:
-			# warning = QMessageBox()
-			# warning.setWindowTitle("Предупреждение")
-			# warning.setText("Не отрисованы поля для ввода числа людей!")
-			# warning.setIcon(QMessageBox.Warning)
-			# warning.setStandardButtons(QMessageBox.Ok)
-			# warning.exec()
-			return None
-
 # функция копирования графа (в разработке)
 	def copy_graph(self):
 		new_graph = Graph(30)
@@ -258,4 +229,140 @@ class Graph:
 
 		new_graph.RadiusPoint = copy.deepcopy(self.RadiusPoint) # радиус вершины
 
-		new_graph.label = copy.deepcopy(self.label)
+		new_graph.PeopleWeights = copy.deepcopy(self.PeopleWeights)
+
+
+class GraphOrthogonal:
+	def __init__(self, Radius) -> None:
+		self.Radius = Radius
+		self.Points = dict()
+		self.AdjacencyList = dict()
+		self.Arrows = dict()
+
+	def AddPoint(self, digit, x, y):
+		id = 0
+		for (p_digit, p_id) in self.Points.keys():
+			if p_digit == digit:
+				id = max(p_id + 1, id)
+		self.Points[(digit, id)] = (x, y)
+
+	def AddPointsSequence(self, sequence: list, gridStart, gridStep, gridY):
+		for i, digit in enumerate(sequence):
+			gridX = gridStart + i * gridStep
+			self.AddPoint(digit, gridX, gridY)
+	
+	def DeletePoint(self, Point: tuple):
+		self.Points.pop(Point)
+		AdjacencyListCopy = self.AdjacencyList.copy()
+		for p1, p2 in AdjacencyListCopy.items():
+			if p1 == Point:
+				self.DeleteConnection(p1, p2)
+			elif p2 == Point:
+				self.DeleteConnection(p1, p2)
+	
+	def DeletePointsSequence(self, gridY):
+		PointsCopy = self.Points.copy()
+		for (p_digit, p_id), (p_x, p_y) in PointsCopy.items():
+			if p_y == gridY:
+				self.DeletePoint(p_digit, p_id)
+
+	def AddConnection(self, firstPoint: tuple, secondPoint: tuple):
+		if (firstPoint in self.Points.keys()) and (secondPoint in self.Points.keys()):
+			self.AdjacencyList[firstPoint] = secondPoint
+			self.InitializeArrow(firstPoint, secondPoint)
+	
+	def DeleteConnection(self, firstPoint: tuple, secondPoint: tuple):
+		try:
+			self.AdjacencyList.pop(firstPoint)
+			self.Arrows.pop((firstPoint, secondPoint))
+		except:
+			pass
+
+	def InitializeArrow(self, firstPoint: tuple, secondPoint: tuple):
+		(firstPoint_x, firstPoint_y) = self.Points[firstPoint]
+		(secondPoint_x, secondPoint_y) = self.Points[secondPoint]
+		[x, y] = calculate_bound_point([firstPoint_x, firstPoint_y], [secondPoint_x, secondPoint_y], self.Radius)
+		self.Arrows[(firstPoint, secondPoint)] = (x, y)
+
+	def IsCursorOnPoint(self, x, y):
+		for (p_digit, p_id), (p_x, p_y) in self.Points.items():
+			if ((x >= p_x - self.Radius and x <= p_x + self.Radius) and 
+				(y >= p_y - self.Radius and y <= p_y + self.Radius)):
+				return (p_digit, p_id)
+		return None 
+
+	def IsCursorOnArrowPoint(self, x, y):
+		for (a_x, a_y) in self.Arrows.values():
+			if  ((x >= a_x - self.Radius and x <= a_x + self.Radius) and 
+				 (y >= a_y - self.Radius and y <= a_y + self.Radius)):
+					return (a_x, a_y)
+		return None
+
+	def UpdateArrows(self, Point: tuple):
+		for (p_digit, p_id) in self.Points.keys():
+			if self.Arrows.get((Point, (p_digit, p_id))) != None:
+				(x, y) = self.Arrows[(Point, (p_digit, p_id))]
+				self.MoveArrowPoint(Point, (p_digit, p_id), x, y)
+			
+			if self.Arrows.get(((p_digit, p_id), Point)) != None:
+				(x, y) = self.Arrows[((p_digit, p_id), Point)]
+				self.MoveArrowPoint((p_digit, p_id), Point, x, y)
+
+	def MovePoint(self, Point: tuple, x, y):
+		self.Points[Point] = (x, y)
+		self.UpdateArrows(Point)
+
+	def MoveArrowPoint(self, firstPoint: tuple, secondPoint: tuple, x, y):
+		(firstPoint_x, firstPoint_y) = self.Points[firstPoint]
+		(secondPoint_x, secondPoint_y) = self.Points[secondPoint]
+		dx = firstPoint_x - secondPoint_x
+		dy = firstPoint_y - secondPoint_y
+		length = np.sqrt(dx ** 2 + dy ** 2)
+
+		if (length == 0):
+			norm_x, norm_y = 0, 0
+		else:
+			norm_x, norm_y = dx / length, dy / length
+		
+		arrow_height = 10
+		p1_x = firstPoint_x - (self.Radius + arrow_height) * norm_x
+		p1_y = firstPoint_y - (self.Radius + arrow_height) * norm_y
+		p1 = np.array([p1_x, p1_y])
+
+		p2_x = secondPoint_x + self.Radius * norm_x
+		p2_y = secondPoint_y + self.Radius * norm_y
+		p2 = np.array([p2_x, p2_y])
+			
+		p3 = np.array([x, y])
+		
+		distance = np.sum((p1 - p2)**2)
+		if (distance == 0):
+			t = 0
+		else:
+			t = np.sum((p3 - p1) * (p2 - p1)) / distance
+			
+		if t > 1:
+			projection = p2
+		elif t <= 0:
+			projection = p1
+		else:
+			projection = p1 + t * (p2 - p1)
+
+		(x, y) = projection
+	
+		self.Arrows[(firstPoint, secondPoint)] = (x, y)
+
+	def _Print(self):
+		print("GraphOrthogonal:")
+
+		print("Points:")
+		for (p_digit, p_id), (p_x, p_y) in self.Points.items():
+			print(p_digit, p_id, p_x, p_y)
+
+		print("AdjacencyList:")
+		for (v1_digit, v1_id), (v2_digit, v2_id) in self.AdjacencyList.items():
+			print('(',v1_digit, v1_id,')', "->", '(',v2_digit, v2_id,')')
+		
+		print("Arrows:")
+		for ((v1_digit, v1_id), (v2_digit, v2_id)), (a_x, a_y) in self.Arrows.items():
+			print('(',v1_digit, v1_id,')', '(',v2_digit, v2_id,')', ": " , '(',a_x, a_y,')')

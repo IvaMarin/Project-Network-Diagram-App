@@ -13,7 +13,7 @@ import copy
 from fpdf import FPDF
 from docx import Document
 from docx.shared import Inches
-import pyautogui
+# import pyautogui
 
 # from borb.pdf import Document
 # from borb.pdf import Page
@@ -26,26 +26,37 @@ import pyautogui
 
 
 from matplotlib.figure import Figure
-
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QRect, Qt, QSize, QTimer
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
 
-############# Кастомные файлы для проги #####################
-from MainMenu import Ui_MainMenu
-from windowTask1 import Ui_MainWindow1
-from windowTask3 import Ui_MainWindow3
-from windowTask5 import Ui_MainWindow5
+############# Кастомные файлы для проги ######################
+###############     UI     ###################################
+from qt_designer_ui.MainMenu import Ui_MainMenu
+from qt_designer_ui.windowTask1 import Ui_MainWindow1
+from qt_designer_ui.windowTask3 import Ui_MainWindow3
+from qt_designer_ui.windowTask5 import Ui_MainWindow5
+from qt_designer_ui.task5AddSeq import Ui_task5AddSeq
 from windowTask2 import Ui_MainWindow2
-from tableTask2 import Ui_tableTask2Widget
-from windowTask6 import Ui_MainWindow6
+from qt_designer_ui.tableTask1 import Ui_tableTask1
+from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
+from qt_designer_ui.windowTask6 import Ui_MainWindow6
 from qt_designer_ui.task2SquadWidget import Ui_task2SquadWidget
+from qt_designer_ui.TextTask1 import Ui_TextTask1
+from qt_designer_ui.TextTask2 import Ui_TextTask2
+from qt_designer_ui.TextTask3 import Ui_TextTask3
+from qt_designer_ui.TextTask4 import Ui_TextTask4
+from qt_designer_ui.TextTask5 import Ui_TextTask5
+from qt_designer_ui.TextTask6 import Ui_TextTask6
+#from qt_designer_ui.EditTable import Ui_Dialog
+
+#######################################################
 import Display
 from WinsDialog import winSigReport,winLogin,winEditTable,winSearchKey
 from Color import Color
 from task1CheckForm import task1CheckForm
+from task5AddSeq import task5AddSeq
 import graph_model as gm
-import EditTable
 import Properties
 
 from pathlib import Path
@@ -55,6 +66,7 @@ from PIL import Image
 
 graph1 = gm.Graph(30) # граф из первого окна (главный)
 graph5 = [] # графы по количеству отделений
+graph5_ort = []
 
 def maxSquadNum():
     maxSquadNum = 1
@@ -105,6 +117,15 @@ class Window1(QMainWindow):
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.table.ui.tableWidget.setItem(row, 0, self.item)
+
 
 
         self._connectAction()
@@ -199,12 +220,6 @@ class Window1(QMainWindow):
 
                 
                 properties.save_graph(graph1, 1) # сохраняем граф в файл
-                # graph1 = properties.get_graph(1)
-                # print(graph1)
-                # graph1 = properties.get_graph(2)
-                # print(graph1)
-                # properties.state_of_graph_3 = properties.get_graph(1)
-                # graph1 = properties.get_graph(1)
 
                 save_graph_1 = properties.get_graph(1)
                 self.DisplayObj.graph = save_graph_1
@@ -215,6 +230,7 @@ class Window1(QMainWindow):
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot1.png','png')
+                MainWindow.ui.btnTask2.setEnabled(True)
 
                 self.lockUi()
 
@@ -232,14 +248,34 @@ class Window1(QMainWindow):
         self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask1()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
+
+        # self.ui = Ui_MainWindow1()
+        # self.ui.setupUi(self)
 
     def backMainMenu(self):
         MainWindow.show()
         self.close()
 
-    def show(self):
+    def help(self):
+        self.table.show()
 
+    def show(self):
+        if properties.teacherMode:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
+        
         self.DisplayObj.functionAble = ""
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
     def lockUi(self):
@@ -335,10 +371,17 @@ class Window2(QMainWindow):
                 event.ignore()
 
     def show(self):
-        # При вызове окна обновляется кол-во вершин графа
+        if properties.teacherMode:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+
+        else:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
+        # При вызове окна обновляется кол                                                                                                               -во вершин графа
         self.showMaximized()
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.cnt = len(graph1.CorrectAdjacencyMatrix)
-        # print(self.cnt)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
 
@@ -405,6 +448,8 @@ class Window2(QMainWindow):
                     screen = QtWidgets.QApplication.primaryScreen()
                     screenshot = screen.grabWindow(self.scroll.winId())
                     screenshot.save('screenshot2.png','png')
+                    MainWindow.ui.btnTask3.setEnabled(True)
+                    self.lockUi()
 
                 self.checkForm1 = task1CheckForm(self, mistakes)
                 self.checkForm1.Task2()
@@ -421,10 +466,19 @@ class Window2(QMainWindow):
         self.table2.ui.tableCheckButton.clicked.connect(self.table2Check)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCritPath.triggered.connect(self.critPath)
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
 
-    def sizeGet(self):
-        return self.size()
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask2()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
+
+    def lockUi(self):
+        self.ui.toolBar.clear()
+        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
+        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
+        self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
@@ -472,11 +526,14 @@ class Window3(QMainWindow):
         
         self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
 
+        #self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
+
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         #print(self.DisplayObj.max_time)
         self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+
 
         self._connectAction()
 
@@ -528,6 +585,8 @@ class Window3(QMainWindow):
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot3.png','png')
+                MainWindow.ui.btnTask4.setEnabled(True)
+                self.lockUi()
 
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()
@@ -540,17 +599,37 @@ class Window3(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask3()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def backMainMenu(self):
         MainWindow.show()
         self.close()
 
     def show(self):
+        if properties.teacherMode:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.DisplayObj.functionAble = ""
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
     def sizeGet(self):
         return self.size()
+
+    def lockUi(self):
+        self.ui.toolBar.clear()
+        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
+        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
+        self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
     
 
@@ -573,6 +652,7 @@ class Window4(QMainWindow):
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+
 
         self._connectAction()
 
@@ -623,6 +703,8 @@ class Window4(QMainWindow):
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot4.png','png')
+                MainWindow.ui.btnTask5.setEnabled(True)
+                self.lockUi()
 
             self.checkForm1 = task1CheckForm(self, mistakes)
             self.checkForm1.Task34()        
@@ -635,17 +717,37 @@ class Window4(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask4()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def backMainMenu(self):
         MainWindow.show()
         self.close()
 
     def show(self):
+        if properties.teacherMode:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.DisplayObj.functionAble = ""
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
     def sizeGet(self):
         return self.size()
+
+    def lockUi(self):
+            self.ui.toolBar.clear()
+            self.ui.toolBar.addAction(self.ui.actionbtnCheck)
+            self.ui.toolBar.addAction(self.ui.actionbtnInfo)
+            self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЯТОЕ ЗАДАНИЯ  ////////////////////////////////////
@@ -658,24 +760,6 @@ class Window5(QMainWindow):
         # Создаём компоновщик
         layout = QtWidgets.QVBoxLayout()
         
-        # graph51 = graph5[0]
-        # graph52 = graph5[1]
-        # graph53 = graph5[2]
-
-        # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        # self.widget2 = Display.Display3(self, graph52, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        # self.widget3 = Display.Display3(self, graph53, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-        # self.widget4 = Display.Canvas(self)
-        # self.widget1.setMinimumSize(500, 500)
-        # self.widget2.setMinimumSize(500, 500)
-        # self.widget3.setMinimumSize(500, 500)
-        # self.widget4.setMinimumSize(500, 500)
-
-        # layout.addWidget(self.widget1)        #Виджет вставлять сюда
-        # layout.addWidget(self.widget2)
-        # layout.addWidget(self.widget3)
-        # layout.addWidget(self.widget4)
-
         self.widgetList = []
         self.squadWidgetList = []
 
@@ -684,24 +768,20 @@ class Window5(QMainWindow):
             # self.widget1.setMinimumSize(500, 500)
             # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
             # self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
+
             self.widgetList.append(self.widget1)
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-            # self.widgetList.append(QWidget())
-            # self.widgetList[int(i/2)+1].ui = Ui_task2SquadWidget()
-            # self.widgetList[int(i/2)+1].ui.setupUi(self.widgetList[int(i/2)+1])
-            # self.widgetList[int(i/2)+1].setMinimumSize(500, 500)
             hLayout = QtWidgets.QHBoxLayout()
             hLayout.addWidget(scroll)
-            # # self.hLayout.addWidget(self.widgetList[int(i/2)+1])
             squadWidget = QWidget()
             squadWidget.ui = Ui_task2SquadWidget()
             squadWidget.ui.setupUi(squadWidget)
+            squadWidget.ui.lineEdit_numberSquad.setText(str(i+1))
             self.squadWidgetList.append(squadWidget)
-            squadWidget.ui.pushButton.clicked.connect(lambda checked, i=i: self.replace(i))
             hLayout.addWidget(squadWidget)
             hWidget = QWidget()
             hWidget.setLayout(hLayout)
@@ -722,12 +802,10 @@ class Window5(QMainWindow):
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(self.scroll)
 
-        # self.squadWidgetList[0].ui.lineEdit_oldValue.setText("1")
-        # self.squadWidgetList[0].ui.lineEdit_newValue.setText("2")
-        # self.squadWidgetList[0].ui.lineEdit_numberSquad.setText("1")
-        # self.squadWidgetList[0].ui.lineEdit_countPerson.setText("10")   #text
-
-
+        self.ui.actionbtnConnectNode.setVisible(False)
+        self.ui.actionbtnRemoveNodeConnection.setVisible(False)
+        self.ui.actionbtnMoveNode.setVisible(False)
+        self.ui.actionbtnDottedConnectNode.setVisible(False)
 
         self.setWindowTitle("Задача №5")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -760,19 +838,28 @@ class Window5(QMainWindow):
                 event.ignore()
 
 
-    def addNode(self):
-        if self.ui.actionbtnAddNode.isChecked() == False:
+    # def addNode(self):
+    def addSeq(self):
+        if self.ui.actionbtnAddSeq.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
         else:
             for i in self.widgetList:
-                i.functionAble = "Добавить вершину"
+                i.functionAble = "Добавить последовательность"
+            self.AddSeq = task5AddSeq(self)
+            self.AddSeq.exec_()
+
 
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
+
+    def displayAddSeq(self, numS, sequence):
+        i = int(numS) - 1
+        gridY = 10
+        self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
 
     def addArrow(self):
         if self.ui.actionbtnConnectNode.isChecked() == False:
@@ -782,11 +869,11 @@ class Window5(QMainWindow):
             for i in self.widgetList:
                 i.functionAble = "Добавить связь"
             
-            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnAddSeq.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
 
     def addDottedArrow(self):
         if self.ui.actionbtnDottedConnectNode.isChecked() == False:
@@ -796,11 +883,11 @@ class Window5(QMainWindow):
             for i in self.widgetList:
                 i.functionAble = "Добавить пунктирную связь"
           
-            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnAddSeq.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
 
     def removeArrow(self):
         if self.ui.actionbtnRemoveNodeConnection.isChecked() == False:
@@ -811,21 +898,21 @@ class Window5(QMainWindow):
                 i.functionAble = "Удалить связь"
           
             self.ui.actionbtnConnectNode.setChecked(False)
-            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnAddSeq.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
 
-    def removeNode(self):
-        if self.ui.actionbtnRemoveNode.isChecked() == False:
+    def removeSeq(self):
+        if self.ui.actionbtnRemoveSeq.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
         else:
             for i in self.widgetList:
-                i.functionAble = "Удалить вершину"
+                i.functionAble = "Удалить последовательность"
             
             self.ui.actionbtnConnectNode.setChecked(False)
-            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnAddSeq.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
@@ -839,105 +926,182 @@ class Window5(QMainWindow):
                 i.functionAble = "Переместить вершины"
            
             self.ui.actionbtnConnectNode.setChecked(False)
-            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnAddSeq.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionbtnRemoveSeq.setChecked(False)
 
     # def makeNewFile(self):
     #     self.centralWidget.functionAble = "Новый файл"
 
-    def taskCheck(self):
-        mistakes_total = set()
-        for i in range(squadNum):
-            try:
-                squad_people_number = int(self.squadWidgetList[i].ui.lineEdit_countPerson.text())
-            except:
-                squad_people_number = -1
+    # def taskCheck(self):
+    #     mistakes_total = set()
+    #     for i in range(squadNum):
+    #         try:
+    #             squad_people_number = int(self.squadWidgetList[i].ui.lineEdit_countPerson.text())
+    #         except:
+    #             squad_people_number = -1
 
-            mistakes = self.widgetList[i].checkEvent5(i, squad_people_number)
-            if type(mistakes) == QMessageBox:
-                mistakes.exec()
-                return
-            for m in mistakes:
-                mistakes_total.add(m)
-        if len(mistakes_total) == 0:
-            properties.set__verification_passed_task(5)
-        self.checkForm1 = task1CheckForm(self, list(mistakes_total))
-        self.checkForm1.Task2()        
-        self.checkForm1.exec_()
+    #         mistakes = self.widgetList[i].checkEvent5(i, squad_people_number)
+    #         if type(mistakes) == QMessageBox:
+    #             mistakes.exec()
+    #             return
+    #         for m in mistakes:
+    #             mistakes_total.add(m)
+    #     if len(mistakes_total) == 0:
+    #         properties.set__verification_passed_task(5)
+    #     self.checkForm1 = task1CheckForm(self, list(mistakes_total))
+    #     self.checkForm1.Task2()        
+    #     self.checkForm1.exec_()
+
+    def taskCheck1(self):
+
+        # mistakes = self.DisplayObj.checkEvent()
+        mistakes = []
+        if type(mistakes) != QMessageBox:
+            if len(mistakes) == 0:
+                self.ui.actionbtnCheck.triggered.connect(self.taskCheck2)
+
+                self.ui.actionbtnAddSeq.setVisible(False)
+                self.ui.actionbtnRemoveSeq.setVisible(False)
+
+                self.ui.actionbtnConnectNode.setVisible(True)
+                self.ui.actionbtnRemoveNodeConnection.setVisible(True)
+                self.ui.actionbtnMoveNode.setVisible(True)
+                self.ui.actionbtnDottedConnectNode.setVisible(True)
+
+            self.checkForm = task1CheckForm(self, mistakes)
+            self.checkForm.Task51()
+            self.checkForm.exec_()
+        else:
+            mistakes.exec()
+
+    def taskCheck2(self):
+        if (True):
+            self.ui.actionbtnCheck.triggered.connect(self.taskCheck3)
+            
+            self.ui.actionbtnConnectNode.setVisible(False)
+            self.ui.actionbtnRemoveNodeConnection.setVisible(False)
+            self.ui.actionbtnMoveNode.setVisible(False)
+            self.ui.actionbtnDottedConnectNode.setVisible(False)
+        else:
+            print("clown")
+
+    def taskCheck3(self):
+        if (True):
+            msg = QMessageBox()
+            msg.exec()
+        else:
+            print("clown")
 
     def _connectAction(self):
-        self.ui.actionbtnAddNode.triggered.connect(self.addNode)
+        self.ui.actionbtnAddSeq.triggered.connect(self.addSeq)
         self.ui.actionbtnConnectNode.triggered.connect(self.addArrow)
         self.ui.actionbtnRemoveNodeConnection.triggered.connect(self.removeArrow)
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
-        self.ui.actionbtnRemoveNode.triggered.connect(self.removeNode)
+        self.ui.actionbtnRemoveSeq.triggered.connect(self.removeSeq)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
 
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck1)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
 
-    
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask5()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
-    def replace(self, i):	
-        try:
-            point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
-            new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
+    # def replace(self, i):	
+    #     try:
+    #         point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
+    #         new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
 
-            for id in range(len(self.widgetList[i].graph.Points)):
-                if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
-                    return
+    #         for id in range(len(self.widgetList[i].graph.Points)):
+    #             if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
+    #                 return
 
-            x, y = self.widgetList[i].graph.Points[point_id]
-            n = len(self.widgetList[i].graph.AdjacencyMatrix)
-
-            out_connections = []
-            for column in range(n):
-                if (int(self.widgetList[i].graph.AdjacencyMatrix[point_id][column]) >= 1):
-                    out_connections.append(column)
-
-            in_connections = []
-            for row in range(n):
-                if (int(self.widgetList[i].graph.AdjacencyMatrix[row][point_id]) >= 1):
-                    in_connections.append(row)
-
-            cnt = max(new_point_id, point_id, len(self.widgetList[i].graph.Points))
-
-            tmp= np.full((cnt+1, 2), None, dtype=np.float64)
-
-            for id in range(len(self.widgetList[i].graph.Points)):
-                if (id == point_id):
-                    tmp[id] = None, None
-                    for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
-                        self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
-                        self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
-                elif (id == new_point_id):
-                    tmp[id] = x, y
-                else:
-                    tmp[id] = self.widgetList[i].graph.Points[id]
+    #         x, y = self.widgetList[i].graph.Points[point_id]
+    #         n = len(self.widgetList[i].graph.AdjacencyMatrix)
             
-            if (cnt > len(self.widgetList[i].graph.Points)):
-                tmp[new_point_id] = x, y
-                for _ in range((cnt-len(self.widgetList[i].graph.AdjacencyMatrix))+1):
-                    self.widgetList[i].graph.AdjacencyMatrix = np.vstack([self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix))])	
-                    self.widgetList[i].graph.AdjacencyMatrix = np.c_[self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix[0]) + 1)]
+    #         dont_move = False
+    #         # создание нового графа в случае если добавляется уже существующая вершина
+    #         for id in range(len(self.widgetList[i].graph.Points)):
+    #             if (not np.isnan(self.widgetList[i].graph.Points[id][0]) and id == new_point_id):
+    #                 if (not hasattr(self.widgetList[i], 'sub_graphs')):
+    #                     self.widgetList[i].sub_graphs = list()
 
-                    self.widgetList[i].graph.ArrowPoints = np.vstack([self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints))])	
-                    self.widgetList[i].graph.ArrowPoints = np.c_[self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints[0]) + 1)]
+    #                 new_graph = gm.Graph(self.widget1.graph_in.RadiusPoint)
+    #                 self.widgetList[i].sub_graphs.append(new_graph)
 
-            self.widgetList[i].graph.Points = tmp.copy()
+    #                 idx = len(self.widgetList[i].sub_graphs) - 1
 
-            self.widgetList[i].graph.MovePoint(new_point_id, x, y)
+    #                 cnt = max(new_point_id, len(self.widgetList[i].graph.Points), len(self.widgetList[i].sub_graphs[idx].Points))
+    #                 tmp= np.full((cnt+1, 2), None, dtype=np.float64)
 
-            for column in out_connections:
-                self.widgetList[i].graph.ConnectPoints(new_point_id, column)
-            for row in in_connections:
-                self.widgetList[i].graph.ConnectPoints(row, new_point_id)
-        except Exception:
-            pass
-        self.widgetList[i].update()
+    #                 for id in range(len(self.widgetList[i].sub_graphs[idx].Points)):
+    #                     pass # тут вообще нужно как-то сохранять значения прошлого графа
+                    
+    #                 if (cnt > len(self.widgetList[i].sub_graphs[idx].Points)):
+    #                     tmp[new_point_id] = x, y
+    #                     for _ in range((cnt-len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))+1):
+    #                         self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.vstack([self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))])	
+    #                         self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.c_[self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix[0]) + 1)]
+
+    #                         self.widgetList[i].sub_graphs[idx].ArrowPoints = np.vstack([self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints))])	
+    #                         self.widgetList[i].sub_graphs[idx].ArrowPoints = np.c_[self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints[0]) + 1)]
+
+    #                 self.widgetList[i].sub_graphs[idx].Points = tmp.copy()
+    #                 self.widgetList[i].sub_graphs[idx].MovePoint(new_point_id, x, y)
+    #                 dont_move = True
+                           
+    #         out_connections = []
+    #         for column in range(n):
+    #             if (int(self.widgetList[i].graph.AdjacencyMatrix[point_id][column]) >= 1):
+    #                 out_connections.append(column)
+
+    #         in_connections = []
+    #         for row in range(n):
+    #             if (int(self.widgetList[i].graph.AdjacencyMatrix[row][point_id]) >= 1):
+    #                 in_connections.append(row)
+
+    #         cnt = max(new_point_id, point_id, len(self.widgetList[i].graph.Points))
+
+    #         tmp= np.full((cnt+1, 2), None, dtype=np.float64)
+
+    #         for id in range(len(self.widgetList[i].graph.Points)):
+    #             if (id == point_id):
+    #                 tmp[id] = None, None
+    #                 for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
+    #                     self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
+    #                     self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
+    #             elif (id == new_point_id) and (not dont_move):
+    #                 tmp[id] = x, y
+    #             else:
+    #                 tmp[id] = self.widgetList[i].graph.Points[id]
+            
+    #         if (cnt > len(self.widgetList[i].graph.Points)):
+    #             tmp[new_point_id] = x, y
+    #             for _ in range((cnt-len(self.widgetList[i].graph.AdjacencyMatrix))+1):
+    #                 self.widgetList[i].graph.AdjacencyMatrix = np.vstack([self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix))])	
+    #                 self.widgetList[i].graph.AdjacencyMatrix = np.c_[self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix[0]) + 1)]
+
+    #                 self.widgetList[i].graph.ArrowPoints = np.vstack([self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints))])	
+    #                 self.widgetList[i].graph.ArrowPoints = np.c_[self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints[0]) + 1)]
+
+    #         self.widgetList[i].graph.Points = tmp.copy()
+
+    #         if (not dont_move):
+    #             self.widgetList[i].graph.MovePoint(new_point_id, x, y)
+    #         if (not dont_move):
+    #             for column in out_connections:
+    #                 self.widgetList[i].graph.AddConnection(new_point_id, column)
+    #             for row in in_connections:
+    #                 self.widgetList[i].graph.AddConnection(row, new_point_id)
+    #     except Exception:
+    #         pass
+    #     self.widgetList[i].update()
 
 
     def backMainMenu(self):
@@ -945,9 +1109,16 @@ class Window5(QMainWindow):
         self.close()
 
     def show(self):
+        if properties.teacherMode:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         for i in self.widgetList:
             i.functionable = ""
         self.showMaximized()
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
 
 
 #////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -1024,6 +1195,7 @@ class Window6(QMainWindow):
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
+        
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -1057,10 +1229,8 @@ class Window6(QMainWindow):
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveNode.setChecked(False)
-
+            self.ui.actionbtnRemoveSeq.setChecked(False)
     
-
     def addDottedArrow(self):
         if self.ui.actionbtnDottedConnectNode.isChecked() == False:
             for i in self.widgetList:
@@ -1071,20 +1241,32 @@ class Window6(QMainWindow):
           
             self.ui.actionbtnMoveNode.setChecked(False)
         
-
-
     def _connectAction(self):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask6()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
 
     def backMainMenu(self):
         MainWindow.show()
         self.close()
 
     def show(self):
+        if properties.teacherMode:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         for i in range(squadNum):
             self.widgetList[i].functionable = ""
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
 
@@ -1263,8 +1445,9 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        # and properties.enter_key()
-        if self.ui.btnTeacherMode.isChecked(): # вместо (True) вставить результат проверки шифрованого ключа
+        isKeyVerified = True
+        isKeyVerified = properties.enter_key()
+        if self.ui.btnTeacherMode.isChecked() and isKeyVerified:
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
@@ -1274,6 +1457,8 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask3.setEnabled(True)
             self.ui.btnTask4.setEnabled(True)
             self.ui.btnTask5.setEnabled(True)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
             #self.ui.btnTask6.setEnabled(True)
         else:
             self.ui.btnReportSign.setEnabled(False)
@@ -1286,6 +1471,9 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask5.setEnabled(False)
             #self.ui.btnTask6.setEnabled(False)
             self.ui.btnTeacherMode.setChecked(False)
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
+        properties.teacherMode = self.ui.btnTeacherMode.isChecked()
     def activateDeveloperMode(self):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
@@ -1299,27 +1487,27 @@ class WindowMenu(QMainWindow):
         document.add_paragraph("Вариант: {0}".format(self.numINGroup))
         document.add_heading('Задание 1', 0)
         try:
-            document.add_picture('screenshot1.png')
+            document.add_picture('screenshot1.png', width=Inches(4))
         except:
             pass
         document.add_heading('Задание 2', 0)
         try:
-            document.add_picture('screenshot2.png')
+            document.add_picture('screenshot2.png', width=Inches(4))
         except:
             pass
         document.add_heading('Задание 3', 0)
         try:
-            document.add_picture('screenshot3.png')
+            document.add_picture('screenshot3.png', width=Inches(4))
         except:
             pass
         document.add_heading('Задание 4', 0)
         try:
-            document.add_picture('screenshot4.png')
+            document.add_picture('screenshot4.png', width=Inches(4))
         except:
             pass
         document.add_page_break()
 
-        document.save('Отчет по лаборатрной работе.docx') 
+        document.save('Отчет по лаборатрной работе.docx')
 
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
@@ -1345,6 +1533,12 @@ class WindowMenu(QMainWindow):
         self.hide()
 
     def show(self):
+        if self.ui.btnTeacherMode.isChecked():
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.showMaximized()
         self.ui.tableVar.horizontalHeader().setDefaultSectionSize(int(self.sizeWindow.width() / self.ui.tableVar.columnCount()))
 
@@ -1394,8 +1588,13 @@ if __name__ == "__main__":
     MainWindow2 = Window2()
     MainWindow3 = Window3()
     MainWindow4 = Window4()
+
     for i in range(maxSquadNum()):
         graph5.append(gm.Graph(30))
+
+    for i in range(maxSquadNum()):
+        graph5_ort.append(gm.GraphOrthogonal(30))
+    
     MainWindow5 = Window5()
     MainWindow6 = Window6()
 

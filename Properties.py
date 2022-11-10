@@ -1,6 +1,6 @@
 from contextlib import nullcontext
 import pickle
-import dill
+# import dill
 from math import pi
 from traceback import print_tb
 import graph_model as gm
@@ -23,7 +23,8 @@ class Properties():
             #свойства из таблицы
         #self.total_time #общее время работы (добавить + 3)
 
-        self.variant = MainWindow.numINGroup;
+        self.variant = MainWindow.numINGroup
+        self.teacherMode = False
         
 
         # массив пройденных заданий
@@ -35,7 +36,7 @@ class Properties():
 
         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
 
-        self.step_grid = 100 # шаг сетки
+        self.step_grid = 75 # шаг сетки
 
 
         #self.graph_for_task_1 = self.get_graph_from_radius() # граф для первого задания

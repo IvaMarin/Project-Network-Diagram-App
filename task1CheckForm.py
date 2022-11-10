@@ -78,7 +78,7 @@ class task1CheckForm(QtWidgets.QDialog):
         self.ui.labelSoClose.setText("Событиям соответствуют верные моменты времени")
         self.ui.labelNodesCount.setText("Работам соответствуют верные промежутки времени")
 
-    def Task5(self):
+    def Task51(self):
         pass
 
     def Task6(self):

@@ -11,31 +11,24 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Задание 3</string>
+   <string>Задание 5</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>1601</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>Файл</string>
-    </property>
-    <addaction name="actionNewFile"/>
-    <addaction name="actionOpenFile"/>
-    <addaction name="actionSaveFile"/>
-    <addaction name="actionSaveFileAs"/>
-    <addaction name="separator"/>
-   </widget>
+   <property name="styleSheet">
+    <string notr="true">background-color: #b8ffc0;</string>
+   </property>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Справка</string>
@@ -43,25 +36,20 @@
     <addaction name="actionHelpTask"/>
     <addaction name="actionHelpProgram"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
+   <widget class="QMenu" name="menuTask5">
     <property name="title">
-     <string>Редактор</string>
+     <string>Здание 5</string>
     </property>
-    <addaction name="actionForward"/>
-    <addaction name="actionBackward"/>
+    <addaction name="actionViewTask"/>
    </widget>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>Настройки</string>
-    </property>
-    <addaction name="actionSetting"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
    <addaction name="menuHelp"/>
-   <addaction name="menu"/>
+   <addaction name="menuTask5"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background-color: #b8ffc0;</string>
+   </property>
+  </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -86,16 +74,15 @@
    </attribute>
    <addaction name="actionbtnAddNode"/>
    <addaction name="actionbtnRemoveNode"/>
+   <addaction name="actionbtnConnectNode"/>
    <addaction name="actionbtnRemoveNodeConnection"/>
    <addaction name="actionbtnMoveNode"/>
-   <addaction name="actionbtnConnectNode"/>
    <addaction name="actionbtnDottedConnectNode"/>
    <addaction name="separator"/>
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
+   <addaction name="actionHelp"/>
    <addaction name="actionbtnHome"/>
-   <addaction name="actionbtnZoomIn"/>
-   <addaction name="actionbtnZoomOut"/>
   </widget>
   <action name="actionNewFile">
    <property name="icon">
@@ -198,9 +185,7 @@
     <string>Передвинуть элемент</string>
    </property>
    <property name="font">
-    <font>
-     <pointsize>8</pointsize>
-    </font>
+    <font/>
    </property>
    <property name="priority">
     <enum>QAction::NormalPriority</enum>
@@ -339,6 +324,26 @@
    </property>
    <property name="toolTip">
     <string>Перемещение пунктирной стрелки</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/help.png</normaloff>resources/iconePack/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>подсказка</string>
+   </property>
+   <property name="toolTip">
+    <string>подсказка (режим преподавателя)</string>
+   </property>
+  </action>
+  <action name="actionViewTask">
+   <property name="text">
+    <string>Задание 5</string>
    </property>
   </action>
  </widget>
