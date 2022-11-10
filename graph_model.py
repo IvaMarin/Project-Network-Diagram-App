@@ -230,122 +230,91 @@ class Graph:
 		new_graph.PeopleWeights = copy.deepcopy(self.PeopleWeights)
 
 
-class Point:
-	def __init__(self, digit, id, x, y) -> None:
-		self.digit = digit 	# номер вершины
-		self.id = id 		# идентификатор вершины в случае повторений
-		self.x = x 			# координата х
-		self.y = y 			# координата у
-	
-	def __eq__(self, another):
-		return (hasattr(another, 'digit') and self.digit == another.digit and 
-				hasattr(another, 'id') and self.id == another.id and
-				hasattr(another, 'x') and self.x == another.x and
-				hasattr(another, 'y') and self.y == another.y)
-	
-	def __hash__(self):
-		return hash((self.digit, self.id, self.x, self.y))
-
-class Arrow:
-	def __init__(self, x, y) -> None:
-		self.x = x 			# координата х
-		self.y = y 			# координата у
-		self.Height = 15
-	
-	def __eq__(self, another):
-		return (hasattr(another, 'x') and self.x == another.x and
-				hasattr(another, 'y') and self.y == another.y)
-	
-	def __hash__(self):
-		return hash((self.x, self.y))
-
-class MetaGraph:
+class GraphOrthogonal:
 	def __init__(self, Radius) -> None:
 		self.Radius = Radius
-		self.Points = list()
+		self.Points = dict()
 		self.AdjacencyList = dict()
 		self.Arrows = dict()
 
 	def AddPoint(self, digit, x, y):
 		id = 0
-		for p in self.Points:
-			if p.digit == digit:
-				id = max(p.id + 1, id)
-		newPoint = Point(digit, id, x, y)
-		self.Points.append(newPoint)
+		for (p_digit, p_id) in self.Points.keys():
+			if p_digit == digit:
+				id = max(p_id + 1, id)
+		self.Points[(digit, id)] = (x, y)
 
-	def AddPointsSequence(self, sequence, gridStart, gridStep, gridY):
+	def AddPointsSequence(self, sequence: list, gridStart, gridStep, gridY):
 		for i, digit in enumerate(sequence):
 			gridX = gridStart + i * gridStep
 			self.AddPoint(digit, gridX, gridY)
 	
-	def DeletePoint(self, digit, id):
-		for p in self.Points:
-			if (p.digit == digit) and (p.id == id):
-				deletedPoint = Point(digit, id, p.x, p.y)
-				self.Points.remove(deletedPoint)
-				for p1, p2 in self.AdjacencyList.items():
-					if p1 == deletedPoint:
-						self.DeleteConnection(p1, p2)
-					elif p2 == deletedPoint:
-						self.DeleteConnection(p1, p2)
-				return
-
-	def DeletePointsSequence(self, gridY):
-		for p in self.Points:
-			if p.y == gridY:
-				self.DeletePoint(p.digit, p.id)
-
-	def AddConnection(self, firstPoint, secondPoint):
-		self.AdjacencyList[firstPoint] = secondPoint
-		self.InitializeArrow(firstPoint, secondPoint)
+	def DeletePoint(self, Point: tuple):
+		self.Points.pop(Point)
+		AdjacencyListCopy = self.AdjacencyList.copy()
+		for p1, p2 in AdjacencyListCopy.items():
+			if p1 == Point:
+				self.DeleteConnection(p1, p2)
+			elif p2 == Point:
+				self.DeleteConnection(p1, p2)
 	
-	def DeleteConnection(self, firstPoint, secondPoint):
-		self.AdjacencyList.popitem((firstPoint, secondPoint))
+	def DeletePointsSequence(self, gridY):
+		PointsCopy = self.Points.copy()
+		for (p_digit, p_id), (p_x, p_y) in PointsCopy.items():
+			if p_y == gridY:
+				self.DeletePoint(p_digit, p_id)
 
-	def InitializeArrow(self, firstPoint, secondPoint):
-		[x, y] = calculate_bound_point([firstPoint.x, firstPoint.y], [secondPoint.x, secondPoint.y], self.Radius)
-		self.Arrows[(firstPoint, secondPoint)] = Arrow(x, y)
+	def AddConnection(self, firstPoint: tuple, secondPoint: tuple):
+		if (firstPoint in self.Points.keys()) and (secondPoint in self.Points.keys()):
+			self.AdjacencyList[firstPoint] = secondPoint
+			self.InitializeArrow(firstPoint, secondPoint)
+	
+	def DeleteConnection(self, firstPoint: tuple, secondPoint: tuple):
+		try:
+			self.AdjacencyList.pop(firstPoint)
+			self.Arrows.pop((firstPoint, secondPoint))
+		except:
+			pass
+
+	def InitializeArrow(self, firstPoint: tuple, secondPoint: tuple):
+		(firstPoint_x, firstPoint_y) = self.Points[firstPoint]
+		(secondPoint_x, secondPoint_y) = self.Points[secondPoint]
+		[x, y] = calculate_bound_point([firstPoint_x, firstPoint_y], [secondPoint_x, secondPoint_y], self.Radius)
+		self.Arrows[(firstPoint, secondPoint)] = (x, y)
 
 	def IsCursorOnPoint(self, x, y):
-		for p in self.Points:
-			if ((x >= p.x - self.Radius and x <= p.x + self.Radius) and 
-				(y >= p.y - self.Radius and y <= p.y + self.Radius)):
-				return p 
+		for (p_digit, p_id), (p_x, p_y) in self.Points.items():
+			if ((x >= p_x - self.Radius and x <= p_x + self.Radius) and 
+				(y >= p_y - self.Radius and y <= p_y + self.Radius)):
+				return (p_digit, p_id)
 		return None 
 
 	def IsCursorOnArrowPoint(self, x, y):
-		for a in self.Arrows.values():
-			if  ((x >= a.x - self.Radius and x <= a.x + self.Radius) and 
-				 (y >= a.y - self.Radius and y <= a.y + self.Radius)):
-					return a
+		for (a_x, a_y) in self.Arrows.values():
+			if  ((x >= a_x - self.Radius and x <= a_x + self.Radius) and 
+				 (y >= a_y - self.Radius and y <= a_y + self.Radius)):
+					return (a_x, a_y)
 		return None
 
-	def UpdateArrows(self, Point):
-		for p in self.Points:
-			if self.Arrows.get((Point, p)) != None:
-				x = self.Arrows[(Point, p)].x
-				y = self.Arrows[(Point, p)].y
-				self.MoveArrowPoint(Point, p, x, y)
+	def UpdateArrows(self, Point: tuple):
+		for (p_digit, p_id) in self.Points.keys():
+			if self.Arrows.get((Point, (p_digit, p_id))) != None:
+				(x, y) = self.Arrows[(Point, (p_digit, p_id))]
+				self.MoveArrowPoint(Point, (p_digit, p_id), x, y)
 			
-			if self.Arrows.get((p, Point)) != None:
-				x = self.ArrowPoints[(p, Point)].x
-				y = self.ArrowPoints[(p, Point)].y
-				self.MoveArrowPoint(p, Point, x, y)
+			if self.Arrows.get(((p_digit, p_id), Point)) != None:
+				(x, y) = self.Arrows[((p_digit, p_id), Point)]
+				self.MoveArrowPoint((p_digit, p_id), Point, x, y)
 
-	def MovePoint(self, digit, id, x, y):
-		for i, p in enumerate(self.Points):
-			if (p.digit == digit) and (p.id == id):
-				self.Points[i].x = x
-				self.Points[i].y = y
-				self.UpdateArrows(p)
-				return
-		
-	def MoveArrowPoint(self, firstPoint, secondPoint, x, y):
-		newArrow = Arrow(0, 0)
+	def MovePoint(self, Point: tuple, x, y):
+		self.Points[Point] = (x, y)
+		self.UpdateArrows(Point)
 
-		dx = firstPoint.x - secondPoint.x
-		dy = firstPoint.y - secondPoint.y
+	def MoveArrowPoint(self, firstPoint: tuple, secondPoint: tuple, x, y):
+		(firstPoint_x, firstPoint_y) = self.Points[firstPoint]
+		(secondPoint_x, secondPoint_y) = self.Points[secondPoint]
+		dx = firstPoint_x - secondPoint_x
+		dy = firstPoint_y - secondPoint_y
 		length = np.sqrt(dx ** 2 + dy ** 2)
 
 		if (length == 0):
@@ -353,13 +322,13 @@ class MetaGraph:
 		else:
 			norm_x, norm_y = dx / length, dy / length
 		
-		
-		p1_x = firstPoint.x - (self.Radius + newArrow.Height) * norm_x
-		p1_y = firstPoint.y - (self.Radius + newArrow.Height) * norm_y
+		arrow_height = 10
+		p1_x = firstPoint_x - (self.Radius + arrow_height) * norm_x
+		p1_y = firstPoint_y - (self.Radius + arrow_height) * norm_y
 		p1 = np.array([p1_x, p1_y])
 
-		p2_x = secondPoint[0] + self.Radius * norm_x
-		p2_y = secondPoint[1] + self.Radius * norm_y
+		p2_x = secondPoint_x + self.Radius * norm_x
+		p2_y = secondPoint_y + self.Radius * norm_y
 		p2 = np.array([p2_x, p2_y])
 			
 		p3 = np.array([x, y])
@@ -377,6 +346,21 @@ class MetaGraph:
 		else:
 			projection = p1 + t * (p2 - p1)
 
-		newArrow.x, newArrow.y = projection
+		(x, y) = projection
 	
-		self.Arrows[(firstPoint, secondPoint)] = newArrow
+		self.Arrows[(firstPoint, secondPoint)] = (x, y)
+
+	def _Print(self):
+		print("GraphOrthogonal:")
+
+		print("Points:")
+		for (p_digit, p_id), (p_x, p_y) in self.Points.items():
+			print(p_digit, p_id, p_x, p_y)
+
+		print("AdjacencyList:")
+		for (v1_digit, v1_id), (v2_digit, v2_id) in self.AdjacencyList.items():
+			print('(',v1_digit, v1_id,')', "->", '(',v2_digit, v2_id,')')
+		
+		print("Arrows:")
+		for ((v1_digit, v1_id), (v2_digit, v2_id)), (a_x, a_y) in self.Arrows.items():
+			print('(',v1_digit, v1_id,')', '(',v2_digit, v2_id,')', ": " , '(',a_x, a_y,')')
