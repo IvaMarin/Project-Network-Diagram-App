@@ -55,6 +55,7 @@ import Display
 from WinsDialog import winSigReport,winLogin,winEditTable,winSearchKey
 from Color import Color
 from task1CheckForm import task1CheckForm
+from qt_designer_ui.task5CheckForm import task5CheckForm
 from task5AddSeq import task5AddSeq
 import graph_model as gm
 import Properties
@@ -380,7 +381,7 @@ class Window2(QMainWindow):
         # При вызове окна обновляется кол                                                                                                               -во вершин графа
         self.showMaximized()
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
-        self.cnt = len(graph1.Points)
+        self.cnt = len(graph1.CorrectAdjacencyMatrix)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
 
@@ -1000,8 +1001,7 @@ class Window5(QMainWindow):
                 self.ui.actionbtnMoveNode.setVisible(True)
                 self.ui.actionbtnDottedConnectNode.setVisible(True)
 
-            self.checkForm = task1CheckForm(self, mistakes)
-            self.checkForm.Task51()
+            self.checkForm = task5CheckForm(self, mistakes)
             self.checkForm.exec_()
         else:
             mistakes.exec()

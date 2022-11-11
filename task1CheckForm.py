@@ -1,12 +1,13 @@
 import sys, math
 import numpy as np
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import Qt, QRect, QPointF
-from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QPixmap
+from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QPixmap, QFont
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
 
 from task1CheckUi import Ui_task1CheckUi
+from qt_designer_ui.task5CheckUi import Ui_task5CheckUi
 
 
 
@@ -79,7 +80,25 @@ class task1CheckForm(QtWidgets.QDialog):
         self.ui.labelNodesCount.setText("Работам соответствуют верные промежутки времени")
 
     def Task51(self):
-        pass
+        self.ui = Ui_task5CheckUi() 
+        self.ui.setupUi(self)
+        for i in range(3):
+            self.labelLeft = QtWidgets.QLabel(self.ui.scrollAreaWidgetContents)
+            font = QtGui.QFont()
+            font.setPointSize(18)
+            self.labelLeft.setFont(font)
+            self.labelLeft.setObjectName("labelLeft")
+            self.labelLeft.setText(str(i) + ' отделение построено верно')
+            self.ui.gridLayout.addWidget(self.labelLeft, i, 0, 1, 1)
+            self.toolButton = QtWidgets.QToolButton(self.ui.scrollAreaWidgetContents)
+            self.toolButton.setEnabled(True)
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("resources/iconePack/check.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            icon.addPixmap(QtGui.QPixmap("resources/iconePack/crossRed.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+            self.toolButton.setIcon(icon)
+            self.toolButton.setCheckable(True)
+            self.toolButton.setObjectName("toolButton")
+            self.ui.gridLayout.addWidget(self.toolButton, i, 1, 1, 1)
 
     def Task6(self):
         pass
