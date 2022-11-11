@@ -45,6 +45,7 @@ from qt_designer_ui.TextTask6 import Ui_TextTask6
 import Display
 from WinsDialog import winSigReport,winLogin,winEditTable,winSearchKey
 from task1CheckForm import task1CheckForm
+from qt_designer_ui.task5CheckForm import task5CheckForm
 from task5AddSeq import task5AddSeq
 import GraphModel
 import Properties
@@ -891,8 +892,7 @@ class Window5(QMainWindow):
                 self.ui.actionbtnMoveNode.setVisible(True)
                 self.ui.actionbtnDottedConnectNode.setVisible(True)
 
-            self.checkForm = task1CheckForm(self, mistakes)
-            self.checkForm.Task51()
+            self.checkForm = task5CheckForm(self, mistakes)
             self.checkForm.exec_()
         else:
             mistakes.exec()
