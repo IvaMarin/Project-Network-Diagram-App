@@ -11,9 +11,9 @@ import openpyxl
 from PIL import Image
 
 ### Для обработки .pdf файлов ###############
-from fpdf import FPDF
-from docx import Document
-from docx.shared import Inches
+# from fpdf import FPDF
+# from docx import Document
+# from docx.shared import Inches
 
 # from borb.pdf import Document
 # from borb.pdf import Page
@@ -189,10 +189,10 @@ class Window1(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
-                properties.save_graph(graph1, 1) # сохраняем граф в файл
+                # properties.save_graph(graph1, 1) # сохраняем граф в файл
 
-                save_graph_1 = properties.get_graph(1)
-                self.DisplayObj.graph = save_graph_1
+                # save_graph_1 = properties.get_graph(1)
+                # self.DisplayObj.graph = save_graph_1
                 
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
@@ -340,7 +340,7 @@ class Window2(QMainWindow):
         # При вызове окна обновляется кол                                                                                                               -во вершин графа
         self.showMaximized()
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
-        self.cnt = len(graph1.Points)
+        self.cnt = len(graph1.CorrectAdjacencyMatrix)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
 
@@ -371,7 +371,6 @@ class Window2(QMainWindow):
             else:
                 self.msg.show()
                 break
-        # print (graph1.tn)
         self.update()
 
     def critPath(self):
@@ -417,6 +416,7 @@ class Window2(QMainWindow):
     def _connectAction(self):
         self.table1.ui.tableCheckButton.clicked.connect(self.table1Check)
         self.table2.ui.tableCheckButton.clicked.connect(self.table2Check)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCritPath.triggered.connect(self.critPath)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
@@ -493,10 +493,10 @@ class Window3(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(3)
-                properties.save_graph(graph1, 3) # сохраняем граф в файл
+                # properties.save_graph(graph1, 3) # сохраняем граф в файл
 
-                save_graph_3 = properties.get_graph(3)
-                self.DisplayObj.graph = save_graph_3
+                # save_graph_3 = properties.get_graph(3)
+                # self.DisplayObj.graph = save_graph_3
 
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
@@ -613,10 +613,10 @@ class Window4(QMainWindow):
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(4)
 
-                properties.save_graph(graph1, 4) # сохраняем граф в файл
+                # properties.save_graph(graph1, 4) # сохраняем граф в файл
 
-                save_graph_4 = properties.get_graph(4)
-                self.DisplayObj.graph = save_graph_4
+                # save_graph_4 = properties.get_graph(4)
+                # self.DisplayObj.graph = save_graph_4
 
 
                 screen = QtWidgets.QApplication.primaryScreen()
@@ -1398,35 +1398,35 @@ class WindowMenu(QMainWindow):
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "1"  # данные о студенте проинициализированы
 
-    def creatReport(self):
-        document = Document()
-        document.add_heading('Отчет по лабораторной работе', 0)
-        document.add_paragraph("ФИО: {0}".format(self.surname))
-        document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
-        document.add_paragraph("Вариант: {0}".format(self.numINGroup))
-        document.add_heading('Задание 1', 0)
-        try:
-            document.add_picture('screenshot1.png', width=Inches(4))
-        except:
-            pass
-        document.add_heading('Задание 2', 0)
-        try:
-            document.add_picture('screenshot2.png', width=Inches(4))
-        except:
-            pass
-        document.add_heading('Задание 3', 0)
-        try:
-            document.add_picture('screenshot3.png', width=Inches(4))
-        except:
-            pass
-        document.add_heading('Задание 4', 0)
-        try:
-            document.add_picture('screenshot4.png', width=Inches(4))
-        except:
-            pass
-        document.add_page_break()
+    # def creatReport(self):
+    #     document = Document()
+    #     document.add_heading('Отчет по лабораторной работе', 0)
+    #     document.add_paragraph("ФИО: {0}".format(self.surname))
+    #     document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
+    #     document.add_paragraph("Вариант: {0}".format(self.numINGroup))
+    #     document.add_heading('Задание 1', 0)
+    #     try:
+    #         document.add_picture('screenshot1.png', width=Inches(4))
+    #     except:
+    #         pass
+    #     document.add_heading('Задание 2', 0)
+    #     try:
+    #         document.add_picture('screenshot2.png', width=Inches(4))
+    #     except:
+    #         pass
+    #     document.add_heading('Задание 3', 0)
+    #     try:
+    #         document.add_picture('screenshot3.png', width=Inches(4))
+    #     except:
+    #         pass
+    #     document.add_heading('Задание 4', 0)
+    #     try:
+    #         document.add_picture('screenshot4.png', width=Inches(4))
+    #     except:
+    #         pass
+    #     document.add_page_break()
 
-        document.save('Отчет по лаборатрной работе.docx')
+    #     document.save('Отчет по лаборатрной работе.docx')
 
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
