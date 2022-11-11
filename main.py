@@ -26,7 +26,7 @@ from docx.shared import Inches
 
 
 from matplotlib.figure import Figure
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QRect, Qt, QSize, QTimer
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
 
@@ -645,6 +645,9 @@ class Window4(QMainWindow):
         self.ui.setupUi(self)
 
         self.setWindowTitle("Задача №4")
+        _translate = QtCore.QCoreApplication.translate
+        self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
+        self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
         self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
@@ -848,7 +851,6 @@ class Window5(QMainWindow):
                 i.functionAble = "Добавить последовательность"
             self.AddSeq = task5AddSeq(self)
             self.AddSeq.exec_()
-
 
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
@@ -1446,7 +1448,7 @@ class WindowMenu(QMainWindow):
 
     def activateTeacherMode (self):
         isKeyVerified = True
-        # isKeyVerified = properties.enter_key()
+        isKeyVerified = properties.enter_key()
         if self.ui.btnTeacherMode.isChecked() and isKeyVerified:
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
