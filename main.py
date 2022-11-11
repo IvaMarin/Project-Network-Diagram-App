@@ -1,34 +1,25 @@
-from contextlib import nullcontext
 import sys, os
-from xml.sax.handler import property_interning_dict
 import numpy as np
 from pathlib import Path
+
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtCore import QRect, Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
+
 ### Для обработки .xlsx файлов ##############
 import openpyxl
-import copy
-
+from PIL import Image
 
 ### Для обработки .pdf файлов ###############
-
 from fpdf import FPDF
 from docx import Document
 from docx.shared import Inches
-# import pyautogui
 
 # from borb.pdf import Document
 # from borb.pdf import Page
 # from borb.pdf import SingleColumnLayout
 # from borb.pdf import Paragraph
 # from borb.pdf import PDF
-
-
-### Для обработки .pdf файлов ###############
-
-
-from matplotlib.figure import Figure
-from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtCore import QRect, Qt, QSize, QTimer
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
 
 ############# Кастомные файлы для проги ######################
 ###############     UI     ###################################
@@ -48,23 +39,18 @@ from qt_designer_ui.TextTask3 import Ui_TextTask3
 from qt_designer_ui.TextTask4 import Ui_TextTask4
 from qt_designer_ui.TextTask5 import Ui_TextTask5
 from qt_designer_ui.TextTask6 import Ui_TextTask6
-#from qt_designer_ui.EditTable import Ui_Dialog
 
 #######################################################
+
 import Display
 from WinsDialog import winSigReport,winLogin,winEditTable,winSearchKey
-from Color import Color
 from task1CheckForm import task1CheckForm
 from task5AddSeq import task5AddSeq
-import graph_model as gm
+import GraphModel
 import Properties
 
-from pathlib import Path
-from PIL import Image
-
 ############ глобальные переменные ###########
-
-graph1 = gm.Graph(30) # граф из первого окна (главный)
+graph1 = GraphModel.Graph(30) # граф из первого окна (главный)
 graph5 = [] # графы по количеству отделений
 graph5_ort = []
 
@@ -87,16 +73,10 @@ def image_to_jpg(image_path):
 
 #////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 class Window1(QMainWindow):
-
-    
     def __init__(self, parent=None):
         
         super().__init__(parent)
-
-        #graph1 = properties.get_graph(1)
 
         self.ui = Ui_MainWindow1()
         self.ui.setupUi(self)
@@ -126,8 +106,6 @@ class Window1(QMainWindow):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
             self.table.ui.tableWidget.setItem(row, 0, self.item)
 
-
-
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -149,16 +127,11 @@ class Window1(QMainWindow):
             else:
                 event.ignore()
 
-
     def addNode(self):
         if self.ui.actionbtnAddNode.isChecked() == False:
             self.DisplayObj.functionAble = ""
         else:
             self.DisplayObj.functionAble = "Добавить вершину"
-            # print(self.scroll.x())
-            # print(self.scroll.y())
-            # pyautogui.screenshot('screenshot1.png',region=(self.scroll.x(),self.scroll.y(), self.scroll.width(), self.scroll.height()))
-            
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -194,7 +167,6 @@ class Window1(QMainWindow):
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
 
-
     def moveNode(self):
         if self.ui.actionbtnMoveNode.isChecked() == False:
             self.DisplayObj.functionAble = ""
@@ -217,16 +189,11 @@ class Window1(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
-
-                
                 properties.save_graph(graph1, 1) # сохраняем граф в файл
 
                 save_graph_1 = properties.get_graph(1)
                 self.DisplayObj.graph = save_graph_1
                 
-
-
-                #print(self.DisplayObj.size().height)
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot1.png','png')
@@ -255,9 +222,6 @@ class Window1(QMainWindow):
         dialogTask.ui = Ui_TextTask1()
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
-
-        # self.ui = Ui_MainWindow1()
-        # self.ui.setupUi(self)
 
     def backMainMenu(self):
         MainWindow.show()
@@ -292,8 +256,6 @@ class Window2(QMainWindow):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-
-        #MainWindow.ui.tableVar.
         
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
@@ -315,7 +277,6 @@ class Window2(QMainWindow):
         self.layout2.addWidget(self.table2)
         self.widget2 = QWidget()
         self.widget2.setLayout(self.layout2)
-        
         
         self.layout.addWidget(self.widget2)
         # Задаём растяжение объектов в компоновщике
@@ -346,8 +307,6 @@ class Window2(QMainWindow):
         self.msg.setText("Заполните все поля таблицы!")
         self.msg.setIcon(QMessageBox.Critical)
         self.msg.setStandardButtons(QMessageBox.Ok)
-
-        # self.checkForm = task1CheckForm(self) # диалоговое окно для проврки задания
 
         self._connectAction()
 
@@ -399,7 +358,6 @@ class Window2(QMainWindow):
                 # При ошибке вызываем окно
                 self.msg.show()
                 break
-        # print (graph1.tp)
         self.update()
 
     def table2Check(self):
@@ -440,11 +398,6 @@ class Window2(QMainWindow):
                 if len(mistakes) == 0:
                     properties.set__verification_passed_task(2)
 
-                    # properties.save_graph(graph1, 2) # сохраняем граф в файл
-
-                    # save_graph_2 = properties.get_graph(2)
-                    # self.DisplayObj.graph = save_graph_2
-
                     screen = QtWidgets.QApplication.primaryScreen()
                     screenshot = screen.grabWindow(self.scroll.winId())
                     screenshot.save('screenshot2.png','png')
@@ -484,36 +437,6 @@ class Window2(QMainWindow):
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 class Window3(QMainWindow):
-
-    """ def __init__(self, parent=None):
-        super().__init__(parent)
-
-        # Создаём компоновщик
-        layout = QtWidgets.QVBoxLayout()
-        layout.addWidget(Color('blue'))
-        layout.addWidget(Color('red'))graph1
-        # Задаём компоновку виджету
-        widget = QWidget()
-        widget.setLayout(layout)
-
-        self.ui = Ui_MainWindow2()
-        self.ui.setupUi(self)
-        # Присваиваем виджет с компоновкой окну
-        self.setCentralWidget(widget)
-
-        self.setWindowTitle("Задача №3")
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        width = int(sizeWindow.width() - sizeWindow.width() / 5)
-        height = int(sizeWindow.height() - sizeWindow.height() / 5)
-        # вписываем во весь экран
-        self.resize(width, height)
-
-        self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
-
-        # self.centralWidget = Display()
-        # self.setCentralWidget(self.centralWidget)
-        # self._connectAction() """
-
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -522,16 +445,13 @@ class Window3(QMainWindow):
 
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-
-        
+       
         self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
-
-        #self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
-        #print(self.DisplayObj.max_time)
+
         self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
 
@@ -558,12 +478,10 @@ class Window3(QMainWindow):
 
     def addDottedArrow(self):
         self.DisplayObj.functionAble = "Добавить пунктирную связь"
-        #self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
 
     def moveNode(self):
         self.DisplayObj.functionAble = "Переместить вершины"
-        #self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionbtnDottedConnectNode.setChecked(False)
         
 
@@ -575,12 +493,10 @@ class Window3(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(3)
-
                 properties.save_graph(graph1, 3) # сохраняем граф в файл
 
                 save_graph_3 = properties.get_graph(3)
                 self.DisplayObj.graph = save_graph_3
-
 
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
@@ -767,7 +683,7 @@ class Window5(QMainWindow):
         self.squadWidgetList = []
 
         for i in range(squadNum):
-            self.widget1 = Display.Display3(self, graph5[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1)
+            self.widget1 = Display.Display5(self, graph5_ort[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1)
             # self.widget1.setMinimumSize(500, 500)
             # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
             # self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
@@ -840,8 +756,6 @@ class Window5(QMainWindow):
             else:
                 event.ignore()
 
-
-    # def addNode(self):
     def addSeq(self):
         if self.ui.actionbtnAddSeq.isChecked() == False:
             for i in self.widgetList:
@@ -860,7 +774,12 @@ class Window5(QMainWindow):
 
     def displayAddSeq(self, numS, sequence):
         i = int(numS) - 1
-        gridY = 10
+        if properties.currentSquadGridY.get(i) == None:
+            properties.currentSquadGridY[i] = properties.step_grid
+        else:
+            properties.currentSquadGridY[i] += properties.step_grid
+
+        gridY = properties.currentSquadGridY[i]
         self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
 
     def addArrow(self):
@@ -1034,7 +953,7 @@ class Window5(QMainWindow):
     #                 if (not hasattr(self.widgetList[i], 'sub_graphs')):
     #                     self.widgetList[i].sub_graphs = list()
 
-    #                 new_graph = gm.Graph(self.widget1.graph_in.RadiusPoint)
+    #                 new_graph = GraphModel.Graph(self.widget1.graph_in.RadiusPoint)
     #                 self.widgetList[i].sub_graphs.append(new_graph)
 
     #                 idx = len(self.widgetList[i].sub_graphs) - 1
@@ -1447,7 +1366,6 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        # and properties.enter_key()
         if self.ui.btnTeacherMode.isChecked() and properties.enter_key():
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
@@ -1580,21 +1498,21 @@ class WindowMenu(QMainWindow):
             
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-
+    
     MainWindow = WindowMenu()
     properties = Properties.Properties(MainWindow)
+
     squadNum = maxSquadNum()
-    #MainWindow.show()
     MainWindow1 = Window1()
     MainWindow2 = Window2()
     MainWindow3 = Window3()
     MainWindow4 = Window4()
 
     for i in range(maxSquadNum()):
-        graph5.append(gm.Graph(30))
+        graph5.append(GraphModel.Graph(30))
 
     for i in range(maxSquadNum()):
-        graph5_ort.append(gm.GraphOrthogonal(30))
+        graph5_ort.append(GraphModel.GraphOrthogonal(30))
     
     MainWindow5 = Window5()
     MainWindow6 = Window6()

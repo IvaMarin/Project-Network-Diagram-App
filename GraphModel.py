@@ -1,7 +1,7 @@
 # Model составляющая MVC (Граф)
 # "несуществющие вершины" - вершины в середине списка индексов вершин, которые были удалены (далее без ковычек)
+
 import numpy as np
-from PyQt5.QtWidgets import QLineEdit, QMessageBox
 import copy
 
 # функция для вычисления граничной точки с учётом радиуса
@@ -26,7 +26,6 @@ def calculate_bound_point(start_point, end_point, radius):
 
     except (ZeroDivisionError, Exception):
         return None
-
 
 # класс "граф"
 class Graph:
@@ -208,7 +207,7 @@ class Graph:
 		if self.AdjacencyMatrix[firstIndex][secondIndex] == 1:
 			self.AdjacencyMatrix[firstIndex][secondIndex] = 2 # выделить критическую связь
 
-# функция копирования графа (в разработке)
+	# функция копирования графа (в разработке)
 	def copy_graph(self):
 		new_graph = Graph(30)
 		new_graph.Points =  copy.deepcopy(self.Points) 
@@ -238,18 +237,31 @@ class GraphOrthogonal:
 		self.Points = dict()
 		self.AdjacencyList = dict()
 		self.Arrows = dict()
-
-	def AddPoint(self, digit, x, y):
+	
+	def _FindMaxId(self, digit):
 		id = 0
 		for (p_digit, p_id) in self.Points.keys():
 			if p_digit == digit:
 				id = max(p_id + 1, id)
+		return id
+
+	def AddPoint(self, digit, x, y):
+		id = self._FindMaxId(digit)
 		self.Points[(digit, id)] = (x, y)
 
 	def AddPointsSequence(self, sequence: list, gridStart, gridStep, gridY):
 		for i, digit in enumerate(sequence):
+			cur_digit = sequence[i] 
+			cur_id = self._FindMaxId(digit)
+
 			gridX = gridStart + i * gridStep
 			self.AddPoint(digit, gridX, gridY)
+
+			if (i > 0):
+				self.AddConnection((prev_digit, prev_id), (cur_digit, cur_id))
+			
+			prev_digit = cur_digit
+			prev_id = cur_id
 	
 	def DeletePoint(self, Point: tuple):
 		self.Points.pop(Point)
@@ -264,7 +276,7 @@ class GraphOrthogonal:
 		PointsCopy = self.Points.copy()
 		for (p_digit, p_id), (p_x, p_y) in PointsCopy.items():
 			if p_y == gridY:
-				self.DeletePoint(p_digit, p_id)
+				self.DeletePoint((p_digit, p_id))
 
 	def AddConnection(self, firstPoint: tuple, secondPoint: tuple):
 		if (firstPoint in self.Points.keys()) and (secondPoint in self.Points.keys()):

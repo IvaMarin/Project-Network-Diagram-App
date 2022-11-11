@@ -1,14 +1,11 @@
-from contextlib import nullcontext
-import pickle
-# import dill
-from math import pi
-from traceback import print_tb
-import graph_model as gm
-from encrypt_module import decrypt_file
 import os
+import pickle
+
 from PyQt5 import QtWidgets
-import main as windows
+
+import GraphModel
 from checker import find_t_p
+from encrypt_module import decrypt_file
 
 def join(*args):
     return os.path.join(*args).replace(os.path.sep, "/")
@@ -16,66 +13,41 @@ def join(*args):
 basedir = os.path.dirname(__file__) # путь до данного файла
 
 class Properties():
-
     def __init__(self, MainWindow):
 
-        #свойства, использующиеся в разных заданиях
-            #свойства из таблицы
-        #self.total_time #общее время работы (добавить + 3)
-
+        # свойства, использующиеся в разных заданиях
         self.variant = MainWindow.numINGroup
         self.teacherMode = False
-        
+        self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
+        self.key_path = "" # путь до ключа преподавателя 
 
-        # массив пройденных заданий
-        self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
-
-        #свойства первого окна
-
+        # свойства первого окна
         self.MainWindow = MainWindow
-
         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
-
         self.step_grid = 75 # шаг сетки
-
-
-        #self.graph_for_task_1 = self.get_graph_from_radius() # граф для первого задания
-        #self.graph_for_task_1 = self.get_graph(1)
-
-
-        #self.state_of_graph_1 = self.graph_for_task_1;
-
+        self.currentSquadGridY = dict()
         correct_w = self.MainWindow.getCorrectWeights()
         n = len(correct_w)
         self.max_possible_time = find_t_p(correct_w, n)[n-1] # максимальное время (для сетки)
-
 
         #свойства второго окна
         self.scaler = 3 # параметр увеличения радиуса для второго задания
         self.radius_points_task_2 = self.radius_points * self.scaler # радиус во втором задании
 
-        #self.state_of_graph_2 = self.get_graph(2);
-
         #свойства третьего окна
-        self.state_of_graph_3 = None;
+        self.state_of_graph_3 = None
 
         #свойства четвертого окна
-        self.state_of_graph_4 = None;
+        self.state_of_graph_4 = None
 
         #свойства пятого окна
-        self.state_of_graph_5 = None;
-
+        self.state_of_graph_5 = None
         self.number_of_squads = self.get_number_of_squads() #количество отделений
-
         self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
 
-        self.key_path = "" # путь до ключа преподавателя 
-
-
     # функция подсчета количесва отделений
     def get_number_of_squads(self):
-        
         number_of_squads = 1
         for row in range(self.MainWindow.ui.tableVar.rowCount()):
             if self.MainWindow.ui.tableVar.item(row, 1).text() >= '1' and self.MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
@@ -86,12 +58,10 @@ class Properties():
 
     # функция получения общего графа
     def get_graph_from_radius(self):
-        return gm.Graph(self.radius_points)
+        return GraphModel.Graph(self.radius_points)
 
     # функция получения общего графа
     def get_graph_from_graph(self, graph):
-        # new_object_graph = graph.__class__
-        # new_graph = new_object_graph()
         new_graph = graph.copy()
         return new_graph
 
@@ -107,16 +77,11 @@ class Properties():
 
     # функция получения подтверждения пройденых заданий
     def get_verification_passed_pretasks(self, current):
-        # for i in range(current):
-        #     if (self.verification_passed_tasks[i] == False):
-        #         return False
-        # return True
         if (self.verification_passed_tasks[current - 1] == False):
             return False
         else:
             return True
 
-    
     # функция присваивания  подтверждения заданию
     def set__verification_passed_task(self, number):
         self.verification_passed_tasks[number] = True
@@ -127,8 +92,7 @@ class Properties():
         else:
             self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
 
-############    ФУНКЦИИ ДЛЯ РАБОТЫ С ШИФРОВАНИЕМ    ##############################
-    
+    # ФУНКЦИИ ДЛЯ РАБОТЫ С ШИФРОВАНИЕМ   
     def check_key(self, key_path) -> bool:
         try:
             with open(key_path, "rb") as file:
@@ -160,44 +124,23 @@ class Properties():
         else:
             print("key_path not exist2")
             return False
-################################################################################################################
 
     def get_num_squad(self):
         self.tableNumSquad = []
         for row in range(self.MainWindow.ui.tableVar.rowCount()):
             if self.MainWindow.ui.tableVar.item(row, self.MainWindow.ui.tableVar.columnCount() - 1) and self.MainWindow.ui.tableVar.item(row, self.MainWindow.ui.tableVar.columnCount() - 1) != ' ':
                 self.tableNumSquad.append([])
-            #if self.MainWindow.ui.tableVar.item(row, self.MainWindow.ui.tableVar.columnCount() - 1) and self.MainWindow.ui.tableVar.item(row, self.MainWindow.ui.tableVar.columnCount() - 1) != ' ':
                 tmpItem = self.MainWindow.ui.tableVar.item(row, self.MainWindow.ui.tableVar.columnCount() - 1).text()
                 self.tableNumSquad[-1].append(tmpItem)
             else:
                 break
-            #self.tableNumSquad[-1].append(tmpItem)
-            #print("item", row, self.MainWindow.ui.tableVar.columnCount() - 1, " ", self.tableNumSquad[-1][-1])
-        
-        print(" ")
-        for i in self.tableNumSquad:
-            print(i)
 
-
-####################____ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА____####################################################
-
+    # ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА
     def save_graph(self, graph, i):
         with open(f'answer_var/states_of_graphs_{self.variant}/states_{i}.pickle', 'wb') as file:
             pickle.dump(graph, file)
 
-
     def get_graph(self, i = 0):
         with open(f'answer_var/states_of_graphs_{self.variant}/states_{i}.pickle', 'rb') as file:
             graph = pickle.load(file)
-
         return graph
-#######################################################################################################################
-
-    
-
-
-
-
-
-
