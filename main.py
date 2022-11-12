@@ -769,6 +769,11 @@ class Window5(QMainWindow):
             for i in self.widgetList:
                 i.functionAble = "Добавить последовательность"
             self.AddSeq = task5AddSeq(self)
+            self.AddSeq.setWindowFlags(QtCore.Qt.Window |
+                                        QtCore.Qt.WindowTitleHint 
+                                        | QtCore.Qt.CustomizeWindowHint 
+                                        | Qt.WindowStaysOnTopHint
+                                        | Qt.WindowCloseButtonHint)
             self.AddSeq.exec_()
 
             self.ui.actionbtnConnectNode.setChecked(False)

@@ -63,6 +63,8 @@ class task5AddSeq(QtWidgets.QDialog):
                     if i == len(text):
                         result.append(int(num))
                         self.mainWindow.displayAddSeq(numS, result)
+                        self.ui.lineEdit_2.setText("")
+                        self.ui.lineEdit.setText("")
         else:
             msg = QMessageBox()
             msg.setText("Неверно введён номер отделения")
