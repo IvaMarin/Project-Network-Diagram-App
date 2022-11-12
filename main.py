@@ -190,7 +190,7 @@ class Window1(QMainWindow):
         
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                properties.set__verification_passed_task(1)
+                statusTask.set__verification_passed_task(1)
                 # properties.save_graph(graph1, 1) # сохраняем граф в файл
 
                 # save_graph_1 = properties.get_graph(1)
@@ -400,7 +400,7 @@ class Window2(QMainWindow):
             mistakes = self.DisplayObj.checkEvent()
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
-                    properties.set__verification_passed_task(2)
+                    statusTask.set__verification_passed_task(2)
 
                     screen = QtWidgets.QApplication.primaryScreen()
                     screenshot = screen.grabWindow(self.scroll.winId())
@@ -497,7 +497,7 @@ class Window3(QMainWindow):
         mistakes = self.DisplayObj.checkEvent3()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                properties.set__verification_passed_task(3)
+                statusTask.set__verification_passed_task(3)
                 # properties.save_graph(graph1, 3) # сохраняем граф в файл
 
                 # save_graph_3 = properties.get_graph(3)
@@ -616,7 +616,7 @@ class Window4(QMainWindow):
         mistakes = self.DisplayObj.checkEvent4()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                properties.set__verification_passed_task(4)
+                statusTask.set__verification_passed_task(4)
 
                 # properties.save_graph(graph1, 4) # сохраняем граф в файл
 
@@ -876,7 +876,7 @@ class Window5(QMainWindow):
     #         for m in mistakes:
     #             mistakes_total.add(m)
     #     if len(mistakes_total) == 0:
-    #         properties.set__verification_passed_task(5)
+    #         statusTask.set__verification_passed_task(5)
     #     self.checkForm1 = task1CheckForm(self, list(mistakes_total))
     #     self.checkForm1.Task2()        
     #     self.checkForm1.exec_()
@@ -1232,11 +1232,11 @@ class WindowMenu(QMainWindow):
         self.ui.btnGenVar.setEnabled(False)
         self.ui.btnEditTaskVariant.setEnabled(False)
         self.ui.btnTask1.setEnabled(True)
-        self.ui.btnTask2.setEnabled(False)
-        self.ui.btnTask3.setEnabled(False)
-        self.ui.btnTask4.setEnabled(False)
-        self.ui.btnTask5.setEnabled(False)
-        #self.ui.btnTask6.setEnabled(False)
+        self.ui.btnTask2.setEnabled(statusTask.get_verification_passed_tasks(1))
+        self.ui.btnTask3.setEnabled(statusTask.get_verification_passed_tasks(2))
+        self.ui.btnTask4.setEnabled(statusTask.get_verification_passed_tasks(3))
+        self.ui.btnTask5.setEnabled(statusTask.get_verification_passed_tasks(4))
+        #self.ui.btnTask6.setEnabled(statusTask.get_verification_passed_tasks(4))
 
         self._connectAction()
         #self.creatReport()
@@ -1436,11 +1436,11 @@ class WindowMenu(QMainWindow):
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
             self.ui.btnTask1.setEnabled(True)
-            self.ui.btnTask2.setEnabled(properties.get_verification_passed_tasks(1))
-            self.ui.btnTask3.setEnabled(properties.get_verification_passed_tasks(2))
-            self.ui.btnTask4.setEnabled(properties.get_verification_passed_tasks(3))
-            self.ui.btnTask5.setEnabled(properties.get_verification_passed_tasks(4))
-            # self.ui.btnTask6.setEnabled(properties.get_verification_passed_tasks(5))
+            self.ui.btnTask2.setEnabled(statusTask.get_verification_passed_tasks(1))
+            self.ui.btnTask3.setEnabled(statusTask.get_verification_passed_tasks(2))
+            self.ui.btnTask4.setEnabled(statusTask.get_verification_passed_tasks(3))
+            self.ui.btnTask5.setEnabled(statusTask.get_verification_passed_tasks(4))
+            #self.ui.btnTask6.setEnabled(properties.get_verification_passed_tasks(5))
 
         if numTask == "Задание 1":
             MainWindow1.show()
@@ -1503,7 +1503,7 @@ class WindowMenu(QMainWindow):
             
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    
+    statusTask = Properties.statusTask()
     MainWindow = WindowMenu()
     properties = Properties.Properties(MainWindow)
 
