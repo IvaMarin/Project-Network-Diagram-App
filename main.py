@@ -102,7 +102,7 @@ class Window1(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
-        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint)
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
@@ -116,16 +116,19 @@ class Window1(QMainWindow):
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
             self.ui.actionbtnHome.setChecked(False)
+            self.table.close()
             event.accept()
         else:
             close = QMessageBox()
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
                 event.accept()
+                self.table.close()
             else:
                 event.ignore()
 
@@ -227,6 +230,7 @@ class Window1(QMainWindow):
 
     def backMainMenu(self):
         MainWindow.show()
+        self.table.close()
         self.close()
 
     def help(self):
@@ -313,6 +317,22 @@ class Window2(QMainWindow):
         self.msg.setIcon(QMessageBox.Critical)
         self.msg.setStandardButtons(QMessageBox.Ok)
 
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.ui.tableWidget.horizontalHeader().setVisible(True)
+        self.table.ui.tableWidget.setColumnCount(2)
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть"])
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        self.table.setWindowTitle("Подсказка")
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.table.ui.tableWidget.setItem(row, 1, self.item)
+        self.table.resize(393, 700)
+
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -322,15 +342,18 @@ class Window2(QMainWindow):
         if self.ui.actionbtnHome.isChecked():
             self.ui.actionbtnHome.setChecked(False)
             event.accept()
+            self.table.close()
         else:
             close = QMessageBox()
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
                 event.accept()
+                self.table.close()
             else:
                 event.ignore()
 
@@ -416,6 +439,7 @@ class Window2(QMainWindow):
     
     def backMainMenu(self):
         MainWindow.show()
+        self.table.close()
         self.close()
 
     def _connectAction(self):
@@ -425,6 +449,7 @@ class Window2(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCritPath.triggered.connect(self.critPath)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
 
     def openTextTask(self):
         dialogTask = QDialog()
@@ -437,6 +462,12 @@ class Window2(QMainWindow):
         self.ui.toolBar.addAction(self.ui.actionbtnCheck)
         self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
+
+    def help(self):
+        if self.table.isHidden():
+            self.table.show()
+        else:
+            self.table.hide()
 
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
@@ -459,7 +490,15 @@ class Window3(QMainWindow):
 
         self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+        self.table.ui.tableWidget.setRowCount(properties.n)
+        self.table.setWindowTitle("Ранние сроки")
+        for row in range(properties.n):
+            self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+            self.table.ui.tableWidget.setItem(row, 0, self.item)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -468,15 +507,18 @@ class Window3(QMainWindow):
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
             self.ui.actionbtnHome.setChecked(False)
+            self.table.close()
             event.accept()
         else:
             close = QMessageBox()
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
+                self.table.close()
                 event.accept()
             else:
                 event.ignore()
@@ -521,6 +563,7 @@ class Window3(QMainWindow):
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
 
     def openTextTask(self):
         dialogTask = QDialog()
@@ -530,6 +573,7 @@ class Window3(QMainWindow):
 
     def backMainMenu(self):
         MainWindow.show()
+        self.table.close()
         self.close()
 
     def show(self):
@@ -551,6 +595,12 @@ class Window3(QMainWindow):
         self.ui.toolBar.addAction(self.ui.actionbtnCheck)
         self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
+
+    def help(self):
+        if self.table.isHidden():
+            self.table.show()
+        else:
+            self.table.hide()
 
     
 
@@ -577,7 +627,15 @@ class Window4(QMainWindow):
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+        self.table.ui.tableWidget.setRowCount(properties.n)
+        self.table.setWindowTitle("Поздние сроки")
+        for row in range(properties.n):
+            self.item = QtWidgets.QTableWidgetItem(str(properties.tn[row]))
+            self.table.ui.tableWidget.setItem(row, 0, self.item)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -586,15 +644,18 @@ class Window4(QMainWindow):
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
             self.ui.actionbtnHome.setChecked(False)
+            self.table.close()
             event.accept()
         else:
             close = QMessageBox()
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
+                self.table.close()
                 event.accept()
             else:
                 event.ignore()
@@ -642,6 +703,7 @@ class Window4(QMainWindow):
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
 
     def openTextTask(self):
         dialogTask = QDialog()
@@ -651,6 +713,7 @@ class Window4(QMainWindow):
 
     def backMainMenu(self):
         MainWindow.show()
+        self.table.close()
         self.close()
 
     def show(self):
@@ -672,6 +735,12 @@ class Window4(QMainWindow):
             self.ui.toolBar.addAction(self.ui.actionbtnCheck)
             self.ui.toolBar.addAction(self.ui.actionbtnInfo)
             self.ui.toolBar.addAction(self.ui.actionbtnHome)
+
+    def help(self):
+        if self.table.isHidden():
+            self.table.show()
+        else:
+            self.table.hide()
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЯТОЕ ЗАДАНИЯ  ////////////////////////////////////
@@ -754,6 +823,7 @@ class Window5(QMainWindow):
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
@@ -1141,6 +1211,7 @@ class Window6(QMainWindow):
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
@@ -1156,11 +1227,11 @@ class Window6(QMainWindow):
             for i in self.widgetList:
                 i.functionAble = "Переместить вершины"
            
-            self.ui.actionbtnConnectNode.setChecked(False)
-            self.ui.actionbtnAddNode.setChecked(False)
-            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            # self.ui.actionbtnConnectNode.setChecked(False)
+            # self.ui.actionbtnAddNode.setChecked(False)
+            # self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveSeq.setChecked(False)
+            # self.ui.actionbtnRemoveSeq.setChecked(False)
     
     def addDottedArrow(self):
         if self.ui.actionbtnDottedConnectNode.isChecked() == False:
@@ -1353,6 +1424,7 @@ class WindowMenu(QMainWindow):
         close.setWindowTitle("Закрыть приложение")
         close.setText("Вы уверены, что хотите закрыть приложение?")
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        close.setWindowFlags(Qt.WindowStaysOnTopHint)
         close = close.exec()
 
         if close == QMessageBox.Ok:

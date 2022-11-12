@@ -4,7 +4,7 @@ import pickle
 from PyQt5 import QtWidgets
 
 import GraphModel
-from checker import find_t_p
+from checker import find_t_p, find_t_n
 from encrypt_module import decrypt_file
 
 def join(*args):
@@ -50,9 +50,11 @@ class Properties():
         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
         self.step_grid = 75 # шаг сетки
         self.currentSquadGridY = dict()
-        correct_w = self.MainWindow.getCorrectWeights()
-        n = len(correct_w)
-        self.max_possible_time = find_t_p(correct_w, n)[n-1] # максимальное время (для сетки)
+        self.correct_w = self.MainWindow.getCorrectWeights()
+        self.n = len(self.correct_w)
+        self.tp = find_t_p(self.correct_w, self.n)
+        self.tn = find_t_n(self.correct_w, self.tp, self.n)
+        self.max_possible_time = self.tp[self.n-1] # максимальное время (для сетки)
 
         #свойства второго окна
         self.scaler = 3 # параметр увеличения радиуса для второго задания
