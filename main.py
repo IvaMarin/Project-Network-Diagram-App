@@ -779,7 +779,17 @@ class Window5(QMainWindow):
             properties.currentSquadGridY[i] = properties.step_grid
         else:
             properties.currentSquadGridY[i] += properties.step_grid
-
+        #self.widgetList[i].graph_in.Points[(digit, id)][1]
+        delta_Y = set([])
+        for el in self.widgetList[i].graph_in.Points:
+            delta_Y.add(self.widgetList[i].graph_in.Points[el][1])
+        delta_Y = sorted(delta_Y)
+        for j in range(len(delta_Y)):
+            if delta_Y[j] != (j+1)*properties.step_grid:
+                self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, (j+1)*properties.step_grid)
+                self.widgetList[i].update()
+                properties.currentSquadGridY[i] -= properties.step_grid
+                return
         gridY = properties.currentSquadGridY[i]
         self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
         self.widgetList[i].update()
@@ -1367,7 +1377,7 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        if self.ui.btnTeacherMode.isChecked() and (properties.enter_key()):
+        if self.ui.btnTeacherMode.isChecked(): #and (properties.enter_key())
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
