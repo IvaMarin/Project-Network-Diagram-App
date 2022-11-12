@@ -102,6 +102,7 @@ class Window1(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint)
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
@@ -229,7 +230,10 @@ class Window1(QMainWindow):
         self.close()
 
     def help(self):
-        self.table.show()
+        if self.table.isHidden():
+            self.table.show()
+        else:
+            self.table.hide()
 
     def show(self):
         if properties.teacherMode:
@@ -1436,7 +1440,7 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask3.setEnabled(properties.get_verification_passed_tasks(2))
             self.ui.btnTask4.setEnabled(properties.get_verification_passed_tasks(3))
             self.ui.btnTask5.setEnabled(properties.get_verification_passed_tasks(4))
-            #self.ui.btnTask6.setEnabled(properties.get_verification_passed_tasks(6))
+            # self.ui.btnTask6.setEnabled(properties.get_verification_passed_tasks(5))
 
         if numTask == "Задание 1":
             MainWindow1.show()
