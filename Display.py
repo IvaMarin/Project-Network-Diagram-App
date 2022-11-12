@@ -667,10 +667,6 @@ class Display5(Display):
 
         self.graph_in.PeopleWeights = self.GetNumberOfPeople()
 
-    # def checkEvent5(self, id, squad_people_number):
-    #     mistakes = checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id, squad_people_number)
-    #     return mistakes
-
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
         if (self.functionAble == "Удалить последовательность"):
@@ -680,61 +676,111 @@ class Display5(Display):
                     (x, y) = self.graph.Points[p]
                     self.graph.DeletePointsSequence(y)
 
-    #     elif (self.functionAble == "Добавить вершину"):
-    #         controller.CAddPointGrid(
-    #             self.graph, event, Qt.LeftButton, self.start_coordination_X, self.step, None)
+        elif (self.functionAble == "Переместить вершины"):
+            if event.button() == Qt.LeftButton:
+                self.FixedPoint = self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
 
-    #     elif (self.functionAble == "Добавить связь"):
-    #         self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(
-    #             event.pos().x(), event.pos().y()))  # добавить в массив выбранных вершин
-
-    #         # если число выбранных вершин 2
-    #         if len(self.TempPoints) == 2:
-    #             # проверка, если пользователь случайно нажал дважды по одной и той же вершине
-    #             if (self.TempPoints[0] != self.TempPoints[1]):
-    #                 controller.CAddConnection(
-    #                     self.graph, event, Qt.LeftButton, self.TempPoints)
-    #             self.TempPoints = np.empty(0)  # очистить массив
-
-    #     elif (self.functionAble == "Удалить связь"):
-    #         self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(
-    #             event.pos().x(), event.pos().y()))  # добавить в массив выбранных вершин
-
-    #         # если число выбранных вершин 2
-    #         if len(self.TempPoints) == 2:
-    #             controller.CDeleteConnection(
-    #                 self.graph, event, Qt.LeftButton, self.TempPoints)
-    #             self.TempPoints = np.empty(0)  # очистить массив
-
-    #     elif (self.functionAble == "Переместить вершины"):
-    #         self.FixedPoint = controller.CIsCursorOnPoint(
-    #             self.graph, event, Qt.LeftButton)
-    #         self.TempPoints = np.empty(0)
-
-    #     elif (self.functionAble == "Добавить пунктирную связь"):
-    #         self.FixedArrowPoint = controller.CIsCursorOnArrowPoint(
-    #             self.graph, event, Qt.LeftButton)  
-
-    #         # !!! необходимо этот код перенсти в отдельную кнопку   
-    #         if self.switch == True:
-    #             self._drawLabels()
-    #             self.switch = False
-    #         # !!!
+        elif (self.functionAble == "Добавить пунктирную связь"):
+            if event.button() == Qt.LeftButton:
+                self.FixedArrowPoint = self.graph.IsCursorOnArrowPoint(event.pos().x(), event.pos().y()) 
 
         self.update()
 
-    # def mouseMoveEvent(self, event):
-    #     if (self.functionAble == "Переместить вершины"):
-    #         controller.CMovePointGrid(self.graph, event, Qt.LeftButton,
-    #                                self.FixedPoint, self.start_coordination_X, self.step, None)                               
-    #     elif (self.functionAble == "Добавить пунктирную связь"):
-    #         controller.CMoveArrowPointGrid(
-    #             self.graph, event, Qt.LeftButton, self.FixedArrowPoint, self.start_coordination_X, self.step)
+    def mouseMoveEvent(self, event):
+        if (self.functionAble == "Переместить вершины"):
+            wasFinded = False
+            i = 0
+            while(not wasFinded):
+                i += 1 
+                if event.pos().x() <= self.start_coordination_X+i*self.step:
+                    wasFinded = True
 
-    #     self.update()
+            XonGrid = self.start_coordination_X
+            if (abs(event.pos().x() >= self.start_coordination_X+(i-3/2)*self.step) and 
+                abs(event.pos().x() < self.start_coordination_X+(i-1/2)*self.step)):
+                    XonGrid = self.start_coordination_X+(i-1)*self.step
+            elif (abs(event.pos().x() >= self.start_coordination_X+(i-1/2)*self.step) and 
+                  abs(event.pos().x() < self.start_coordination_X+(i+3/2)*self.step)):
+                XonGrid = self.start_coordination_X+i*self.step
+            
+            if event.buttons() == Qt.LeftButton and self.FixedPoint != None:
+                self.graph.MovePointFixedY(self.FixedPoint, XonGrid) 
+
+        elif (self.functionAble == "Добавить пунктирную связь"):
+            wasFinded = False 
+            i = 0
+            while(not wasFinded):
+                i += 1 
+                if event.pos().x() <= self.start_coordination_X+i*self.step:
+                    wasFinded = True
+             
+            XonGrid = self.start_coordination_X
+            if (abs(event.pos().x() >= self.start_coordination_X+(i-3/2)*self.step) and 
+                abs(event.pos().x() < self.start_coordination_X+(i-1/2)*self.step)):
+                XonGrid = self.start_coordination_X+(i-1)*self.step
+            elif (abs(event.pos().x() >= self.start_coordination_X+(i-1/2)*self.step) and 
+                  abs(event.pos().x() < self.start_coordination_X+(i+3/2)*self.step)):
+                XonGrid = self.start_coordination_X+i*self.step
+
+            if event.buttons() == Qt.LeftButton and self.FixedArrowPoint != None:
+                self.graph.MoveArrowPointFixedY(self.FixedArrowPoint[0], self.FixedArrowPoint[1], XonGrid)
+
+        self.update()
+
+    def _drawLabels(self):
+        self.QLineEdits = dict()
+        for p1, p2 in self.graph.AdjacencyList.items():
+            (x1, y1) = self.graph.Points[p1]
+            (x2, y2) = self.graph.Points[p2]
+
+            # определим где отрисовать вес ребра/стрелки
+            cos_sign = x2 - x1
+            sin_sign = y2 - y1
+            offset = 10
+            if ((cos_sign >= 0 and sin_sign >= 0) or (cos_sign <= 0 and sin_sign <= 0)):
+                x = ((int)(x1) + (int)(x2)) / 2 + offset
+            else:
+                x = ((int)(x1) + (int)(x2)) / 2 - offset
+            y = ((int)(y1) + (int)(y2)) / 2 - offset
+
+            self.QLineEdits[(p1, p2)] = (QLineEdit(self))
+            self.QLineEdits[(p1, p2)].setAlignment(Qt.AlignHCenter)
+
+            font = 'Times'
+            font_size = 12
+            self.QLineEdits[(p1, p2)].setFont(QFont(font, font_size))
+            
+            self.QLineEdits[(p1, p2)].move(int(x), int(y))
+            self.QLineEdits[(p1, p2)].resize(50,50)
+
+            self.QLineEdits[(p1, p2)].setStyleSheet("border :2px solid black;")
+            
+            self.QLineEdits[(p1, p2)].setInputMask("00")
+            self.QLineEdits[(p1, p2)].show()
+
+    def GetNumberOfPeople(self):
+        if not(self.QLineEdits is None):
+            self.PeopleWeights = dict()
+            for k, v in self.QLineEdits.items():
+                try:
+                    self.PeopleWeights[k] = int(v.text())
+                except ValueError:
+                    pass
+            return self.PeopleWeights
+        else:
+            return None
+
+    def checkEvent5Part1(self, id) -> bool:
+        return checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id)
+
+    def checkEvent5Part2(self, id) -> bool:
+        return checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id)
+
+    def checkEvent5Part3(self, id) -> bool:
+        return checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id)
+
 
 class DrawHist(QWidget):
-
     def __init__(self, root, graph, step = 25):
 
         super().__init__(root)
@@ -778,14 +824,14 @@ class DrawHist(QWidget):
 
         intervals = np.zeros(18)
         for p in range(len(self.graph)):
-            AdjacencyMatrix = self.graph[p].PeopleWeights
-            if AdjacencyMatrix is not None:
-                for i in range(len(AdjacencyMatrix)):
-                    for j in range(len(AdjacencyMatrix[i])):
-                        if AdjacencyMatrix[i][j] != 0:
-                            for k in range(len(intervals)):
-                                if k*self.stepAlg >= self.graph[p].Points[i][0] and self.graph[p].Points[j][0] >= (k+1)*self.stepAlg:
-                                    intervals[k] += AdjacencyMatrix[i][j]
+            AdjacencyList = self.graph[p].PeopleWeights
+            if AdjacencyList is not None:
+                for (p1, p2), w in AdjacencyList.items():
+                    (x1, y1) = self.graph[p].Points[p1]
+                    (x2, y2) = self.graph[p].Points[p2]
+                    for k in range(len(intervals)):
+                        if k*self.stepAlg >= x1 and x2 >= (k+1)*self.stepAlg:
+                            intervals[k] += w
 
         painter.setPen(QPen(QColor("red"), 3))
         lines = []

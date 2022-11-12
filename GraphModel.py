@@ -304,10 +304,10 @@ class GraphOrthogonal:
 		return None 
 
 	def IsCursorOnArrowPoint(self, x, y):
-		for (a_x, a_y) in self.Arrows.values():
+		for key, (a_x, a_y) in self.Arrows.items():
 			if  ((x >= a_x - self.Radius and x <= a_x + self.Radius) and 
 				 (y >= a_y - self.Radius and y <= a_y + self.Radius)):
-					return (a_x, a_y)
+					return key
 		return None
 
 	def UpdateArrows(self, Point: tuple):
@@ -322,6 +322,11 @@ class GraphOrthogonal:
 
 	def MovePoint(self, Point: tuple, x, y):
 		self.Points[Point] = (x, y)
+		self.UpdateArrows(Point)
+	
+	def MovePointFixedY(self, Point: tuple, x):
+		(cur_x, cur_y) = self.Points[Point]
+		self.Points[Point] = (x, cur_y)
 		self.UpdateArrows(Point)
 
 	def MoveArrowPoint(self, firstPoint: tuple, secondPoint: tuple, x, y):
@@ -363,6 +368,48 @@ class GraphOrthogonal:
 		(x, y) = projection
 	
 		self.Arrows[(firstPoint, secondPoint)] = (x, y)
+
+	def MoveArrowPointFixedY(self, firstPoint: tuple, secondPoint: tuple, x):
+		(cur_x, cur_y) = self.Arrows[(firstPoint, secondPoint)]
+
+		(firstPoint_x, firstPoint_y) = self.Points[firstPoint]
+		(secondPoint_x, secondPoint_y) = self.Points[secondPoint]
+		dx = firstPoint_x - secondPoint_x
+		dy = firstPoint_y - secondPoint_y
+		length = np.sqrt(dx ** 2 + dy ** 2)
+
+		if (length == 0):
+			norm_x, norm_y = 0, 0
+		else:
+			norm_x, norm_y = dx / length, dy / length
+		
+		arrow_height = 10
+		p1_x = firstPoint_x - (self.Radius + arrow_height) * norm_x
+		p1_y = firstPoint_y - (self.Radius + arrow_height) * norm_y
+		p1 = np.array([p1_x, p1_y])
+
+		p2_x = secondPoint_x + self.Radius * norm_x
+		p2_y = secondPoint_y + self.Radius * norm_y
+		p2 = np.array([p2_x, p2_y])
+			
+		p3 = np.array([x, cur_y])
+		
+		distance = np.sum((p1 - p2)**2)
+		if (distance == 0):
+			t = 0
+		else:
+			t = np.sum((p3 - p1) * (p2 - p1)) / distance
+			
+		if t > 1:
+			projection = p2
+		elif t <= 0:
+			projection = p1
+		else:
+			projection = p1 + t * (p2 - p1)
+
+		(x, cur_y) = projection
+	
+		self.Arrows[(firstPoint, secondPoint)] = (x, cur_y)
 
 	def _Print(self):
 		print("GraphOrthogonal:")

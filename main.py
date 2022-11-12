@@ -876,64 +876,87 @@ class Window5(QMainWindow):
     # def makeNewFile(self):
     #     self.centralWidget.functionAble = "Новый файл"
 
-    # def taskCheck(self):
-    #     mistakes_total = set()
-    #     for i in range(squadNum):
-    #         try:
-    #             squad_people_number = int(self.squadWidgetList[i].ui.lineEdit_countPerson.text())
-    #         except:
-    #             squad_people_number = -1
-
-    #         mistakes = self.widgetList[i].checkEvent5(i, squad_people_number)
-    #         if type(mistakes) == QMessageBox:
-    #             mistakes.exec()
-    #             return
-    #         for m in mistakes:
-    #             mistakes_total.add(m)
-    #     if len(mistakes_total) == 0:
-    #         statusTask.set__verification_passed_task(5)
-    #     self.checkForm1 = task1CheckForm(self, list(mistakes_total))
-    #     self.checkForm1.Task2()        
-    #     self.checkForm1.exec_()
-
     def taskCheck1(self):
+        mistakes = list()
+        for i in range(squadNum):
+            mistakes.append(self.widgetList[i].checkEvent5Part1(i))
 
-        # mistakes = self.DisplayObj.checkEvent()
-        mistakes = []
-        if type(mistakes) != QMessageBox:
-            if len(mistakes) == 0:
-                self.ui.actionbtnCheck.triggered.connect(self.taskCheck2)
+        show_message = False
+        is_correct = True
+        for m in mistakes:
+            if type(m) == QMessageBox:
+                show_message = True
+                m.exec()
+                break
+            elif m == False:
+                is_correct = False
 
+        if not show_message:
+            if is_correct:
                 self.ui.actionbtnAddSeq.setVisible(False)
                 self.ui.actionbtnRemoveSeq.setVisible(False)
-
                 self.ui.actionbtnConnectNode.setVisible(True)
                 self.ui.actionbtnRemoveNodeConnection.setVisible(True)
                 self.ui.actionbtnMoveNode.setVisible(True)
                 self.ui.actionbtnDottedConnectNode.setVisible(True)
 
+            self.ui.actionbtnCheck.triggered.connect(self.taskCheck2) 
             self.checkForm = task5CheckForm(self, mistakes)
             self.checkForm.exec_()
-        else:
-            mistakes.exec()
+        
+
 
     def taskCheck2(self):
-        if (True):
+        mistakes = list()
+        for i in range(squadNum):
+            mistakes.append(self.widgetList[i].checkEvent5Part2(i))
+
+        show_message = False
+        is_correct = True
+        for m in mistakes:
+            if type(m) == QMessageBox:
+                show_message = True
+                m.exec()
+                break
+            elif m == False:
+                is_correct = False
+
+        if not show_message:
+            if is_correct:
+                self.ui.actionbtnConnectNode.setVisible(False)
+                self.ui.actionbtnRemoveNodeConnection.setVisible(False)
+                self.ui.actionbtnMoveNode.setVisible(False)
+                self.ui.actionbtnDottedConnectNode.setVisible(False)
+
+                for d in self.widgetList:
+                    if d.switch == True:
+                        d._drawLabels()
+                        d.switch = False
+
             self.ui.actionbtnCheck.triggered.connect(self.taskCheck3)
+            self.checkForm = task5CheckForm(self, mistakes)
+            self.checkForm.exec_()
             
-            self.ui.actionbtnConnectNode.setVisible(False)
-            self.ui.actionbtnRemoveNodeConnection.setVisible(False)
-            self.ui.actionbtnMoveNode.setVisible(False)
-            self.ui.actionbtnDottedConnectNode.setVisible(False)
-        else:
-            print("clown")
 
     def taskCheck3(self):
-        if (True):
-            msg = QMessageBox()
-            msg.exec()
-        else:
-            print("clown")
+        mistakes = list()
+        for i in range(squadNum):
+            mistakes.append(self.widgetList[i].checkEvent5Part3(i))
+
+        show_message = False
+        is_correct = True
+        for m in mistakes:
+            if type(m) == QMessageBox:
+                show_message = True
+                m.exec()
+                break
+            elif m == False:
+                is_correct = False
+
+        if not show_message:
+            if is_correct:
+                statusTask.set__verification_passed_task(5)
+
 
     def _connectAction(self):
         self.ui.actionbtnAddSeq.triggered.connect(self.addSeq)
@@ -942,8 +965,7 @@ class Window5(QMainWindow):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnRemoveSeq.triggered.connect(self.removeSeq)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
-
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck1)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck1) 
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
@@ -953,97 +975,6 @@ class Window5(QMainWindow):
         dialogTask.ui = Ui_TextTask5()
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
-
-    # def replace(self, i):	
-    #     try:
-    #         point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
-    #         new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
-
-    #         for id in range(len(self.widgetList[i].graph.Points)):
-    #             if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
-    #                 return
-
-    #         x, y = self.widgetList[i].graph.Points[point_id]
-    #         n = len(self.widgetList[i].graph.AdjacencyMatrix)
-            
-    #         dont_move = False
-    #         # создание нового графа в случае если добавляется уже существующая вершина
-    #         for id in range(len(self.widgetList[i].graph.Points)):
-    #             if (not np.isnan(self.widgetList[i].graph.Points[id][0]) and id == new_point_id):
-    #                 if (not hasattr(self.widgetList[i], 'sub_graphs')):
-    #                     self.widgetList[i].sub_graphs = list()
-
-    #                 new_graph = GraphModel.Graph(self.widget1.graph_in.RadiusPoint)
-    #                 self.widgetList[i].sub_graphs.append(new_graph)
-
-    #                 idx = len(self.widgetList[i].sub_graphs) - 1
-
-    #                 cnt = max(new_point_id, len(self.widgetList[i].graph.Points), len(self.widgetList[i].sub_graphs[idx].Points))
-    #                 tmp= np.full((cnt+1, 2), None, dtype=np.float64)
-
-    #                 for id in range(len(self.widgetList[i].sub_graphs[idx].Points)):
-    #                     pass # тут вообще нужно как-то сохранять значения прошлого графа
-                    
-    #                 if (cnt > len(self.widgetList[i].sub_graphs[idx].Points)):
-    #                     tmp[new_point_id] = x, y
-    #                     for _ in range((cnt-len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))+1):
-    #                         self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.vstack([self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))])	
-    #                         self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.c_[self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix[0]) + 1)]
-
-    #                         self.widgetList[i].sub_graphs[idx].ArrowPoints = np.vstack([self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints))])	
-    #                         self.widgetList[i].sub_graphs[idx].ArrowPoints = np.c_[self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints[0]) + 1)]
-
-    #                 self.widgetList[i].sub_graphs[idx].Points = tmp.copy()
-    #                 self.widgetList[i].sub_graphs[idx].MovePoint(new_point_id, x, y)
-    #                 dont_move = True
-                           
-    #         out_connections = []
-    #         for column in range(n):
-    #             if (int(self.widgetList[i].graph.AdjacencyMatrix[point_id][column]) >= 1):
-    #                 out_connections.append(column)
-
-    #         in_connections = []
-    #         for row in range(n):
-    #             if (int(self.widgetList[i].graph.AdjacencyMatrix[row][point_id]) >= 1):
-    #                 in_connections.append(row)
-
-    #         cnt = max(new_point_id, point_id, len(self.widgetList[i].graph.Points))
-
-    #         tmp= np.full((cnt+1, 2), None, dtype=np.float64)
-
-    #         for id in range(len(self.widgetList[i].graph.Points)):
-    #             if (id == point_id):
-    #                 tmp[id] = None, None
-    #                 for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
-    #                     self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
-    #                     self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
-    #             elif (id == new_point_id) and (not dont_move):
-    #                 tmp[id] = x, y
-    #             else:
-    #                 tmp[id] = self.widgetList[i].graph.Points[id]
-            
-    #         if (cnt > len(self.widgetList[i].graph.Points)):
-    #             tmp[new_point_id] = x, y
-    #             for _ in range((cnt-len(self.widgetList[i].graph.AdjacencyMatrix))+1):
-    #                 self.widgetList[i].graph.AdjacencyMatrix = np.vstack([self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix))])	
-    #                 self.widgetList[i].graph.AdjacencyMatrix = np.c_[self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix[0]) + 1)]
-
-    #                 self.widgetList[i].graph.ArrowPoints = np.vstack([self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints))])	
-    #                 self.widgetList[i].graph.ArrowPoints = np.c_[self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints[0]) + 1)]
-
-    #         self.widgetList[i].graph.Points = tmp.copy()
-
-    #         if (not dont_move):
-    #             self.widgetList[i].graph.MovePoint(new_point_id, x, y)
-    #         if (not dont_move):
-    #             for column in out_connections:
-    #                 self.widgetList[i].graph.AddConnection(new_point_id, column)
-    #             for row in in_connections:
-    #                 self.widgetList[i].graph.AddConnection(row, new_point_id)
-    #     except Exception:
-    #         pass
-    #     self.widgetList[i].update()
-
 
     def backMainMenu(self):
         MainWindow.show()
@@ -1065,7 +996,6 @@ class Window5(QMainWindow):
 #////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 class Window6(QMainWindow):
-
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -1074,31 +1004,21 @@ class Window6(QMainWindow):
         height = int(sizeWindow.height())
         # Создаём компоновщик
         layout = QtWidgets.QHBoxLayout()
-
         layoutLeft = QtWidgets.QVBoxLayout()
 
-
-
         self.widgetList = []
-
         for i in range(squadNum):
-            # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-            # self.widget1.setMinimumSize(500, 500)
-            # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            self.widgetList.append(Display.Display3(self, graph5[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1))
-            #self.widgetList[i].setMinimumSize(int(width/2), 500)
+            self.widgetList.append(Display.Display5(self, graph5_ort[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1))
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
-            # scroll.setWidgetResizable(True)
             layoutLeft.addWidget(scroll)
 
         widgetLeft = QWidget()
         widgetLeft.setLayout(layoutLeft)
-
 
         self.scroll1 = QtWidgets.QScrollArea()
         self.scroll1.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -1106,7 +1026,6 @@ class Window6(QMainWindow):
         self.scroll1.setWidgetResizable(True)
         self.scroll1.setWidget(widgetLeft)
 
-        
         self.widgetRight = Display.DrawHist(self, graph5)
         self.widgetRight.setMinimumSize(int(width/2), 500)
         self.scroll2 = QtWidgets.QScrollArea()
