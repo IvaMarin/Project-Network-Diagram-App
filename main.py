@@ -1232,7 +1232,7 @@ class WindowMenu(QMainWindow):
         self.ui.btnTask3.setEnabled(statusTask.get_verification_passed_tasks(2))
         self.ui.btnTask4.setEnabled(statusTask.get_verification_passed_tasks(3))
         self.ui.btnTask5.setEnabled(statusTask.get_verification_passed_tasks(4))
-        #self.ui.btnTask6.setEnabled(False)
+        #self.ui.btnTask6.setEnabled(statusTask.get_verification_passed_tasks(4))
 
         self._connectAction()
         #self.creatReport()
