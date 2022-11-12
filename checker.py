@@ -470,76 +470,77 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
     return mistakes
 
 # проверка пятого задания
-def checkTask5(Graph, BaseGraph, GridBegin, GridStep, Id, SquadPeopleNumber):
-    old_mistakes = []
-    check_intersections(old_mistakes, 0, Graph.Points, Graph.AdjacencyMatrix)
+def checkTask5(Graph, BaseGraph, GridBegin, GridStep, Id) -> bool:
+    is_correct = True
+    # old_mistakes = []
+    # check_intersections(old_mistakes, 0, Graph.Points, Graph.AdjacencyMatrix)
 
-    if (old_mistakes):
-        warning = QMessageBox()
-        warning.setWindowTitle("Предупреждение")
-        warning.setText("Связи пересекаются!")
-        warning.setIcon(QMessageBox.Warning)
-        warning.setStandardButtons(QMessageBox.Ok)
-        return warning
+    # if (old_mistakes):
+    #     warning = QMessageBox()
+    #     warning.setWindowTitle("Предупреждение")
+    #     warning.setText("Связи пересекаются!")
+    #     warning.setIcon(QMessageBox.Warning)
+    #     warning.setStandardButtons(QMessageBox.Ok)
+    #     return warning
     
-    CorrectPoints = set()
-    CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
-    for i in range(len(BaseGraph.CorrectSquadsWork)):
-        for j in range(len(BaseGraph.CorrectSquadsWork)):
-            if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
-                CorrectAdjacencyMatrix[i][j] = 1
-                CorrectPoints.add(i)
-                CorrectPoints.add(j)
-            else:
-                CorrectAdjacencyMatrix[i][j] = 0
-    CorrectPoints = list(CorrectPoints)
+    # CorrectPoints = set()
+    # CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
+    # for i in range(len(BaseGraph.CorrectSquadsWork)):
+    #     for j in range(len(BaseGraph.CorrectSquadsWork)):
+    #         if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
+    #             CorrectAdjacencyMatrix[i][j] = 1
+    #             CorrectPoints.add(i)
+    #             CorrectPoints.add(j)
+    #         else:
+    #             CorrectAdjacencyMatrix[i][j] = 0
+    # CorrectPoints = list(CorrectPoints)
 
-    mistakes = []  # список ошибок:
+    # mistakes = []  # список ошибок:
 
-    if BaseGraph.SquadsPeopleNumber[Id] != SquadPeopleNumber:
-        mistakes.append(TaskFiveMistakes.WRONG_SQUADS_PEOPLE_NUMBER.value)
+    # if BaseGraph.SquadsPeopleNumber[Id] != SquadPeopleNumber:
+    #     mistakes.append(TaskFiveMistakes.WRONG_SQUADS_PEOPLE_NUMBER.value)
 
-    try:
-        idx = 0
-        if (len(CorrectPoints) != 0 and len(Graph.Points) == 0):
-            mistakes.append(TaskFiveMistakes.WRONG_SQUADS_EVENTS.value)
-        else:
-            for i in range(len(Graph.Points)):
-                if (not np.isnan(Graph.Points[i][0])):
-                    if (i != CorrectPoints[idx]):
-                        mistakes.append(TaskFiveMistakes.WRONG_SQUADS_EVENTS.value)
-                    idx += 1
-    except:
-        mistakes.append(TaskFiveMistakes.WRONG_SQUADS_EVENTS.value)
+    # try:
+    #     idx = 0
+    #     if (len(CorrectPoints) != 0 and len(Graph.Points) == 0):
+    #         mistakes.append(TaskFiveMistakes.WRONG_SQUADS_EVENTS.value)
+    #     else:
+    #         for i in range(len(Graph.Points)):
+    #             if (not np.isnan(Graph.Points[i][0])):
+    #                 if (i != CorrectPoints[idx]):
+    #                     mistakes.append(TaskFiveMistakes.WRONG_SQUADS_EVENTS.value)
+    #                 idx += 1
+    # except:
+    #     mistakes.append(TaskFiveMistakes.WRONG_SQUADS_EVENTS.value)
 
-    check_connections(mistakes, TaskFiveMistakes.WRONG_SQUADS_TASKS.value, Graph.AdjacencyMatrix, CorrectAdjacencyMatrix)
+    # check_connections(mistakes, TaskFiveMistakes.WRONG_SQUADS_TASKS.value, Graph.AdjacencyMatrix, CorrectAdjacencyMatrix)
 
 
-    # early = find_t_p(CorrectWeights, n)
-    # late = find_t_n(CorrectWeights, early, n)
+    # # early = find_t_p(CorrectWeights, n)
+    # # late = find_t_n(CorrectWeights, early, n)
 
-    # Graph.PointsTimeLate = np.zeros(n, int)
-    # for i in range(n):
-    #     Graph.PointsTimeLate[i] = round((Graph.Points[i][0] - GridBegin) / GridStep)
+    # # Graph.PointsTimeLate = np.zeros(n, int)
+    # # for i in range(n):
+    # #     Graph.PointsTimeLate[i] = round((Graph.Points[i][0] - GridBegin) / GridStep)
 
-    # points_on_correct_axes = True
-    # for i in range(n):
-    #     if (Graph.PointsTimeLate[i] != late[i]):
-    #         mistakes.append(1)
-    #         mistakes.append(2)
-    #         points_on_correct_axes = False
-    #         break
+    # # points_on_correct_axes = True
+    # # for i in range(n):
+    # #     if (Graph.PointsTimeLate[i] != late[i]):
+    # #         mistakes.append(1)
+    # #         mistakes.append(2)
+    # #         points_on_correct_axes = False
+    # #         break
 
-    # Graph.ArrowPointsTimeLate = np.zeros((n, n), int)
-    # for i in range(len(CorrectAdjacencyMatrix)):
-    #     for j in range(len(CorrectAdjacencyMatrix)):
-    #         if (CorrectAdjacencyMatrix[i][j] == 1):
-    #             Graph.ArrowPointsTimeLate[i][j] = round((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
+    # # Graph.ArrowPointsTimeLate = np.zeros((n, n), int)
+    # # for i in range(len(CorrectAdjacencyMatrix)):
+    # #     for j in range(len(CorrectAdjacencyMatrix)):
+    # #         if (CorrectAdjacencyMatrix[i][j] == 1):
+    # #             Graph.ArrowPointsTimeLate[i][j] = round((Graph.ArrowPoints[i][j][0] - GridBegin) / GridStep)
 
-    # if (points_on_correct_axes):
-    #     for i in range(len(CorrectAdjacencyMatrix)):
-    #         for j in range(len(CorrectAdjacencyMatrix)):
-    #             if ((CorrectAdjacencyMatrix[i][j] == 1) and (Graph.ArrowPointsTimeLate[i][j] != Graph.PointsTimeLate[j] - CorrectWeights[i][j])):
-    #                 mistakes.append(2)
-    #                 return mistakes
-    return mistakes
+    # # if (points_on_correct_axes):
+    # #     for i in range(len(CorrectAdjacencyMatrix)):
+    # #         for j in range(len(CorrectAdjacencyMatrix)):
+    # #             if ((CorrectAdjacencyMatrix[i][j] == 1) and (Graph.ArrowPointsTimeLate[i][j] != Graph.PointsTimeLate[j] - CorrectWeights[i][j])):
+    # #                 mistakes.append(2)
+    # #                 return mistakes
+    return is_correct
