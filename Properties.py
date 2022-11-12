@@ -12,13 +12,37 @@ def join(*args):
 
 basedir = os.path.dirname(__file__) # путь до данного файла
 
+class statusTask():
+    def __init__(self):
+        self.verification_passed_tasks = {1: True, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
+
+    def get_verification_passed_tasks(self, current):
+        return self.verification_passed_tasks[current]    
+
+    # функция получения подтверждения пройденых заданий
+    def get_verification_passed_pretasks(self, current):
+        if (self.verification_passed_tasks[current - 1] == False):
+            return False
+        else:
+            return True
+
+    # функция присваивания  подтверждения заданию
+    def set__verification_passed_task(self, number):
+        self.verification_passed_tasks[number] = True
+
+    def set__verification_passed_task_all(self, arg):
+        if (arg):
+            self.verification_passed_tasks = {1: True, 2: True, 3: True, 4: True, 5: True}
+        else:
+            self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
+
 class Properties():
     def __init__(self, MainWindow):
 
         # свойства, использующиеся в разных заданиях
         self.variant = MainWindow.numINGroup
         self.teacherMode = False
-        self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
+        self.verification_passed_tasks = {1: True, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
         self.key_path = "" # путь до ключа преподавателя 
 
         # свойства первого окна
