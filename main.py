@@ -782,6 +782,7 @@ class Window5(QMainWindow):
 
         gridY = properties.currentSquadGridY[i]
         self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
+        self.widgetList[i].update()
 
     def addArrow(self):
         if self.ui.actionbtnConnectNode.isChecked() == False:
@@ -1366,7 +1367,7 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        if self.ui.btnTeacherMode.isChecked() and properties.enter_key():
+        if self.ui.btnTeacherMode.isChecked() and (properties.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
