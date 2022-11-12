@@ -1432,10 +1432,10 @@ class WindowMenu(QMainWindow):
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
             self.ui.btnTask1.setEnabled(True)
-            self.ui.btnTask2.setEnabled(properties.get_verification_passed_tasks(2))
-            self.ui.btnTask3.setEnabled(properties.get_verification_passed_tasks(3))
-            self.ui.btnTask4.setEnabled(properties.get_verification_passed_tasks(4))
-            self.ui.btnTask5.setEnabled(properties.get_verification_passed_tasks(5))
+            self.ui.btnTask2.setEnabled(properties.get_verification_passed_tasks(1))
+            self.ui.btnTask3.setEnabled(properties.get_verification_passed_tasks(2))
+            self.ui.btnTask4.setEnabled(properties.get_verification_passed_tasks(3))
+            self.ui.btnTask5.setEnabled(properties.get_verification_passed_tasks(4))
             #self.ui.btnTask6.setEnabled(properties.get_verification_passed_tasks(6))
 
         if numTask == "Задание 1":
