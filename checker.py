@@ -29,24 +29,23 @@ class TaskFiveMistakes(Enum):
     ARROWS_ON_WRONG_TIME_POSITIONS = 5  # Промежутки времени у работ
 
 
-# функции для определения точек пересечения отрезков
+# функции для определения пересечения отрезков
 def onSegment(p, q, r):
-    if ((q.x() <= max(p.x(), r.x())) and (q.x() >= min(p.x(), r.x())) and
-            (q.y() <= max(p.y(), r.y())) and (q.y() >= min(p.y(), r.y()))):
+    if ((q.x() <= max(p.x(), r.x())) and 
+        (q.x() >= min(p.x(), r.x())) and
+        (q.y() <= max(p.y(), r.y())) and 
+        (q.y() >= min(p.y(), r.y()))):
         return True
     return False
 
-
 def orientation(p, q, r):
-    val = (float(q.y() - p.y()) * (r.x() - q.x())) - \
-        (float(q.x() - p.x()) * (r.y() - q.y()))
+    val = (float(q.y() - p.y()) * (r.x() - q.x())) - (float(q.x() - p.x()) * (r.y() - q.y()))
     if (val > 0):
         return 1
     elif (val < 0):
         return 2
     else:
         return 0
-
 
 def doIntersect(p1, q1, p2, q2):
     o1 = orientation(p1, q1, p2)
@@ -56,6 +55,7 @@ def doIntersect(p1, q1, p2, q2):
 
     if ((o1 != o2) and (o3 != o4)):
         return True
+
     if ((o1 == 0) and onSegment(p1, p2, q1)):
         return True
     if ((o2 == 0) and onSegment(p1, q2, q1)):
@@ -64,30 +64,17 @@ def doIntersect(p1, q1, p2, q2):
         return True
     if ((o4 == 0) and onSegment(p2, q1, q2)):
         return True
+    
     return False
 
-
-# функция для опредения координат точки пересечения
-# и проверки на то, не является ли точка пересечения лишь вершиной графа
-def find_point_and_check(p1, q1, p2, q2):
-    if (q1.y() - p1.y() != 0):
-        q = (q1.x() - p1.x()) / (p1.y() - q1.y())
-        sn = (p2.x() - q2.x()) + (p2.y() - q2.y()) * q
-        # if (not sn):
-        #     return False
-        fn = (p2.x() - p1.x()) + (p2.y() - p1.y()) * q
-        if (sn == 0):
-            n = 0
-        else:
-            n = fn / sn
-    else:
-        # if (not(p2.y() - q2.y())):
-        #     return False
-        n = (p2.y() - p1.y()) / (p2.y() - q2.y())
-    dot = (p2.x() + (q2.x() - p2.x()) * n, p2.y() + (q2.y() - p2.y()) * n)  # точка пересечения
-    if (dot[0] != p1.x() and dot[0] != q1.x() and dot[0] != p2.x() and dot[0] != q2.x() and
-            dot[1] != p1.y() and dot[1] != q1.y() and dot[1] != p2.y() and dot[1] != q2.y()):
+def IsPointOnSegment(a, p, b) -> bool:
+    AB = np.sqrt((b.x() - a.x()) * (b.x() - a.x()) + (b.y()-a.y()) * (b.y() - a.y()))
+    AP = np.sqrt((p.x() - a.x()) * (p.x() - a.x()) + (p.y()-a.y()) * (p.y() - a.y()))
+    PB = np.sqrt((b.x() - p.x()) * (b.x() - p.x()) + (b.y()-p.y()) * (b.y() - p.y()))
+    if (AB == AP + PB):
         return True
+    else:
+        return False
 
 
 def find_t_p(graph, n):
@@ -104,7 +91,6 @@ def find_t_p(graph, n):
         early[i] = max_t
     return early
 
-
 def find_t_n(graph, early, n):
     late = np.zeros(n, float)
     late[n-1] = early[n-1]
@@ -119,7 +105,6 @@ def find_t_n(graph, early, n):
 
         late[i] = min_t
     return late
-
 
 def find_R(reserve, early, late, n):
     reserve = np.zeros(n, int)
@@ -136,7 +121,6 @@ def topological_sort(v):
             topological_sort(i[0])
 
     Stack.append(v)
-
 
 def critical_path(s, n):
     dist = [-np.inf for _ in range(n)]
@@ -174,18 +158,50 @@ def find_all_paths(u, d, path):
     path.pop()
     visited[u]= False
 
+
 def check_intersections(mistakes, mistake_id, Points, AdjacencyMatrix):
+    # (i, j) - first edge
     for i, row1 in enumerate(AdjacencyMatrix):
         for j, col1 in enumerate(row1):
-            if col1 >= 1:
+            # checks if connection exists
+            if col1 >= 1: 
+                # (k, l) - second edge
                 for k, row2 in enumerate(AdjacencyMatrix):
                     for l, col2 in enumerate(row2):
-                        if col2 >= 1:
+                        # checks if connection exists
+                        if col2 >= 1: 
+                            if ((i, j) == (k, l)) or ((i, j) == (l, k)):
+                                continue
+
+                            # p1 -> q1
                             p1 = QPointF(Points[i][0], Points[i][1])
                             q1 = QPointF(Points[j][0], Points[j][1])
+                            # p2 -> q2
                             p2 = QPointF(Points[k][0], Points[k][1])
                             q2 = QPointF(Points[l][0], Points[l][1])
-                            if (((i, j) != (k, l)) and ((i, j) != (l, k)) and doIntersect(p1, q1, p2, q2) and find_point_and_check(p1, q1, p2, q2)):
+                            
+                            # q1 == q2
+                            if (j == l):
+                                if (IsPointOnSegment(p1, p2, q1) or IsPointOnSegment(p2, p1, q1)):
+                                    mistakes.append(mistake_id)
+                                    return mistakes
+                            # p1 == p2
+                            elif (i == k):
+                                if (IsPointOnSegment(p1, q1, q2) or IsPointOnSegment(p1, q2, q1)):
+                                    mistakes.append(mistake_id)
+                                    return mistakes
+                            # q1 == p2
+                            elif (j == k):
+                                if (IsPointOnSegment(p1, q2, q1) or IsPointOnSegment(q2, p1, q1)):
+                                    mistakes.append(mistake_id)
+                                    return mistakes
+                            # q2 == p1
+                            elif (i == l):
+                                if (IsPointOnSegment(p2, q1, p1) or IsPointOnSegment(q1, p2, p1)):
+                                    mistakes.append(mistake_id)
+                                    return mistakes
+                            
+                            elif (doIntersect(p1, q1, p2, q2)):
                                 mistakes.append(mistake_id)
                                 return mistakes
     return mistakes
