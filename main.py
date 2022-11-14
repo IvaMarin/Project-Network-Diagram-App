@@ -482,7 +482,7 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
        
-        self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
+        self.DisplayObj = Display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -621,7 +621,7 @@ class Window4(QMainWindow):
         self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         
-        self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
+        self.DisplayObj = Display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
@@ -758,10 +758,6 @@ class Window5(QMainWindow):
 
         for i in range(squadNum):
             self.widget1 = Display.Display5(self, graph5_ort[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1)
-            # self.widget1.setMinimumSize(500, 500)
-            # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            # self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-
             self.widgetList.append(self.widget1)
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
@@ -994,7 +990,7 @@ class Window5(QMainWindow):
             if is_correct:
                 for d in self.widgetList:
                     if d.switch == True:
-                        d._drawLabels()
+                        d._drawQLineEdits()
                         d.switch = False
                 
                 self.ui.actionbtnConnectNode.setVisible(False)
@@ -1078,7 +1074,7 @@ class Window6(QMainWindow):
 
         self.widgetList = []
         for i in range(squadNum):
-            self.widgetList.append(Display.Display5(self, graph5_ort[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1))
+            self.widgetList.append(Display.Display6(self, graph5_ort[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1))
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -1096,7 +1092,7 @@ class Window6(QMainWindow):
         self.scroll1.setWidgetResizable(True)
         self.scroll1.setWidget(widgetLeft)
 
-        self.widgetRight = Display.DrawHist(self, graph5)
+        self.widgetRight = Display.DrawHist(self, graph5_ort)
         self.widgetRight.setMinimumSize(int(width/2), 500)
         self.scroll2 = QtWidgets.QScrollArea()
         self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -1459,7 +1455,7 @@ class WindowMenu(QMainWindow):
         elif numTask == "Задание 5":
             MainWindow5.show()
         elif numTask == "Задание 6":
-            MainWindow6.show()
+            MainWindow6.show()           
         self.hide()
 
     def show(self):

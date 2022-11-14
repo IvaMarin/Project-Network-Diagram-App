@@ -237,6 +237,7 @@ class GraphOrthogonal:
 		self.Points = dict()
 		self.AdjacencyList = dict()
 		self.Arrows = dict()
+		self.PeopleWeights = None
 	
 	def _FindMaxId(self, digit):
 		id = 0
