@@ -234,10 +234,10 @@ class Graph:
 class GraphOrthogonal:
 	def __init__(self, Radius) -> None:
 		self.Radius = Radius
-		self.Points = dict()
-		self.AdjacencyList = dict()
-		self.Arrows = dict()
-		self.PeopleWeights = None
+		self.Points = dict() 		# key: (digit, id) 						value: (x, y)
+		self.AdjacencyList = dict() # key: (digit1, id1) 					value: (digit2, id2)
+		self.Arrows = dict()		# key: ((digit1, id1), (digit2, id2)) 	value: (x, y)
+		self.PeopleWeights = None	# key: ((digit1, id1), (digit2, id2)) 	value: weight
 	
 	def _FindMaxId(self, digit):
 		id = 0
