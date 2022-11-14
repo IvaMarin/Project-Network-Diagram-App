@@ -970,12 +970,11 @@ class Window5(QMainWindow):
                 self.ui.actionbtnMoveNode.setVisible(True)
                 self.ui.actionbtnDottedConnectNode.setVisible(True)
 
-            self.ui.actionbtnCheck.triggered.connect(self.taskCheck2) 
+                self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck1)
+                self.ui.actionbtnCheck.triggered.connect(self.taskCheck2) 
             self.checkForm = task5CheckForm(self, mistakes)
             self.checkForm.exec_()
         
-
-
     def taskCheck2(self):
         mistakes = list()
         for i in range(squadNum):
@@ -993,21 +992,21 @@ class Window5(QMainWindow):
 
         if not show_message:
             if is_correct:
+                for d in self.widgetList:
+                    if d.switch == True:
+                        d._drawLabels()
+                        d.switch = False
+                
                 self.ui.actionbtnConnectNode.setVisible(False)
                 self.ui.actionbtnRemoveNodeConnection.setVisible(False)
                 self.ui.actionbtnMoveNode.setVisible(False)
                 self.ui.actionbtnDottedConnectNode.setVisible(False)
 
-                for d in self.widgetList:
-                    if d.switch == True:
-                        d._drawLabels()
-                        d.switch = False
-
-            self.ui.actionbtnCheck.triggered.connect(self.taskCheck3)
+                self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck2) 
+                self.ui.actionbtnCheck.triggered.connect(self.taskCheck3) 
             self.checkForm = task5CheckForm(self, mistakes)
             self.checkForm.exec_()
             
-
     def taskCheck3(self):
         mistakes = list()
         for i in range(squadNum):
@@ -1026,7 +1025,8 @@ class Window5(QMainWindow):
         if not show_message:
             if is_correct:
                 statusTask.set__verification_passed_task(5)
-
+            self.checkForm = task5CheckForm(self, mistakes)
+            self.checkForm.exec_()
 
     def _connectAction(self):
         self.ui.actionbtnAddSeq.triggered.connect(self.addSeq)
