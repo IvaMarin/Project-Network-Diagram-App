@@ -497,6 +497,8 @@ class Window3(QMainWindow):
         for row in range(properties.n):
             self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
             self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -634,6 +636,8 @@ class Window4(QMainWindow):
         for row in range(properties.n):
             self.item = QtWidgets.QTableWidgetItem(str(properties.tn[row]))
             self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
         self._connectAction()
 
         quit = QAction("Quit", self)
