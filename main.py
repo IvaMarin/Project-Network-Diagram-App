@@ -52,7 +52,6 @@ import Properties
 
 ############ глобальные переменные ###########
 global graph1
-graph1 = gm.Graph(30) # граф из первого окна (главный)
 graph1 = GraphModel.Graph(30) # граф из первого окна (главный)
 graph5 = [] # графы по количеству отделений
 graph5_ort = []
