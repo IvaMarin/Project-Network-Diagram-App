@@ -1,7 +1,7 @@
 # Model составляющая MVC (Граф)
 # "несуществющие вершины" - вершины в середине списка индексов вершин, которые были удалены (далее без ковычек)
+
 import numpy as np
-from PyQt5.QtWidgets import QLineEdit, QMessageBox
 import copy
 
 # функция для вычисления граничной точки с учётом радиуса
@@ -26,7 +26,6 @@ def calculate_bound_point(start_point, end_point, radius):
 
     except (ZeroDivisionError, Exception):
         return None
-
 
 # класс "граф"
 class Graph:
@@ -208,7 +207,7 @@ class Graph:
 		if self.AdjacencyMatrix[firstIndex][secondIndex] == 1:
 			self.AdjacencyMatrix[firstIndex][secondIndex] = 2 # выделить критическую связь
 
-# функция копирования графа (в разработке)
+	# функция копирования графа (в разработке)
 	def copy_graph(self):
 		new_graph = Graph(30)
 		new_graph.Points =  copy.deepcopy(self.Points) 
@@ -235,21 +234,35 @@ class Graph:
 class GraphOrthogonal:
 	def __init__(self, Radius) -> None:
 		self.Radius = Radius
-		self.Points = dict()
-		self.AdjacencyList = dict()
-		self.Arrows = dict()
-
-	def AddPoint(self, digit, x, y):
+		self.Points = dict() 		# key: (digit, id) 						value: (x, y)
+		self.AdjacencyList = dict() # key: (digit1, id1) 					value: (digit2, id2)
+		self.Arrows = dict()		# key: ((digit1, id1), (digit2, id2)) 	value: (x, y)
+		self.PeopleWeights = None	# key: ((digit1, id1), (digit2, id2)) 	value: weight
+	
+	def _FindMaxId(self, digit):
 		id = 0
 		for (p_digit, p_id) in self.Points.keys():
 			if p_digit == digit:
 				id = max(p_id + 1, id)
+		return id
+
+	def AddPoint(self, digit, x, y):
+		id = self._FindMaxId(digit)
 		self.Points[(digit, id)] = (x, y)
 
 	def AddPointsSequence(self, sequence: list, gridStart, gridStep, gridY):
 		for i, digit in enumerate(sequence):
+			cur_digit = sequence[i] 
+			cur_id = self._FindMaxId(digit)
+
 			gridX = gridStart + i * gridStep
 			self.AddPoint(digit, gridX, gridY)
+
+			if (i > 0):
+				self.AddConnection((prev_digit, prev_id), (cur_digit, cur_id))
+			
+			prev_digit = cur_digit
+			prev_id = cur_id
 	
 	def DeletePoint(self, Point: tuple):
 		self.Points.pop(Point)
@@ -264,7 +277,7 @@ class GraphOrthogonal:
 		PointsCopy = self.Points.copy()
 		for (p_digit, p_id), (p_x, p_y) in PointsCopy.items():
 			if p_y == gridY:
-				self.DeletePoint(p_digit, p_id)
+				self.DeletePoint((p_digit, p_id))
 
 	def AddConnection(self, firstPoint: tuple, secondPoint: tuple):
 		if (firstPoint in self.Points.keys()) and (secondPoint in self.Points.keys()):
@@ -292,10 +305,10 @@ class GraphOrthogonal:
 		return None 
 
 	def IsCursorOnArrowPoint(self, x, y):
-		for (a_x, a_y) in self.Arrows.values():
+		for key, (a_x, a_y) in self.Arrows.items():
 			if  ((x >= a_x - self.Radius and x <= a_x + self.Radius) and 
 				 (y >= a_y - self.Radius and y <= a_y + self.Radius)):
-					return (a_x, a_y)
+					return key
 		return None
 
 	def UpdateArrows(self, Point: tuple):
@@ -310,6 +323,11 @@ class GraphOrthogonal:
 
 	def MovePoint(self, Point: tuple, x, y):
 		self.Points[Point] = (x, y)
+		self.UpdateArrows(Point)
+	
+	def MovePointFixedY(self, Point: tuple, x):
+		(cur_x, cur_y) = self.Points[Point]
+		self.Points[Point] = (x, cur_y)
 		self.UpdateArrows(Point)
 
 	def MoveArrowPoint(self, firstPoint: tuple, secondPoint: tuple, x, y):
@@ -351,6 +369,48 @@ class GraphOrthogonal:
 		(x, y) = projection
 	
 		self.Arrows[(firstPoint, secondPoint)] = (x, y)
+
+	def MoveArrowPointFixedY(self, firstPoint: tuple, secondPoint: tuple, x):
+		(cur_x, cur_y) = self.Arrows[(firstPoint, secondPoint)]
+
+		(firstPoint_x, firstPoint_y) = self.Points[firstPoint]
+		(secondPoint_x, secondPoint_y) = self.Points[secondPoint]
+		dx = firstPoint_x - secondPoint_x
+		dy = firstPoint_y - secondPoint_y
+		length = np.sqrt(dx ** 2 + dy ** 2)
+
+		if (length == 0):
+			norm_x, norm_y = 0, 0
+		else:
+			norm_x, norm_y = dx / length, dy / length
+		
+		arrow_height = 10
+		p1_x = firstPoint_x - (self.Radius + arrow_height) * norm_x
+		p1_y = firstPoint_y - (self.Radius + arrow_height) * norm_y
+		p1 = np.array([p1_x, p1_y])
+
+		p2_x = secondPoint_x + self.Radius * norm_x
+		p2_y = secondPoint_y + self.Radius * norm_y
+		p2 = np.array([p2_x, p2_y])
+			
+		p3 = np.array([x, cur_y])
+		
+		distance = np.sum((p1 - p2)**2)
+		if (distance == 0):
+			t = 0
+		else:
+			t = np.sum((p3 - p1) * (p2 - p1)) / distance
+			
+		if t > 1:
+			projection = p2
+		elif t <= 0:
+			projection = p1
+		else:
+			projection = p1 + t * (p2 - p1)
+
+		(x, cur_y) = projection
+	
+		self.Arrows[(firstPoint, secondPoint)] = (x, cur_y)
 
 	def _Print(self):
 		print("GraphOrthogonal:")

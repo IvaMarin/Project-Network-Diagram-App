@@ -41,7 +41,12 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
 
         self.ui = Ui_login() # инициализация ui
         self.ui.setupUi(self) # инициализация ui окна (присвоение конкретных пар-ов)
-        self.mainMenu = root  # сохраняем нашего родителя
+        self.mainMenu = root  # сохраняем нашего родите
+        
+        self.setWindowFlags(QtCore.Qt.Window |
+                                QtCore.Qt.WindowTitleHint 
+                                | QtCore.Qt.CustomizeWindowHint 
+                                | QtCore.Qt.WindowCloseButtonHint)
 
         self.ui.lineEditNumINGroup.setValidator(QIntValidator())
 
@@ -114,6 +119,11 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
         self.ui = Ui_startWin() # инициализация ui
         self.ui.setupUi(self) # инициализация ui окна (присвоение конкретных пар-ов)
         self.mainMenu = root  # сохраняем нашего родителя
+
+        self.setWindowFlags(QtCore.Qt.Window |
+                                QtCore.Qt.WindowTitleHint 
+                                | QtCore.Qt.CustomizeWindowHint 
+                                | QtCore.Qt.WindowCloseButtonHint)
 
         self.ui.lineEditNumINGroup.setValidator(QIntValidator())
 
@@ -530,6 +540,10 @@ class winSearchKey(QtWidgets.QDialog): # окно для загрузки клю
         self.ui.setupUi(self) # инициализация ui окна (присвоение конкретных пар-ов)
         self.mainMenu = root  # сохраняем нашего родителя
 
+        self.setWindowFlags(QtCore.Qt.Window |
+                                QtCore.Qt.WindowTitleHint 
+                                | QtCore.Qt.CustomizeWindowHint 
+                                | QtCore.Qt.WindowCloseButtonHint)
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
         width = int(sizeWindow.width() - (sizeWindow.width()) * 2 / 3)      # выставляем ширину окна
