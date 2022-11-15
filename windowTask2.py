@@ -191,6 +191,7 @@ class Ui_MainWindow2(object):
         self.actionbtnCheck.setIcon(icon14)
         self.actionbtnCheck.setObjectName("actionbtnCheck")
         self.actionHelp = QtWidgets.QAction(MainWindow1)
+        self.actionHelp.setCheckable(True)
         self.actionHelp.setEnabled(False)
         icon15 = QtGui.QIcon()
         icon15.addPixmap(QtGui.QPixmap("resources/iconePack/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)

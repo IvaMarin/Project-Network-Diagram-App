@@ -180,20 +180,43 @@ class Properties():
             print(i)
 
 
-####################____ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА____####################################################
+####################____ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА_ДЛЯ_ПРЕПОДА__####################################################
 
     def save_graph(self, graph, i):
-        with open(f'answer_var/states_of_graphs_{self.variant}/states_{i}.pickle', 'wb') as file:
+        with open(f'answer/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
             pickle.dump(graph, file)
 
 
     def get_graph(self, i = 0):
-        with open(f'answer_var/states_of_graphs_{self.variant}/states_{i}.pickle', 'rb') as file:
+        with open(f'answer/states_of_graphs_{i}/state_{self.variant}.pickle', 'rb') as file:
             graph = pickle.load(file)
 
         return graph
 #######################################################################################################################
 
+
+####################____ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА_ДЛЯ_ СТУДЕНТА__####################################################
+
+    def save_graph_for_student(self, graph, i):
+        with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
+            pickle.dump(graph, file)
+
+
+    def get_graph_for_student(self, i = 0):
+        with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'rb') as file:
+            graph = pickle.load(file)
+
+        return graph
+#######################################################################################################################
+
+####################____ФУНКЦИИ_ДЛЯ_ОЧИСТКИ_СОХРАНЕНИЯ__####################################################
+
+    def clear_graph(self, i):
+        with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
+            graph = self.get_graph_from_radius()
+            pickle.dump(graph, file)
+
+#######################################################################################################################
     
 
 
