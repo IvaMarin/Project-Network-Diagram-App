@@ -911,7 +911,9 @@ class DrawHist(QWidget):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
             painter.drawText(int(self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
 
+
         intervals = np.zeros(18)
+        print(self.graph[0].Arrows)
         for p in range(len(self.graph)):
             AdjacencyList = self.graph[p].PeopleWeights
             if AdjacencyList is not None:
@@ -920,7 +922,7 @@ class DrawHist(QWidget):
                     (x2, y2) = self.graph[p].Points[p2]
                     for k in range(len(intervals)):
                         if k*self.stepAlg >= x1 and x2 >= (k+1)*self.stepAlg:
-                            intervals[k] += w
+                            intervals[k-1] += w
 
         painter.setPen(QPen(QColor("red"), 3))
         lines = []
