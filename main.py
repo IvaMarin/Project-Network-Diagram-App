@@ -195,10 +195,8 @@ class Window1(QMainWindow):
             if len(mistakes) == 0:
                 statusTask.set__verification_passed_task(1)
                 # properties.save_graph(graph1, 1) # сохраняем граф в файл
-
                 # save_graph_1 = properties.get_graph(1)
                 # self.DisplayObj.graph = save_graph_1
-                
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot1.png','png')
@@ -499,6 +497,8 @@ class Window3(QMainWindow):
         for row in range(properties.n):
             self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
             self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -636,6 +636,8 @@ class Window4(QMainWindow):
         for row in range(properties.n):
             self.item = QtWidgets.QTableWidgetItem(str(properties.tn[row]))
             self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
         self._connectAction()
 
         quit = QAction("Quit", self)
