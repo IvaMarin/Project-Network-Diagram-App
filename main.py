@@ -251,7 +251,6 @@ class Window1(QMainWindow):
 
     def lockUi(self):
         self.ui.toolBar.clear()
-        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
         self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
@@ -457,7 +456,6 @@ class Window2(QMainWindow):
 
     def lockUi(self):
         self.ui.toolBar.clear()
-        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
         self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
@@ -592,7 +590,6 @@ class Window3(QMainWindow):
 
     def lockUi(self):
         self.ui.toolBar.clear()
-        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
         self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
@@ -734,7 +731,6 @@ class Window4(QMainWindow):
 
     def lockUi(self):
             self.ui.toolBar.clear()
-            self.ui.toolBar.addAction(self.ui.actionbtnCheck)
             self.ui.toolBar.addAction(self.ui.actionbtnInfo)
             self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
@@ -771,7 +767,7 @@ class Window5(QMainWindow):
             squadWidget = QWidget()
             squadWidget.ui = Ui_task2SquadWidget()
             squadWidget.ui.setupUi(squadWidget)
-            squadWidget.ui.lineEdit_numberSquad.setText(str(i+1))
+            squadWidget.ui.label_numberSquad.setText(str(i+1))
             self.squadWidgetList.append(squadWidget)
             hLayout.addWidget(squadWidget)
             hWidget = QWidget()
@@ -970,7 +966,7 @@ class Window5(QMainWindow):
 
                 self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck1)
                 self.ui.actionbtnCheck.triggered.connect(self.taskCheck2) 
-            self.checkForm = task5CheckForm(self, mistakes)
+            self.checkForm = task5CheckForm(self, mistakes, 1)
             self.checkForm.exec_()
         
     def taskCheck2(self):
@@ -1002,7 +998,7 @@ class Window5(QMainWindow):
 
                 self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck2) 
                 self.ui.actionbtnCheck.triggered.connect(self.taskCheck3) 
-            self.checkForm = task5CheckForm(self, mistakes)
+            self.checkForm = task5CheckForm(self, mistakes, 2)
             self.checkForm.exec_()
             
     def taskCheck3(self):
@@ -1023,7 +1019,8 @@ class Window5(QMainWindow):
         if not show_message:
             if is_correct:
                 statusTask.set__verification_passed_task(5)
-            self.checkForm = task5CheckForm(self, mistakes)
+                self.ui.actionbtnCheck.setVisible(False)
+            self.checkForm = task5CheckForm(self, mistakes, 3)
             self.checkForm.exec_()
 
     def _connectAction(self):
@@ -1375,7 +1372,7 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        if self.ui.btnTeacherMode.isChecked(): #and (properties.enter_key()):
+        if self.ui.btnTeacherMode.isChecked() and (properties.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
