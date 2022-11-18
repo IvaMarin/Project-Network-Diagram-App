@@ -13,7 +13,7 @@ from qt_designer_ui.task5CheckUi import Ui_task5CheckUi
 
 class task5CheckForm(QtWidgets.QDialog):
 
-    def __init__(self, root, mistakes): # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
+    def __init__(self, root, mistakes, taskNum): # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
         """Initializer."""
         super().__init__(root) # инициализация
 
@@ -23,14 +23,22 @@ class task5CheckForm(QtWidgets.QDialog):
         self.ui = Ui_task5CheckUi() # инициализация ui окна (присвоение конкретных пар-ов)
         self.ui.setupUi(self)
 
+        correct = QPixmap("resources/iconePack/check.png")
+        incorrect = QPixmap("resources/iconePack/crossRed.png")
 
-        for i in range(10):
+
+        for i in range(len(mistakes)):
             self.labelLeft = QtWidgets.QLabel(self.ui.scrollAreaWidgetContents)
             font = QtGui.QFont()
             font.setPointSize(18)
-            self.labelLeft.setFont(font)
             self.labelLeft.setObjectName("labelLeft")
-            self.labelLeft.setText(str(i) + ' отделение построено верно')
+            self.labelLeft.setFont(font)
+            if taskNum == 1:
+                self.labelLeft.setText(str(i) + ' отделение построено верно')
+            elif taskNum == 2:
+                self.labelLeft.setText(str(i) + ' отделение верно расставлено по временным осям')
+            else:
+                self.labelLeft.setText(str(i) + ' отделение верно расставлены люди')
             self.ui.gridLayout.addWidget(self.labelLeft, i, 0, 1, 1)
 
             # self.toolButton = QtWidgets.QToolButton(self.ui.scrollAreaWidgetContents)
@@ -46,7 +54,10 @@ class task5CheckForm(QtWidgets.QDialog):
             self.labelRight = QtWidgets.QLabel()
             self.labelRight.setMaximumSize(QtCore.QSize(60, 60))
             self.labelRight.setText("")
-            self.labelRight.setPixmap(QtGui.QPixmap("resources/iconePack/check.png"))
+            if mistakes[i]:
+                self.labelRight.setPixmap(correct)
+            else:
+                self.labelRight.setPixmap(incorrect)
             self.labelRight.setScaledContents(True)
             self.labelRight.setObjectName("labelRight")
             self.ui.gridLayout.addWidget(self.labelRight, i, 1, 1, 1)
@@ -57,22 +68,30 @@ class task5CheckForm(QtWidgets.QDialog):
         # width = int(sizeWindow.width() - (sizeWindow.width() * 2) / 3)      # выставляем ширину окна
         # height = int(sizeWindow.height() - (sizeWindow.height() * 2) / 3)   # выставляем длину окна
         # # присваиваем параметры длины и ширины окну
-        self.resize(600, 600)
+        # msg = QMessageBox()
+        # msg.setText("Неверно введён номер отделения")
+        # msg.setWindowFlags(Qt.WindowStaysOnTopHint)
+        # msg.exec()
+        if taskNum == 1:
+            self.resize(600, 600)
+        elif taskNum == 2:
+            self.resize(850, 600)
+        else:
+            self.resize(700, 600)
 
         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
         self._connectAction() # ф-ия связи с эл-тами окна
 
-        correct = QPixmap("resources/iconePack/check.png")
-        incorrect = QPixmap("resources/iconePack/crossRed.png")
 
 
-    #     for i in range(len(mistakes)):
-    #         if mistakes[i] == 1: self.ui.label.setPixmap(incorrect)
-    #         elif mistakes[i] == 2: self.ui.label_2.setPixmap(incorrect)
-    #         elif mistakes[i] == 3: self.ui.label_3.setPixmap(incorrect)
-    #         elif mistakes[i] == 4: self.ui.label_4.setPixmap(incorrect)
-    #         elif mistakes[i] == 5: self.ui.label_6.setPixmap(incorrect)
+
+        # for i in range(len(mistakes)):
+        #     if mistakes[i] == 1: self.ui.label.setPixmap(incorrect)
+        #     elif mistakes[i] == 2: self.ui.label_2.setPixmap(incorrect)
+        #     elif mistakes[i] == 3: self.ui.label_3.setPixmap(incorrect)
+        #     elif mistakes[i] == 4: self.ui.label_4.setPixmap(incorrect)
+        #     elif mistakes[i] == 5: self.ui.label_6.setPixmap(incorrect)
         
     # def Task1(self):
     #     self.ui.gridLayout.removeWidget(self.ui.labelSoClose)
