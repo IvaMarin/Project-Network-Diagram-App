@@ -96,6 +96,7 @@ class Display(QWidget):
     FixedArrowPoint = [-1, -1] # фиксированная стрелка
     def __init__(self, root, graph_in, step = 50, max_time = -1, horizontal = True, late_time = None, base_graph = None, switch = True):
         super().__init__(root)
+        self.root = root
         self.functionAble = ""
         self.TempPoints = np.empty(0) # массив временно выделенных вершин
         self.colorGrid = QColor(0, 0, 255, 90)
@@ -867,6 +868,8 @@ class Display6(Display5):
             else:
                 offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
             painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
+        self.root.widgetRight.update()
+    
 
 
 class DrawHist(QWidget):

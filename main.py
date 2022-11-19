@@ -368,6 +368,10 @@ class Window2(QMainWindow):
         self.cnt = len(graph1.CorrectAdjacencyMatrix)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
+        for row in range(self.cnt):
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table1.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+            self.table2.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
 
 
     def table1Check(self):
@@ -490,13 +494,22 @@ class Window3(QMainWindow):
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
-        self.table.ui.tableWidget.setRowCount(properties.n)
-        self.table.setWindowTitle("Ранние сроки")
-        for row in range(properties.n):
-            self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        self.table.ui.tableWidget.setColumnCount(3)
+        self.table.ui.tableWidget.horizontalHeader().setVisible(True)
+        self.table.setWindowTitle("Подсказка")
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Ранние сроки"])
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
             self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.table.ui.tableWidget.setItem(row, 1, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+        for row in range(properties.n):
+                self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+                self.table.ui.tableWidget.setItem(row, 2, self.item)
+        self.table.resize(500, 700)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -628,13 +641,22 @@ class Window4(QMainWindow):
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
-        self.table.ui.tableWidget.setRowCount(properties.n)
-        self.table.setWindowTitle("Поздние сроки")
-        for row in range(properties.n):
-            self.item = QtWidgets.QTableWidgetItem(str(properties.tn[row]))
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        self.table.ui.tableWidget.setColumnCount(3)
+        self.table.ui.tableWidget.horizontalHeader().setVisible(True)
+        self.table.setWindowTitle("Подсказка")
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Поздние сроки"])
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
             self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.table.ui.tableWidget.setItem(row, 1, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+        for row in range(properties.n):
+                self.item = QtWidgets.QTableWidgetItem(str(int(properties.tn[row])))
+                self.table.ui.tableWidget.setItem(row, 2, self.item)
+        self.table.resize(500, 700)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -768,6 +790,7 @@ class Window5(QMainWindow):
             squadWidget.ui = Ui_task2SquadWidget()
             squadWidget.ui.setupUi(squadWidget)
             squadWidget.ui.label_numberSquad.setText(str(i+1))
+            squadWidget.ui.label_amountSquad.setText(MainWindow.ui.tableVar.item(i, 5).text())
             self.squadWidgetList.append(squadWidget)
             hLayout.addWidget(squadWidget)
             hWidget = QWidget()
@@ -802,6 +825,24 @@ class Window5(QMainWindow):
         self.resize(width, height)
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.ui.tableWidget.horizontalHeader().setVisible(True)
+        self.table.ui.tableWidget.setColumnCount(2)
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "№ отделения"])
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        self.table.setWindowTitle("Подсказка")
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 1).text())
+            self.table.ui.tableWidget.setItem(row, 1, self.item)
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+        self.table.resize(393, 700)
 
         self._connectAction()
 
@@ -959,13 +1000,21 @@ class Window5(QMainWindow):
             if is_correct:
                 self.ui.actionbtnAddSeq.setVisible(False)
                 self.ui.actionbtnRemoveSeq.setVisible(False)
-                self.ui.actionbtnConnectNode.setVisible(True)
-                self.ui.actionbtnRemoveNodeConnection.setVisible(True)
                 self.ui.actionbtnMoveNode.setVisible(True)
                 self.ui.actionbtnDottedConnectNode.setVisible(True)
 
                 self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck1)
                 self.ui.actionbtnCheck.triggered.connect(self.taskCheck2) 
+
+                self.table.ui.tableWidget.insertColumn(2)
+                self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Ранние сроки"])
+                for row in range(MainWindow.ui.tableVar.rowCount()):
+                    self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+                    self.table.ui.tableWidget.setItem(row, 1, self.item)
+                for row in range(properties.n):
+                    self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+                    self.table.ui.tableWidget.setItem(row, 2, self.item)
+                self.table.resize(500, 700)
             self.checkForm = task5CheckForm(self, mistakes, 1)
             self.checkForm.exec_()
         
@@ -997,7 +1046,14 @@ class Window5(QMainWindow):
                 self.ui.actionbtnDottedConnectNode.setVisible(False)
 
                 self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck2) 
-                self.ui.actionbtnCheck.triggered.connect(self.taskCheck3) 
+                self.ui.actionbtnCheck.triggered.connect(self.taskCheck3)
+
+                self.table.ui.tableWidget.removeColumn(2)
+                self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Кол-во людей"])
+                for row in range(MainWindow.ui.tableVar.rowCount()):
+                    self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 2).text())
+                    self.table.ui.tableWidget.setItem(row, 1, self.item) 
+                self.table.resize(393, 700)
             self.checkForm = task5CheckForm(self, mistakes, 2)
             self.checkForm.exec_()
             
@@ -1034,6 +1090,7 @@ class Window5(QMainWindow):
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
 
     def openTextTask(self):
         dialogTask = QDialog()
@@ -1057,6 +1114,11 @@ class Window5(QMainWindow):
         self.showMaximized()
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
 
+    def help(self):
+        if self.table.isHidden():
+            self.table.show()
+        else:
+            self.table.hide()
 
 #////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
