@@ -4,7 +4,7 @@ import pickle
 from PyQt5 import QtWidgets
 
 import GraphModel
-from checker import find_t_p
+from checker import find_t_p, find_t_n
 from encrypt_module import decrypt_file
 
 def join(*args):
@@ -50,9 +50,11 @@ class Properties():
         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
         self.step_grid = 75 # шаг сетки
         self.currentSquadGridY = dict()
-        correct_w = self.MainWindow.getCorrectWeights()
-        n = len(correct_w)
-        self.max_possible_time = find_t_p(correct_w, n)[n-1] # максимальное время (для сетки)
+        self.correct_w = self.MainWindow.getCorrectWeights()
+        self.n = len(self.correct_w)
+        self.tp = find_t_p(self.correct_w, self.n)
+        self.tn = find_t_n(self.correct_w, self.tp, self.n)
+        self.max_possible_time = self.tp[self.n-1] # максимальное время (для сетки)
 
         #свойства второго окна
         self.scaler = 3 # параметр увеличения радиуса для второго задания
@@ -159,12 +161,47 @@ class Properties():
             else:
                 break
 
+            #self.tableNumSquad[-1].append(tmpItem)
+            #print("item", row, self.MainWindow.ui.tableVar.columnCount() - 1, " ", self.tableNumSquad[-1][-1])
+        
+        print(" ")
+        for i in self.tableNumSquad:
+            print(i)
+
+
+####################____ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА_ДЛЯ_ПРЕПОДА__####################################################
+
     # ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА
     def save_graph(self, graph, i):
-        with open(f'answer_var/states_of_graphs_{self.variant}/states_{i}.pickle', 'wb') as file:
+        with open(f'answer/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
             pickle.dump(graph, file)
 
     def get_graph(self, i = 0):
-        with open(f'answer_var/states_of_graphs_{self.variant}/states_{i}.pickle', 'rb') as file:
+        with open(f'answer/states_of_graphs_{i}/state_{self.variant}.pickle', 'rb') as file:
             graph = pickle.load(file)
         return graph
+#######################################################################################################################
+
+
+####################____ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА_ДЛЯ_ СТУДЕНТА__####################################################
+
+    def save_graph_for_student(self, graph, i):
+        with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
+            pickle.dump(graph, file)
+
+
+    def get_graph_for_student(self, i = 0):
+        with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'rb') as file:
+            graph = pickle.load(file)
+
+        return graph
+#######################################################################################################################
+
+####################____ФУНКЦИИ_ДЛЯ_ОЧИСТКИ_СОХРАНЕНИЯ__####################################################
+
+    def clear_graph(self, i):
+        with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
+            graph = self.get_graph_from_radius()
+            pickle.dump(graph, file)
+
+#######################################################################################################################

@@ -54,6 +54,7 @@ class task5AddSeq(QtWidgets.QDialog):
                     else:
                         msg = QMessageBox()
                         msg.setText("Неверно введена последовательность")
+                        msg.setWindowFlags(Qt.WindowStaysOnTopHint)
                         msg.exec()
                         result = []
                 else:
@@ -68,6 +69,7 @@ class task5AddSeq(QtWidgets.QDialog):
         else:
             msg = QMessageBox()
             msg.setText("Неверно введён номер отделения")
+            msg.setWindowFlags(Qt.WindowStaysOnTopHint)
             msg.exec()
             
     def Close(self):

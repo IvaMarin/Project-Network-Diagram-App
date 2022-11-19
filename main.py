@@ -51,6 +51,7 @@ import GraphModel
 import Properties
 
 ############ глобальные переменные ###########
+global graph1
 graph1 = GraphModel.Graph(30) # граф из первого окна (главный)
 graph5 = [] # графы по количеству отделений
 graph5_ort = []
@@ -102,7 +103,7 @@ class Window1(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
-        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint)
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
@@ -116,16 +117,19 @@ class Window1(QMainWindow):
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
             self.ui.actionbtnHome.setChecked(False)
+            self.table.close()
             event.accept()
         else:
             close = QMessageBox()
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
                 event.accept()
+                self.table.close()
             else:
                 event.ignore()
 
@@ -138,6 +142,7 @@ class Window1(QMainWindow):
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionHelp.setChecked(False)
 
     def addArrow(self):
         if self.ui.actionbtnConnectNode.isChecked() == False:
@@ -148,6 +153,7 @@ class Window1(QMainWindow):
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionHelp.setChecked(False)
 
     def removeArrow(self):
         if self.ui.actionbtnRemoveNodeConnection.isChecked() == False:
@@ -158,6 +164,7 @@ class Window1(QMainWindow):
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionHelp.setChecked(False)
 
     def removeNode(self):
         if self.ui.actionbtnRemoveNode.isChecked() == False:
@@ -168,6 +175,7 @@ class Window1(QMainWindow):
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionHelp.setChecked(False)
 
     def moveNode(self):
         if self.ui.actionbtnMoveNode.isChecked() == False:
@@ -178,6 +186,7 @@ class Window1(QMainWindow):
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnRemoveNode.setChecked(False)
+            self.ui.actionHelp.setChecked(False)
 
     def makeNewFile(self):
         self.DisplayObj.functionAble = "Новый файл"
@@ -190,12 +199,20 @@ class Window1(QMainWindow):
         
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                statusTask.set__verification_passed_task(1)
-                # properties.save_graph(graph1, 1) # сохраняем граф в файл
-
-                # save_graph_1 = properties.get_graph(1)
-                # self.DisplayObj.graph = save_graph_1
+                properties.set__verification_passed_task(1)
                 
+                #properties.save_graph(graph1, 1)
+                properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+                
+                save_graph_for_student_1 = properties.get_graph_for_student(1)
+                self.DisplayObj.graph = save_graph_for_student_1
+
+                # sys.modules[graph1].__dict__.clear()
+                # graph1 = properties.get_graph(1)
+                
+                #print(self.DisplayObj.size().height)
+                statusTask.set__verification_passed_task(1)
+
                 screen = QtWidgets.QApplication.primaryScreen()
                 screenshot = screen.grabWindow(self.scroll.winId())
                 screenshot.save('screenshot1.png','png')
@@ -219,6 +236,8 @@ class Window1(QMainWindow):
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnInfo.triggered.connect(self.help)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
+        self.ui.actionHelp.triggered.connect(self.solveTask)
+
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask1()
@@ -226,7 +245,10 @@ class Window1(QMainWindow):
         dialogTask.exec()
 
     def backMainMenu(self):
+        self.switchTeacherMode(False)
+        self.ui.actionHelp.setChecked(False)
         MainWindow.show()
+        self.table.close()
         self.close()
 
     def help(self):
@@ -249,9 +271,49 @@ class Window1(QMainWindow):
 
     def lockUi(self):
         self.ui.toolBar.clear()
-        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
         self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
+
+    #показать решение в режиме преподавателя
+    def solveTask(self):
+        if self.ui.actionHelp.isChecked() == False:
+            self.DisplayObj.functionAble = "" # пока оставлю
+            self.switchTeacherMode(False) # при выкл рисуем то, что пишет ученик
+        else:
+            #self.switchTeacherMode(False)
+            self.switchTeacherMode(True) # вкл - рисуем ответ
+            self.ui.actionbtnAddNode.setChecked(False)
+            self.ui.actionbtnConnectNode.setChecked(False)
+            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            self.ui.actionbtnRemoveNode.setChecked(False)
+
+    def switchTeacherMode(self, flag):
+        if (flag):
+            #print("Режим препода")
+            #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+            graph = properties.get_graph(1) # берем граф из сохранения
+            self.DisplayObj.graph = graph
+            self.DisplayObj.update()
+
+            self.ui.actionbtnCheck.setEnabled(False)
+            self.ui.actionbtnAddNode.setEnabled(False)
+            self.ui.actionbtnConnectNode.setEnabled(False)
+            self.ui.actionbtnRemoveNodeConnection.setEnabled(False)
+            self.ui.actionbtnMoveNode.setEnabled(False)
+            self.ui.actionbtnRemoveNode.setEnabled(False)
+        else:
+            #print("Режим студента")
+            #graph_student = properties.get_graph_for_student(1)
+            self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
+            self.DisplayObj.update()
+
+            self.ui.actionbtnCheck.setEnabled(True)
+            self.ui.actionbtnAddNode.setEnabled(True)
+            self.ui.actionbtnConnectNode.setEnabled(True)
+            self.ui.actionbtnRemoveNodeConnection.setEnabled(True)
+            self.ui.actionbtnMoveNode.setEnabled(True)
+            self.ui.actionbtnRemoveNode.setEnabled(True)
 
 
 
@@ -261,7 +323,7 @@ class Window2(QMainWindow):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        
+
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
@@ -313,6 +375,22 @@ class Window2(QMainWindow):
         self.msg.setIcon(QMessageBox.Critical)
         self.msg.setStandardButtons(QMessageBox.Ok)
 
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.ui.tableWidget.horizontalHeader().setVisible(True)
+        self.table.ui.tableWidget.setColumnCount(2)
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть"])
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        self.table.setWindowTitle("Подсказка")
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.table.ui.tableWidget.setItem(row, 1, self.item)
+        self.table.resize(393, 700)
+
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -322,15 +400,18 @@ class Window2(QMainWindow):
         if self.ui.actionbtnHome.isChecked():
             self.ui.actionbtnHome.setChecked(False)
             event.accept()
+            self.table.close()
         else:
             close = QMessageBox()
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
                 event.accept()
+                self.table.close()
             else:
                 event.ignore()
 
@@ -383,6 +464,7 @@ class Window2(QMainWindow):
             self.DisplayObj.functionAble = ""
         else:
             self.DisplayObj.functionAble = "Критический путь"
+            self.ui.actionHelp.setChecked(False)
 
     def taskCheck(self):
         is_filled = True
@@ -400,6 +482,12 @@ class Window2(QMainWindow):
             mistakes = self.DisplayObj.checkEvent()
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
+                    properties.set__verification_passed_task(2)
+
+                    #properties.save_graph(graph1, 2)
+                    properties.save_graph_for_student(graph1, 2) # сохраняем граф в файл
+                    save_graph_for_student_2 = properties.get_graph_for_student(2)
+                    self.DisplayObj.graph = save_graph_for_student_2
                     statusTask.set__verification_passed_task(2)
 
                     screen = QtWidgets.QApplication.primaryScreen()
@@ -415,7 +503,10 @@ class Window2(QMainWindow):
                 mistakes.exec()
     
     def backMainMenu(self):
+        self.switchTeacherMode(False)
+        self.ui.actionHelp.setChecked(False)
         MainWindow.show()
+        self.table.close()
         self.close()
 
     def _connectAction(self):
@@ -425,6 +516,10 @@ class Window2(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCritPath.triggered.connect(self.critPath)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionHelp.triggered.connect(self.solveTask)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
+
 
     def openTextTask(self):
         dialogTask = QDialog()
@@ -434,9 +529,42 @@ class Window2(QMainWindow):
 
     def lockUi(self):
         self.ui.toolBar.clear()
-        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
         self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
+
+     #показать решение в режиме преподавателя
+    def solveTask(self):
+        if self.ui.actionHelp.isChecked() == False:
+            self.DisplayObj.functionAble = "" # пока оставлю
+            self.switchTeacherMode(False) # при выкл рисуем то, что пишет ученик
+        else:
+            #self.switchTeacherMode(False)
+            self.switchTeacherMode(True) # вкл - рисуем ответ
+            self.ui.actionbtnCritPath.setChecked(False)
+
+    def switchTeacherMode(self, flag):
+        if (flag):
+            #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+            graph = properties.get_graph(2) # берем граф из сохранения
+            self.DisplayObj.graph = graph
+            self.DisplayObj.update()
+
+            self.ui.actionbtnCheck.setEnabled(False)
+            self.ui.actionbtnCritPath.setEnabled(False)
+        else:
+            #graph_student = properties.get_graph_for_student(1)
+            self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
+            self.DisplayObj.update()
+
+            self.ui.actionbtnCheck.setEnabled(True)
+            self.ui.actionbtnCritPath.setEnabled(True)
+
+
+    def help(self):
+        if self.table.isHidden():
+            self.table.show()
+        else:
+            self.table.hide()
 
 
 #////////////////////////////////  КЛАСС ОКНА ТРЕТЬЕГО ЗАДАНИЯ  ///////////////////////////////////
@@ -450,8 +578,14 @@ class Window3(QMainWindow):
 
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
+
+        #self.ui.actionbtnMoveNode.setEnabled(False)
+        #self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
+
+        #self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
        
-        self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
+        self.DisplayObj = Display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
+
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -459,7 +593,17 @@ class Window3(QMainWindow):
 
         self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+        self.table.ui.tableWidget.setRowCount(properties.n)
+        self.table.setWindowTitle("Ранние сроки")
+        for row in range(properties.n):
+            self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+            self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -468,15 +612,18 @@ class Window3(QMainWindow):
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
             self.ui.actionbtnHome.setChecked(False)
+            self.table.close()
             event.accept()
         else:
             close = QMessageBox()
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
+                self.table.close()
                 event.accept()
             else:
                 event.ignore()
@@ -484,10 +631,12 @@ class Window3(QMainWindow):
     def addDottedArrow(self):
         self.DisplayObj.functionAble = "Добавить пунктирную связь"
         self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionHelp.setChecked(False)
 
     def moveNode(self):
         self.DisplayObj.functionAble = "Переместить вершины"
         self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionHelp.setChecked(False)
         
 
     def makeNewFile(self):
@@ -497,8 +646,17 @@ class Window3(QMainWindow):
         mistakes = self.DisplayObj.checkEvent3()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
+
+                properties.set__verification_passed_task(3)
+
+                #properties.save_graph(graph1, 3)
+                properties.save_graph_for_student(graph1, 3) # сохраняем граф в файл
+                save_graph_for_student_3 = properties.get_graph_for_student(3)
+                self.DisplayObj.graph = save_graph_for_student_3
+
                 statusTask.set__verification_passed_task(3)
                 # properties.save_graph(graph1, 3) # сохраняем граф в файл
+
 
                 # save_graph_3 = properties.get_graph(3)
                 # self.DisplayObj.graph = save_graph_3
@@ -521,6 +679,9 @@ class Window3(QMainWindow):
         self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
+        self.ui.actionHelp.triggered.connect(self.solveTask)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
+
 
     def openTextTask(self):
         dialogTask = QDialog()
@@ -529,7 +690,188 @@ class Window3(QMainWindow):
         dialogTask.exec()
 
     def backMainMenu(self):
+        self.switchTeacherMode(False)
+        self.ui.actionHelp.setChecked(False)
         MainWindow.show()
+        self.table.close()
+        self.close()
+
+    def show(self):
+        if properties.teacherMode:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+        else:
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
+        self.DisplayObj.functionAble = ""
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
+        self.showMaximized()
+
+    def sizeGet(self):
+        return self.size()
+
+    def lockUi(self):
+        self.ui.toolBar.clear()
+        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
+        self.ui.toolBar.addAction(self.ui.actionbtnHome)
+
+    #показать решение в режиме преподавателя
+    def solveTask(self):
+        if self.ui.actionHelp.isChecked() == False:
+            self.DisplayObj.functionAble = "" # пока оставлю
+            self.switchTeacherMode(False) # при выкл рисуем то, что пишет ученик
+        else:
+            #self.switchTeacherMode(False)
+            self.switchTeacherMode(True) # вкл - рисуем ответ
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+
+    def switchTeacherMode(self, flag):
+        if (flag):
+            #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+            graph = properties.get_graph(3) # берем граф из сохранения
+            self.DisplayObj.graph = graph
+            self.DisplayObj.update()
+
+            self.ui.actionbtnCheck.setEnabled(False)
+            self.ui.actionbtnMoveNode.setEnabled(False)
+            self.ui.actionbtnDottedConnectNode.setEnabled(False)
+        else:
+            #graph_student = properties.get_graph_for_student(1)
+            self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
+            self.DisplayObj.update()
+
+            self.ui.actionbtnCheck.setEnabled(True)
+            self.ui.actionbtnMoveNode.setEnabled(True)
+            self.ui.actionbtnDottedConnectNode.setEnabled(True)
+
+    def help(self):
+        if self.table.isHidden():
+            self.table.show()
+        else:
+            self.table.hide()
+
+
+    
+
+
+#////////////////////////////////  КЛАСС ОКНА ЧЕТВЁРТОГО ЗАДАНИЯ  /////////////////////////////////
+#//////////////////////////////////////////////////////////////////////////////////////////////////
+class Window4(QMainWindow):
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.ui = Ui_MainWindow3()
+        self.ui.setupUi(self)
+
+        self.setWindowTitle("Задача №4")
+        _translate = QtCore.QCoreApplication.translate
+        self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
+        self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        
+        self.DisplayObj = Display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
+        self.scroll = QtWidgets.QScrollArea()
+        self.scroll.setWidget(self.DisplayObj)
+        self.setCentralWidget(self.scroll)
+        self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+        self.table.ui.tableWidget.setRowCount(properties.n)
+        self.table.setWindowTitle("Поздние сроки")
+        for row in range(properties.n):
+            self.item = QtWidgets.QTableWidgetItem(str(properties.tn[row]))
+            self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+        self._connectAction()
+
+        quit = QAction("Quit", self)
+        quit.triggered.connect(self.closeEvent)
+
+    def closeEvent(self, event):
+        if self.ui.actionbtnHome.isChecked():
+            self.ui.actionbtnHome.setChecked(False)
+            self.table.close()
+            event.accept()
+        else:
+            close = QMessageBox()
+            close.setWindowTitle("Закрыть приложение")
+            close.setText("Вы уверены, что хотите закрыть приложение?")
+            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
+            close = close.exec()
+
+            if close == QMessageBox.Ok:
+                self.table.close()
+                event.accept()
+            else:
+                event.ignore()
+
+    def addDottedArrow(self):
+        self.DisplayObj.functionAble = "Добавить пунктирную связь"
+        #self.ui.actionbtnConnectNode.setChecked(False)
+        self.ui.actionbtnMoveNode.setChecked(False)
+        self.ui.actionHelp.setChecked(False)
+
+    def moveNode(self):
+        self.DisplayObj.functionAble = "Переместить вершины"
+        #self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.ui.actionHelp.setChecked(False)
+
+    def makeNewFile(self):
+        self.DisplayObj.functionAble = "Новый файл"
+
+    def taskCheck(self):
+        mistakes = self.DisplayObj.checkEvent4()
+        if type(mistakes) != QMessageBox:
+            if len(mistakes) == 0:
+                statusTask.set__verification_passed_task(4)
+
+                #properties.save_graph(graph1, 4)
+                properties.save_graph_for_student(graph1, 4) # сохраняем граф в файл
+                save_graph_for_student_4 = properties.get_graph_for_student(4)
+                self.DisplayObj.graph = save_graph_for_student_4
+
+
+                screen = QtWidgets.QApplication.primaryScreen()
+                screenshot = screen.grabWindow(self.scroll.winId())
+                screenshot.save('screenshot4.png','png')
+                MainWindow.ui.btnTask5.setEnabled(True)
+                self.lockUi()
+
+            self.checkForm1 = task1CheckForm(self, mistakes)
+            self.checkForm1.Task34()        
+            self.checkForm1.exec_()
+        else:
+            mistakes.exec()
+
+    def _connectAction(self):
+        self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
+        self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
+        self.ui.actionViewTask.triggered.connect(self.openTextTask)
+        self.ui.actionHelp.triggered.connect(self.solveTask)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
+
+
+    def openTextTask(self):
+        dialogTask = QDialog()
+        dialogTask.ui = Ui_TextTask4()
+        dialogTask.ui.setupUi(dialogTask)
+        dialogTask.exec()
+
+    def backMainMenu(self):
+        self.switchTeacherMode(False)
+        self.ui.actionHelp.setChecked(False)
+        MainWindow.show()
+        self.table.close()
         self.close()
 
     def show(self):
@@ -552,126 +894,44 @@ class Window3(QMainWindow):
         self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
+    #показать решение в режиме преподавателя
+    def solveTask(self):
+        if self.ui.actionHelp.isChecked() == False:
+            self.DisplayObj.functionAble = "" # пока оставлю
+            self.switchTeacherMode(False) # при выкл рисуем то, что пишет ученик
+        else:
+            #self.switchTeacherMode(False)
+            self.switchTeacherMode(True) # вкл - рисуем ответ
+            self.ui.actionbtnDottedConnectNode.setChecked(False)
+            self.ui.actionbtnMoveNode.setChecked(False)
+            
+
+    def switchTeacherMode(self, flag):
+        if (flag):
+            #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+            graph = properties.get_graph(3) # берем граф из сохранения
+            self.DisplayObj.graph = graph
+            self.DisplayObj.update()
+
+            self.ui.actionbtnCheck.setEnabled(False)
+            self.ui.actionbtnMoveNode.setEnabled(False)
+            self.ui.actionbtnDottedConnectNode.setEnabled(False)
+        else:
+            #graph_student = properties.get_graph_for_student(1)
+            self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
+            self.DisplayObj.update()
+
+            self.ui.actionbtnCheck.setEnabled(True)
+            self.ui.actionbtnMoveNode.setEnabled(True)
+            self.ui.actionbtnDottedConnectNode.setEnabled(True)
+
     
 
-
-#////////////////////////////////  КЛАСС ОКНА ЧЕТВЁРТОГО ЗАДАНИЯ  /////////////////////////////////
-#//////////////////////////////////////////////////////////////////////////////////////////////////
-class Window4(QMainWindow):
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-        self.ui = Ui_MainWindow3()
-        self.ui.setupUi(self)
-
-        self.setWindowTitle("Задача №4")
-        _translate = QtCore.QCoreApplication.translate
-        self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
-        self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        
-        self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
-        self.scroll = QtWidgets.QScrollArea()
-        self.scroll.setWidget(self.DisplayObj)
-        self.setCentralWidget(self.scroll)
-        self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
-
-
-        self._connectAction()
-
-        quit = QAction("Quit", self)
-        quit.triggered.connect(self.closeEvent)
-
-    def closeEvent(self, event):
-        if self.ui.actionbtnHome.isChecked():
-            self.ui.actionbtnHome.setChecked(False)
-            event.accept()
+    def help(self):
+        if self.table.isHidden():
+            self.table.show()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                event.accept()
-            else:
-                event.ignore()
-
-    def addDottedArrow(self):
-        self.DisplayObj.functionAble = "Добавить пунктирную связь"
-        #self.ui.actionbtnConnectNode.setChecked(False)
-        self.ui.actionbtnMoveNode.setChecked(False)
-
-    def moveNode(self):
-        self.DisplayObj.functionAble = "Переместить вершины"
-        #self.ui.actionbtnDottedConnectNode.setChecked(False)
-        self.ui.actionbtnDottedConnectNode.setChecked(False)
-
-    def makeNewFile(self):
-        self.DisplayObj.functionAble = "Новый файл"
-
-    def taskCheck(self):
-        mistakes = self.DisplayObj.checkEvent4()
-        if type(mistakes) != QMessageBox:
-            if len(mistakes) == 0:
-                statusTask.set__verification_passed_task(4)
-
-                # properties.save_graph(graph1, 4) # сохраняем граф в файл
-
-                # save_graph_4 = properties.get_graph(4)
-                # self.DisplayObj.graph = save_graph_4
-
-
-                screen = QtWidgets.QApplication.primaryScreen()
-                screenshot = screen.grabWindow(self.scroll.winId())
-                screenshot.save('screenshot4.png','png')
-                MainWindow.ui.btnTask5.setEnabled(True)
-                self.lockUi()
-
-            self.checkForm1 = task1CheckForm(self, mistakes)
-            self.checkForm1.Task34()        
-            self.checkForm1.exec_()
-        else:
-            mistakes.exec()
-
-    def _connectAction(self):
-        self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
-        self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
-        self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
-        self.ui.actionViewTask.triggered.connect(self.openTextTask)
-
-    def openTextTask(self):
-        dialogTask = QDialog()
-        dialogTask.ui = Ui_TextTask4()
-        dialogTask.ui.setupUi(dialogTask)
-        dialogTask.exec()
-
-    def backMainMenu(self):
-        MainWindow.show()
-        self.close()
-
-    def show(self):
-        if properties.teacherMode:
-            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
-            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
-        else:
-            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
-            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
-        self.DisplayObj.functionAble = ""
-        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
-        self.showMaximized()
-
-    def sizeGet(self):
-        return self.size()
-
-    def lockUi(self):
-            self.ui.toolBar.clear()
-            self.ui.toolBar.addAction(self.ui.actionbtnCheck)
-            self.ui.toolBar.addAction(self.ui.actionbtnInfo)
-            self.ui.toolBar.addAction(self.ui.actionbtnHome)
+            self.table.hide()
 
 
 #////////////////////////////////  КЛАСС ОКНА ПЯТОЕ ЗАДАНИЯ  ////////////////////////////////////
@@ -689,10 +949,6 @@ class Window5(QMainWindow):
 
         for i in range(squadNum):
             self.widget1 = Display.Display5(self, graph5_ort[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1)
-            # self.widget1.setMinimumSize(500, 500)
-            # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            # self.widgetList.append(Display.Display3(self, graph5[i], 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-
             self.widgetList.append(self.widget1)
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
@@ -704,7 +960,7 @@ class Window5(QMainWindow):
             squadWidget = QWidget()
             squadWidget.ui = Ui_task2SquadWidget()
             squadWidget.ui.setupUi(squadWidget)
-            squadWidget.ui.lineEdit_numberSquad.setText(str(i+1))
+            squadWidget.ui.label_numberSquad.setText(str(i+1))
             self.squadWidgetList.append(squadWidget)
             hLayout.addWidget(squadWidget)
             hWidget = QWidget()
@@ -754,6 +1010,7 @@ class Window5(QMainWindow):
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
@@ -788,7 +1045,17 @@ class Window5(QMainWindow):
             properties.currentSquadGridY[i] = properties.step_grid
         else:
             properties.currentSquadGridY[i] += properties.step_grid
-
+        #self.widgetList[i].graph_in.Points[(digit, id)][1]
+        delta_Y = set([])
+        for el in self.widgetList[i].graph_in.Points:
+            delta_Y.add(self.widgetList[i].graph_in.Points[el][1])
+        delta_Y = sorted(delta_Y)
+        for j in range(len(delta_Y)):
+            if delta_Y[j] != (j+1)*properties.step_grid:
+                self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, (j+1)*properties.step_grid)
+                self.widgetList[i].update()
+                properties.currentSquadGridY[i] -= properties.step_grid
+                return
         gridY = properties.currentSquadGridY[i]
         self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
         self.widgetList[i].update()
@@ -866,64 +1133,88 @@ class Window5(QMainWindow):
     # def makeNewFile(self):
     #     self.centralWidget.functionAble = "Новый файл"
 
-    # def taskCheck(self):
-    #     mistakes_total = set()
-    #     for i in range(squadNum):
-    #         try:
-    #             squad_people_number = int(self.squadWidgetList[i].ui.lineEdit_countPerson.text())
-    #         except:
-    #             squad_people_number = -1
-
-    #         mistakes = self.widgetList[i].checkEvent5(i, squad_people_number)
-    #         if type(mistakes) == QMessageBox:
-    #             mistakes.exec()
-    #             return
-    #         for m in mistakes:
-    #             mistakes_total.add(m)
-    #     if len(mistakes_total) == 0:
-    #         statusTask.set__verification_passed_task(5)
-    #     self.checkForm1 = task1CheckForm(self, list(mistakes_total))
-    #     self.checkForm1.Task2()        
-    #     self.checkForm1.exec_()
-
     def taskCheck1(self):
+        mistakes = list()
+        for i in range(squadNum):
+            mistakes.append(self.widgetList[i].checkEvent5Part1(i))
 
-        # mistakes = self.DisplayObj.checkEvent()
-        mistakes = []
-        if type(mistakes) != QMessageBox:
-            if len(mistakes) == 0:
-                self.ui.actionbtnCheck.triggered.connect(self.taskCheck2)
+        show_message = False
+        is_correct = True
+        for m in mistakes:
+            if type(m) == QMessageBox:
+                show_message = True
+                m.exec()
+                break
+            elif m == False:
+                is_correct = False
 
+        if not show_message:
+            if is_correct:
                 self.ui.actionbtnAddSeq.setVisible(False)
                 self.ui.actionbtnRemoveSeq.setVisible(False)
-
                 self.ui.actionbtnConnectNode.setVisible(True)
                 self.ui.actionbtnRemoveNodeConnection.setVisible(True)
                 self.ui.actionbtnMoveNode.setVisible(True)
                 self.ui.actionbtnDottedConnectNode.setVisible(True)
 
-            self.checkForm = task5CheckForm(self, mistakes)
+                self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck1)
+                self.ui.actionbtnCheck.triggered.connect(self.taskCheck2) 
+            self.checkForm = task5CheckForm(self, mistakes, 1)
             self.checkForm.exec_()
-        else:
-            mistakes.exec()
-
+        
     def taskCheck2(self):
-        if (True):
-            self.ui.actionbtnCheck.triggered.connect(self.taskCheck3)
-            
-            self.ui.actionbtnConnectNode.setVisible(False)
-            self.ui.actionbtnRemoveNodeConnection.setVisible(False)
-            self.ui.actionbtnMoveNode.setVisible(False)
-            self.ui.actionbtnDottedConnectNode.setVisible(False)
-        else:
-            print("clown")
+        mistakes = list()
+        for i in range(squadNum):
+            mistakes.append(self.widgetList[i].checkEvent5Part2(i))
 
+        show_message = False
+        is_correct = True
+        for m in mistakes:
+            if type(m) == QMessageBox:
+                show_message = True
+                m.exec()
+                break
+            elif m == False:
+                is_correct = False
+
+        if not show_message:
+            if is_correct:
+                for d in self.widgetList:
+                    if d.switch == True:
+                        d._drawQLineEdits()
+                        d.switch = False
+                
+                self.ui.actionbtnConnectNode.setVisible(False)
+                self.ui.actionbtnRemoveNodeConnection.setVisible(False)
+                self.ui.actionbtnMoveNode.setVisible(False)
+                self.ui.actionbtnDottedConnectNode.setVisible(False)
+
+                self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck2) 
+                self.ui.actionbtnCheck.triggered.connect(self.taskCheck3) 
+            self.checkForm = task5CheckForm(self, mistakes, 2)
+            self.checkForm.exec_()
+            
     def taskCheck3(self):
-        if (True):
-            msg = QMessageBox()
-            msg.exec()
-        else:
-            print("clown")
+        mistakes = list()
+        for i in range(squadNum):
+            mistakes.append(self.widgetList[i].checkEvent5Part3(i))
+
+        show_message = False
+        is_correct = True
+        for m in mistakes:
+            if type(m) == QMessageBox:
+                show_message = True
+                m.exec()
+                break
+            elif m == False:
+                is_correct = False
+
+        if not show_message:
+            if is_correct:
+                statusTask.set__verification_passed_task(5)
+                self.ui.actionbtnCheck.setVisible(False)
+            self.checkForm = task5CheckForm(self, mistakes, 3)
+            self.checkForm.exec_()
 
     def _connectAction(self):
         self.ui.actionbtnAddSeq.triggered.connect(self.addSeq)
@@ -932,8 +1223,7 @@ class Window5(QMainWindow):
         self.ui.actionbtnMoveNode.triggered.connect(self.moveNode)
         self.ui.actionbtnRemoveSeq.triggered.connect(self.removeSeq)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
-
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck1)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck1) 
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
@@ -943,97 +1233,6 @@ class Window5(QMainWindow):
         dialogTask.ui = Ui_TextTask5()
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
-
-    # def replace(self, i):	
-    #     try:
-    #         point_id = int(self.squadWidgetList[i].ui.lineEdit.text())
-    #         new_point_id = int(self.squadWidgetList[i].ui.lineEdit_newValue.text())
-
-    #         for id in range(len(self.widgetList[i].graph.Points)):
-    #             if (np.isnan(self.widgetList[i].graph.Points[id][0]) and id == point_id):
-    #                 return
-
-    #         x, y = self.widgetList[i].graph.Points[point_id]
-    #         n = len(self.widgetList[i].graph.AdjacencyMatrix)
-            
-    #         dont_move = False
-    #         # создание нового графа в случае если добавляется уже существующая вершина
-    #         for id in range(len(self.widgetList[i].graph.Points)):
-    #             if (not np.isnan(self.widgetList[i].graph.Points[id][0]) and id == new_point_id):
-    #                 if (not hasattr(self.widgetList[i], 'sub_graphs')):
-    #                     self.widgetList[i].sub_graphs = list()
-
-    #                 new_graph = GraphModel.Graph(self.widget1.graph_in.RadiusPoint)
-    #                 self.widgetList[i].sub_graphs.append(new_graph)
-
-    #                 idx = len(self.widgetList[i].sub_graphs) - 1
-
-    #                 cnt = max(new_point_id, len(self.widgetList[i].graph.Points), len(self.widgetList[i].sub_graphs[idx].Points))
-    #                 tmp= np.full((cnt+1, 2), None, dtype=np.float64)
-
-    #                 for id in range(len(self.widgetList[i].sub_graphs[idx].Points)):
-    #                     pass # тут вообще нужно как-то сохранять значения прошлого графа
-                    
-    #                 if (cnt > len(self.widgetList[i].sub_graphs[idx].Points)):
-    #                     tmp[new_point_id] = x, y
-    #                     for _ in range((cnt-len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))+1):
-    #                         self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.vstack([self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix))])	
-    #                         self.widgetList[i].sub_graphs[idx].AdjacencyMatrix = np.c_[self.widgetList[i].sub_graphs[idx].AdjacencyMatrix, np.zeros(len(self.widgetList[i].sub_graphs[idx].AdjacencyMatrix[0]) + 1)]
-
-    #                         self.widgetList[i].sub_graphs[idx].ArrowPoints = np.vstack([self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints))])	
-    #                         self.widgetList[i].sub_graphs[idx].ArrowPoints = np.c_[self.widgetList[i].sub_graphs[idx].ArrowPoints, np.zeros(len(self.widgetList[i].sub_graphs[idx].ArrowPoints[0]) + 1)]
-
-    #                 self.widgetList[i].sub_graphs[idx].Points = tmp.copy()
-    #                 self.widgetList[i].sub_graphs[idx].MovePoint(new_point_id, x, y)
-    #                 dont_move = True
-                           
-    #         out_connections = []
-    #         for column in range(n):
-    #             if (int(self.widgetList[i].graph.AdjacencyMatrix[point_id][column]) >= 1):
-    #                 out_connections.append(column)
-
-    #         in_connections = []
-    #         for row in range(n):
-    #             if (int(self.widgetList[i].graph.AdjacencyMatrix[row][point_id]) >= 1):
-    #                 in_connections.append(row)
-
-    #         cnt = max(new_point_id, point_id, len(self.widgetList[i].graph.Points))
-
-    #         tmp= np.full((cnt+1, 2), None, dtype=np.float64)
-
-    #         for id in range(len(self.widgetList[i].graph.Points)):
-    #             if (id == point_id):
-    #                 tmp[id] = None, None
-    #                 for k in range(len(self.widgetList[i].graph.AdjacencyMatrix)):
-    #                     self.widgetList[i].graph.AdjacencyMatrix[k][id] = 0
-    #                     self.widgetList[i].graph.AdjacencyMatrix[id][k] = 0
-    #             elif (id == new_point_id) and (not dont_move):
-    #                 tmp[id] = x, y
-    #             else:
-    #                 tmp[id] = self.widgetList[i].graph.Points[id]
-            
-    #         if (cnt > len(self.widgetList[i].graph.Points)):
-    #             tmp[new_point_id] = x, y
-    #             for _ in range((cnt-len(self.widgetList[i].graph.AdjacencyMatrix))+1):
-    #                 self.widgetList[i].graph.AdjacencyMatrix = np.vstack([self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix))])	
-    #                 self.widgetList[i].graph.AdjacencyMatrix = np.c_[self.widgetList[i].graph.AdjacencyMatrix, np.zeros(len(self.widgetList[i].graph.AdjacencyMatrix[0]) + 1)]
-
-    #                 self.widgetList[i].graph.ArrowPoints = np.vstack([self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints))])	
-    #                 self.widgetList[i].graph.ArrowPoints = np.c_[self.widgetList[i].graph.ArrowPoints, np.zeros(len(self.widgetList[i].graph.ArrowPoints[0]) + 1)]
-
-    #         self.widgetList[i].graph.Points = tmp.copy()
-
-    #         if (not dont_move):
-    #             self.widgetList[i].graph.MovePoint(new_point_id, x, y)
-    #         if (not dont_move):
-    #             for column in out_connections:
-    #                 self.widgetList[i].graph.AddConnection(new_point_id, column)
-    #             for row in in_connections:
-    #                 self.widgetList[i].graph.AddConnection(row, new_point_id)
-    #     except Exception:
-    #         pass
-    #     self.widgetList[i].update()
-
 
     def backMainMenu(self):
         MainWindow.show()
@@ -1055,7 +1254,6 @@ class Window5(QMainWindow):
 #////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 class Window6(QMainWindow):
-
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -1064,31 +1262,21 @@ class Window6(QMainWindow):
         height = int(sizeWindow.height())
         # Создаём компоновщик
         layout = QtWidgets.QHBoxLayout()
-
         layoutLeft = QtWidgets.QVBoxLayout()
 
-
-
         self.widgetList = []
-
         for i in range(squadNum):
-            # self.widget1 = Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1)
-            # self.widget1.setMinimumSize(500, 500)
-            # layout.addWidget(Display.Display3(self, graph51, 0, 0, 75, [0, 0, 255, 200], horizontal = False, base_graph=graph1))
-            self.widgetList.append(Display.Display3(self, graph5[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1))
-            #self.widgetList[i].setMinimumSize(int(width/2), 500)
+            self.widgetList.append(Display.Display6(self, graph5_ort[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1))
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
-            # scroll.setWidgetResizable(True)
             layoutLeft.addWidget(scroll)
 
         widgetLeft = QWidget()
         widgetLeft.setLayout(layoutLeft)
-
 
         self.scroll1 = QtWidgets.QScrollArea()
         self.scroll1.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -1096,8 +1284,7 @@ class Window6(QMainWindow):
         self.scroll1.setWidgetResizable(True)
         self.scroll1.setWidget(widgetLeft)
 
-        
-        self.widgetRight = Display.DrawHist(self, graph5)
+        self.widgetRight = Display.DrawHist(self, graph5_ort)
         self.widgetRight.setMinimumSize(int(width/2), 500)
         self.scroll2 = QtWidgets.QScrollArea()
         self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -1141,6 +1328,7 @@ class Window6(QMainWindow):
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?")
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            close.setWindowFlags(Qt.WindowStaysOnTopHint)
             close = close.exec()
 
             if close == QMessageBox.Ok:
@@ -1156,11 +1344,11 @@ class Window6(QMainWindow):
             for i in self.widgetList:
                 i.functionAble = "Переместить вершины"
            
-            self.ui.actionbtnConnectNode.setChecked(False)
-            self.ui.actionbtnAddNode.setChecked(False)
-            self.ui.actionbtnRemoveNodeConnection.setChecked(False)
+            # self.ui.actionbtnConnectNode.setChecked(False)
+            # self.ui.actionbtnAddNode.setChecked(False)
+            # self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnDottedConnectNode.setChecked(False)
-            self.ui.actionbtnRemoveSeq.setChecked(False)
+            # self.ui.actionbtnRemoveSeq.setChecked(False)
     
     def addDottedArrow(self):
         if self.ui.actionbtnDottedConnectNode.isChecked() == False:
@@ -1353,6 +1541,13 @@ class WindowMenu(QMainWindow):
         close.setWindowTitle("Закрыть приложение")
         close.setText("Вы уверены, что хотите закрыть приложение?")
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        properties.clear_graph(1)
+        properties.clear_graph(2)
+        properties.clear_graph(3)
+        properties.clear_graph(4)
+        #properties.clear_graph(5) #тут для 5 задания
+        close.setWindowFlags(Qt.WindowStaysOnTopHint)
+
         close = close.exec()
 
         if close == QMessageBox.Ok:
@@ -1376,7 +1571,7 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        if self.ui.btnTeacherMode.isChecked() and (properties.enter_key()):
+        if self.ui.btnTeacherMode.isChecked(): #and (properties.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
@@ -1458,7 +1653,7 @@ class WindowMenu(QMainWindow):
         elif numTask == "Задание 5":
             MainWindow5.show()
         elif numTask == "Задание 6":
-            MainWindow6.show()
+            MainWindow6.show()           
         self.hide()
 
     def show(self):
