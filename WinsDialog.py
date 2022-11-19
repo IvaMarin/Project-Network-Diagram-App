@@ -476,19 +476,32 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
                 rowVar.append(cell.value)
             tabelVar.append(rowVar)
 
-        # for row in tabelVar:
-        #     for cell in row:
-        #         print(cell, "\t", sep="")
-        #     print()
+        print("tabelVar")
+        for row in tabelVar:
+            for cell in row:
+                print(cell, "\t", sep="")
+            print()
 
-        self.ui.tableTaskVar.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
+        tmpTableVar = []
+        for i in range(3,len(tabelVar)):
+            tmpTableVar.append([])
+            for j in range(len(tabelVar[i])):
+                tmpTableVar[-1].append(tabelVar[i][j])
 
-        for list in tabelVar:
-            rowPosition = self.ui.tableTaskVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
-            self.ui.tableTaskVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
+        print("tmpTableVar")
+        for row in tmpTableVar:
+            for cell in row:
+                print(cell, "\t", sep="")
+            print()
+
+        self.ui.tableNumPeopleInSquad.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
+
+        for list in tmpTableVar:
+            rowPosition = self.ui.tableNumPeopleInSquad.rowCount()  # генерируем строку в таблице для записи в нее чиселок
+            self.ui.tableNumPeopleInSquad.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
             for item in list:
                 if countColumns >= 0:
-                    self.ui.tableTaskVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
+                    self.ui.tableNumPeopleInSquad.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
                 countColumns = countColumns + 1
             countColumns = 0
 
