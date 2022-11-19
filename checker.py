@@ -67,11 +67,12 @@ def doIntersect(p1, q1, p2, q2):
     
     return False
 
-def IsPointOnSegment(a, p, b) -> bool:
+# параметр EPS отвечает за чувствительность проверки
+def IsPointOnSegment(a, p, b, EPS=0.1) -> bool:
     AB = np.sqrt((b.x() - a.x()) * (b.x() - a.x()) + (b.y()-a.y()) * (b.y() - a.y()))
     AP = np.sqrt((p.x() - a.x()) * (p.x() - a.x()) + (p.y()-a.y()) * (p.y() - a.y()))
     PB = np.sqrt((b.x() - p.x()) * (b.x() - p.x()) + (b.y()-p.y()) * (b.y() - p.y()))
-    if (AB == AP + PB):
+    if np.abs(AB - (AP + PB)) < EPS:
         return True
     else:
         return False
