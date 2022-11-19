@@ -34,11 +34,11 @@ class task5CheckForm(QtWidgets.QDialog):
             self.labelLeft.setObjectName("labelLeft")
             self.labelLeft.setFont(font)
             if taskNum == 1:
-                self.labelLeft.setText(str(i) + ' отделение построено верно')
+                self.labelLeft.setText(str(i+1) + ' отделение построено верно')
             elif taskNum == 2:
-                self.labelLeft.setText(str(i) + ' отделение верно расставлено по временным осям')
+                self.labelLeft.setText(str(i+1) + ' отделение верно расставлено по временным осям')
             else:
-                self.labelLeft.setText(str(i) + ' отделение верно расставлены люди')
+                self.labelLeft.setText(str(i+1) + ' отделение верно расставлены люди')
             self.ui.gridLayout.addWidget(self.labelLeft, i, 0, 1, 1)
 
             # self.toolButton = QtWidgets.QToolButton(self.ui.scrollAreaWidgetContents)
