@@ -42,6 +42,7 @@
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
    <addaction name="actionHelp"/>
+   <addaction name="actionSolveTask"/>
    <addaction name="actionbtnHome"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -50,7 +51,7 @@
      <x>0</x>
      <y>0</y>
      <width>1603</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -285,6 +286,18 @@
   <action name="actionViewTask">
    <property name="text">
     <string>Задание 3</string>
+   </property>
+  </action>
+  <action name="actionSolveTask">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/document.png</normaloff>resources/iconePack/document.png</iconset>
+   </property>
+   <property name="text">
+    <string>SolveTask</string>
+   </property>
+   <property name="toolTip">
+    <string>решить задание (режим преподавателя)</string>
    </property>
   </action>
  </widget>
