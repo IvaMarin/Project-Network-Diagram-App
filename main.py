@@ -201,7 +201,7 @@ class Window1(QMainWindow):
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
                 
-                #properties.save_graph_for_student(graph1, 0)
+                #properties.save_graph(graph1, 1)
                 properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
                 
                 save_graph_for_student_1 = properties.get_graph_for_student(1)
@@ -485,6 +485,7 @@ class Window2(QMainWindow):
                 if len(mistakes) == 0:
                     properties.set__verification_passed_task(2)
 
+                    #properties.save_graph(graph1, 2)
                     properties.save_graph_for_student(graph1, 2) # сохраняем граф в файл
                     save_graph_for_student_2 = properties.get_graph_for_student(2)
                     self.DisplayObj.graph = save_graph_for_student_2
@@ -580,7 +581,7 @@ class Window3(QMainWindow):
         self.setWindowTitle("Задача №3")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
-        self.ui.actionbtnMoveNode.setEnabled(False)
+        #self.ui.actionbtnMoveNode.setEnabled(False)
         #self.DisplayObj = Display.Display3(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
 
         #self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
@@ -648,6 +649,7 @@ class Window3(QMainWindow):
 
                 properties.set__verification_passed_task(3)
 
+                #properties.save_graph(graph1, 3)
                 properties.save_graph_for_student(graph1, 3) # сохраняем граф в файл
                 save_graph_for_student_3 = properties.get_graph_for_student(3)
                 self.DisplayObj.graph = save_graph_for_student_3
@@ -830,6 +832,7 @@ class Window4(QMainWindow):
             if len(mistakes) == 0:
                 statusTask.set__verification_passed_task(4)
 
+                #properties.save_graph(graph1, 4)
                 properties.save_graph_for_student(graph1, 4) # сохраняем граф в файл
                 save_graph_for_student_4 = properties.get_graph_for_student(4)
                 self.DisplayObj.graph = save_graph_for_student_4
