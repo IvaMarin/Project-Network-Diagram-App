@@ -1209,6 +1209,8 @@ class Window5(QMainWindow):
             for row in range(properties.n):
                 self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
                 self.table.ui.tableWidget.setItem(row, 2, self.item)
+            for i in self.widgetList:
+                    i.functionAble = ""
             self.table.resize(500, 700)
         self.checkForm = task5CheckForm(self, mistakes, 1)
         self.checkForm.exec_()
@@ -1241,7 +1243,9 @@ class Window5(QMainWindow):
             self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Кол-во людей"])
             for row in range(MainWindow.ui.tableVar.rowCount()):
                 self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 2).text())
-                self.table.ui.tableWidget.setItem(row, 1, self.item) 
+                self.table.ui.tableWidget.setItem(row, 1, self.item)
+            for i in self.widgetList:
+                i.functionAble = "" 
             self.table.resize(393, 700)
         self.checkForm = task5CheckForm(self, mistakes, 2)
         self.checkForm.exec_()
@@ -1270,6 +1274,8 @@ class Window5(QMainWindow):
                         
                 statusTask.set__verification_passed_task(5)
                 self.ui.actionbtnCheck.setVisible(False)
+                for i in self.widgetList:
+                    i.functionAble = ""
             self.checkForm = task5CheckForm(self, mistakes, 3)
             self.checkForm.exec_()
 
