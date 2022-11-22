@@ -238,7 +238,6 @@ class GraphOrthogonal:
 		self.AdjacencyList = dict() # key: (digit1, id1) 					value: (digit2, id2)
 		self.Arrows = dict()		# key: ((digit1, id1), (digit2, id2)) 	value: (x, y)
 		self.PeopleWeights = None	# key: ((digit1, id1), (digit2, id2)) 	value: weight
-		self.Sequences = list()
 	
 	def _FindMaxId(self, digit):
 		id = 0
@@ -252,7 +251,6 @@ class GraphOrthogonal:
 		self.Points[(digit, id)] = (x, y)
 
 	def AddPointsSequence(self, sequence: list, gridStart, gridStep, gridY):
-		self.Sequences.append(sequence)
 		for i, digit in enumerate(sequence):
 			cur_digit = sequence[i] 
 			cur_id = self._FindMaxId(digit)
@@ -277,12 +275,9 @@ class GraphOrthogonal:
 	
 	def DeletePointsSequence(self, gridY):
 		PointsCopy = self.Points.copy()
-		deletedSequence = []
 		for (p_digit, p_id), (p_x, p_y) in PointsCopy.items():
 			if p_y == gridY:
-				deletedSequence.append(p_digit)
 				self.DeletePoint((p_digit, p_id))
-		self.Sequences.remove(deletedSequence)
 
 	def AddConnection(self, firstPoint: tuple, secondPoint: tuple):
 		if (firstPoint in self.Points.keys()) and (secondPoint in self.Points.keys()):
@@ -329,21 +324,11 @@ class GraphOrthogonal:
 	def MovePoint(self, Point: tuple, x, y):
 		self.Points[Point] = (x, y)
 		self.UpdateArrows(Point)
-
+	
 	def MovePointFixedY(self, Point: tuple, x):
 		(cur_x, cur_y) = self.Points[Point]
 		self.Points[Point] = (x, cur_y)
 		self.UpdateArrows(Point)
-
-	def MoveAllPointsFixedY(self, Point: tuple, x):
-		MovedPoints = list()
-		for p in self.Points.keys():
-			if (p[0] == Point[0]):
-				(cur_x, cur_y) = self.Points[p]
-				self.Points[p] = (x, cur_y)
-				MovedPoints.append(p)
-		for p in MovedPoints:
-			self.UpdateArrows(p)
 
 	def MoveArrowPoint(self, firstPoint: tuple, secondPoint: tuple, x, y):
 		(firstPoint_x, firstPoint_y) = self.Points[firstPoint]
