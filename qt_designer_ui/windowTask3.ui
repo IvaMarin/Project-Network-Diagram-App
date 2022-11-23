@@ -161,7 +161,7 @@
     <string>btnInfo</string>
    </property>
    <property name="toolTip">
-    <string>Подсказка</string>
+    <string>Материалы</string>
    </property>
   </action>
   <action name="actionbtnHome">
