@@ -383,7 +383,7 @@ class Window2(QMainWindow):
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть"])
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
-        self.table.setWindowTitle("Подсказка")
+        self.table.setWindowTitle("Материалы")
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
             self.table.ui.tableWidget.setItem(row, 0, self.item)
@@ -613,7 +613,7 @@ class Window3(QMainWindow):
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
         self.table.ui.tableWidget.setColumnCount(3)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
-        self.table.setWindowTitle("Подсказка")
+        self.table.setWindowTitle("Материалы")
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Ранние сроки"])
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
@@ -806,7 +806,7 @@ class Window4(QMainWindow):
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
         self.table.ui.tableWidget.setColumnCount(3)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
-        self.table.setWindowTitle("Подсказка")
+        self.table.setWindowTitle("Материалы")
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Поздние сроки"])
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
@@ -1036,7 +1036,7 @@ class Window5(QMainWindow):
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "№ отделения"])
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
-        self.table.setWindowTitle("Подсказка")
+        self.table.setWindowTitle("Материалы")
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
             self.table.ui.tableWidget.setItem(row, 0, self.item)
