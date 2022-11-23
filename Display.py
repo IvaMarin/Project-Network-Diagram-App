@@ -374,7 +374,7 @@ class Display2(Display):
         if self.switch:
             self._drawQLineEdits()
             self.switch = False
-
+        
         self.graph.PeopleWeights = self.GetNumberOfPeople()
 
         self.update()

@@ -4,7 +4,7 @@ from pathlib import Path
 
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QRect, Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit
 
 ### Для обработки .xlsx файлов ##############
 import openpyxl
@@ -291,7 +291,7 @@ class Window1(QMainWindow):
     def switchTeacherMode(self, flag):
         if (flag):
             #print("Режим препода")
-            #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+            properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
             graph = properties.get_graph(1) # берем граф из сохранения
             self.DisplayObj.graph = graph
             self.DisplayObj.update()
@@ -545,6 +545,15 @@ class Window2(QMainWindow):
     def switchTeacherMode(self, flag):
         if (flag):
             #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+            n = len(self.DisplayObj.QLineEdits)
+            for i in range(n):
+                for j in range(n):
+                    if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
+                        try:
+                            self.DisplayObj.QLineEdits[i][j].setVisible(False)
+                        except ValueError:
+                            pass
+                    
             graph = properties.get_graph(2) # берем граф из сохранения
             self.DisplayObj.graph = graph
             self.DisplayObj.update()
@@ -553,6 +562,15 @@ class Window2(QMainWindow):
             self.ui.actionbtnCritPath.setEnabled(False)
         else:
             #graph_student = properties.get_graph_for_student(1)
+            n = len(self.DisplayObj.QLineEdits)
+            for i in range(n):
+                for j in range(n):
+                    if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
+                        try:
+                            self.DisplayObj.QLineEdits[i][j].setVisible(True)
+                        except ValueError:
+                            pass
+
             self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
             self.DisplayObj.update()
 
