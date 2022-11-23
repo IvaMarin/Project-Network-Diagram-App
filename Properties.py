@@ -48,7 +48,7 @@ class Properties():
         # свойства первого окна
         self.MainWindow = MainWindow
         self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
-        self.step_grid = 75 # шаг сетки
+        self.step_grid = 100 # шаг сетки
         self.currentSquadGridY = dict()
         self.correct_w = self.MainWindow.getCorrectWeights()
         self.n = len(self.correct_w)
