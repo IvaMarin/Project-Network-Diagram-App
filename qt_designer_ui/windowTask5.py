@@ -177,7 +177,7 @@ class Ui_MainWindow5(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow5.setWindowTitle(_translate("MainWindow5", "Задание 5"))
         self.menuHelp.setTitle(_translate("MainWindow5", "Справка"))
-        self.menuTask5.setTitle(_translate("MainWindow5", "Здание 5"))
+        self.menuTask5.setTitle(_translate("MainWindow5", "Задание 5"))
         self.toolBar.setWindowTitle(_translate("MainWindow5", "toolBar"))
         self.actionNewFile.setText(_translate("MainWindow5", "Новый файл"))
         self.actionNewFile.setToolTip(_translate("MainWindow5", "Создать новый файл"))

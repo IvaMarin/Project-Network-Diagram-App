@@ -1091,21 +1091,26 @@ class Window5(QMainWindow):
 
     def displayAddSeq(self, numS, sequence):
         i = int(numS) - 1
-        if properties.currentSquadGridY.get(i) == None:
-            properties.currentSquadGridY[i] = properties.step_grid
+
+        deltaY = set()
+        for (x, y) in self.widgetList[i].graph_in.Points.values():
+            deltaY.add(y)
+        deltaY = sorted(deltaY)
+
+        missingSequenceY = None
+        for j, y in enumerate(deltaY):
+            current_step = (j+1) * properties.step_gridY
+            if y != current_step:
+                missingSequenceY = current_step
+                break
+
+        if len(deltaY) == 0:
+            gridY = properties.step_gridY
+        elif missingSequenceY != None:
+            gridY = missingSequenceY
         else:
-            properties.currentSquadGridY[i] += properties.step_grid
-        delta_Y = set([])
-        for el in self.widgetList[i].graph_in.Points:
-            delta_Y.add(self.widgetList[i].graph_in.Points[el][1])
-        delta_Y = sorted(delta_Y)
-        for j in range(len(delta_Y)):
-            if delta_Y[j] != (j+1)*properties.step_grid:
-                self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, (j+1)*properties.step_grid)
-                self.widgetList[i].update()
-                properties.currentSquadGridY[i] -= properties.step_grid
-                return
-        gridY = properties.currentSquadGridY[i]
+            gridY = deltaY[-1] + properties.step_gridY
+
         self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
         self.widgetList[i].update()
 
