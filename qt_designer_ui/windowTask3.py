@@ -170,7 +170,7 @@ class Ui_MainWindow3(object):
         self.actionbtnMoveNode.setText(_translate("MainWindow3", "btnMoveNode"))
         self.actionbtnMoveNode.setToolTip(_translate("MainWindow3", "Передвинуть элемент"))
         self.actionbtnInfo.setText(_translate("MainWindow3", "btnInfo"))
-        self.actionbtnInfo.setToolTip(_translate("MainWindow3", "Подсказка"))
+        self.actionbtnInfo.setToolTip(_translate("MainWindow3", "Материалы"))
         self.actionbtnHome.setText(_translate("MainWindow3", "btnHome"))
         self.actionbtnHome.setToolTip(_translate("MainWindow3", "Перейти к выбору заданий / В меню"))
         self.actionbtnZoomIn.setText(_translate("MainWindow3", "btnZoomIn"))

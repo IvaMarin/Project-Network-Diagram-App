@@ -370,7 +370,7 @@ class Window2(QMainWindow):
 
         # Создаём окно для ошибки заполнения таблицы
         self.msg = QMessageBox()
-        self.msg.setWindowTitle("Ошибка")
+        self.msg.setWindowTitle("Предупреждение")
         self.msg.setText("Заполните все поля таблицы!")
         self.msg.setIcon(QMessageBox.Critical)
         self.msg.setStandardButtons(QMessageBox.Ok)
@@ -383,7 +383,7 @@ class Window2(QMainWindow):
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть"])
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
-        self.table.setWindowTitle("Подсказка")
+        self.table.setWindowTitle("Материалы")
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
             self.table.ui.tableWidget.setItem(row, 0, self.item)
@@ -429,11 +429,16 @@ class Window2(QMainWindow):
         self.cnt = len(graph1.CorrectAdjacencyMatrix)
         self.table1.ui.tableWidget.setRowCount(self.cnt)
         self.table2.ui.tableWidget.setRowCount(self.cnt)
+        for row in range(self.cnt):
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table1.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+            self.table2.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
 
 
     def table1Check(self):
         # Обнуляем данные в модели
         graph1.tp = np.empty((0))
+        show_message = False
         # Считываем новые
         for row in range(self.table1.ui.tableWidget.rowCount()):
             # Проверка на пустую ячейку
@@ -441,22 +446,30 @@ class Window2(QMainWindow):
                 # Добавление значения
                 graph1.tp = np.append(graph1.tp, int(self.table1.ui.tableWidget.item(row, 0).text()))
             else:
+                show_message = True
                 # При ошибке вызываем окно
                 self.msg.show()
                 break
+        if not show_message:
+            self.DisplayObj.update()
         self.update()
 
     def table2Check(self):
         # То же самое для второй таблицы
         graph1.tn = np.empty((0))
         graph1.R = np.empty((0))
+        show_message = False
         for row in range(self.table2.ui.tableWidget.rowCount()):
             if type(self.table2.ui.tableWidget.item(row, 0)) == QtWidgets.QTableWidgetItem and self.table2.ui.tableWidget.item(row, 0).text() != '':
                 graph1.tn = np.append(graph1.tn, int(self.table2.ui.tableWidget.item(row, 0).text()))
                 graph1.R = np.append(graph1.R, (int(self.table2.ui.tableWidget.item(row, 0).text()) - int(self.table1.ui.tableWidget.item(row, 0).text())))
             else:
+                show_message = True
                 self.msg.show()
                 break
+
+        if not show_message:
+            self.DisplayObj.update()
         self.update()
 
     def critPath(self):
@@ -597,13 +610,22 @@ class Window3(QMainWindow):
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
-        self.table.ui.tableWidget.setRowCount(properties.n)
-        self.table.setWindowTitle("Ранние сроки")
-        for row in range(properties.n):
-            self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        self.table.ui.tableWidget.setColumnCount(3)
+        self.table.ui.tableWidget.horizontalHeader().setVisible(True)
+        self.table.setWindowTitle("Материалы")
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Ранние сроки"])
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
             self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.table.ui.tableWidget.setItem(row, 1, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+        for row in range(properties.n):
+                self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+                self.table.ui.tableWidget.setItem(row, 2, self.item)
+        self.table.resize(500, 700)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -781,13 +803,22 @@ class Window4(QMainWindow):
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
-        self.table.ui.tableWidget.setRowCount(properties.n)
-        self.table.setWindowTitle("Поздние сроки")
-        for row in range(properties.n):
-            self.item = QtWidgets.QTableWidgetItem(str(properties.tn[row]))
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        self.table.ui.tableWidget.setColumnCount(3)
+        self.table.ui.tableWidget.horizontalHeader().setVisible(True)
+        self.table.setWindowTitle("Материалы")
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Поздние сроки"])
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
             self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.table.ui.tableWidget.setItem(row, 1, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+        for row in range(properties.n):
+                self.item = QtWidgets.QTableWidgetItem(str(int(properties.tn[row])))
+                self.table.ui.tableWidget.setItem(row, 2, self.item)
+        self.table.resize(500, 700)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -948,7 +979,7 @@ class Window5(QMainWindow):
         self.squadWidgetList = []
 
         for i in range(squadNum):
-            self.widget1 = Display.Display5(self, graph5_ort[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1)
+            self.widget1 = Display.Display5(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1)
             self.widgetList.append(self.widget1)
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
@@ -961,6 +992,7 @@ class Window5(QMainWindow):
             squadWidget.ui = Ui_task2SquadWidget()
             squadWidget.ui.setupUi(squadWidget)
             squadWidget.ui.label_numberSquad.setText(str(i+1))
+            squadWidget.ui.label_amountSquad.setText(MainWindow.ui.tableVar.item(i, 5).text())
             self.squadWidgetList.append(squadWidget)
             hLayout.addWidget(squadWidget)
             hWidget = QWidget()
@@ -995,6 +1027,24 @@ class Window5(QMainWindow):
         self.resize(width, height)
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
+
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.ui.tableWidget.horizontalHeader().setVisible(True)
+        self.table.ui.tableWidget.setColumnCount(2)
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "№ отделения"])
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        self.table.setWindowTitle("Материалы")
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.table.ui.tableWidget.setItem(row, 0, self.item)
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 1).text())
+            self.table.ui.tableWidget.setItem(row, 1, self.item)
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+        self.table.resize(393, 700)
 
         self._connectAction()
 
@@ -1041,22 +1091,26 @@ class Window5(QMainWindow):
 
     def displayAddSeq(self, numS, sequence):
         i = int(numS) - 1
-        if properties.currentSquadGridY.get(i) == None:
-            properties.currentSquadGridY[i] = properties.step_grid
+
+        deltaY = set()
+        for (x, y) in self.widgetList[i].graph_in.Points.values():
+            deltaY.add(y)
+        deltaY = sorted(deltaY)
+
+        missingSequenceY = None
+        for j, y in enumerate(deltaY):
+            current_step = (j+1) * properties.step_gridY
+            if y != current_step:
+                missingSequenceY = current_step
+                break
+
+        if len(deltaY) == 0:
+            gridY = properties.step_gridY
+        elif missingSequenceY != None:
+            gridY = missingSequenceY
         else:
-            properties.currentSquadGridY[i] += properties.step_grid
-        #self.widgetList[i].graph_in.Points[(digit, id)][1]
-        delta_Y = set([])
-        for el in self.widgetList[i].graph_in.Points:
-            delta_Y.add(self.widgetList[i].graph_in.Points[el][1])
-        delta_Y = sorted(delta_Y)
-        for j in range(len(delta_Y)):
-            if delta_Y[j] != (j+1)*properties.step_grid:
-                self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, (j+1)*properties.step_grid)
-                self.widgetList[i].update()
-                properties.currentSquadGridY[i] -= properties.step_grid
-                return
-        gridY = properties.currentSquadGridY[i]
+            gridY = deltaY[-1] + properties.step_gridY
+
         self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
         self.widgetList[i].update()
 
@@ -1138,61 +1192,68 @@ class Window5(QMainWindow):
         for i in range(squadNum):
             mistakes.append(self.widgetList[i].checkEvent5Part1(i))
 
-        show_message = False
         is_correct = True
         for m in mistakes:
-            if type(m) == QMessageBox:
-                show_message = True
-                m.exec()
-                break
-            elif m == False:
+            if m == False:
                 is_correct = False
 
-        if not show_message:
-            if is_correct:
-                self.ui.actionbtnAddSeq.setVisible(False)
-                self.ui.actionbtnRemoveSeq.setVisible(False)
-                self.ui.actionbtnConnectNode.setVisible(True)
-                self.ui.actionbtnRemoveNodeConnection.setVisible(True)
-                self.ui.actionbtnMoveNode.setVisible(True)
-                self.ui.actionbtnDottedConnectNode.setVisible(True)
+        if is_correct:
+            self.ui.actionbtnAddSeq.setVisible(False)
+            self.ui.actionbtnRemoveSeq.setVisible(False)
+            self.ui.actionbtnMoveNode.setVisible(True)
+            self.ui.actionbtnDottedConnectNode.setVisible(True)
 
-                self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck1)
-                self.ui.actionbtnCheck.triggered.connect(self.taskCheck2) 
-            self.checkForm = task5CheckForm(self, mistakes, 1)
-            self.checkForm.exec_()
+            self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck1)
+            self.ui.actionbtnCheck.triggered.connect(self.taskCheck2) 
+
+            self.table.ui.tableWidget.insertColumn(2)
+            self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Ранние сроки"])
+            for row in range(MainWindow.ui.tableVar.rowCount()):
+                self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+                self.table.ui.tableWidget.setItem(row, 1, self.item)
+            for row in range(properties.n):
+                self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+                self.table.ui.tableWidget.setItem(row, 2, self.item)
+            for i in self.widgetList:
+                    i.functionAble = ""
+            self.table.resize(500, 700)
+        self.checkForm = task5CheckForm(self, mistakes, 1)
+        self.checkForm.exec_()
         
     def taskCheck2(self):
         mistakes = list()
         for i in range(squadNum):
             mistakes.append(self.widgetList[i].checkEvent5Part2(i))
 
-        show_message = False
         is_correct = True
         for m in mistakes:
-            if type(m) == QMessageBox:
-                show_message = True
-                m.exec()
-                break
-            elif m == False:
+            if m == False:
                 is_correct = False
 
-        if not show_message:
-            if is_correct:
-                for d in self.widgetList:
-                    if d.switch == True:
-                        d._drawQLineEdits()
-                        d.switch = False
-                
-                self.ui.actionbtnConnectNode.setVisible(False)
-                self.ui.actionbtnRemoveNodeConnection.setVisible(False)
-                self.ui.actionbtnMoveNode.setVisible(False)
-                self.ui.actionbtnDottedConnectNode.setVisible(False)
+        if is_correct:
+            for d in self.widgetList:
+                if d.switch == True:
+                    d._drawQLineEdits()
+                    d.switch = False
+            
+            self.ui.actionbtnConnectNode.setVisible(False)
+            self.ui.actionbtnRemoveNodeConnection.setVisible(False)
+            self.ui.actionbtnMoveNode.setVisible(False)
+            self.ui.actionbtnDottedConnectNode.setVisible(False)
 
-                self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck2) 
-                self.ui.actionbtnCheck.triggered.connect(self.taskCheck3) 
-            self.checkForm = task5CheckForm(self, mistakes, 2)
-            self.checkForm.exec_()
+            self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck2) 
+            self.ui.actionbtnCheck.triggered.connect(self.taskCheck3) 
+
+            self.table.ui.tableWidget.removeColumn(2)
+            self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Кол-во людей"])
+            for row in range(MainWindow.ui.tableVar.rowCount()):
+                self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 2).text())
+                self.table.ui.tableWidget.setItem(row, 1, self.item)
+            for i in self.widgetList:
+                i.functionAble = "" 
+            self.table.resize(393, 700)
+        self.checkForm = task5CheckForm(self, mistakes, 2)
+        self.checkForm.exec_()
             
     def taskCheck3(self):
         mistakes = list()
@@ -1211,8 +1272,15 @@ class Window5(QMainWindow):
 
         if not show_message:
             if is_correct:
+                # после корректного выполнения запрещаем модифицировать число людей
+                for d in self.widgetList:
+                    for qle in d.QLineEdits.values():
+                        qle.setReadOnly(True)
+                        
                 statusTask.set__verification_passed_task(5)
                 self.ui.actionbtnCheck.setVisible(False)
+                for i in self.widgetList:
+                    i.functionAble = ""
             self.checkForm = task5CheckForm(self, mistakes, 3)
             self.checkForm.exec_()
 
@@ -1227,6 +1295,7 @@ class Window5(QMainWindow):
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         # добавить связь с кнопкой
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
 
     def openTextTask(self):
         dialogTask = QDialog()
@@ -1250,6 +1319,11 @@ class Window5(QMainWindow):
         self.showMaximized()
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
 
+    def help(self):
+        if self.table.isHidden():
+            self.table.show()
+        else:
+            self.table.hide()
 
 #////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1266,7 +1340,7 @@ class Window6(QMainWindow):
 
         self.widgetList = []
         for i in range(squadNum):
-            self.widgetList.append(Display.Display6(self, graph5_ort[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1))
+            self.widgetList.append(Display.Display6(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1))
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)

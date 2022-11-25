@@ -172,7 +172,7 @@ class Ui_MainWindow6(object):
         self.actionbtnCheck.setText(_translate("MainWindow6", "btnCheck"))
         self.actionbtnCheck.setToolTip(_translate("MainWindow6", "<html><head/><body><p>Проверить задание</p></body></html>"))
         self.actionbtnInfo.setText(_translate("MainWindow6", "btnInfo"))
-        self.actionbtnInfo.setToolTip(_translate("MainWindow6", "Подсказка"))
+        self.actionbtnInfo.setToolTip(_translate("MainWindow6", "Материалы"))
         self.actionbtnDottedConnectNode.setText(_translate("MainWindow6", "btnDottedConnectNode"))
         self.actionbtnDottedConnectNode.setToolTip(_translate("MainWindow6", "Перемещение пунктирной стрелки"))
         self.actionbtnMoveNode.setText(_translate("MainWindow6", "btnMoveNode"))

@@ -38,7 +38,7 @@
    </widget>
    <widget class="QMenu" name="menuTask5">
     <property name="title">
-     <string>Здание 5</string>
+     <string>Задание 5</string>
     </property>
     <addaction name="actionViewTask"/>
    </widget>
@@ -216,7 +216,7 @@
     <string>btnInfo</string>
    </property>
    <property name="toolTip">
-    <string>Подсказка</string>
+    <string>Материалы</string>
    </property>
   </action>
   <action name="actionbtnHome">

@@ -167,7 +167,7 @@ class Ui_MainWindow5(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow5.setWindowTitle(_translate("MainWindow5", "Задание 5"))
         self.menuHelp.setTitle(_translate("MainWindow5", "Справка"))
-        self.menuTask5.setTitle(_translate("MainWindow5", "Здание 5"))
+        self.menuTask5.setTitle(_translate("MainWindow5", "Задание 5"))
         self.toolBar.setWindowTitle(_translate("MainWindow5", "toolBar"))
         self.actionNewFile.setText(_translate("MainWindow5", "Новый файл"))
         self.actionNewFile.setToolTip(_translate("MainWindow5", "Создать новый файл"))
@@ -185,7 +185,7 @@ class Ui_MainWindow5(object):
         self.actionbtnConnectNode.setText(_translate("MainWindow5", "btnConnectNode"))
         self.actionbtnConnectNode.setToolTip(_translate("MainWindow5", "Соединить узлы"))
         self.actionbtnInfo.setText(_translate("MainWindow5", "btnInfo"))
-        self.actionbtnInfo.setToolTip(_translate("MainWindow5", "Подсказка"))
+        self.actionbtnInfo.setToolTip(_translate("MainWindow5", "Материалы"))
         self.actionbtnHome.setText(_translate("MainWindow5", "btnHome"))
         self.actionbtnHome.setToolTip(_translate("MainWindow5", "Перейти к выбору заданий / В меню"))
         self.actionbtnRemoveNodeConnection.setText(_translate("MainWindow5", "btnRemoveNodeСonnection"))

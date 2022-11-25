@@ -191,7 +191,7 @@ class Ui_MainWindow1(object):
         self.actionbtnConnectNode.setText(_translate("MainWindow1", "btnConnectNode"))
         self.actionbtnConnectNode.setToolTip(_translate("MainWindow1", "Соединить узлы"))
         self.actionbtnInfo.setText(_translate("MainWindow1", "btnInfo"))
-        self.actionbtnInfo.setToolTip(_translate("MainWindow1", "Подсказка"))
+        self.actionbtnInfo.setToolTip(_translate("MainWindow1", "Материалы"))
         self.actionbtnHome.setText(_translate("MainWindow1", "btnHome"))
         self.actionbtnHome.setToolTip(_translate("MainWindow1", "Перейти к выбору заданий / В меню"))
         self.actionbtnRemoveNodeConnection.setText(_translate("MainWindow1", "btnRemoveNodeСonnection"))
