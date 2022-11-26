@@ -686,6 +686,52 @@ class Display5(Display):
                 painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
 
             self.graph_in.PeopleWeights = self.GetNumberOfPeople()
+        # отрисовка стрелок
+        for p1, p2 in self.graph.AdjacencyList.items():
+            (x1, y1) = self.graph.Points[p1]
+            (x2, y2) = self.graph.Points[p2]
+            triangle_source = calculate_arrow_points((x1, y1), self.graph.Arrows[(p1, p2)], 0)
+            if triangle_source is not None:
+                painter.drawPolygon(triangle_source)
+                if (self.late_time == None):  # в зависимости от резерва
+                    if (len(self.base_graph.R) > p1[0]) and (self.base_graph.R[p1[0]] > 0):
+                        painter.setPen(Qt.PenStyle.SolidLine)
+                        painter.drawLine(QPointF(x1, y1), triangle_source[1])
+                        painter.setPen(Qt.PenStyle.DashLine)
+                        painter.drawLine(triangle_source[1], QPointF(x2, y2))
+                        painter.setPen(Qt.PenStyle.SolidLine)
+                    else:
+                        painter.setPen(Qt.PenStyle.DashLine)
+                        painter.drawLine(QPointF(x1, y1), triangle_source[1])
+                        painter.setPen(Qt.PenStyle.SolidLine)
+                        painter.drawLine(triangle_source[1], QPointF(x2, y2))
+                elif (self.late_time == True):  # в поздних сроках
+                    painter.setPen(Qt.PenStyle.DashLine)
+                    painter.drawLine(QPointF(x1, y1), triangle_source[1])
+                    painter.setPen(Qt.PenStyle.SolidLine)
+                    painter.drawLine(triangle_source[1], QPointF(x2, y2))
+                else:  # в ранних сроках
+                    painter.setPen(Qt.PenStyle.SolidLine)
+                    painter.drawLine(QPointF(x1, y1), triangle_source[1])
+                    painter.setPen(Qt.PenStyle.DashLine)
+                    painter.drawLine(triangle_source[1], QPointF(x2, y2))
+                    painter.setPen(Qt.PenStyle.SolidLine)
+
+        # отрисовка вершин и цифр
+        painter.setPen(QPen(QColor("black"), 2.5))
+
+        for (digit, id), (x, y) in self.graph.Points.items(): 
+            painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+            painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
+                                int(2*self.graph.Radius), int(2*self.graph.Radius))
+            if len(str(digit+1)) < 2:
+                offset = [-(5*len(str(digit+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                offset = [-(5*len(str(digit+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+            painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
+
+        self.graph_in.PeopleWeights = self.GetNumberOfPeople()
+    
     def save(self,i):
         strTemp = str(5)+str(i)+".jpg"
         self.image.save(strTemp)
@@ -727,7 +773,7 @@ class Display5(Display):
                 XonGrid = self.start_coordination_X+i*self.step
             
             if event.buttons() == Qt.LeftButton and self.FixedPoint != None:
-                self.graph.MovePointFixedY(self.FixedPoint, XonGrid) 
+                self.graph.MoveAllPointsFixedY(self.FixedPoint, XonGrid) 
 
         elif (self.functionAble == "Добавить пунктирную связь"):
             wasFinded = False 
@@ -794,13 +840,13 @@ class Display5(Display):
             return None
 
     def checkEvent5Part1(self, id) -> bool:
-        return checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id)
+        return checker.checkTask5Part1(self.graph, self.base_graph, id)
 
     def checkEvent5Part2(self, id) -> bool:
-        return checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id)
+        return checker.checkTask5Part2(self.graph, self.base_graph, self.base_graph.CorrectWeights, self.start_coordination_X, self.step, id)
 
     def checkEvent5Part3(self, id) -> bool:
-        return checker.checkTask5(self.graph, self.base_graph, self.start_coordination_X, self.step, id)
+        return checker.checkTask5Part3(self.base_graph, self.base_graph.SquadsPeopleToWork, self, id)
 
 
 class Display6(Display5):
@@ -881,25 +927,39 @@ class Display6(Display5):
                         painter.drawLine(triangle_source[1], QPointF(x2, y2))
                         painter.setPen(Qt.PenStyle.SolidLine)
 
-            # отрисовка вершин и цифр
-            painter.setPen(QPen(QColor("black"), 2.5))
+        # отрисовка вершин и цифр
+        painter.setPen(QPen(QColor("black"), 2.5))
+        # отрисовка вершин и цифр
+        painter.setPen(QPen(QColor("black"), 2.5))
 
-            for (digit, id), (x, y) in self.graph.Points.items(): 
-                painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
-                painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
-                                    int(2*self.graph.Radius), int(2*self.graph.Radius))
-                if len(str(i+1)) < 2:
-                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
-                else:
-                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-                painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
+        for (digit, id), (x, y) in self.graph.Points.items(): 
+            painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+            painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
+                                int(2*self.graph.Radius), int(2*self.graph.Radius))
+            if len(str(i+1)) < 2:
+                offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+            painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
+        self.root.widgetRight.update()
+    
+
+        for (digit, id), (x, y) in self.graph.Points.items(): 
+            painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+            painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
+                                int(2*self.graph.Radius), int(2*self.graph.Radius))
+            if len(str(i+1)) < 2:
+                offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+            else:
+                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+            painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
 
 class DrawHist(QWidget):
     def __init__(self, root, graph, step = 25):
 
         super().__init__(root)
         self.step = step
-        self.stepAlg = 75
+        self.stepAlg = 100
         self.graph = graph
         self.intervals = np.array([])
     
