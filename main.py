@@ -383,7 +383,7 @@ class Window2(QMainWindow):
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть"])
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
-        self.table.setWindowTitle("Подсказка")
+        self.table.setWindowTitle("Материалы")
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
             self.table.ui.tableWidget.setItem(row, 0, self.item)
@@ -631,7 +631,7 @@ class Window3(QMainWindow):
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
         self.table.ui.tableWidget.setColumnCount(3)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
-        self.table.setWindowTitle("Подсказка")
+        self.table.setWindowTitle("Материалы")
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Ранние сроки"])
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
@@ -824,7 +824,7 @@ class Window4(QMainWindow):
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
         self.table.ui.tableWidget.setColumnCount(3)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
-        self.table.setWindowTitle("Подсказка")
+        self.table.setWindowTitle("Материалы")
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Поздние сроки"])
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
@@ -1054,7 +1054,7 @@ class Window5(QMainWindow):
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "№ отделения"])
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
-        self.table.setWindowTitle("Подсказка")
+        self.table.setWindowTitle("Материалы")
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
             self.table.ui.tableWidget.setItem(row, 0, self.item)
@@ -1109,21 +1109,26 @@ class Window5(QMainWindow):
 
     def displayAddSeq(self, numS, sequence):
         i = int(numS) - 1
-        if properties.currentSquadGridY.get(i) == None:
-            properties.currentSquadGridY[i] = properties.step_grid
+
+        deltaY = set()
+        for (x, y) in self.widgetList[i].graph_in.Points.values():
+            deltaY.add(y)
+        deltaY = sorted(deltaY)
+
+        missingSequenceY = None
+        for j, y in enumerate(deltaY):
+            current_step = (j+1) * properties.step_gridY
+            if y != current_step:
+                missingSequenceY = current_step
+                break
+
+        if len(deltaY) == 0:
+            gridY = properties.step_gridY
+        elif missingSequenceY != None:
+            gridY = missingSequenceY
         else:
-            properties.currentSquadGridY[i] += properties.step_grid
-        delta_Y = set([])
-        for el in self.widgetList[i].graph_in.Points:
-            delta_Y.add(self.widgetList[i].graph_in.Points[el][1])
-        delta_Y = sorted(delta_Y)
-        for j in range(len(delta_Y)):
-            if delta_Y[j] != (j+1)*properties.step_grid:
-                self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, (j+1)*properties.step_grid)
-                self.widgetList[i].update()
-                properties.currentSquadGridY[i] -= properties.step_grid
-                return
-        gridY = properties.currentSquadGridY[i]
+            gridY = deltaY[-1] + properties.step_gridY
+
         self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
         self.widgetList[i].update()
 
@@ -1676,10 +1681,10 @@ class WindowMenu(QMainWindow):
             self.ui.btnGenVar.setEnabled(False)
             self.ui.btnEditTaskVariant.setEnabled(False)
             self.ui.btnTask1.setEnabled(True)
-            self.ui.btnTask2.setEnabled(False)
-            self.ui.btnTask3.setEnabled(False)
-            self.ui.btnTask4.setEnabled(False)
-            self.ui.btnTask5.setEnabled(False)
+            self.ui.btnTask2.setEnabled(statusTask.get_verification_passed_tasks(1))
+            self.ui.btnTask3.setEnabled(statusTask.get_verification_passed_tasks(2))
+            self.ui.btnTask4.setEnabled(statusTask.get_verification_passed_tasks(3))
+            self.ui.btnTask5.setEnabled(statusTask.get_verification_passed_tasks(4))
             #self.ui.btnTask6.setEnabled(False)
             self.ui.btnTeacherMode.setChecked(False)
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)

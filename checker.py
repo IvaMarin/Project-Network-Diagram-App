@@ -562,9 +562,12 @@ def checkTask5Part2(Graph, BaseGraph, CorrectWeights, GridBegin, GridStep, Id) -
     Points = list(Points)
 
     Graph.PointsTimeEarly = np.zeros(n, int)
-    for p in Points:
-        (x, y) = Graph.Points[(p, 0)]
-        Graph.PointsTimeEarly[p] = round((x - GridBegin) / GridStep) - Indent
+    for digit in Points:
+        for p in Graph.Points.keys():
+            if p[0] == digit:
+                (x, y) = Graph.Points[p]
+                Graph.PointsTimeEarly[digit] = round((x - GridBegin) / GridStep) - Indent
+                break
         
     # Расположение событий на временной оси
     for i in range(n):
