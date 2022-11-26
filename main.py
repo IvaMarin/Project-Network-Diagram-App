@@ -968,6 +968,7 @@ class Window5(QMainWindow):
         
         self.widgetList = []
         self.squadWidgetList = []
+        self.squadNum = squadNum
 
         for i in range(squadNum):
             self.widget1 = Display.Display5(self, graph5_ort[i], 75, properties.max_possible_time, horizontal = False, base_graph=graph1)
@@ -976,7 +977,7 @@ class Window5(QMainWindow):
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
-            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            # scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             hLayout = QtWidgets.QHBoxLayout()
             hLayout.addWidget(scroll)
             squadWidget = QWidget()
