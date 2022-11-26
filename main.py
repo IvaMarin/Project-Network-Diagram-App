@@ -4,7 +4,7 @@ from pathlib import Path
 
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QRect, Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit
 
 ### Для обработки .xlsx файлов ##############
 import openpyxl
@@ -496,7 +496,13 @@ class Window2(QMainWindow):
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
                     properties.set__verification_passed_task(2)
-
+                    
+                    # после корректного выполнения запрещаем модифицировать продолжительности
+                    for i in range(len(self.DisplayObj.QLineEdits)):
+                        for j in range(len(self.DisplayObj.QLineEdits)):
+                            if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
+                                self.DisplayObj.QLineEdits[i][j].setReadOnly(True)
+      
                     #properties.save_graph(graph1, 2)
                     properties.save_graph_for_student(graph1, 2) # сохраняем граф в файл
                     save_graph_for_student_2 = properties.get_graph_for_student(2)
