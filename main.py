@@ -5,6 +5,7 @@ from pathlib import Path
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QRect, Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
+from PyQt5.QtGui import QPixmap, QScreen
 
 ### Для обработки .xlsx файлов ##############
 import openpyxl
@@ -190,7 +191,7 @@ class Window1(QMainWindow):
 
     def taskCheck(self):
         mistakes = self.DisplayObj.checkEvent()
-        
+        self.DisplayObj.save()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 statusTask.set__verification_passed_task(1)
@@ -528,6 +529,7 @@ class Window3(QMainWindow):
     def moveNode(self):
         self.DisplayObj.functionAble = "Переместить вершины"
         self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.DisplayObj.save(3)
         
 
     def makeNewFile(self):
@@ -668,6 +670,7 @@ class Window4(QMainWindow):
         self.DisplayObj.functionAble = "Переместить вершины"
         #self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionbtnDottedConnectNode.setChecked(False)
+        self.DisplayObj.save(4)
 
     def makeNewFile(self):
         self.DisplayObj.functionAble = "Новый файл"
@@ -1002,6 +1005,8 @@ class Window5(QMainWindow):
             self.checkForm.exec_()
             
     def taskCheck3(self):
+        for i in range(len(self.widgetList)):
+            self.widgetList[i].save(i)
         mistakes = list()
         for i in range(squadNum):
             mistakes.append(self.widgetList[i].checkEvent5Part3(i))
