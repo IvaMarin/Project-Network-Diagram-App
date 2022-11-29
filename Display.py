@@ -2,7 +2,7 @@ import numpy as np
 
 from PyQt5.QtCore import Qt, QRect, QPointF, QLineF, QSize
 from PyQt5.QtGui import QPainter, QColor, QPolygonF, QPen, QFont, QImage
-from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QFileDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QFileDialog, QMessageBox
 
 import controller
 import checker
@@ -973,13 +973,18 @@ class DrawHist(QWidget):
         self.graph = graph
         self.intervals = np.array([])
         self.firstShow = True
+        self.msg = QMessageBox()
+        self.msg.setWindowTitle("Предупреждение")
+        self.msg.setText("Ты пидор")
+        self.msg.setIcon(QMessageBox.Critical)
+        self.msg.setStandardButtons(QMessageBox.Ok)
     
     def paintEvent(self, event):
+        self.msg.show()
         if self.firstShow:
             self.image_hist = QImage(self.size(), QImage.Format_RGB32)
             self.firstShow = False
         self.image_hist.fill(Qt.white)
-        print(self.size())
         for el in [self, self.image_hist]:
             self.lines = createGrid(self.size(), self.step, True, True, )
             self.whiteLines = createGaps(self.size(), self.step)
@@ -1040,7 +1045,6 @@ class DrawHist(QWidget):
                 if intervals[i] != intervals[i-1]:
                     linesVert.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step- 10, 0+self.step*(i+1), y0-intervals[i-1]*self.step- 10))
             painter.drawLines(linesVert)
-        print(self.size())
 
     def save(self):
         self.image_hist.save('6_hist.jpg')

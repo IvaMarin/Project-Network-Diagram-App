@@ -996,7 +996,7 @@ class Window5(QMainWindow):
             self.i = i
             self.widget1 = Display.Display5(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1)
             self.widgetList.append(self.widget1)
-            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
@@ -1385,7 +1385,7 @@ class Window6(QMainWindow):
         for i in range(squadNum):
             self.i = i
             self.widgetList.append(Display.Display6(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1))
-            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -1446,6 +1446,13 @@ class Window6(QMainWindow):
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
 
+        self.msg = QMessageBox()
+        self.msg.setWindowTitle("Предупреждение")
+        self.msg.setText("В этом задании нет автоматической проверки. Нажимая кнопку проверить вы фиксируете свой текущий результат в отчёте.")
+        self.msg.setIcon(QMessageBox.Information)
+        self.msg.setStandardButtons(QMessageBox.Ok)
+        
+
     def taskCheck(self):
         # mistakes = self.DisplayObj.checkEvent()
         # if type(mistakes) != QMessageBox:
@@ -1473,6 +1480,11 @@ class Window6(QMainWindow):
         #     self.checkForm1.exec_()
         # else:
         #     mistakes.exec()
+        self.msgCheck = QMessageBox()
+        self.msgCheck.setWindowTitle("Предупреждение")
+        self.msgCheck.setText("Результат занесён в отчёт.")
+        self.msgCheck.setIcon(QMessageBox.Information)
+        self.msgCheck.setStandardButtons(QMessageBox.Ok)
         self.widgetRight.save()
         for i in range(len(self.images)): # ПОСЛЕ ПРОВЕРКИ
             strTemp = str(6)+str(i)+".jpg"
@@ -1547,12 +1559,10 @@ class Window6(QMainWindow):
             self.widgetList[i].functionable = ""
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
-        # if self.firstShow:
-        #     size = QSize(int(self.width/2), self.scroll2.height())
-        #     self.image_hist = QImage(size, QImage.Format_RGB32)
-        #     # print(self.scroll2.height())
-        #     self.firstShow = False
-        # # print(self.scroll2.height())
+
+        if self.firstShow:
+            self.msg.show()
+            self.firstShow = False
 
 
 #////////////////////////////////////  КЛАСС ОКНА МЕНЮ  ///////////////////////////////////////////
