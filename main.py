@@ -3,9 +3,11 @@ import numpy as np
 from pathlib import Path
 
 from PyQt5 import QtWidgets, QtCore
+
 from PyQt5.QtCore import QRect, Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
 from PyQt5.QtGui import QPixmap, QScreen, QImage
+
 
 ### Для обработки .xlsx файлов ##############
 import openpyxl
@@ -499,7 +501,13 @@ class Window2(QMainWindow):
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
                     properties.set__verification_passed_task(2)
-
+                    
+                    # после корректного выполнения запрещаем модифицировать продолжительности
+                    for i in range(len(self.DisplayObj.QLineEdits)):
+                        for j in range(len(self.DisplayObj.QLineEdits)):
+                            if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
+                                self.DisplayObj.QLineEdits[i][j].setReadOnly(True)
+      
                     #properties.save_graph(graph1, 2)
                     properties.save_graph_for_student(graph1, 2) # сохраняем граф в файл
                     save_graph_for_student_2 = properties.get_graph_for_student(2)
@@ -978,7 +986,11 @@ class Window5(QMainWindow):
         
         self.widgetList = []
         self.squadWidgetList = []
+
         self.i = 0
+
+        self.squadNum = squadNum
+
 
         for i in range(squadNum):
             self.i = i
@@ -988,7 +1000,7 @@ class Window5(QMainWindow):
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
-            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            # scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             hLayout = QtWidgets.QHBoxLayout()
             hLayout.addWidget(scroll)
             squadWidget = QWidget()
@@ -1100,6 +1112,13 @@ class Window5(QMainWindow):
     def displayAddSeq(self, numS, sequence):
         i = int(numS) - 1
 
+        maxY = 0
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            squad = MainWindow.ui.tableVar.item(row, 1).text()
+            if (squad == numS):
+                maxY += 1
+        maxY *= properties.step_gridY
+            
         deltaY = set()
         for (x, y) in self.widgetList[i].graph_in.Points.values():
             deltaY.add(y)
@@ -1119,8 +1138,17 @@ class Window5(QMainWindow):
         else:
             gridY = deltaY[-1] + properties.step_gridY
 
-        self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
-        self.widgetList[i].update()
+        if gridY <= maxY:
+            self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
+            self.widgetList[i].update()
+        else:
+            warning = QMessageBox()
+            warning.setWindowTitle("Предупреждение")
+            warning.setText(f"Превышено максимальное число последовательностей работ для {numS}-го отделения!")
+            warning.setIcon(QMessageBox.Warning)
+            warning.setStandardButtons(QMessageBox.Ok)
+            warning.setWindowFlags(Qt.WindowStaysOnTopHint)
+            warning.exec()
 
     def addArrow(self):
         if self.ui.actionbtnConnectNode.isChecked() == False:
