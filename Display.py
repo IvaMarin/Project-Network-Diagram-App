@@ -2,7 +2,7 @@ import numpy as np
 
 from PyQt5.QtCore import Qt, QRect, QPointF, QLineF, QSize
 from PyQt5.QtGui import QPainter, QColor, QPolygonF, QPen, QFont, QImage
-from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QFileDialog
 
 import controller
 import checker
@@ -973,14 +973,8 @@ class DrawHist(QWidget):
         self.graph = graph
         self.intervals = np.array([])
         self.firstShow = True
-        self.msg = QMessageBox()
-        self.msg.setWindowTitle("Предупреждение")
-        self.msg.setText("Ты пидор")
-        self.msg.setIcon(QMessageBox.Critical)
-        self.msg.setStandardButtons(QMessageBox.Ok)
     
     def paintEvent(self, event):
-        self.msg.show()
         if self.firstShow:
             self.image_hist = QImage(self.size(), QImage.Format_RGB32)
             self.firstShow = False
