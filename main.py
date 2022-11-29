@@ -1485,6 +1485,7 @@ class Window6(QMainWindow):
         self.msgCheck.setText("Результат занесён в отчёт.")
         self.msgCheck.setIcon(QMessageBox.Information)
         self.msgCheck.setStandardButtons(QMessageBox.Ok)
+        self.msgCheck.show()
         self.widgetRight.save()
         for i in range(len(self.images)): # ПОСЛЕ ПРОВЕРКИ
             strTemp = str(6)+str(i)+".jpg"
