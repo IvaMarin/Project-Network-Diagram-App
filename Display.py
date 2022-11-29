@@ -1025,7 +1025,7 @@ class DrawHist(QWidget):
                         (ax,ay) = ArrowsList[p1,p2]
                         for k in range(len(intervals)):
                             if k*self.stepAlg >= x1 and x2 >= (k+1)*self.stepAlg:
-                                if ax <= k*self.stepAlg or ax == 115*k:
+                                if ax <= k*self.stepAlg or ax == 140+(k-1)*self.stepAlg:
                                     intervals[k-1] += w
 
             painter.setPen(QPen(QColor("red"), 3))
