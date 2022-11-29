@@ -979,7 +979,6 @@ class DrawHist(QWidget):
             self.image_hist = QImage(self.size(), QImage.Format_RGB32)
             self.firstShow = False
         self.image_hist.fill(Qt.white)
-        print(self.size())
         for el in [self, self.image_hist]:
             self.lines = createGrid(self.size(), self.step, True, True, )
             self.whiteLines = createGaps(self.size(), self.step)
@@ -1040,7 +1039,6 @@ class DrawHist(QWidget):
                 if intervals[i] != intervals[i-1]:
                     linesVert.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step- 10, 0+self.step*(i+1), y0-intervals[i-1]*self.step- 10))
             painter.drawLines(linesVert)
-        print(self.size())
 
     def save(self):
         self.image_hist.save('6_hist.jpg')
