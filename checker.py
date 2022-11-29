@@ -489,141 +489,141 @@ def IsSubstring(word_list, text_list):
 def checkTask5Part1(Graph, BaseGraph, Id) -> bool:
     is_correct = True
     
-    CorrectPoints = set()
-    CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
-    for i in range(len(BaseGraph.CorrectSquadsWork)):
-        for j in range(len(BaseGraph.CorrectSquadsWork)):
-            if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
-                CorrectAdjacencyMatrix[i][j] = 1
-                CorrectPoints.add(i)
-                CorrectPoints.add(j)
-            else:
-                CorrectAdjacencyMatrix[i][j] = 0
-    CorrectPoints = list(CorrectPoints)
+    # CorrectPoints = set()
+    # CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
+    # for i in range(len(BaseGraph.CorrectSquadsWork)):
+    #     for j in range(len(BaseGraph.CorrectSquadsWork)):
+    #         if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
+    #             CorrectAdjacencyMatrix[i][j] = 1
+    #             CorrectPoints.add(i)
+    #             CorrectPoints.add(j)
+    #         else:
+    #             CorrectAdjacencyMatrix[i][j] = 0
+    # CorrectPoints = list(CorrectPoints)
 
-    Points = set()
-    for (digit, id) in Graph.Points.keys():
-        Points.add(digit)
-    Points = list(Points)
+    # Points = set()
+    # for (digit, id) in Graph.Points.keys():
+    #     Points.add(digit)
+    # Points = list(Points)
 
-    # события в отделении
-    if (len(CorrectPoints) != len(Points)):
-        is_correct = False
-        return is_correct
-    else:
-        for i, digit in enumerate(Points):
-            if (digit != CorrectPoints[i]):
-                is_correct = False
-                return is_correct
+    # # события в отделении
+    # if (len(CorrectPoints) != len(Points)):
+    #     is_correct = False
+    #     return is_correct
+    # else:
+    #     for i, digit in enumerate(Points):
+    #         if (digit != CorrectPoints[i]):
+    #             is_correct = False
+    #             return is_correct
 
-    AdjacencyMatrix = [([0] * len(CorrectAdjacencyMatrix)) for _ in range(len(CorrectAdjacencyMatrix))]
-    for (digit1, id1), (digit2, id2) in Graph.AdjacencyList.items():
-        AdjacencyMatrix[digit1][digit2] = 1 
+    # AdjacencyMatrix = [([0] * len(CorrectAdjacencyMatrix)) for _ in range(len(CorrectAdjacencyMatrix))]
+    # for (digit1, id1), (digit2, id2) in Graph.AdjacencyList.items():
+    #     AdjacencyMatrix[digit1][digit2] = 1 
     
-    # работы в отделении
-    mistakes = []
-    mistake_id = 0
-    check_connections(mistakes, mistake_id, AdjacencyMatrix, CorrectAdjacencyMatrix)
+    # # работы в отделении
+    # mistakes = []
+    # mistake_id = 0
+    # check_connections(mistakes, mistake_id, AdjacencyMatrix, CorrectAdjacencyMatrix)
 
-    if len(mistakes) > 0:
-        is_correct = False
-        return is_correct
+    # if len(mistakes) > 0:
+    #     is_correct = False
+    #     return is_correct
 
-    for i, s1 in enumerate(Graph.Sequences):
-        for j, s2 in enumerate(Graph.Sequences):
-            if (i != j) and IsSubstring(s1, s2):
-                is_correct = False
-                return is_correct
+    # for i, s1 in enumerate(Graph.Sequences):
+    #     for j, s2 in enumerate(Graph.Sequences):
+    #         if (i != j) and IsSubstring(s1, s2):
+    #             is_correct = False
+    #             return is_correct
 
     return is_correct
 
 def checkTask5Part2(Graph, BaseGraph, CorrectWeights, GridBegin, GridStep, Id) -> bool:
     is_correct = True
 
-    Indent = 1
-    n = len(CorrectWeights)
-    early = find_t_p(CorrectWeights, n)
+    # Indent = 1
+    # n = len(CorrectWeights)
+    # early = find_t_p(CorrectWeights, n)
 
-    CorrectPoints = set()
-    CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
-    for i in range(len(BaseGraph.CorrectSquadsWork)):
-        for j in range(len(BaseGraph.CorrectSquadsWork)):
-            if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
-                CorrectAdjacencyMatrix[i][j] = 1
-                CorrectPoints.add(i)
-                CorrectPoints.add(j)
-            else:
-                CorrectAdjacencyMatrix[i][j] = 0
-    CorrectPoints = list(CorrectPoints)
+    # CorrectPoints = set()
+    # CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
+    # for i in range(len(BaseGraph.CorrectSquadsWork)):
+    #     for j in range(len(BaseGraph.CorrectSquadsWork)):
+    #         if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
+    #             CorrectAdjacencyMatrix[i][j] = 1
+    #             CorrectPoints.add(i)
+    #             CorrectPoints.add(j)
+    #         else:
+    #             CorrectAdjacencyMatrix[i][j] = 0
+    # CorrectPoints = list(CorrectPoints)
 
-    Points = set()
-    for (digit, id) in Graph.Points.keys():
-        Points.add(digit)
-    Points = list(Points)
+    # Points = set()
+    # for (digit, id) in Graph.Points.keys():
+    #     Points.add(digit)
+    # Points = list(Points)
 
-    Graph.PointsTimeEarly = np.zeros(n, int)
-    for digit in Points:
-        for p in Graph.Points.keys():
-            if p[0] == digit:
-                (x, y) = Graph.Points[p]
-                Graph.PointsTimeEarly[digit] = round((x - GridBegin) / GridStep) - Indent
-                break
+    # Graph.PointsTimeEarly = np.zeros(n, int)
+    # for digit in Points:
+    #     for p in Graph.Points.keys():
+    #         if p[0] == digit:
+    #             (x, y) = Graph.Points[p]
+    #             Graph.PointsTimeEarly[digit] = round((x - GridBegin) / GridStep) - Indent
+    #             break
         
-    # Расположение событий на временной оси
-    for i in range(n):
-        if (i in CorrectPoints) and (Graph.PointsTimeEarly[i] != early[i]):
-            is_correct = False
-            return is_correct
+    # # Расположение событий на временной оси
+    # for i in range(n):
+    #     if (i in CorrectPoints) and (Graph.PointsTimeEarly[i] != early[i]):
+    #         is_correct = False
+    #         return is_correct
 
-    Graph.ArrowPointsTime = np.zeros((n, n), int)
-    for (digit1, id1), (digit2, id2) in Graph.AdjacencyList.items():
-            (x, y) = Graph.Arrows[((digit1, id1), (digit2, id2))]
-            if (CorrectAdjacencyMatrix[digit1][digit2] == 1):
-                Graph.ArrowPointsTime[digit1][digit2] = round((x - GridBegin) / GridStep) - Indent
-            else:
-                Graph.ArrowPointsTime[i][j] = -1
+    # Graph.ArrowPointsTime = np.zeros((n, n), int)
+    # for (digit1, id1), (digit2, id2) in Graph.AdjacencyList.items():
+    #         (x, y) = Graph.Arrows[((digit1, id1), (digit2, id2))]
+    #         if (CorrectAdjacencyMatrix[digit1][digit2] == 1):
+    #             Graph.ArrowPointsTime[digit1][digit2] = round((x - GridBegin) / GridStep) - Indent
+    #         else:
+    #             Graph.ArrowPointsTime[i][j] = -1
 
-    # Промежутки времени у работ
-    for i in range(len(CorrectAdjacencyMatrix)):
-        for j in range(len(CorrectAdjacencyMatrix)):
-            if (CorrectAdjacencyMatrix[i][j] == 1):
-                if (len(BaseGraph.R) > i) and (BaseGraph.R[i] > 0): # ранние сроки
-                    if Graph.ArrowPointsTime[i][j] != (Graph.PointsTimeEarly[i] + CorrectWeights[i][j]):
-                        is_correct = False
-                        return is_correct
-                else: # поздние сроки
-                    if Graph.ArrowPointsTime[i][j] != (Graph.PointsTimeEarly[j] - CorrectWeights[i][j]):
-                        is_correct = False
-                        return is_correct
+    # # Промежутки времени у работ
+    # for i in range(len(CorrectAdjacencyMatrix)):
+    #     for j in range(len(CorrectAdjacencyMatrix)):
+    #         if (CorrectAdjacencyMatrix[i][j] == 1):
+    #             if (len(BaseGraph.R) > i) and (BaseGraph.R[i] > 0): # ранние сроки
+    #                 if Graph.ArrowPointsTime[i][j] != (Graph.PointsTimeEarly[i] + CorrectWeights[i][j]):
+    #                     is_correct = False
+    #                     return is_correct
+    #             else: # поздние сроки
+    #                 if Graph.ArrowPointsTime[i][j] != (Graph.PointsTimeEarly[j] - CorrectWeights[i][j]):
+    #                     is_correct = False
+    #                     return is_correct
             
     return is_correct
 
 def checkTask5Part3(BaseGraph, CorrectWeights, Display, Id) -> bool:
     is_correct = True
 
-    CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
-    for i in range(len(BaseGraph.CorrectSquadsWork)):
-        for j in range(len(BaseGraph.CorrectSquadsWork)):
-            if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
-                CorrectAdjacencyMatrix[i][j] = 1
-            else:
-                CorrectAdjacencyMatrix[i][j] = 0
+    # CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
+    # for i in range(len(BaseGraph.CorrectSquadsWork)):
+    #     for j in range(len(BaseGraph.CorrectSquadsWork)):
+    #         if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
+    #             CorrectAdjacencyMatrix[i][j] = 1
+    #         else:
+    #             CorrectAdjacencyMatrix[i][j] = 0
     
-    # Численность в отделении
-    for k, v in Display.QLineEdits.items():
-        i = k[0][0]
-        j = k[1][0]
-        if (CorrectAdjacencyMatrix[i][j] == 1):
-            try:
-                if (int(v.text()) != CorrectWeights[i][j]):
-                    is_correct = False
-                    return is_correct
-            except ValueError:
-                warning = QMessageBox()
-                warning.setWindowTitle("Предупреждение")
-                warning.setText("Не введено значение числа людей, выполняющих работу, для одного или нескольких рёбер!")
-                warning.setIcon(QMessageBox.Warning)
-                warning.setStandardButtons(QMessageBox.Ok)
-                return warning
+    # # Численность в отделении
+    # for k, v in Display.QLineEdits.items():
+    #     i = k[0][0]
+    #     j = k[1][0]
+    #     if (CorrectAdjacencyMatrix[i][j] == 1):
+    #         try:
+    #             if (int(v.text()) != CorrectWeights[i][j]):
+    #                 is_correct = False
+    #                 return is_correct
+    #         except ValueError:
+    #             warning = QMessageBox()
+    #             warning.setWindowTitle("Предупреждение")
+    #             warning.setText("Не введено значение числа людей, выполняющих работу, для одного или нескольких рёбер!")
+    #             warning.setIcon(QMessageBox.Warning)
+    #             warning.setStandardButtons(QMessageBox.Ok)
+    #             return warning
     
     return is_correct

@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QFileDialog
 
 import controller
 import checker
+import Properties
 
 # функция для вычисления точек полигона стрелки
 def calculate_arrow_points(start_point, end_point, radius):
@@ -118,12 +119,8 @@ class Display(QWidget):
         self.max_time = max_time
         self.QLineEdits = None
 
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        size = QSize(sizeWindow.width(), sizeWindow.height())
-        self.image = QImage(size, QImage.Format_RGB32)
-
     def paintEvent(self, event):
-        self.image.fill(Qt.white)
+        self.root.image.fill(Qt.white)
         if self.horizontal:
 
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
@@ -132,7 +129,7 @@ class Display(QWidget):
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
         self.whiteLines = createGaps(self.size(), self.step, self.max_time)
 
-        for el in [self, self.image]:
+        for el in [self, self.root.image]:
             painter = QPainter(el)
             painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
 
@@ -182,7 +179,7 @@ class Display(QWidget):
                     painter.drawText(int(self.graph.Points[i][0] + offset[0]), int(self.graph.Points[i][1] + offset[1]), f'{i}')
     
     def save(self):
-        self.image.save('1.jpg')
+        self.root.image.save('1.jpg')
 
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
@@ -288,19 +285,16 @@ class Display2(Display):
         self.switch = True
         self.illumination = -1
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        
-        size = QSize(sizeWindow.width(), sizeWindow.height())
-        self.image = QImage(size, QImage.Format_RGB32)
     
     def paintEvent(self, event):
-        self.image.fill(Qt.white)
+        self.root.image.fill(Qt.white)
         if self.horizontal:
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
         else:
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
         self.whiteLines = createGaps(self.size(), self.step, self.max_time)
 
-        for el in [self, self.image]:
+        for el in [self, self.root.image]:
             painter = QPainter(el)
             painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
 
@@ -395,7 +389,7 @@ class Display2(Display):
 
         self.update()
     def save(self):
-        self.image.save('2.jpg')
+        self.root.image.save('2.jpg')
     def mousePressEvent(self, event):
         if (self.functionAble == "Критический путь"):
             self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # добавить в массив выбранных вершин
@@ -418,14 +412,22 @@ class Display2(Display):
 
 
 class Display3_4(Display):
+    # def __init__(self, root, graph_in, step = 50, max_time = -1, horizontal = True, late_time = None, switch = True, **kwargs):
+    #     super().__init__(root, graph_in, step, max_time, horizontal, late_time, switch,**kwargs)
+    #     # sizeWindow = QRect(QApplication.desktop().screenGeometry())
+    #     # size = QSize(sizeWindow.height(), sizeWindow.height())
+    #     # self.image = QImage(size, QImage.Format_RGB32)
+
     def paintEvent(self, event):
-        self.image.fill(Qt.white)
+        # self.image.size = self.size()
+        self.root.image.fill(Qt.white)
+        print(self.root.image.size())
         if self.horizontal:
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
         else:
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
         self.whiteLines = createGaps(self.size(), self.step, self.max_time)
-        for el in [self, self.image]:
+        for el in [self, self.root.image]:
             painter = QPainter(el)
             painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
 
@@ -534,7 +536,7 @@ class Display3_4(Display):
 
     def save(self,i):
         strTemp = str(i)+".jpg"
-        self.image.save(strTemp)
+        self.root.image.save(strTemp)
 
     def checkEvent3(self):
         mistakes = checker.checkTask3(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
@@ -605,14 +607,19 @@ class Display3_4(Display):
 
 
 class Display5(Display):
+    def __init__(self, root, graph_in, step = 50, max_time = -1, horizontal = True, **kwargs):
+        super().__init__(root, graph_in, step, max_time, horizontal,**kwargs)
+          
+        self.i = self.root.i
+
     def paintEvent(self, event):
-        self.image.fill(Qt.white)
+        self.root.images[self.i].fill(Qt.white)
         if self.horizontal:
             self.lines = createGrid(self.size(), self.step, True, True)
         else:
             self.lines = createGrid(self.size(), self.step, True, False)
         self.whiteLines = createGaps(self.size(), self.step)
-        for el in [self, self.image]:
+        for el in [self, self.root.images[self.i]]:
             painter = QPainter(el)
             painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
 
@@ -686,55 +693,51 @@ class Display5(Display):
                 painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
 
             self.graph_in.PeopleWeights = self.GetNumberOfPeople()
-        # отрисовка стрелок
-        for p1, p2 in self.graph.AdjacencyList.items():
-            (x1, y1) = self.graph.Points[p1]
-            (x2, y2) = self.graph.Points[p2]
-            triangle_source = calculate_arrow_points((x1, y1), self.graph.Arrows[(p1, p2)], 0)
-            if triangle_source is not None:
-                painter.drawPolygon(triangle_source)
-                if (self.late_time == None):  # в зависимости от резерва
-                    if (len(self.base_graph.R) > p1[0]) and (self.base_graph.R[p1[0]] > 0):
+            # отрисовка стрелок
+            for p1, p2 in self.graph.AdjacencyList.items():
+                (x1, y1) = self.graph.Points[p1]
+                (x2, y2) = self.graph.Points[p2]
+                triangle_source = calculate_arrow_points((x1, y1), self.graph.Arrows[(p1, p2)], 0)
+                if triangle_source is not None:
+                    painter.drawPolygon(triangle_source)
+                    if (self.late_time == None):  # в зависимости от резерва
+                        if (len(self.base_graph.R) > p1[0]) and (self.base_graph.R[p1[0]] > 0):
+                            painter.setPen(Qt.PenStyle.SolidLine)
+                            painter.drawLine(QPointF(x1, y1), triangle_source[1])
+                            painter.setPen(Qt.PenStyle.DashLine)
+                            painter.drawLine(triangle_source[1], QPointF(x2, y2))
+                            painter.setPen(Qt.PenStyle.SolidLine)
+                        else:
+                            painter.setPen(Qt.PenStyle.DashLine)
+                            painter.drawLine(QPointF(x1, y1), triangle_source[1])
+                            painter.setPen(Qt.PenStyle.SolidLine)
+                            painter.drawLine(triangle_source[1], QPointF(x2, y2))
+                    elif (self.late_time == True):  # в поздних сроках
+                        painter.setPen(Qt.PenStyle.DashLine)
+                        painter.drawLine(QPointF(x1, y1), triangle_source[1])
+                        painter.setPen(Qt.PenStyle.SolidLine)
+                        painter.drawLine(triangle_source[1], QPointF(x2, y2))
+                    else:  # в ранних сроках
                         painter.setPen(Qt.PenStyle.SolidLine)
                         painter.drawLine(QPointF(x1, y1), triangle_source[1])
                         painter.setPen(Qt.PenStyle.DashLine)
                         painter.drawLine(triangle_source[1], QPointF(x2, y2))
                         painter.setPen(Qt.PenStyle.SolidLine)
-                    else:
-                        painter.setPen(Qt.PenStyle.DashLine)
-                        painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                        painter.setPen(Qt.PenStyle.SolidLine)
-                        painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                elif (self.late_time == True):  # в поздних сроках
-                    painter.setPen(Qt.PenStyle.DashLine)
-                    painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                    painter.setPen(Qt.PenStyle.SolidLine)
-                    painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                else:  # в ранних сроках
-                    painter.setPen(Qt.PenStyle.SolidLine)
-                    painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                    painter.setPen(Qt.PenStyle.DashLine)
-                    painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                    painter.setPen(Qt.PenStyle.SolidLine)
 
-        # отрисовка вершин и цифр
-        painter.setPen(QPen(QColor("black"), 2.5))
+            # отрисовка вершин и цифр
+            painter.setPen(QPen(QColor("black"), 2.5))
 
-        for (digit, id), (x, y) in self.graph.Points.items(): 
-            painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
-            painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
-                                int(2*self.graph.Radius), int(2*self.graph.Radius))
-            if len(str(digit+1)) < 2:
-                offset = [-(5*len(str(digit+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
-            else:
-                offset = [-(5*len(str(digit+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-            painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
+            for (digit, id), (x, y) in self.graph.Points.items(): 
+                painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+                painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
+                                    int(2*self.graph.Radius), int(2*self.graph.Radius))
+                if len(str(digit+1)) < 2:
+                    offset = [-(5*len(str(digit+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+                else:
+                    offset = [-(5*len(str(digit+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+                painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
 
         self.graph_in.PeopleWeights = self.GetNumberOfPeople()
-    
-    def save(self,i):
-        strTemp = str(5)+str(i)+".jpg"
-        self.image.save(strTemp)
 
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
@@ -850,13 +853,19 @@ class Display5(Display):
 
 
 class Display6(Display5):
+    def __init__(self, root, graph_in, step = 50, max_time = -1, horizontal = True, **kwargs):
+        super().__init__(root, graph_in, step, max_time, horizontal,**kwargs)
+          
+        self.i = self.root.i
+
     def paintEvent(self, event):
+        self.root.images[self.i].fill(Qt.white)
         if self.horizontal:
             self.lines = createGrid(self.size(), self.step, True, True)
         else:
             self.lines = createGrid(self.size(), self.step, True, False)
         self.whiteLines = createGaps(self.size(), self.step)
-        for el in [self, self.image]:
+        for el in [self, self.root.images[self.i]]:
             painter = QPainter(el)
             painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
 
@@ -927,21 +936,21 @@ class Display6(Display5):
                         painter.drawLine(triangle_source[1], QPointF(x2, y2))
                         painter.setPen(Qt.PenStyle.SolidLine)
 
-        # отрисовка вершин и цифр
-        painter.setPen(QPen(QColor("black"), 2.5))
-        # отрисовка вершин и цифр
-        painter.setPen(QPen(QColor("black"), 2.5))
+            # отрисовка вершин и цифр
+            painter.setPen(QPen(QColor("black"), 2.5))
+            # отрисовка вершин и цифр
+            painter.setPen(QPen(QColor("black"), 2.5))
 
-        for (digit, id), (x, y) in self.graph.Points.items(): 
-            painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
-            painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
-                                int(2*self.graph.Radius), int(2*self.graph.Radius))
-            if len(str(i+1)) < 2:
-                offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
-            else:
-                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-            painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
-        self.root.widgetRight.update()
+            for (digit, id), (x, y) in self.graph.Points.items(): 
+                painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+                painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
+                                    int(2*self.graph.Radius), int(2*self.graph.Radius))
+                if len(str(i+1)) < 2:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+                else:
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+                painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
+            self.root.widgetRight.update()
     
 
         for (digit, id), (x, y) in self.graph.Points.items(): 
@@ -958,68 +967,80 @@ class DrawHist(QWidget):
     def __init__(self, root, graph, step = 25):
 
         super().__init__(root)
+        self.root = root
         self.step = step
         self.stepAlg = 100
         self.graph = graph
         self.intervals = np.array([])
+        self.firstShow = True
     
     def paintEvent(self, event):
-        self.lines = createGrid(self.size(), self.step, True, True, )
-        self.whiteLines = createGaps(self.size(), self.step)
-        painter = QPainter(self)
-        painter.setPen(QColor(0, 0, 255, 90))
-        painter.drawLines(self.lines)
-        font_size = 12
+        if self.firstShow:
+            self.image_hist = QImage(self.size(), QImage.Format_RGB32)
+            self.firstShow = False
+        self.image_hist.fill(Qt.white)
+        print(self.size())
+        for el in [self, self.image_hist]:
+            self.lines = createGrid(self.size(), self.step, True, True, )
+            self.whiteLines = createGaps(self.size(), self.step)
+            painter = QPainter(el)
+            painter.setPen(QColor(0, 0, 255, 90))
+            painter.drawLines(self.lines)
+            font_size = 12
 
-        # отрисовка нумерации осей сетки
-        painter.setPen(QColor("black"))
-        x0 = 0
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-        y0 = sizeWindow.height() - 170
-        for i in range(number_vertical_lines):
-            if len(str(i+1)) < 2:
-                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
-            else:
-                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-            painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
+            # отрисовка нумерации осей сетки
+            painter.setPen(QColor("black"))
+            x0 = 0
+            sizeWindow = QRect(QApplication.desktop().screenGeometry())
+            number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
+            y0 = sizeWindow.height() - 170
+            for i in range(number_vertical_lines):
+                if len(str(i+1)) < 2:
+                        offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+                else:
+                        offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+                painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
 
-        # отрисовка нумерации осей сетки
-        x0 = 0
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-        y0 = sizeWindow.height()-170
-        for i in range(number_vertical_lines):
-            if len(str(i+1)) < 2:
-                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
-            else:
-                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-            painter.drawText(int(self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
+            # отрисовка нумерации осей сетки
+            x0 = 0
+            sizeWindow = QRect(QApplication.desktop().screenGeometry())
+            number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
+            y0 = sizeWindow.height()-170
+            for i in range(number_vertical_lines):
+                if len(str(i+1)) < 2:
+                        offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+                else:
+                        offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+                painter.drawText(int(self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
 
 
-        intervals = np.zeros(18)
-        for p in range(len(self.graph)):
-            AdjacencyList = self.graph[p].PeopleWeights
-            ArrowsList = self.graph[p].Arrows
-            #print(ArrowsList)
-            if AdjacencyList is not None:
-                for (p1, p2), w in AdjacencyList.items():
-                    (x1, y1) = self.graph[p].Points[p1]
-                    (x2, y2) = self.graph[p].Points[p2]
-                    (ax,ay) = ArrowsList[p1,p2]
-                    for k in range(len(intervals)):
-                        if k*self.stepAlg >= x1 and x2 >= (k+1)*self.stepAlg:
-                            if ax <= k*self.stepAlg or ax == 115:
-                                intervals[k-1] += w
+            intervals = np.zeros(18)
+            for p in range(len(self.graph)):
+                AdjacencyList = self.graph[p].PeopleWeights
+                ArrowsList = self.graph[p].Arrows
+                #print(ArrowsList)
+                if AdjacencyList is not None:
+                    for (p1, p2), w in AdjacencyList.items():
+                        (x1, y1) = self.graph[p].Points[p1]
+                        (x2, y2) = self.graph[p].Points[p2]
+                        (ax,ay) = ArrowsList[p1,p2]
+                        for k in range(len(intervals)):
+                            if k*self.stepAlg >= x1 and x2 >= (k+1)*self.stepAlg:
+                                if ax <= k*self.stepAlg or ax == 115*k:
+                                    intervals[k-1] += w
 
-        painter.setPen(QPen(QColor("red"), 3))
-        lines = []
-        for i in range(len(intervals)):
-            lines.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step - 10, self.step*(i+2), y0-intervals[i]*self.step - 10))
-        painter.drawLines(lines)
+            painter.setPen(QPen(QColor("red"), 3))
+            lines = []
+            for i in range(len(intervals)):
+                lines.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step - 10, self.step*(i+2), y0-intervals[i]*self.step - 10))
+            painter.drawLines(lines)
 
-        linesVert = []
-        for i in range(1,len(intervals)):
-            if intervals[i] != intervals[i-1]:
-                linesVert.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step- 10, 0+self.step*(i+1), y0-intervals[i-1]*self.step- 10))
-        painter.drawLines(linesVert)
+            linesVert = []
+            for i in range(1,len(intervals)):
+                if intervals[i] != intervals[i-1]:
+                    linesVert.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step- 10, 0+self.step*(i+1), y0-intervals[i-1]*self.step- 10))
+            painter.drawLines(linesVert)
+        print(self.size())
+
+    def save(self):
+        self.image_hist.save('6_hist.jpg')
