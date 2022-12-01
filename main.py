@@ -3,17 +3,20 @@ import numpy as np
 from pathlib import Path
 
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QRect, Qt
+
+from PyQt5.QtCore import QRect, Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
+from PyQt5.QtGui import QPixmap, QScreen, QImage
+
 
 ### Для обработки .xlsx файлов ##############
 import openpyxl
 from PIL import Image
 
 ### Для обработки .pdf файлов ###############
-# from fpdf import FPDF
-# from docx import Document
-# from docx.shared import Inches
+from fpdf import FPDF
+from docx import Document
+from docx.shared import Inches
 
 # from borb.pdf import Document
 # from borb.pdf import Page
@@ -99,6 +102,9 @@ class Window1(QMainWindow):
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+
+        size = QSize(sizeWindow.width(), sizeWindow.height())
+        self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
@@ -196,7 +202,6 @@ class Window1(QMainWindow):
 
     def taskCheck(self):
         mistakes = self.DisplayObj.checkEvent()
-        
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
@@ -212,10 +217,7 @@ class Window1(QMainWindow):
                 
                 #print(self.DisplayObj.size().height)
                 statusTask.set__verification_passed_task(1)
-
-                screen = QtWidgets.QApplication.primaryScreen()
-                screenshot = screen.grabWindow(self.scroll.winId())
-                screenshot.save('screenshot1.png','png')
+                self.DisplayObj.save()
                 MainWindow.ui.btnTask2.setEnabled(True)
 
                 self.lockUi()
@@ -327,7 +329,10 @@ class Window2(QMainWindow):
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
         self.DisplayObj = Display.Display2(self, graph1)
+        size = QSize(sizeWindow.width(), sizeWindow.height())
+        self.image = QImage(size, QImage.Format_RGB32)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.layout.addWidget(self.scroll)
@@ -496,16 +501,19 @@ class Window2(QMainWindow):
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
                     properties.set__verification_passed_task(2)
-
+                    
+                    # после корректного выполнения запрещаем модифицировать продолжительности
+                    for i in range(len(self.DisplayObj.QLineEdits)):
+                        for j in range(len(self.DisplayObj.QLineEdits)):
+                            if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
+                                self.DisplayObj.QLineEdits[i][j].setReadOnly(True)
+      
                     #properties.save_graph(graph1, 2)
                     properties.save_graph_for_student(graph1, 2) # сохраняем граф в файл
                     save_graph_for_student_2 = properties.get_graph_for_student(2)
                     self.DisplayObj.graph = save_graph_for_student_2
                     statusTask.set__verification_passed_task(2)
-
-                    screen = QtWidgets.QApplication.primaryScreen()
-                    screenshot = screen.grabWindow(self.scroll.winId())
-                    screenshot.save('screenshot2.png','png')
+                    self.DisplayObj.save()
                     MainWindow.ui.btnTask3.setEnabled(True)
                     self.lockUi()
 
@@ -606,6 +614,9 @@ class Window3(QMainWindow):
 
         self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
+        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        self.image = QImage(size, QImage.Format_RGB32)
+
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
@@ -683,9 +694,7 @@ class Window3(QMainWindow):
                 # save_graph_3 = properties.get_graph(3)
                 # self.DisplayObj.graph = save_graph_3
 
-                screen = QtWidgets.QApplication.primaryScreen()
-                screenshot = screen.grabWindow(self.scroll.winId())
-                screenshot.save('screenshot3.png','png')
+                self.DisplayObj.save(3)
                 MainWindow.ui.btnTask4.setEnabled(True)
                 self.lockUi()
 
@@ -792,13 +801,16 @@ class Window4(QMainWindow):
         self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
         self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        
+
         self.DisplayObj = Display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
-
+        
+        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        self.image = QImage(size, QImage.Format_RGB32)
+        
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
@@ -869,10 +881,7 @@ class Window4(QMainWindow):
                 save_graph_for_student_4 = properties.get_graph_for_student(4)
                 self.DisplayObj.graph = save_graph_for_student_4
 
-
-                screen = QtWidgets.QApplication.primaryScreen()
-                screenshot = screen.grabWindow(self.scroll.winId())
-                screenshot.save('screenshot4.png','png')
+                self.DisplayObj.save(4)
                 MainWindow.ui.btnTask5.setEnabled(True)
                 self.lockUi()
 
@@ -978,14 +987,20 @@ class Window5(QMainWindow):
         self.widgetList = []
         self.squadWidgetList = []
 
+        self.i = 0
+
+        self.squadNum = squadNum
+
+
         for i in range(squadNum):
+            self.i = i
             self.widget1 = Display.Display5(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1)
             self.widgetList.append(self.widget1)
-            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
-            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            # scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             hLayout = QtWidgets.QHBoxLayout()
             hLayout.addWidget(scroll)
             squadWidget = QWidget()
@@ -998,6 +1013,11 @@ class Window5(QMainWindow):
             hWidget = QWidget()
             hWidget.setLayout(hLayout)
             layout.addWidget(hWidget)
+
+        self.images = []
+        for i in range(squadNum): 
+            size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
+            self.images.append(QImage(size, QImage.Format_RGB32))
 
         # Задаём компоновку виджету
         self.widget = QWidget()
@@ -1068,7 +1088,7 @@ class Window5(QMainWindow):
             else:
                 event.ignore()
 
-    def addSeq(self):
+    def addSeq(self):          
         if self.ui.actionbtnAddSeq.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
@@ -1092,6 +1112,13 @@ class Window5(QMainWindow):
     def displayAddSeq(self, numS, sequence):
         i = int(numS) - 1
 
+        maxY = 0
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            squad = MainWindow.ui.tableVar.item(row, 1).text()
+            if (squad == numS):
+                maxY += 1
+        maxY *= properties.step_gridY
+            
         deltaY = set()
         for (x, y) in self.widgetList[i].graph_in.Points.values():
             deltaY.add(y)
@@ -1111,8 +1138,17 @@ class Window5(QMainWindow):
         else:
             gridY = deltaY[-1] + properties.step_gridY
 
-        self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
-        self.widgetList[i].update()
+        if gridY <= maxY:
+            self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
+            self.widgetList[i].update()
+        else:
+            warning = QMessageBox()
+            warning.setWindowTitle("Предупреждение")
+            warning.setText(f"Превышено максимальное число последовательностей работ для {numS}-го отделения!")
+            warning.setIcon(QMessageBox.Warning)
+            warning.setStandardButtons(QMessageBox.Ok)
+            warning.setWindowFlags(Qt.WindowStaysOnTopHint)
+            warning.exec()
 
     def addArrow(self):
         if self.ui.actionbtnConnectNode.isChecked() == False:
@@ -1278,6 +1314,11 @@ class Window5(QMainWindow):
                         qle.setReadOnly(True)
                         
                 statusTask.set__verification_passed_task(5)
+
+                for i in range(len(self.images)):
+                    strTemp = str(5)+str(i)+".jpg"
+                    self.images[i].save(strTemp)  
+
                 self.ui.actionbtnCheck.setVisible(False)
                 for i in self.widgetList:
                     i.functionAble = ""
@@ -1330,24 +1371,32 @@ class Window5(QMainWindow):
 class Window6(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
-
+        self.i = 0
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        width = int(sizeWindow.width())
-        height = int(sizeWindow.height())
+        self.width = int(sizeWindow.width())
+        self.height = int(sizeWindow.height())
         # Создаём компоновщик
         layout = QtWidgets.QHBoxLayout()
         layoutLeft = QtWidgets.QVBoxLayout()
 
+        self.firstShow = True
+
         self.widgetList = []
         for i in range(squadNum):
+            self.i = i
             self.widgetList.append(Display.Display6(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1))
-            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
             layoutLeft.addWidget(scroll)
+
+        self.images = []
+        for i in range(squadNum): 
+            size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
+            self.images.append(QImage(size, QImage.Format_RGB32))
 
         widgetLeft = QWidget()
         widgetLeft.setLayout(layoutLeft)
@@ -1359,9 +1408,13 @@ class Window6(QMainWindow):
         self.scroll1.setWidget(widgetLeft)
 
         self.widgetRight = Display.DrawHist(self, graph5_ort)
-        self.widgetRight.setMinimumSize(int(width/2), 500)
+        self.widgetRight.setMinimumSize(int(self.width/2), 500)
+        # print(self.widgetRight.height())
+
+        
+
         self.scroll2 = QtWidgets.QScrollArea()
-        self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll2.setWidgetResizable(True)
         self.scroll2.setWidget(self.widgetRight)
         
@@ -1383,7 +1436,7 @@ class Window6(QMainWindow):
         self.setWindowTitle("Задача №6")
 
         # вписываем во весь экран
-        self.resize(width, height)
+        self.resize(self.width, self.height)
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
@@ -1392,6 +1445,51 @@ class Window6(QMainWindow):
 
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
+
+        self.msg = QMessageBox()
+        self.msg.setWindowTitle("Предупреждение")
+        self.msg.setText("В этом задании нет автоматической проверки. Нажимая кнопку проверить вы фиксируете свой текущий результат в отчёте.")
+        self.msg.setIcon(QMessageBox.Information)
+        self.msg.setStandardButtons(QMessageBox.Ok)
+        
+
+    def taskCheck(self):
+        # mistakes = self.DisplayObj.checkEvent()
+        # if type(mistakes) != QMessageBox:
+        #     if len(mistakes) == 0:
+        #         properties.set__verification_passed_task(1)
+                
+        #         #properties.save_graph(graph1, 1)
+        #         properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+                
+        #         save_graph_for_student_1 = properties.get_graph_for_student(1)
+        #         self.DisplayObj.graph = save_graph_for_student_1
+
+        #         # sys.modules[graph1].__dict__.clear()
+        #         # graph1 = properties.get_graph(1)
+                
+        #         #print(self.DisplayObj.size().height)
+        #         statusTask.set__verification_passed_task(1)
+        #         self.DisplayObj.save()
+        #         MainWindow.ui.btnTask2.setEnabled(True)
+
+        #         self.lockUi()
+
+        #     self.checkForm1 = task1CheckForm(self, mistakes)
+        #     self.checkForm1.Task1()
+        #     self.checkForm1.exec_()
+        # else:
+        #     mistakes.exec()
+        self.msgCheck = QMessageBox()
+        self.msgCheck.setWindowTitle("Предупреждение")
+        self.msgCheck.setText("Результат занесён в отчёт.")
+        self.msgCheck.setIcon(QMessageBox.Information)
+        self.msgCheck.setStandardButtons(QMessageBox.Ok)
+        self.msgCheck.show()
+        self.widgetRight.save()
+        for i in range(len(self.images)): # ПОСЛЕ ПРОВЕРКИ
+            strTemp = str(6)+str(i)+".jpg"
+            self.images[i].save(strTemp)
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
@@ -1410,7 +1508,7 @@ class Window6(QMainWindow):
             else:
                 event.ignore()
 
-    def moveNode(self):
+    def moveNode(self):        
         if self.ui.actionbtnMoveNode.isChecked() == False:
             for i in self.widgetList:
                 i.functionAble = ""
@@ -1439,6 +1537,7 @@ class Window6(QMainWindow):
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck) 
 
     def openTextTask(self):
         dialogTask = QDialog()
@@ -1461,6 +1560,10 @@ class Window6(QMainWindow):
             self.widgetList[i].functionable = ""
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
+
+        if self.firstShow:
+            self.msg.show()
+            self.firstShow = False
 
 
 #////////////////////////////////////  КЛАСС ОКНА МЕНЮ  ///////////////////////////////////////////
@@ -1677,35 +1780,57 @@ class WindowMenu(QMainWindow):
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "1"  # данные о студенте проинициализированы
 
-    # def creatReport(self):
-    #     document = Document()
-    #     document.add_heading('Отчет по лабораторной работе', 0)
-    #     document.add_paragraph("ФИО: {0}".format(self.surname))
-    #     document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
-    #     document.add_paragraph("Вариант: {0}".format(self.numINGroup))
-    #     document.add_heading('Задание 1', 0)
-    #     try:
-    #         document.add_picture('screenshot1.png', width=Inches(4))
-    #     except:
-    #         pass
-    #     document.add_heading('Задание 2', 0)
-    #     try:
-    #         document.add_picture('screenshot2.png', width=Inches(4))
-    #     except:
-    #         pass
-    #     document.add_heading('Задание 3', 0)
-    #     try:
-    #         document.add_picture('screenshot3.png', width=Inches(4))
-    #     except:
-    #         pass
-    #     document.add_heading('Задание 4', 0)
-    #     try:
-    #         document.add_picture('screenshot4.png', width=Inches(4))
-    #     except:
-    #         pass
-    #     document.add_page_break()
+    def creatReport(self):
+        document = Document()
+        document.add_heading('Отчет по лабораторной работе', 0)
+        document.add_paragraph("ФИО: {0}".format(self.surname))
+        document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
+        document.add_paragraph("Вариант: {0}".format(self.numINGroup))
+        document.add_heading('Задание 1', 0)
+        try:
+            document.add_picture('1.jpg', width=Inches(7))
+        except:
+            pass
+        document.add_heading('Задание 2', 0)
+        try:
+            document.add_picture('2.jpg', width=Inches(7))
+        except:
+            pass
+        document.add_heading('Задание 3', 0)
+        try:
+            document.add_picture('3.jpg', width=Inches(7))
+        except:
+            pass
+        document.add_heading('Задание 4', 0)
+        try:
+            document.add_picture('4.jpg', width=Inches(7))
+        except:
+            pass
+        document.add_heading('Задание 5', 0)
+        for i in range(squadNum):
+            try:
+                document.add_heading(str(i+1) + " отделение", 0)
+                document.add_picture(str(5)+str(i)+".jpg", width=Inches(7))
+            except:
+                pass
+        
+        document.add_heading('Задание 6', 0)
+        for i in range(squadNum):
+            try:
+                document.add_heading(str(i+1) + " отделение", 0)
+                document.add_picture(str(6)+str(i)+".jpg", width=Inches(7))
+            except:
+                pass
+        
+        document.add_heading('Гистограмма', 0)
+        try:
+            document.add_picture('6_hist.jpg', width=Inches(7))
+        except:
+            pass
 
-    #     document.save('Отчет по лаборатрной работе.docx')
+        document.add_page_break()
+
+        document.save('Отчет по лаборатрной работе.docx')
 
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
