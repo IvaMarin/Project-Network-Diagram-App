@@ -416,7 +416,7 @@ class Display3_4(Display):
     #     super().__init__(root, graph_in, step, max_time, horizontal, late_time, switch,**kwargs)
     #     # sizeWindow = QRect(QApplication.desktop().screenGeometry())
     #     # size = QSize(sizeWindow.height(), sizeWindow.height())
-    #     # self.image = QImage(size, QImage.Format_RGB32)
+    #     # self.image = QImage(size, QImage.Format_RGB32)    
 
     def paintEvent(self, event):
         # self.image.size = self.size()
@@ -464,51 +464,43 @@ class Display3_4(Display):
                 for j in range(len(self.graph.AdjacencyMatrix)):
                     # если существует связь
                     if (self.graph.AdjacencyMatrix[i][j] != 0 and
-                        (not np.isnan(self.graph.Points[i][0])) and
-                            (not np.isnan(self.graph.Points[j][0]))):
-                        triangle_source = calculate_arrow_points(
-                            self.graph.Points[i], self.graph.ArrowPoints[i][j], 0)
+                       (not np.isnan(self.graph.Points[i][0])) and
+                       (not np.isnan(self.graph.Points[j][0]))):
+                        triangle_source = calculate_arrow_points(self.graph.Points[i], self.graph.ArrowPoints[i][j], 0)
                         if triangle_source is not None:
+                            # выбор цвета в зависимости от выбора критического пути
+                            if (self.graph.AdjacencyMatrix[i][j] == 2):
+                                painter.setBrush(QColor("red"))
+                                painter.setPen(QColor("red"))
+                            elif (self.graph.AdjacencyMatrix[i][j] == 1):
+                                painter.setBrush(QColor("black"))
+                                painter.setPen(QColor("black"))
                             painter.drawPolygon(triangle_source)
-                            if (self.late_time == None):  # в зависимости от резерва
-                                if (len(self.base_graph.R) > i) and (self.base_graph.R[i] > 0):
-                                    painter.setPen(Qt.PenStyle.SolidLine)
-                                    painter.drawLine(QPointF(self.graph.Points[i][0],
-                                                            self.graph.Points[i][1]),
-                                                    triangle_source[1])
-                                    painter.setPen(Qt.PenStyle.DashLine)
-                                    painter.drawLine(triangle_source[1],
-                                                    QPointF(self.graph.Points[j][0],
-                                                            self.graph.Points[j][1]))
-                                    painter.setPen(Qt.PenStyle.SolidLine)
-                                else:
-                                    painter.setPen(Qt.PenStyle.DashLine)
-                                    painter.drawLine(QPointF(self.graph.Points[i][0],
-                                                            self.graph.Points[i][1]),
-                                                    triangle_source[1])
-                                    painter.setPen(Qt.PenStyle.SolidLine)
-                                    painter.drawLine(triangle_source[1], 
-                                                    QPointF(self.graph.Points[j][0], 
-                                                            self.graph.Points[j][1]))
-                            elif (self.late_time == True):  # в поздних сроках
-                                painter.setPen(Qt.PenStyle.DashLine)
-                                painter.drawLine(QPointF(self.graph.Points[i][0],
-                                                        self.graph.Points[i][1]),
-                                                triangle_source[1])
-                                painter.setPen(Qt.PenStyle.SolidLine)
-                                painter.drawLine(triangle_source[1],
-                                                QPointF(self.graph.Points[j][0],
-                                                        self.graph.Points[j][1]))
+
+                            pen = QPen()
+                            if (self.graph.AdjacencyMatrix[i][j] == 2):
+                                pen.setBrush(QColor("red"))
+                                pen.setColor(QColor("red"))
+                            elif (self.graph.AdjacencyMatrix[i][j] == 1):
+                                pen.setBrush(QColor("black"))
+                                pen.setColor(QColor("balck"))
+                            painter.setPen(pen)
+                            if (self.late_time == True):  # в поздних сроках
+                                pen.setStyle(Qt.PenStyle.DashLine)
+                                painter.setPen(pen)
+                                painter.drawLine(QPointF(self.graph.Points[i][0], self.graph.Points[i][1]), triangle_source[1])
+                                pen.setStyle(Qt.PenStyle.SolidLine)
+                                painter.setPen(pen)
+                                painter.drawLine(triangle_source[1], QPointF(self.graph.Points[j][0], self.graph.Points[j][1]))
                             else:  # в ранних сроках
-                                painter.setPen(Qt.PenStyle.SolidLine)
-                                painter.drawLine(QPointF(self.graph.Points[i][0],
-                                                        self.graph.Points[i][1]),
-                                                triangle_source[1])
-                                painter.setPen(Qt.PenStyle.DashLine)
-                                painter.drawLine(triangle_source[1],
-                                                QPointF(self.graph.Points[j][0],
-                                                        self.graph.Points[j][1]))
-                                painter.setPen(Qt.PenStyle.SolidLine)
+                                pen.setStyle(Qt.PenStyle.SolidLine)
+                                painter.setPen(pen)
+                                painter.drawLine(QPointF(self.graph.Points[i][0], self.graph.Points[i][1]), triangle_source[1])
+                                pen.setStyle(Qt.PenStyle.DashLine)
+                                painter.setPen(pen)
+                                painter.drawLine(triangle_source[1], QPointF(self.graph.Points[j][0], self.graph.Points[j][1]))
+                                pen.setStyle(Qt.PenStyle.SolidLine)
+                                painter.setPen(pen)
 
             # отрисовка вершин и цифр
             painter.setPen(QPen(QColor("black"), 2.5))
