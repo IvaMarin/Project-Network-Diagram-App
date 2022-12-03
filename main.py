@@ -5,7 +5,7 @@ from pathlib import Path
 from PyQt5 import QtWidgets, QtCore
 
 from PyQt5.QtCore import QRect, Qt, QSize
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit
 from PyQt5.QtGui import QPixmap, QScreen, QImage
 
 
