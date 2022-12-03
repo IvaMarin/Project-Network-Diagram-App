@@ -442,6 +442,7 @@ class Window2(QMainWindow):
             for row in range(self.cnt):
                 self.item = QtWidgets.QTableWidgetItem("0")
                 self.table1.ui.tableWidget.setItem(row, 0, self.item)
+                self.item = QtWidgets.QTableWidgetItem("0")
                 self.table2.ui.tableWidget.setItem(row, 0, self.item)
                 self.headerItem = QtWidgets.QTableWidgetItem(str(row))
                 self.table1.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
