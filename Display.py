@@ -421,7 +421,6 @@ class Display3_4(Display):
     def paintEvent(self, event):
         # self.image.size = self.size()
         self.root.image.fill(Qt.white)
-        print(self.root.image.size())
         if self.horizontal:
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
         else:
@@ -656,51 +655,6 @@ class Display5(Display):
                 if triangle_source is not None:
                     painter.drawPolygon(triangle_source)
                     if (self.late_time == None):  # в зависимости от резерва
-                        if (len(self.base_graph.R) > i) and (self.base_graph.R[i] > 0):
-                            painter.setPen(Qt.PenStyle.SolidLine)
-                            painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                            painter.setPen(Qt.PenStyle.DashLine)
-                            painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                            painter.setPen(Qt.PenStyle.SolidLine)
-                        else:
-                            painter.setPen(Qt.PenStyle.DashLine)
-                            painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                            painter.setPen(Qt.PenStyle.SolidLine)
-                            painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                    elif (self.late_time == True):  # в поздних сроках
-                        painter.setPen(Qt.PenStyle.DashLine)
-                        painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                        painter.setPen(Qt.PenStyle.SolidLine)
-                        painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                    else:  # в ранних сроках
-                        painter.setPen(Qt.PenStyle.SolidLine)
-                        painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                        painter.setPen(Qt.PenStyle.DashLine)
-                        painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                        painter.setPen(Qt.PenStyle.SolidLine)
-
-            # отрисовка вершин и цифр
-            painter.setPen(QPen(QColor("black"), 2.5))
-
-            for (digit, id), (x, y) in self.graph.Points.items(): 
-                painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
-                painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
-                                    int(2*self.graph.Radius), int(2*self.graph.Radius))
-                if len(str(i+1)) < 2:
-                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
-                else:
-                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-                painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
-
-            self.graph_in.PeopleWeights = self.GetNumberOfPeople()
-            # отрисовка стрелок
-            for p1, p2 in self.graph.AdjacencyList.items():
-                (x1, y1) = self.graph.Points[p1]
-                (x2, y2) = self.graph.Points[p2]
-                triangle_source = calculate_arrow_points((x1, y1), self.graph.Arrows[(p1, p2)], 0)
-                if triangle_source is not None:
-                    painter.drawPolygon(triangle_source)
-                    if (self.late_time == None):  # в зависимости от резерва
                         if (len(self.base_graph.R) > p1[0]) and (self.base_graph.R[p1[0]] > 0):
                             painter.setPen(Qt.PenStyle.SolidLine)
                             painter.drawLine(QPointF(x1, y1), triangle_source[1])
@@ -738,7 +692,7 @@ class Display5(Display):
                 painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
 
         self.graph_in.PeopleWeights = self.GetNumberOfPeople()
-
+            
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
         if (self.functionAble == "Удалить последовательность"):

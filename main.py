@@ -5,7 +5,7 @@ from pathlib import Path
 from PyQt5 import QtWidgets, QtCore
 
 from PyQt5.QtCore import QRect, Qt, QSize
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit
 from PyQt5.QtGui import QPixmap, QScreen, QImage
 
 
@@ -326,6 +326,7 @@ class Window2(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        self.firstShow = True
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
@@ -349,7 +350,7 @@ class Window2(QMainWindow):
         self.layout2.addWidget(self.table2)
         self.widget2 = QWidget()
         self.widget2.setLayout(self.layout2)
-        
+
         self.layout.addWidget(self.widget2)
         # Задаём растяжение объектов в компоновщике
         self.layout.setStretch(0, 1)
@@ -431,13 +432,17 @@ class Window2(QMainWindow):
         # При вызове окна обновляется кол                                                                                                               -во вершин графа
         self.showMaximized()
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
-        self.cnt = len(graph1.CorrectAdjacencyMatrix)
-        self.table1.ui.tableWidget.setRowCount(self.cnt)
-        self.table2.ui.tableWidget.setRowCount(self.cnt)
-        for row in range(self.cnt):
-            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
-            self.table1.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
-            self.table2.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+        if self.firstShow:
+            self.cnt = len(graph1.CorrectAdjacencyMatrix)
+            self.table1.ui.tableWidget.setRowCount(self.cnt)
+            self.table2.ui.tableWidget.setRowCount(self.cnt)
+            for row in range(self.cnt):
+                self.item = QtWidgets.QTableWidgetItem("0")
+                self.table1.ui.tableWidget.setItem(row, 0, self.item)
+                self.table2.ui.tableWidget.setItem(row, 0, self.item)
+                self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+                self.table1.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+                self.table2.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
 
 
     def table1Check(self):
@@ -537,7 +542,6 @@ class Window2(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionbtnCritPath.triggered.connect(self.critPath)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
         self.ui.actionHelp.triggered.connect(self.solveTask)
         self.ui.actionbtnInfo.triggered.connect(self.help)
 
@@ -1440,6 +1444,31 @@ class Window6(QMainWindow):
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
+        self.table = QtWidgets.QWidget()
+        self.table.ui = Ui_tableTask1()
+        self.table.ui.setupUi(self.table)
+        self.table.ui.tableWidget.horizontalHeader().setVisible(True)
+        self.table.ui.tableWidget.setColumnCount(4)
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Ранние сроки", "Поздние сроки", "Шифр", "Прод-ть"])
+        self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint | QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
+        self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
+        self.table.setWindowTitle("Материалы")
+        for row in range(MainWindow.ui.tableVar.rowCount()):
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.table.ui.tableWidget.setItem(row, 2, self.item)
+            
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.table.ui.tableWidget.setItem(row, 3, self.item)
+
+            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+            self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+        for row in range(properties.n):
+                self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+                self.table.ui.tableWidget.setItem(row, 0, self.item)
+                self.item = QtWidgets.QTableWidgetItem(str(int(properties.tn[row])))
+                self.table.ui.tableWidget.setItem(row, 1, self.item)
+        self.table.resize(700, 700)
+
         
         self._connectAction()
 
@@ -1537,7 +1566,9 @@ class Window6(QMainWindow):
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck) 
+        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
+ 
 
     def openTextTask(self):
         dialogTask = QDialog()
@@ -1564,6 +1595,12 @@ class Window6(QMainWindow):
         if self.firstShow:
             self.msg.show()
             self.firstShow = False
+
+    def help(self):
+        if self.table.isHidden():
+            self.table.show()
+        else:
+            self.table.hide()
 
 
 #////////////////////////////////////  КЛАСС ОКНА МЕНЮ  ///////////////////////////////////////////
