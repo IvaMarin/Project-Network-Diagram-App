@@ -326,6 +326,7 @@ class Window2(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        self.firstShow = True
         # Создаём компоновщик
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
@@ -349,7 +350,7 @@ class Window2(QMainWindow):
         self.layout2.addWidget(self.table2)
         self.widget2 = QWidget()
         self.widget2.setLayout(self.layout2)
-        
+
         self.layout.addWidget(self.widget2)
         # Задаём растяжение объектов в компоновщике
         self.layout.setStretch(0, 1)
@@ -431,13 +432,17 @@ class Window2(QMainWindow):
         # При вызове окна обновляется кол                                                                                                               -во вершин графа
         self.showMaximized()
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
-        self.cnt = len(graph1.CorrectAdjacencyMatrix)
-        self.table1.ui.tableWidget.setRowCount(self.cnt)
-        self.table2.ui.tableWidget.setRowCount(self.cnt)
-        for row in range(self.cnt):
-            self.headerItem = QtWidgets.QTableWidgetItem(str(row))
-            self.table1.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
-            self.table2.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+        if self.firstShow:
+            self.cnt = len(graph1.CorrectAdjacencyMatrix)
+            self.table1.ui.tableWidget.setRowCount(self.cnt)
+            self.table2.ui.tableWidget.setRowCount(self.cnt)
+            for row in range(self.cnt):
+                self.item = QtWidgets.QTableWidgetItem("0")
+                self.table1.ui.tableWidget.setItem(row, 0, self.item)
+                self.table2.ui.tableWidget.setItem(row, 0, self.item)
+                self.headerItem = QtWidgets.QTableWidgetItem(str(row))
+                self.table1.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
+                self.table2.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
 
 
     def table1Check(self):
