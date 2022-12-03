@@ -421,7 +421,6 @@ class Display3_4(Display):
     def paintEvent(self, event):
         # self.image.size = self.size()
         self.root.image.fill(Qt.white)
-        print(self.root.image.size())
         if self.horizontal:
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
         else:
