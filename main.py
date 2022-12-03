@@ -266,6 +266,7 @@ class Window1(QMainWindow):
         if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+            property.enter_teacher_mode[1] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
@@ -428,7 +429,7 @@ class Window2(QMainWindow):
         if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
-
+            property.enter_teacher_mode[2] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
@@ -739,6 +740,7 @@ class Window3(QMainWindow):
         if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+            property.enter_teacher_mode[3] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
@@ -926,6 +928,7 @@ class Window4(QMainWindow):
         if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+            property.enter_teacher_mode[4] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
@@ -1360,6 +1363,7 @@ class Window5(QMainWindow):
         if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+            property.enter_teacher_mode[5] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
@@ -1588,6 +1592,7 @@ class Window6(QMainWindow):
         if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
+            property.enter_teacher_mode[6] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
