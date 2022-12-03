@@ -44,6 +44,7 @@ class Properties():
         self.teacherMode = False
         self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
         self.key_path = "" # путь до ключа преподавателя 
+        self.enter_teacher_mode = [False, False, False, False, False, False]
 
         # свойства первого окна
         self.MainWindow = MainWindow
@@ -221,3 +222,5 @@ class Properties():
             pickle.dump(graph, file)
 
 #######################################################################################################################
+
+    
