@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 
 from PyQt5 import QtWidgets, QtCore
-
+import win32com.client
 from PyQt5.QtCore import QRect, Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit
 from PyQt5.QtGui import QPixmap, QScreen, QImage
@@ -17,6 +17,9 @@ from PIL import Image
 from fpdf import FPDF
 from docx import Document
 from docx.shared import Inches
+import docx2txt
+import PyPDF2
+
 
 # from borb.pdf import Document
 # from borb.pdf import Page
@@ -1786,6 +1789,7 @@ class WindowMenu(QMainWindow):
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         self.ui.previewReport.clicked.connect(lambda: self.creatReport()) #
+        self.ui.btnPrint.clicked.connect(lambda: self.printReport())
         self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
 
 
@@ -1873,6 +1877,11 @@ class WindowMenu(QMainWindow):
         document.add_page_break()
 
         document.save('Отчет по лаборатрной работе.docx')
+
+    def printReport(self):
+        # extract text
+        result = docx2txt.process("Отчет по лаборатрной работе.docx","")
+        print(result)
 
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
