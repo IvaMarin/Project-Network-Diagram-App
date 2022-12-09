@@ -7,6 +7,7 @@ from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QPixmap
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction, QMessageBox
 
 from qt_designer_ui.task5AddSeq import Ui_task5AddSeq
+import Properties
 
 
 
@@ -19,6 +20,9 @@ class task5AddSeq(QtWidgets.QDialog):
         self.ui = Ui_task5AddSeq() # инициализация ui
         self.ui.setupUi(self) # инициализация ui окна (присвоение конкретных пар-ов)
         self.mainWindow = root  # сохраняем нашего родителя
+
+        for i in range(root.squadNum):
+            self.ui.lineEdit_2.addItem(str(i+1))
 
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
@@ -36,7 +40,7 @@ class task5AddSeq(QtWidgets.QDialog):
         self.ui.pushButton.clicked.connect(lambda: self.Add()) # прописываем действие по кнопке
 
     def Add(self):
-        numS = self.ui.lineEdit_2.text()
+        numS = str(self.ui.lineEdit_2.currentIndex()+1)
         text = self.ui.lineEdit.text()
         num = ""
         notFirstChar = False
@@ -65,7 +69,6 @@ class task5AddSeq(QtWidgets.QDialog):
                     if i == len(text):
                         result.append(int(num))
                         self.mainWindow.displayAddSeq(numS, result)
-                        self.ui.lineEdit_2.setText("")
                         self.ui.lineEdit.setText("")
         else:
             msg = QMessageBox()

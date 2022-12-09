@@ -44,6 +44,7 @@ class Properties():
         self.teacherMode = False
         self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
         self.key_path = "" # путь до ключа преподавателя 
+        self.enter_teacher_mode = [False, False, False, False, False, False]
 
         # свойства первого окна
         self.MainWindow = MainWindow
@@ -68,9 +69,25 @@ class Properties():
 
         #свойства пятого окна
         self.state_of_graph_5 = None
-        self.number_of_squads = self.get_number_of_squads() #количество отделений
+        self.number_of_squads = self.get_number_of_squads() # количество отделений
+        self.max_sequences_amount = self.GetMaxSequencesAmount(self.number_of_squads) # максимальное число последовательностей по отделениям
         self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
+    
+    def GetMaxSequencesAmount(self, number_of_squads):
+        max_sequences_amount = 0
+        for squad in range(1, number_of_squads+1):
+            current_squad_max = 0
+            for row in range(self.MainWindow.ui.tableVar.rowCount()):
+                try:
+                    current_squad = int(self.MainWindow.ui.tableVar.item(row, 1).text())
+                except:
+                    current_squad = -1
+                if (current_squad == squad):
+                    current_squad_max  += 1
+            if (current_squad_max > max_sequences_amount):
+                max_sequences_amount = current_squad_max
+        return max_sequences_amount
 
     # функция подсчета количесва отделений
     def get_number_of_squads(self):
@@ -205,3 +222,5 @@ class Properties():
             pickle.dump(graph, file)
 
 #######################################################################################################################
+
+    
