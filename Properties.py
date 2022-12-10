@@ -1,5 +1,6 @@
 import os
 import pickle
+import time
 
 from PyQt5 import QtWidgets
 
@@ -38,6 +39,9 @@ class statusTask():
 
 class Properties():
     def __init__(self, MainWindow):
+        self.start_time = time.time_ns() # время начала работы программы в наносекундах
+        self.end_time = None # время завершения последнего задания в наносекундах
+        self.elapsed_time = None # время прошедшее с начала работы программы до завершения последнего задания в наносекундах
 
         # свойства, использующиеся в разных заданиях
         self.variant = MainWindow.numINGroup
