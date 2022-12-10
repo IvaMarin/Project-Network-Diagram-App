@@ -142,6 +142,13 @@ class Ui_MainWindow2(object):
         self.actionbtnHome = QtWidgets.QAction(MainWindow1)
         self.actionbtnHome.setCheckable(True)
         icon10 = QtGui.QIcon()
+
+        self.actionSolveTask = QtWidgets.QAction(MainWindow1)
+        icon16 = QtGui.QIcon()
+        icon16.addPixmap(QtGui.QPixmap("resources/iconePack/document.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionSolveTask.setIcon(icon16)
+        self.actionSolveTask.setObjectName("actionSolveTask")
+
         icon10.addPixmap(QtGui.QPixmap("resources/iconePack/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionbtnHome.setIcon(icon10)
         self.actionbtnHome.setObjectName("actionbtnHome")
@@ -230,6 +237,7 @@ class Ui_MainWindow2(object):
         self.toolBar.addAction(self.actionHelp)
         self.toolBar.addAction(self.actionSolveTask)
         self.toolBar.addAction(self.actionbtnHome)
+        self.toolBar.addAction(self.actionSolveTask)
 
         self.retranslateUi(MainWindow1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow1)

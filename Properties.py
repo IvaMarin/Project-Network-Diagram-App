@@ -44,6 +44,7 @@ class Properties():
         self.teacherMode = False
         self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
         self.key_path = "" # путь до ключа преподавателя 
+        self.enter_teacher_mode = [False, False, False, False, False, False]
 
         # свойства первого окна
         self.MainWindow = MainWindow
@@ -177,7 +178,7 @@ class Properties():
             else:
                 break
 
-            #self.tableNumSquad[-1].append(tmpItem)
+            #self.tableNumSquad[-1].appclear_answerend(tmpItem)
             #print("item", row, self.MainWindow.ui.tableVar.columnCount() - 1, " ", self.tableNumSquad[-1][-1])
         
         print(" ")
@@ -186,38 +187,57 @@ class Properties():
 
 
 ####################____ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА_ДЛЯ_ПРЕПОДА__####################################################
+    
+    def save_graph_for_teacher(self, graph, i, subtask = 0):
+        if subtask == 0:
+            with open(f'answer/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
+                pickle.dump(graph, file)
+        else:
+            with open(f'answer/states_of_graphs_{i}/state_{self.variant}_task_{subtask}.pickle', 'wb') as file:
+                pickle.dump(graph, file)
 
-    # ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА
-    def save_graph(self, graph, i):
-        with open(f'answer/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
-            pickle.dump(graph, file)
-
-    def get_graph(self, i = 0):
-        with open(f'answer/states_of_graphs_{i}/state_{self.variant}.pickle', 'rb') as file:
-            graph = pickle.load(file)
+    def get_graph_for_teacher(self, i, subtask = 0):
+        if subtask == 0:
+            with open(f'answer/states_of_graphs_{i}/state_{self.variant}.pickle', 'rb') as file:
+                graph = pickle.load(file)
+        else:
+            with open(f'answer/states_of_graphs_{i}/state_{self.variant}_task_{subtask}.pickle', 'rb') as file:
+                graph = pickle.load(file)
         return graph
 #######################################################################################################################
 
 
 ####################____ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА_ДЛЯ_ СТУДЕНТА__####################################################
 
-    def save_graph_for_student(self, graph, i):
-        with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
-            pickle.dump(graph, file)
+    def save_graph_for_student(self, graph, i, subtask = 0):
+        if subtask == 0:
+            with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
+                pickle.dump(graph, file)
+        else:
+            with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}_task_{subtask}.pickle', 'wb') as file:
+                pickle.dump(graph, file)
 
 
-    def get_graph_for_student(self, i = 0):
-        with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'rb') as file:
-            graph = pickle.load(file)
-
+    def get_graph_for_student(self, i, subtask = 0):
+        if subtask == 0:
+            with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'rb') as file:
+                graph = pickle.load(file)
+        else:
+            with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}_task_{subtask}.pickle', 'rb') as file:
+                graph = pickle.load(file)
         return graph
 #######################################################################################################################
 
 ####################____ФУНКЦИИ_ДЛЯ_ОЧИСТКИ_СОХРАНЕНИЯ__####################################################
 
-    def clear_graph(self, i):
-        with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
-            graph = self.get_graph_from_radius()
-            pickle.dump(graph, file)
+    def clear_answer(self, i, subtask = 0):
+        if subtask == 0:
+            with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
+                graph = self.get_graph_from_radius()
+                pickle.dump(graph, file)
+        else:
+            with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}_task_{subtask}.pickle', 'wb') as file:
+                graph = self.get_graph_from_radius()
+                pickle.dump(graph, file)
 
-#######################################################################################################################
+####################################################################################################################### 
