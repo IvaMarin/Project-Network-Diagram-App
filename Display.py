@@ -238,14 +238,9 @@ class Display(QWidget):
                     (not np.isnan(self.graph.Points[j][0]))):
 
                     # определим где отрисовать вес ребра/стрелки
-                    cos_sign = self.graph.Points[j][0] - self.graph.Points[i][0]
-                    sin_sign = self.graph.Points[j][1] - self.graph.Points[i][1]
-                    offset = 10
-                    if ((cos_sign >= 0 and sin_sign >= 0) or (cos_sign <= 0 and sin_sign <= 0)):
-                        x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 + offset
-                    else:
-                        x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 - offset
-                    y = ((int)(self.graph.Points[i][1]) + (int)(self.graph.Points[j][1])) / 2 - offset
+                    offset = 25
+                    x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 - offset
+                    y = ((int)(self.graph.Points[i][1]) + (int)(self.graph.Points[j][1])) / 2 - offset 
 
                     self.QLineEdits[i][j] = (QLineEdit(self))
                     self.QLineEdits[i][j].setAlignment(Qt.AlignHCenter)
@@ -762,15 +757,10 @@ class Display5(Display):
             (x1, y1) = self.graph.Points[p1]
             (x2, y2) = self.graph.Points[p2]
 
-            # определим где отрисовать вес ребра/стрелки
-            cos_sign = x2 - x1
-            sin_sign = y2 - y1
-            offset = 10
-            if ((cos_sign >= 0 and sin_sign >= 0) or (cos_sign <= 0 and sin_sign <= 0)):
-                x = ((int)(x1) + (int)(x2)) / 2 + offset
-            else:
-                x = ((int)(x1) + (int)(x2)) / 2 - offset
-            y = ((int)(y1) + (int)(y2)) / 2 - offset
+            # определим где отрисовать вес ребра/стрелки               
+            offset = 25
+            x = ((int)(x1) + (int)(x2)) / 2 - offset
+            y = ((int)(y1) + (int)(y2)) / 2 - offset 
 
             self.QLineEdits[(p1, p2)] = (QLineEdit(self))
             self.QLineEdits[(p1, p2)].setAlignment(Qt.AlignHCenter)
