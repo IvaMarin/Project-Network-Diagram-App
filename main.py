@@ -1,5 +1,6 @@
 import sys, os
 import numpy as np
+import time
 from pathlib import Path
 
 from PyQt5 import QtWidgets, QtCore
@@ -1486,6 +1487,9 @@ class Window6(QMainWindow):
         self.msg.setIcon(QMessageBox.Information)
         self.msg.setStandardButtons(QMessageBox.Ok)
         
+    def _finishTimer(self):
+        properties.end_time = time.time_ns()
+        properties.elapsed_time = properties.end_time - properties.start_time
 
     def taskCheck(self):
         # mistakes = self.DisplayObj.checkEvent()
@@ -1514,6 +1518,9 @@ class Window6(QMainWindow):
         #     self.checkForm1.exec_()
         # else:
         #     mistakes.exec()
+
+        self._finishTimer()
+
         self.msgCheck = QMessageBox()
         self.msgCheck.setWindowTitle("Предупреждение")
         self.msgCheck.setText("Результат занесён в отчёт.")
