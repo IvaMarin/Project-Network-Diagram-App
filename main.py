@@ -1,5 +1,6 @@
 import sys, os
 import numpy as np
+import time
 from pathlib import Path
 
 from PyQt5 import QtWidgets, QtCore
@@ -16,7 +17,8 @@ from PIL import Image
 ### Для обработки .pdf файлов ###############
 from fpdf import FPDF
 from docx import Document
-from docx.shared import Inches
+from docx.enum.section import WD_ORIENT, WD_SECTION, WD_SECTION_START
+from docx.shared import Inches, Mm
 
 # from borb.pdf import Document
 # from borb.pdf import Page
@@ -1486,6 +1488,9 @@ class Window6(QMainWindow):
         self.msg.setIcon(QMessageBox.Information)
         self.msg.setStandardButtons(QMessageBox.Ok)
         
+    def _finishTimer(self):
+        properties.end_time = time.time_ns()
+        properties.elapsed_time = properties.end_time - properties.start_time
 
     def taskCheck(self):
         # mistakes = self.DisplayObj.checkEvent()
@@ -1514,6 +1519,9 @@ class Window6(QMainWindow):
         #     self.checkForm1.exec_()
         # else:
         #     mistakes.exec()
+
+        self._finishTimer()
+
         self.msgCheck = QMessageBox()
         self.msgCheck.setWindowTitle("Предупреждение")
         self.msgCheck.setText("Результат занесён в отчёт.")
@@ -1822,68 +1830,75 @@ class WindowMenu(QMainWindow):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "1"  # данные о студенте проинициализированы
+    
 
     def creatReport(self):
         document = Document()
-        document.add_heading('Отчет по лабораторной работе', 0)
+        document.sections[-1].orientation = WD_ORIENT.LANDSCAPE
+        document.sections[-1].page_width = Mm(297)
+        document.sections[-1].page_height = Mm(210)
+
         document.add_paragraph("ФИО: {0}".format(self.surname))
         document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
         document.add_paragraph("Вариант: {0}".format(self.numINGroup))
+        document.add_page_break()
         document.add_heading('Задание 1', 0)
         if properties.enter_teacher_mode[0]:
             document.add_paragraph('Режим преподавателя был включен')
         try:
-            document.add_picture('1.jpg', width=Inches(7))
+            document.add_picture('1.jpg', width=Inches(8.5))
         except:
             pass
+        document.add_page_break()
         document.add_heading('Задание 2', 0)
         if properties.enter_teacher_mode[1]:
             document.add_paragraph('Режим преподавателя был включен')
         try:
-            document.add_picture('2.jpg', width=Inches(7))
+            document.add_picture('2.jpg', width=Inches(9.5))
         except:
             pass
+        document.add_page_break()
         document.add_heading('Задание 3', 0)
         if properties.enter_teacher_mode[2]:
             document.add_paragraph('Режим преподавателя был включен')
         try:
-            document.add_picture('3.jpg', width=Inches(7))
+            document.add_picture('3.jpg', width=Inches(9.5))
         except:
             pass
+        document.add_page_break()
         document.add_heading('Задание 4', 0)
         if properties.enter_teacher_mode[3]:
             document.add_paragraph('Режим преподавателя был включен')
         try:
-            document.add_picture('4.jpg', width=Inches(7))
+            document.add_picture('4.jpg', width=Inches(9.5))
         except:
             pass
+        document.add_page_break()
         document.add_heading('Задание 5', 0)
         if properties.enter_teacher_mode[4]:
             document.add_paragraph('Режим преподавателя был включен')
         for i in range(squadNum):
             try:
                 document.add_heading(str(i+1) + " отделение", 0)
-                document.add_picture(str(5)+str(i)+".jpg", width=Inches(7))
+                document.add_picture(str(5)+str(i)+".jpg", width=Inches(9))
             except:
                 pass
-        
+        document.add_page_break()
         document.add_heading('Задание 6', 0)
         if properties.enter_teacher_mode[5]:
             document.add_paragraph('Режим преподавателя был включен')
         for i in range(squadNum):
             try:
                 document.add_heading(str(i+1) + " отделение", 0)
-                document.add_picture(str(6)+str(i)+".jpg", width=Inches(7))
+                document.add_picture(str(6)+str(i)+".jpg", width=Inches(9))
             except:
                 pass
-        
+        document.add_page_break()
         document.add_heading('Гистограмма', 0)
         try:
-            document.add_picture('6_hist.jpg', width=Inches(7))
+            document.add_picture('6_hist.jpg', width=Inches(5))
         except:
             pass
-
-        document.add_page_break()
 
         document.save('Отчет по лаборатрной работе.docx')
 
