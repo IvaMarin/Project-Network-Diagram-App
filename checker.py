@@ -291,15 +291,21 @@ def checkTask2(Graph, Display):
     late = find_t_n(CorrectWeights, early, n)
     # reserve = find_R(CorrectWeights, early, late, n)
 
-    for i in range(len(Graph.tp)):
-        if (Graph.tp[i] != early[i]):
-            mistakes.append(TaskTwoMistakes.WRONG_EARLY_DATES.value)
-            break
+    if (len(Graph.tp) == 0):
+        mistakes.append(TaskTwoMistakes.WRONG_EARLY_DATES.value)
+    else:
+        for i in range(len(Graph.tp)):
+            if (Graph.tp[i] != early[i]):
+                mistakes.append(TaskTwoMistakes.WRONG_EARLY_DATES.value)
+                break
 
-    for i in range(len(Graph.tn)):
-        if (Graph.tn[i] != late[i]):
-            mistakes.append(TaskTwoMistakes.WRONG_LATE_DATES.value)
-            break
+    if (len(Graph.tn) == 0):
+        mistakes.append(TaskTwoMistakes.WRONG_LATE_DATES.value)
+    else:
+        for i in range(len(Graph.tn)):
+            if (Graph.tn[i] != late[i]):
+                mistakes.append(TaskTwoMistakes.WRONG_LATE_DATES.value)
+                break
 
     for i in range(n):
         for j in range(n):
