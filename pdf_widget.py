@@ -14,8 +14,8 @@ class PdfWidget(QtWebEngineWidgets.QWebEngineView):
         self.resize(900, 500)
         self.load(QtCore.QUrl.fromUserInput(self.pdf_path))
 
-    def closeEvent(self, e: QtGui.QCloseEvent) -> None:
-        try:
-            os.remove(self.pdf_path)
-        except Exception:
-            return
+    # def closeEvent(self, e: QtGui.QCloseEvent) -> None:
+    #     try:
+    #         os.remove(self.pdf_path)
+    #     except Exception:
+    #         return

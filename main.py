@@ -1827,9 +1827,9 @@ class WindowMenu(QMainWindow):
 
 
     def watch_report(self):
-        report = (
-            QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path, 'DOCX(*.docx)')[0].replace(os.path.sep, "/")
-        )
+        report = os.path.abspath((
+            QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]
+        ))
         if report == "":
             return
 
@@ -1851,23 +1851,26 @@ class WindowMenu(QMainWindow):
         #     return
 
         # docx_path = os.path.abspath(bp.join(bp.tmp_path, "tmp_report.docx"))
-        try:
-            with open(report, "wb") as decrypted_file:
-                decrypted_file.write(report)
-            print(1)
+        # try:
+        #     with open(report, "wb") as decrypted_file:
+        #         decrypted_file.write(report)
+        #     print(1)
 
-            pdf_path = os.path.abspath(bp.join(bp.tmp_path, "tmp_report.pdf"))
-            print(report)
-            # print(docx_path)
-            print(pdf_path)
-            convert(report, pdf_path)
-            self.pdf_widget = PdfWidget(pdf_path)
-            self.pdf_widget.show()
+        #     pdf_path = os.path.abspath(bp.join(bp.tmp_path, "tmp_report.pdf"))
+        #     print(report)
+        #     # print(docx_path)
+        #     print(pdf_path)
+        #     convert(report, pdf_path)
+        pdf_path = os.path.abspath(bp.join(bp.basedir, "111.pdf"))
+        print(report)
+        print(pdf_path)
+        self.pdf_widget = PdfWidget(report)
+        self.pdf_widget.show()
 
         # os.remove(docx_path)
-        except Exception as e:
-            print(str(e))
-            return
+        # except Exception as e:
+        #     print(str(e))
+        #     return
 
         # try:
         #     os.remove(docx_path)
