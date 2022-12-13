@@ -238,14 +238,9 @@ class Display(QWidget):
                     (not np.isnan(self.graph.Points[j][0]))):
 
                     # определим где отрисовать вес ребра/стрелки
-                    cos_sign = self.graph.Points[j][0] - self.graph.Points[i][0]
-                    sin_sign = self.graph.Points[j][1] - self.graph.Points[i][1]
-                    offset = 10
-                    if ((cos_sign >= 0 and sin_sign >= 0) or (cos_sign <= 0 and sin_sign <= 0)):
-                        x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 + offset
-                    else:
-                        x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 - offset
-                    y = ((int)(self.graph.Points[i][1]) + (int)(self.graph.Points[j][1])) / 2 - offset
+                    offset = 25
+                    x = ((int)(self.graph.Points[i][0]) + (int)(self.graph.Points[j][0])) / 2 - offset
+                    y = ((int)(self.graph.Points[i][1]) + (int)(self.graph.Points[j][1])) / 2 - offset 
 
                     self.QLineEdits[i][j] = (QLineEdit(self))
                     self.QLineEdits[i][j].setAlignment(Qt.AlignHCenter)
@@ -372,11 +367,22 @@ class Display2(Display):
                     y_off = 5*font_size/8                          # по оси y смещение не зависист от длины строки 
                     painter.drawText(int(x-line_off+x_off/2), int(y+y_off), f'{t_p}')
 
+# <<<<<<< HEAD
+#                 x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
+#                 painter.drawText(int(x+x_off), int(y+line_off+0.5*y_off), f'{R}')
+        
+#         if self.switch:
+#             self._drawQLineEdits()
+#             self.switch = False
+        
+#         self.graph.PeopleWeights = self.GetNumberOfPeople()
+# =======
                     x_off = -(5*len(str(t_n))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
                     painter.drawText(int(x+line_off+1.5*x_off), int(y+y_off), f'{t_n}')
 
                     x_off = -(5*len(str(i+1))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
                     painter.drawText(int(x+x_off), int(y-line_off+1.5*y_off), f'{i}')
+#
 
                     x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
                     painter.drawText(int(x+x_off), int(y+line_off+0.5*y_off), f'{R}')
@@ -416,7 +422,7 @@ class Display3_4(Display):
     #     super().__init__(root, graph_in, step, max_time, horizontal, late_time, switch,**kwargs)
     #     # sizeWindow = QRect(QApplication.desktop().screenGeometry())
     #     # size = QSize(sizeWindow.height(), sizeWindow.height())
-    #     # self.image = QImage(size, QImage.Format_RGB32)
+    #     # self.image = QImage(size, QImage.Format_RGB32)    
 
     def paintEvent(self, event):
         # self.image.size = self.size()
@@ -464,51 +470,43 @@ class Display3_4(Display):
                 for j in range(len(self.graph.AdjacencyMatrix)):
                     # если существует связь
                     if (self.graph.AdjacencyMatrix[i][j] != 0 and
-                        (not np.isnan(self.graph.Points[i][0])) and
-                            (not np.isnan(self.graph.Points[j][0]))):
-                        triangle_source = calculate_arrow_points(
-                            self.graph.Points[i], self.graph.ArrowPoints[i][j], 0)
+                       (not np.isnan(self.graph.Points[i][0])) and
+                       (not np.isnan(self.graph.Points[j][0]))):
+                        triangle_source = calculate_arrow_points(self.graph.Points[i], self.graph.ArrowPoints[i][j], 0)
                         if triangle_source is not None:
+                            # выбор цвета в зависимости от выбора критического пути
+                            if (self.graph.AdjacencyMatrix[i][j] == 2):
+                                painter.setBrush(QColor("red"))
+                                painter.setPen(QColor("red"))
+                            elif (self.graph.AdjacencyMatrix[i][j] == 1):
+                                painter.setBrush(QColor("black"))
+                                painter.setPen(QColor("black"))
                             painter.drawPolygon(triangle_source)
-                            if (self.late_time == None):  # в зависимости от резерва
-                                if (len(self.base_graph.R) > i) and (self.base_graph.R[i] > 0):
-                                    painter.setPen(Qt.PenStyle.SolidLine)
-                                    painter.drawLine(QPointF(self.graph.Points[i][0],
-                                                            self.graph.Points[i][1]),
-                                                    triangle_source[1])
-                                    painter.setPen(Qt.PenStyle.DashLine)
-                                    painter.drawLine(triangle_source[1],
-                                                    QPointF(self.graph.Points[j][0],
-                                                            self.graph.Points[j][1]))
-                                    painter.setPen(Qt.PenStyle.SolidLine)
-                                else:
-                                    painter.setPen(Qt.PenStyle.DashLine)
-                                    painter.drawLine(QPointF(self.graph.Points[i][0],
-                                                            self.graph.Points[i][1]),
-                                                    triangle_source[1])
-                                    painter.setPen(Qt.PenStyle.SolidLine)
-                                    painter.drawLine(triangle_source[1], 
-                                                    QPointF(self.graph.Points[j][0], 
-                                                            self.graph.Points[j][1]))
-                            elif (self.late_time == True):  # в поздних сроках
-                                painter.setPen(Qt.PenStyle.DashLine)
-                                painter.drawLine(QPointF(self.graph.Points[i][0],
-                                                        self.graph.Points[i][1]),
-                                                triangle_source[1])
-                                painter.setPen(Qt.PenStyle.SolidLine)
-                                painter.drawLine(triangle_source[1],
-                                                QPointF(self.graph.Points[j][0],
-                                                        self.graph.Points[j][1]))
+
+                            pen = QPen()
+                            if (self.graph.AdjacencyMatrix[i][j] == 2):
+                                pen.setBrush(QColor("red"))
+                                pen.setColor(QColor("red"))
+                            elif (self.graph.AdjacencyMatrix[i][j] == 1):
+                                pen.setBrush(QColor("black"))
+                                pen.setColor(QColor("balck"))
+                            painter.setPen(pen)
+                            if (self.late_time == True):  # в поздних сроках
+                                pen.setStyle(Qt.PenStyle.DashLine)
+                                painter.setPen(pen)
+                                painter.drawLine(QPointF(self.graph.Points[i][0], self.graph.Points[i][1]), triangle_source[1])
+                                pen.setStyle(Qt.PenStyle.SolidLine)
+                                painter.setPen(pen)
+                                painter.drawLine(triangle_source[1], QPointF(self.graph.Points[j][0], self.graph.Points[j][1]))
                             else:  # в ранних сроках
-                                painter.setPen(Qt.PenStyle.SolidLine)
-                                painter.drawLine(QPointF(self.graph.Points[i][0],
-                                                        self.graph.Points[i][1]),
-                                                triangle_source[1])
-                                painter.setPen(Qt.PenStyle.DashLine)
-                                painter.drawLine(triangle_source[1],
-                                                QPointF(self.graph.Points[j][0],
-                                                        self.graph.Points[j][1]))
-                                painter.setPen(Qt.PenStyle.SolidLine)
+                                pen.setStyle(Qt.PenStyle.SolidLine)
+                                painter.setPen(pen)
+                                painter.drawLine(QPointF(self.graph.Points[i][0], self.graph.Points[i][1]), triangle_source[1])
+                                pen.setStyle(Qt.PenStyle.DashLine)
+                                painter.setPen(pen)
+                                painter.drawLine(triangle_source[1], QPointF(self.graph.Points[j][0], self.graph.Points[j][1]))
+                                pen.setStyle(Qt.PenStyle.SolidLine)
+                                painter.setPen(pen)
 
             # отрисовка вершин и цифр
             painter.setPen(QPen(QColor("black"), 2.5))
@@ -759,15 +757,10 @@ class Display5(Display):
             (x1, y1) = self.graph.Points[p1]
             (x2, y2) = self.graph.Points[p2]
 
-            # определим где отрисовать вес ребра/стрелки
-            cos_sign = x2 - x1
-            sin_sign = y2 - y1
-            offset = 10
-            if ((cos_sign >= 0 and sin_sign >= 0) or (cos_sign <= 0 and sin_sign <= 0)):
-                x = ((int)(x1) + (int)(x2)) / 2 + offset
-            else:
-                x = ((int)(x1) + (int)(x2)) / 2 - offset
-            y = ((int)(y1) + (int)(y2)) / 2 - offset
+            # определим где отрисовать вес ребра/стрелки               
+            offset = 25
+            x = ((int)(x1) + (int)(x2)) / 2 - offset
+            y = ((int)(y1) + (int)(y2)) / 2 - offset 
 
             self.QLineEdits[(p1, p2)] = (QLineEdit(self))
             self.QLineEdits[(p1, p2)].setAlignment(Qt.AlignHCenter)
