@@ -1990,56 +1990,18 @@ class WindowMenu(QMainWindow):
 
 
     def watch_report(self):
-        report = os.path.abspath((
+        report = (
             QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]
-        ))
+        )
+        report = os.path.abspath(report)
         if report == "":
             return
-
-        # wdFormatPDF = 17
-
-        # in_file = os.path.abspath(sys.argv[1])
-        # out_file = os.path.abspath(sys.argv[2])
-
-        # word = comtypes.client.CreateObject('Word.Application')
-        # doc = word.Documents.Open(in_file)
-        # doc.SaveAs(out_file, FileFormat=wdFormatPDF)
-        # doc.Close()
-        # word.Quit()
-
-        # report = decrypt_file(bp.reports_path, os.path.basename(file_name),
-        #                       decrypt_file(bp.encrypted_data_path, "teacher_token.txt").decode())
-        # if report == b"ERROR_DECRYPT":
-        #     message_box_create("Просмотр отчёта", "Не удалось дешифровать отчёт", QMessageBox.Critical)
-        #     return
-
-        # docx_path = os.path.abspath(bp.join(bp.tmp_path, "tmp_report.docx"))
-        # try:
-        #     with open(report, "wb") as decrypted_file:
-        #         decrypted_file.write(report)
-        #     print(1)
-
-        #     pdf_path = os.path.abspath(bp.join(bp.tmp_path, "tmp_report.pdf"))
-        #     print(report)
-        #     # print(docx_path)
-        #     print(pdf_path)
-        #     convert(report, pdf_path)
-        pdf_path = os.path.abspath(bp.join(bp.basedir, "111.pdf"))
-        print(report)
-        print(pdf_path)
-        self.pdf_widget = PdfWidget(report)
+        convert(report)
+        pdf_report = report.replace("docx", "pdf")
+        print(pdf_report)
+        self.pdf_widget = PdfWidget(pdf_report)
         self.pdf_widget.show()
 
-        # os.remove(docx_path)
-        # except Exception as e:
-        #     print(str(e))
-        #     return
-
-        # try:
-        #     os.remove(docx_path)
-        # except Exception:
-        #     print(3)
-        #     return
 
     def creatReport(self):
         document = Document()
@@ -2110,7 +2072,6 @@ class WindowMenu(QMainWindow):
             pass
 
         document.save('Отчет по лаборатрной работе.docx')
-        convert("Отчет по лаборатрной работе.docx")
 
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
