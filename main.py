@@ -19,6 +19,9 @@ from docx import Document
 from docx.shared import Inches
 import docx2txt
 import PyPDF2
+import basedir_paths as bp
+from docx2pdf import convert
+from pdf_widget import PdfWidget
 
 
 # from borb.pdf import Document
@@ -633,17 +636,17 @@ class Window3(QMainWindow):
         self.table.ui.tableWidget.setColumnCount(3)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
         self.table.setWindowTitle("Материалы")
-        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Ранние сроки"])
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Ранние сроки", "Шифр", "Прод-ть"])
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
-            self.table.ui.tableWidget.setItem(row, 0, self.item)
-            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
             self.table.ui.tableWidget.setItem(row, 1, self.item)
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.table.ui.tableWidget.setItem(row, 2, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
         for row in range(properties.n):
                 self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
-                self.table.ui.tableWidget.setItem(row, 2, self.item)
+                self.table.ui.tableWidget.setItem(row, 0, self.item)
         self.table.resize(500, 700)
         self._connectAction()
 
@@ -827,17 +830,17 @@ class Window4(QMainWindow):
         self.table.ui.tableWidget.setColumnCount(3)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
         self.table.setWindowTitle("Материалы")
-        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Поздние сроки"])
+        self.table.ui.tableWidget.setHorizontalHeaderLabels(["Поздние сроки", "Шифр", "Прод-ть"])
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
-            self.table.ui.tableWidget.setItem(row, 0, self.item)
-            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
             self.table.ui.tableWidget.setItem(row, 1, self.item)
+            self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.table.ui.tableWidget.setItem(row, 2, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
         for row in range(properties.n):
                 self.item = QtWidgets.QTableWidgetItem(str(int(properties.tn[row])))
-                self.table.ui.tableWidget.setItem(row, 2, self.item)
+                self.table.ui.tableWidget.setItem(row, 0, self.item)
         self.table.resize(500, 700)
         self._connectAction()
 
@@ -1250,14 +1253,14 @@ class Window5(QMainWindow):
             self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck1)
             self.ui.actionbtnCheck.triggered.connect(self.taskCheck2) 
 
-            self.table.ui.tableWidget.insertColumn(2)
-            self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Прод-ть", "Ранние сроки"])
+            self.table.ui.tableWidget.insertColumn(0)
+            self.table.ui.tableWidget.setHorizontalHeaderLabels(["Ранние сроки", "Шифр", "Прод-ть"])
             for row in range(MainWindow.ui.tableVar.rowCount()):
                 self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
-                self.table.ui.tableWidget.setItem(row, 1, self.item)
+                self.table.ui.tableWidget.setItem(row, 2, self.item)
             for row in range(properties.n):
                 self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
-                self.table.ui.tableWidget.setItem(row, 2, self.item)
+                self.table.ui.tableWidget.setItem(row, 0, self.item)
             for i in self.widgetList:
                     i.functionAble = ""
             self.table.resize(500, 700)
@@ -1288,7 +1291,7 @@ class Window5(QMainWindow):
             self.ui.actionbtnCheck.triggered.disconnect(self.taskCheck2) 
             self.ui.actionbtnCheck.triggered.connect(self.taskCheck3) 
 
-            self.table.ui.tableWidget.removeColumn(2)
+            self.table.ui.tableWidget.removeColumn(0)
             self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Кол-во людей"])
             for row in range(MainWindow.ui.tableVar.rowCount()):
                 self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 2).text())
@@ -1784,8 +1787,8 @@ class WindowMenu(QMainWindow):
 
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
-        self.ui.previewReport.clicked.connect(lambda: self.creatReport()) #
-        self.ui.btnPrint.clicked.connect(lambda: self.printReport())
+        self.ui.previewReport.clicked.connect(lambda: self.watch_report()) #
+        self.ui.btnPrint.clicked.connect(lambda: self.creatReport())
         self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
 
 
@@ -1821,6 +1824,56 @@ class WindowMenu(QMainWindow):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "1"  # данные о студенте проинициализированы
+
+
+    def watch_report(self):
+        report = (
+            QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path, 'DOCX(*.docx)')[0].replace(os.path.sep, "/")
+        )
+        if report == "":
+            return
+
+        # wdFormatPDF = 17
+
+        # in_file = os.path.abspath(sys.argv[1])
+        # out_file = os.path.abspath(sys.argv[2])
+
+        # word = comtypes.client.CreateObject('Word.Application')
+        # doc = word.Documents.Open(in_file)
+        # doc.SaveAs(out_file, FileFormat=wdFormatPDF)
+        # doc.Close()
+        # word.Quit()
+
+        # report = decrypt_file(bp.reports_path, os.path.basename(file_name),
+        #                       decrypt_file(bp.encrypted_data_path, "teacher_token.txt").decode())
+        # if report == b"ERROR_DECRYPT":
+        #     message_box_create("Просмотр отчёта", "Не удалось дешифровать отчёт", QMessageBox.Critical)
+        #     return
+
+        # docx_path = os.path.abspath(bp.join(bp.tmp_path, "tmp_report.docx"))
+        try:
+            with open(report, "wb") as decrypted_file:
+                decrypted_file.write(report)
+            print(1)
+
+            pdf_path = os.path.abspath(bp.join(bp.tmp_path, "tmp_report.pdf"))
+            print(report)
+            # print(docx_path)
+            print(pdf_path)
+            convert(report, pdf_path)
+            self.pdf_widget = PdfWidget(pdf_path)
+            self.pdf_widget.show()
+
+        # os.remove(docx_path)
+        except Exception as e:
+            print(str(e))
+            return
+
+        # try:
+        #     os.remove(docx_path)
+        # except Exception:
+        #     print(3)
+        #     return
 
     def creatReport(self):
         document = Document()
