@@ -9,6 +9,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QRect, Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit
 from PyQt5.QtGui import QPixmap, QScreen, QImage
+from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 
 
 ### Для обработки .xlsx файлов ##############
@@ -24,6 +25,8 @@ import basedir_paths as bp
 from pdf_widget import PdfWidget
 from docx.enum.section import WD_ORIENT, WD_SECTION, WD_SECTION_START
 from docx.shared import Inches, Mm
+import win32event
+import win32comext.shell.shell as shell
 
 # from borb.pdf import Document
 # from borb.pdf import Page
@@ -1948,7 +1951,7 @@ class WindowMenu(QMainWindow):
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         self.ui.previewReport.clicked.connect(lambda: self.watch_report()) #
-        self.ui.btnPrint.clicked.connect(lambda: self.creatReport())
+        self.ui.btnPrint.clicked.connect(lambda: self.print_report())
         self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
 
 
@@ -2001,6 +2004,21 @@ class WindowMenu(QMainWindow):
         print(pdf_report)
         self.pdf_widget = PdfWidget(pdf_report)
         self.pdf_widget.show()
+
+    def print_report(self):
+        printer = QPrinter(QPrinter.HighResolution)
+        dialog = QPrintDialog(printer, self)
+        if dialog.exec_() == QPrintDialog.Accepted:
+            handle = shell.ShellExecuteEx(
+                fMask=256 + 64,
+                lpVerb='printto',
+                lpFile=os.path.abspath(QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]),
+                lpParameters=printer.printerName()
+            )
+            win32event.WaitForSingleObject(handle['hProcess'], -1)
+        #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
+        # else:
+        #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
 
 
     def creatReport(self):
