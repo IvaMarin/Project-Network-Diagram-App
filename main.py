@@ -16,7 +16,7 @@ import openpyxl
 from PIL import Image
 
 ### Для обработки .pdf файлов ###############
-from fpdf import FPDF
+from docx2pdf import convert
 from docx import Document
 from docx.enum.section import WD_ORIENT, WD_SECTION, WD_SECTION_START
 from docx.shared import Inches, Mm
@@ -2052,6 +2052,7 @@ class WindowMenu(QMainWindow):
             pass
 
         document.save('Отчет по лаборатрной работе.docx')
+        convert("Отчет по лаборатрной работе.docx")
 
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
