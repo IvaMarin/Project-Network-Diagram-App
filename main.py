@@ -18,6 +18,7 @@ from PIL import Image
 
 ### Для обработки .pdf файлов ###############
 from docx2pdf import convert
+import pypandoc
 from docx import Document
 from docx.shared import Inches
 import docx2txt
@@ -27,6 +28,7 @@ from docx.enum.section import WD_ORIENT, WD_SECTION, WD_SECTION_START
 from docx.shared import Inches, Mm
 import win32event
 import win32comext.shell.shell as shell
+import comtypes.client
 
 # from borb.pdf import Document
 # from borb.pdf import Page
@@ -287,7 +289,6 @@ class Window1(QMainWindow):
 
     def lockUi(self):
         self.ui.toolBar.clear()
-        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
     #показать решение в режиме преподавателя
@@ -575,7 +576,6 @@ class Window2(QMainWindow):
 
     def lockUi(self):
         self.ui.toolBar.clear()
-        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
      #показать решение в режиме преподавателя
@@ -789,7 +789,6 @@ class Window3(QMainWindow):
 
     def lockUi(self):
         self.ui.toolBar.clear()
-        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
     #показать решение в режиме преподавателя
@@ -979,8 +978,6 @@ class Window4(QMainWindow):
 
     def lockUi(self):
         self.ui.toolBar.clear()
-        self.ui.toolBar.addAction(self.ui.actionbtnCheck)
-        self.ui.toolBar.addAction(self.ui.actionbtnInfo)
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
 
     #показать решение в режиме преподавателя
@@ -1394,7 +1391,7 @@ class Window5(QMainWindow):
                 for i in range(len(self.images)):
                     strTemp = str(5)+str(i)+".jpg"
                     self.images[i].save(strTemp)
-
+                self.ui.actionbtnInfo.setVisible(False)
                 self.ui.actionbtnCheck.setVisible(False)
                 for i in self.widgetList:
                     i.functionAble = ""
@@ -1689,8 +1686,12 @@ class Window6(QMainWindow):
             strTemp = str(6)+str(i)+".jpg"
             self.images[i].save(strTemp)
 
+        # MainWindow.creatReport()
+        self.backMainMenu()
+
     def closeEvent(self, event):
-        if self.ui.actionbtnHome.isChecked():
+        if self.ui.actionbtnHome.isChecked() or self.ui.actionbtnCheck.isChecked():
+            self.ui.actionbtnCheck.setChecked(False)
             self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
@@ -1999,8 +2000,25 @@ class WindowMenu(QMainWindow):
         report = os.path.abspath(report)
         if report == "":
             return
-        convert(report)
+        wdFormatPDF = 17
+        # self.msgCheck = QMessageBox()
+        # self.msgCheck.setWindowTitle("Предупреждение")
+        # self.msgCheck.setText("В данном варианте отсутствует предустановленное решение!")
+        # self.msgCheck.setIcon(QMessageBox.Warning)
+        # self.msgCheck.setStandardButtons(QMessageBox.Ok)
         pdf_report = report.replace("docx", "pdf")
+
+            # convert(report)
+            # pypandoc.convert_file(report, 'docx', outputfile="report.pdf")
+        word = comtypes.client.CreateObject('Word.Application')
+        doc = word.Documents.Open(report)
+        doc.SaveAs(pdf_report, FileFormat=wdFormatPDF)
+        doc.Close()
+        word.Quit()
+        # except Exception as e:
+        #     self.msgCheck.setText(str(e))
+        #     self.msgCheck.show()
+
         print(pdf_report)
         self.pdf_widget = PdfWidget(pdf_report)
         self.pdf_widget.show()
