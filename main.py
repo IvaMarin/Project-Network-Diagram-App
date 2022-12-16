@@ -125,6 +125,7 @@ class Window1(QMainWindow):
         self.table.ui.tableWidget.setRowCount(MainWindow.ui.tableVar.rowCount())
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
 
         self._connectAction()
@@ -411,8 +412,10 @@ class Window2(QMainWindow):
         self.table.setWindowTitle("Материалы")
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
         self.table.resize(393, 700)
 
@@ -680,13 +683,16 @@ class Window3(QMainWindow):
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Ранние сроки", "Шифр", "Прод-ть"])
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 2, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
         for row in range(properties.n):
                 self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+                self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
         self.table.resize(500, 700)
         self._connectAction()
@@ -880,13 +886,16 @@ class Window4(QMainWindow):
         self.table.ui.tableWidget.setHorizontalHeaderLabels(["Поздние сроки", "Шифр", "Прод-ть"])
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 2, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
         for row in range(properties.n):
                 self.item = QtWidgets.QTableWidgetItem(str(int(properties.tn[row])))
+                self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
         self.table.resize(500, 700)
         self._connectAction()
@@ -1123,8 +1132,10 @@ class Window5(QMainWindow):
         self.table.setWindowTitle("Материалы")
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 1).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
@@ -1310,9 +1321,12 @@ class Window5(QMainWindow):
             self.table.ui.tableWidget.setHorizontalHeaderLabels(["Ранние сроки", "Шифр", "Прод-ть"])
             for row in range(MainWindow.ui.tableVar.rowCount()):
                 self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+                self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 2, self.item)
+                self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             for row in range(properties.n):
                 self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+                self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
             for i in self.widgetList:
                     i.functionAble = ""
@@ -1362,6 +1376,7 @@ class Window5(QMainWindow):
             self.table.ui.tableWidget.setHorizontalHeaderLabels(["Шифр", "Кол-во людей"])
             for row in range(MainWindow.ui.tableVar.rowCount()):
                 self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 2).text())
+                self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 1, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
@@ -1638,17 +1653,21 @@ class Window6(QMainWindow):
         self.table.setWindowTitle("Материалы")
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 0).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 2, self.item)
 
             self.item = QtWidgets.QTableWidgetItem(MainWindow.ui.tableVar.item(row, 3).text())
+            self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 3, self.item)
 
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
         for row in range(properties.n):
                 self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
+                self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
                 self.item = QtWidgets.QTableWidgetItem(str(int(properties.tn[row])))
+                self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 1, self.item)
         self.table.resize(700, 700)
 
@@ -2018,34 +2037,42 @@ class WindowMenu(QMainWindow):
 
 
     def watch_report(self):
-        report = (
-            QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]
-        )
-        report = os.path.abspath(report)
-        if report == "":
-            return
-        wdFormatPDF = 17
-        # self.msgCheck = QMessageBox()
-        # self.msgCheck.setWindowTitle("Предупреждение")
-        # self.msgCheck.setText("В данном варианте отсутствует предустановленное решение!")
-        # self.msgCheck.setIcon(QMessageBox.Warning)
-        # self.msgCheck.setStandardButtons(QMessageBox.Ok)
-        pdf_report = report.replace("docx", "pdf")
+        self.msg = QMessageBox()
+        self.msg.setWindowTitle("Предупреждение")
+        self.msg.setText("Ошибка открытия отчёта")
+        self.msg.setIcon(QMessageBox.Warning)
+        self.msg.setStandardButtons(QMessageBox.Ok)
+        try:
+            report = (
+                QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]
+            )
+            report = os.path.abspath(report)
+            if report == "":
+                return
+            wdFormatPDF = 17
+            # self.msg = QMessageBox()
+            # self.msg.setWindowTitle("Предупреждение")
+            # self.msg.setText("В данном варианте отсутствует предустановленное решение!")
+            # self.msg.setIcon(QMessageBox.Warning)
+            # self.msg.setStandardButtons(QMessageBox.Ok)
+            pdf_report = report.replace("docx", "pdf")
 
-            # convert(report)
-            # pypandoc.convert_file(report, 'docx', outputfile="report.pdf")
-        word = comtypes.client.CreateObject('Word.Application')
-        doc = word.Documents.Open(report)
-        doc.SaveAs(pdf_report, FileFormat=wdFormatPDF)
-        doc.Close()
-        word.Quit()
-        # except Exception as e:
-        #     self.msgCheck.setText(str(e))
-        #     self.msgCheck.show()
+                # convert(report)
+                # pypandoc.convert_file(report, 'docx', outputfile="report.pdf")
+            word = comtypes.client.CreateObject('Word.Application')
+            doc = word.Documents.Open(report)
+            doc.SaveAs(pdf_report, FileFormat=wdFormatPDF)
+            doc.Close()
+            word.Quit()
+            # except Exception as e:
+            #     self.msgCheck.setText(str(e))
+            #     self.msgCheck.show()
 
-        print(pdf_report)
-        self.pdf_widget = PdfWidget(pdf_report)
-        self.pdf_widget.show()
+            print(pdf_report)
+            self.pdf_widget = PdfWidget(pdf_report)
+            self.pdf_widget.show()
+        except Exception:
+            self.msg.show()
 
     def print_report(self):
         printer = QPrinter(QPrinter.HighResolution)
