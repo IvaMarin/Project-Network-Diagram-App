@@ -567,7 +567,7 @@ class winSearchKey(QtWidgets.QDialog): # окно для загрузки клю
         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
         basedir = os.path.dirname(__file__)
-        self.encrypted_data_path = self.join(basedir, "encrypted_data")
+        self.encrypted_data_path = self.join(basedir, "encrypted_key")
         self.first_launch_txt_path = self.join(basedir, "first_launch", "first_launch.txt")
 
         quit = QAction("Quit", self)  # событие выхода

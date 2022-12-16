@@ -144,7 +144,7 @@ class Properties():
         try:
             with open(key_path, "rb") as file:
                 secret_key = file.read()
-            tmp_path = join(basedir, "encrypted_data")
+            tmp_path = join(basedir, "encrypted_key")
             print("TMP_PATH ", tmp_path)
             teacher_token = decrypt_file(tmp_path, "teacher_token.txt") ####### ОШИБКА
             print("teacher_token", teacher_token, "\t", "secret_key ", secret_key)
