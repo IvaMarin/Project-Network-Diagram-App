@@ -37,6 +37,7 @@ class encrypt_decrypt():
                 
             
             extracted_zip.extractall(path=self.pathToDecry ,pwd=self.secret_password)
+        self.delZipFile(fileName='encrypted_data.zip')
 
     def addFileInZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # добавление файла в существующий архив по имени этого файла
         if fileName in self.exceptToZipFile:
@@ -103,6 +104,14 @@ class encrypt_decrypt():
             return
         else: 
             os.remove(fileName) 
+
+    def delImaFromZip(self, nameZipFile = 'encrypted_data.zip'): # удаление изображений из архива
+        self.decryptAll()
+        files = os.listdir(self.pathToEncry)
+        photoFiles = [file for file in files if ".jpg" in file]
+        for file in photoFiles:
+            self.delFile(file)
+        self.encryptAll()
 
 
 
