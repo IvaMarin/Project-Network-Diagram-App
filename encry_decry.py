@@ -4,56 +4,61 @@ import pyzipper
 
 class encrypt_decrypt():
     def __init__(self):
+        self.secret_password = b'pirat_encrypt123'
+        self.pathToEncry = os.path.abspath(os.curdir) + '\\encrypted_data'
 
-        pass
-
-    def encrypt():
-        # files = ["words1.txt", "words2.txt", "words3.txt", "words4.txt", "words5.txt"]
-        pathToEncry = os.path.abspath(os.curdir) + '\\test_encry'
+    def encrypt(self, nameZipFile = 'encrypted_data.zip'):
         print("\n")
-        print(pathToEncry)
+        print(self.pathToEncry)
         print("\n")
-        files = os.listdir(pathToEncry)
+        files = os.listdir(self.pathToEncry)
 
         print(files)
 
         ###################################################################
-    secret_password = b'pirat_encrypt123'
+        
 
-    with pyzipper.AESZipFile('encry_data.zip',
-                            'w',
-                            compression=pyzipper.ZIP_LZMA,
-                            encryption=pyzipper.WZ_AES) as zf:
-        zf.setpassword(secret_password)
-        # zf.write('test.txt')
+        with pyzipper.AESZipFile(nameZipFile,
+                                'w',
+                                compression=pyzipper.ZIP_LZMA,
+                                encryption=pyzipper.WZ_AES) as zf:
+            zf.setpassword(self.secret_password)
 
-        for file in files:
-            zf.write('test_encry' + '\\' + file)
+            for file in files:
+                zf.write(file)
 
-    # with pyzipper.AESZipFile(pathToEncry + '\\encry_data.zip') as zf:
-    #     zf.setpassword(secret_password)
-        # my_secrets = zf.read(pathToEncry + '\\test.txt')
-        # print(my_secrets)
+        # with pyzipper.AESZipFile(pathToEncry + '\\encrypted_data.zip') as zf:
+        #     zf.setpassword(secret_password)
+            # my_secrets = zf.read(pathToEncry + '\\test.txt')
+            # print(my_secrets)
 
-    input()
+        # input()
 
-    with pyzipper.AESZipFile('encry_data.zip', 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
-            as extracted_zip:
-        try:
-            extracted_zip.extractall(pwd=secret_password)
-        except RuntimeError as ex:
-            print(ex)
-###################################################################
+        # with pyzipper.AESZipFile('encrypted_data.zip', 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
+        #         as extracted_zip:
+        #     try:
+        #         extracted_zip.extractall(pwd=secret_password)
+        #     except RuntimeError as ex:
+        #         print(ex)
+    ###################################################################
+    def decrypt(self, nameZipFile = 'encrypted_data.zip'):
+        with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
+                as extracted_zip:
+            try:
+                extracted_zip.extractall(pwd=self.secret_password)
+            except RuntimeError as ex:
+                print(ex)
+
 
 
 
 # def encrypt(path):
-#     filename = 'test_encry\\test_tnp.txt'
+#     filename = 'encrypted_data\\test_tnp.txt'
 #     if os.path.exists(filename):
 #         os.chmod(filename, )
 
 # def encrypt111():
-#     path = "D:\\projectMil\\myProj\\Military-Project\\test_encry"
+#     path = "D:\\projectMil\\myProj\\Military-Project\\encrypted_data"
 #     file_dir = os.listdir(path)
 
 #     with zipfile.ZipFile('test.zip', mode='w', \
@@ -62,7 +67,7 @@ class encrypt_decrypt():
 #             add_file = os.path.join(path, file)
 #             zf.write(add_file)
 
-    # filename = 'test_encry\\test_tnp.txt'
+    # filename = 'encrypted_data\\test_tnp.txt'
     # if os.path.exists(filename):
     #     jungle_zip = zipfile.ZipFile(os.path(filename), 'w')
     #     jungle_zip.write(os.path(filename), compress_type=zipfile.ZIP_DEFLATED)
@@ -86,7 +91,7 @@ class encrypt_decrypt():
 # shuf -n5 /usr/share/dict/words > words.txt
 # def encrypt():
 #     # files = ["words1.txt", "words2.txt", "words3.txt", "words4.txt", "words5.txt"]
-#     pathToEncry = os.path.abspath(os.curdir) + '\\test_encry'
+#     pathToEncry = os.path.abspath(os.curdir) + '\\encrypted_data'
 #     print("\n")
 #     print(pathToEncry)
 #     print("\n")
@@ -99,7 +104,7 @@ class encrypt_decrypt():
 # ###################################################################
 #     secret_password = b'pirat_encrypt123'
 
-#     with pyzipper.AESZipFile('encry_data.zip',
+#     with pyzipper.AESZipFile('encrypted_data.zip',
 #                             'w',
 #                             compression=pyzipper.ZIP_LZMA,
 #                             encryption=pyzipper.WZ_AES) as zf:
@@ -107,16 +112,16 @@ class encrypt_decrypt():
 #         # zf.write('test.txt')
 
 #         for file in files:
-#             zf.write('test_encry' + '\\' + file)
+#             zf.write('encrypted_data' + '\\' + file)
 
-    # with pyzipper.AESZipFile(pathToEncry + '\\encry_data.zip') as zf:
+    # with pyzipper.AESZipFile(pathToEncry + '\\encrypted_data.zip') as zf:
     #     zf.setpassword(secret_password)
         # my_secrets = zf.read(pathToEncry + '\\test.txt')
         # print(my_secrets)
 
 #     input()
 
-#     with pyzipper.AESZipFile('encry_data.zip', 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
+#     with pyzipper.AESZipFile('encrypted_data.zip', 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
 #             as extracted_zip:
 #         try:
 #             extracted_zip.extractall(pwd=secret_password)
@@ -144,4 +149,11 @@ class encrypt_decrypt():
 if __name__ == "__main__":
     
     encry_decry = encrypt_decrypt()
-    # encrypt()
+    encry_decry.encrypt()
+
+    input()
+
+    encry_decry.decrypt()
+
+
+    
