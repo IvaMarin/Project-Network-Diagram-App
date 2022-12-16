@@ -30,6 +30,7 @@ from docx.shared import Inches, Mm
 import win32event
 import win32comext.shell.shell as shell
 import comtypes.client
+from transliterate import translit, get_available_language_codes
 
 # from borb.pdf import Document
 # from borb.pdf import Page
@@ -1742,7 +1743,7 @@ class Window6(QMainWindow):
             strTemp = str(6)+str(i)+".jpg"
             encrypt.addFileInZip(strTemp)
 
-        # MainWindow.creatReport()
+        MainWindow.creatReport()
         self.backMainMenu()
 
         # MainWindow.creatReport()
@@ -2133,7 +2134,7 @@ class WindowMenu(QMainWindow):
         if properties.enter_teacher_mode[1]:
             document.add_paragraph('Режим преподавателя был включен')
         try:
-            document.add_picture('encrypted_data\\2.jpg', width=Inches(9.5))
+            document.add_picture('encrypted_data\\2.jpg', width=Inches(8.5))
         except:
             pass
         document.add_page_break()
@@ -2185,9 +2186,11 @@ class WindowMenu(QMainWindow):
             document.add_picture('encrypted_data\\6_hist.jpg', width=Inches(5))
         except:
             pass
-        str_temp = self.surname + '_' + self.numGroup + '_' + self.numINGroup
+
+        str_temp = translit(self.surname, 'ru') + '_' + self.numGroup + '_' + self.numINGroup
         document.save('encrypted_data\\' + str_temp + '.docx')
         encrypt.addFileInZip(str_temp + '.docx')
+        encrypt.delImaFromZip()
 
 
     def openTask (self, numTask):
