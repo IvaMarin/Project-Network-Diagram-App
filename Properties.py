@@ -208,6 +208,16 @@ class Properties():
             with open(f'answer/states_of_graphs_{i}/state_{self.variant}_task_{subtask}.pickle', 'rb') as file:
                 graph = pickle.load(file)
         return graph
+
+
+    def get_gft(self, i, subtask = 0):
+        if subtask == 0:
+            with open(f'answer/states_of_graphs_{i}/state_1.pickle', 'rb') as file:
+                graph = pickle.load(file)
+        else:
+            with open(f'answer/states_of_graphs_{i}/state_1_task_{subtask}.pickle', 'rb') as file:
+                graph = pickle.load(file)
+        return graph
 #######################################################################################################################
 
 
