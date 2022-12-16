@@ -167,7 +167,7 @@ class Ui_MainWindow1(object):
         self.toolBar.addAction(self.actionbtnCheck)
         self.toolBar.addAction(self.actionbtnInfo)
         self.toolBar.addAction(self.actionHelp)
-        self.toolBar.addAction(self.actionSolveTask)
+        # self.toolBar.addAction(self.actionSolveTask)s
         self.toolBar.addAction(self.actionbtnHome)
 
         self.retranslateUi(MainWindow1)
