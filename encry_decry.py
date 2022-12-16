@@ -1,13 +1,15 @@
 import os 
-import zipfile
-import pyzipper
+import zipfile # либа для работы с архивами .zip
+import pyzipper # либа для шифрования архивов, работает на основе либы zipfile 
 
 class encrypt_decrypt():
     def __init__(self):
-        self.secret_password = b'pirat_encrypt123'
-        self.pathToEncry = os.path.abspath(os.curdir) + '\\encrypted_data'
+        self.secret_password = b'pirat_encrypt123' # пароль для архива
+        self.pathToEncry = os.path.abspath(os.curdir) + '\\encrypted_data' # путь до дирриктории в которой лежат файлы которые нужно шифровать
+        self.pathToDecry = os.path.abspath(os.curdir) # путь до дирриктории куда надо положить расшифрованную папку
+        self.exceptToZipFile = ['encry_decry.py'] # файлы которые не нужно шифровать в данной дирректории
 
-    def encrypt(self, nameZipFile = 'encrypted_data.zip'):
+    def encryptAll(self, nameZipFile = 'encrypted_data.zip'): # функция шифрования всех нужных нам файлов
         print("\n")
         print(self.pathToEncry)
         print("\n")
@@ -15,145 +17,111 @@ class encrypt_decrypt():
 
         print(files)
 
-        ###################################################################
-        
+        for filename in self.exceptToZipFile: # удаление из списка файлов для шифрования файлы исключения 
+            files.remove(filename)
 
         with pyzipper.AESZipFile(nameZipFile,
                                 'w',
                                 compression=pyzipper.ZIP_LZMA,
+                                encryption=pyzipper.WZ_AES) as zf: # открываем архиф и далее работаем с ним после окончания with он закроется сам
+            zf.setpassword(self.secret_password) # устанавливаем пароль 
+
+            for file in files: # добавляем файлы в архив 
+                zf.write('encrypted_data\\' + file)
+
+        self.clearDir()
+        
+    def decryptAll(self, nameZipFile = 'encrypted_data.zip'): # расшифровываем весь архив 
+        with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
+                as extracted_zip:
+                
+            
+            extracted_zip.extractall(path=self.pathToDecry ,pwd=self.secret_password)
+
+    def addFileInZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # добавление файла в существующий архив по имени этого файла
+        if fileName in self.exceptToZipFile:
+            print("Файл находится в списке исключений")
+            return
+        with pyzipper.AESZipFile(nameZipFile,
+                                'a',
+                                compression=pyzipper.ZIP_LZMA,
                                 encryption=pyzipper.WZ_AES) as zf:
             zf.setpassword(self.secret_password)
 
-            for file in files:
-                zf.write(file)
+            zf.write('encrypted_data\\' + fileName)
 
-        # with pyzipper.AESZipFile(pathToEncry + '\\encrypted_data.zip') as zf:
-        #     zf.setpassword(secret_password)
-            # my_secrets = zf.read(pathToEncry + '\\test.txt')
-            # print(my_secrets)
+    def extractFileFromZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # извлечение файла по имени из архива
 
-        # input()
-
-        # with pyzipper.AESZipFile('encrypted_data.zip', 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
-        #         as extracted_zip:
-        #     try:
-        #         extracted_zip.extractall(pwd=secret_password)
-        #     except RuntimeError as ex:
-        #         print(ex)
-    ###################################################################
-    def decrypt(self, nameZipFile = 'encrypted_data.zip'):
         with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
                 as extracted_zip:
-            try:
-                extracted_zip.extractall(pwd=self.secret_password)
-            except RuntimeError as ex:
-                print(ex)
+                fileName = 'encrypted_data' '/' + fileName # нельзя использовать слеши как в пути в виндус с экранированием нужно юзать / он сам поменяется на то что нужно для архива (в винде на \\)
+                extracted_zip.extract(member=fileName, path=self.pathToDecry ,pwd=self.secret_password)
 
 
+    def clearDir(self):# удаляем все файлы вне архива кроме файлов исключений (.py и .zip)
+        print("\n")
+        print(self.pathToEncry)
+        print("\n")
+        files = os.listdir(self.pathToEncry)
 
+        print(files)
 
-# def encrypt(path):
-#     filename = 'encrypted_data\\test_tnp.txt'
-#     if os.path.exists(filename):
-#         os.chmod(filename, )
+        zipFiles = [file for file in files if ".zip" in file]
 
-# def encrypt111():
-#     path = "D:\\projectMil\\myProj\\Military-Project\\encrypted_data"
-#     file_dir = os.listdir(path)
+        for filename in self.exceptToZipFile: # удаление из списка файлов для удаления файлы исключения 
+            files.remove(filename)
 
-#     with zipfile.ZipFile('test.zip', mode='w', \
-#                          compression=zipfile.ZIP_DEFLATED) as zf:
-#         for file in file_dir:
-#             add_file = os.path.join(path, file)
-#             zf.write(add_file)
+        for filename in zipFiles: # удаление из списка файлов для удаления файлы .zip 
+            files.remove(filename)
 
-    # filename = 'encrypted_data\\test_tnp.txt'
-    # if os.path.exists(filename):
-    #     jungle_zip = zipfile.ZipFile(os.path(filename), 'w')
-    #     jungle_zip.write(os.path(filename), compress_type=zipfile.ZIP_DEFLATED)
-        
-    #     jungle_zip.close()
+        for file in files:
+            if os.path.isfile(self.pathToEncry + '\\' + file): 
+                print(file)
+                os.remove(self.pathToEncry + '\\' + file) 
+                print("success") 
+            else: 
+                print("File doesn't exists!")
 
+    def delFile(self, fileName): #  удаляем файл по названию не из архива
 
-# path = '/home/docs-python/script/sql-script/'
-# file_dir = os.listdir(path)
+        files = os.listdir(self.pathToEncry)
 
-# with zipfile.ZipFile('test.zip', mode='w', \
-#                      compression=zipfile.ZIP_DEFLATED) as zf:
-#     for file in file_dir:
-#         add_file = os.path.join(path, file)
-#         zf.write(add_file)
+        zipFiles = [file for file in files if ".zip" in file]
 
-# >>> os.system('file test.zip')
-# # test.zip: Zip archive data, at least v2.0 to extract
-
-
-# shuf -n5 /usr/share/dict/words > words.txt
-# def encrypt():
-#     # files = ["words1.txt", "words2.txt", "words3.txt", "words4.txt", "words5.txt"]
-#     pathToEncry = os.path.abspath(os.curdir) + '\\encrypted_data'
-#     print("\n")
-#     print(pathToEncry)
-#     print("\n")
-#     files = os.listdir(pathToEncry)
-
-#     print(files)
-
+        if fileName in self.exceptToZipFile or fileName in zipFiles:
+            print("Файл находится в списке исключений")
+            return
+        else: 
+            os.remove(self.pathToEncry + '\\' + fileName) 
     
+    def delZipFile(self, fileName):# удаление zip архив по названию файла
 
-# ###################################################################
-#     secret_password = b'pirat_encrypt123'
-
-#     with pyzipper.AESZipFile('encrypted_data.zip',
-#                             'w',
-#                             compression=pyzipper.ZIP_LZMA,
-#                             encryption=pyzipper.WZ_AES) as zf:
-#         zf.setpassword(secret_password)
-#         # zf.write('test.txt')
-
-#         for file in files:
-#             zf.write('encrypted_data' + '\\' + file)
-
-    # with pyzipper.AESZipFile(pathToEncry + '\\encrypted_data.zip') as zf:
-    #     zf.setpassword(secret_password)
-        # my_secrets = zf.read(pathToEncry + '\\test.txt')
-        # print(my_secrets)
-
-#     input()
-
-#     with pyzipper.AESZipFile('encrypted_data.zip', 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
-#             as extracted_zip:
-#         try:
-#             extracted_zip.extractall(pwd=secret_password)
-#         except RuntimeError as ex:
-#             print(ex)
-# ###################################################################
+        if fileName in self.exceptToZipFile:
+            print("Файл находится в списке исключений")
+            return
+        else: 
+            os.remove(fileName) 
 
 
-        # info = zf.infolist()  # also zf.namelist()
-        # print(info)
-        # [ <ZipInfo filename='words1.txt' filemode='-rw-r--r--' file_size=37>,
-        #   <ZipInfo filename='words2.txt' filemode='-rw-r--r--' file_size=47>,
-        #   ... ]
 
-        # file = info[0]
-        # with zf.open(file) as f:
-        #     print(f.read().decode())
-        #     # Olav
-        #     # teakettles
-        #     # ...
 
-        # так же, попробуйте zf.extractall()
-        # zf.extract(file, "/tmp", pwd=password)
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     
-    encry_decry = encrypt_decrypt()
-    encry_decry.encrypt()
+#     encry_decry = encrypt_decrypt()
+#     # encry_decry.encryptAll()
 
-    input()
+#     # input()
 
-    encry_decry.decrypt()
+#     # encry_decry.addFileInZip("test1.json")
+#     # encry_decry.delFile("test1.json")
+#     # encry_decry.extractFileFromZip("test.json")
+
+
+#     encry_decry.decryptAll()
+
+ 
+
 
 
     

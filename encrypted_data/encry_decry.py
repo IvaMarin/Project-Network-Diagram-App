@@ -33,10 +33,9 @@ class encrypt_decrypt():
     def decryptAll(self, nameZipFile = 'encrypted_data.zip'): # расшифровываем весь архив 
         with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
                 as extracted_zip:
-            try:
-                extracted_zip.extractall(path=self.pathToEncry ,pwd=self.secret_password)
-            except RuntimeError as ex:
-                print(ex)
+                
+            
+            extracted_zip.extractall(path=self.pathToEncry ,pwd=self.secret_password)
 
     def addFileInZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # добавление файла в существующий архив по имени этого файла
         if fileName in self.exceptToZipFile:
@@ -59,7 +58,7 @@ class encrypt_decrypt():
             except RuntimeError as ex:
                 print(ex)
 
-    def clearDir(self):
+    def clearDir(self):# удаляем все файлы вне архива кроме файлов исключений (.py и .zip)
         print("\n")
         print(self.pathToEncry)
         print("\n")
@@ -83,7 +82,7 @@ class encrypt_decrypt():
             else: 
                 print("File doesn't exists!")
 
-    def delFile(self, fileName):
+    def delFile(self, fileName): #  удаляем файл по названию не из архива
 
         files = os.listdir(self.pathToEncry)
 
@@ -94,21 +93,34 @@ class encrypt_decrypt():
             return
         else: 
             os.remove(fileName) 
+    
+    def delZipFile(self, fileName):# удаление zip архив по названию файла
+
+        if fileName in self.exceptToZipFile:
+            print("Файл находится в списке исключений")
+            return
+        else: 
+            os.remove(fileName) 
+
+
 
 
 
 if __name__ == "__main__":
     
     encry_decry = encrypt_decrypt()
-    encry_decry.encryptAll()
+    # encry_decry.encryptAll()
 
     # input()
 
-    # encry_decry.addFileInZip("test.json")
+    # encry_decry.addFileInZip("test1.json")
+    # encry_decry.delFile("test1.json")
+    # encry_decry.extractFileInZip("test.json")
 
-    # encry_decry.decryptAll()
 
-    #encry_decry.extractFileInZip("test.json")
+    encry_decry.decryptAll()
+
+ 
 
 
 
