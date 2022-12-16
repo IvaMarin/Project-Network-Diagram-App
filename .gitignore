@@ -1,3 +1,3 @@
 *.pyc
-/encrypted_data/teacher_token.txt
+/encrypted_key/teacher_token.txt
 /key_prepoda_tipa_fleshka/teacher_token.txt

@@ -144,7 +144,7 @@ class Properties():
         try:
             with open(key_path, "rb") as file:
                 secret_key = file.read()
-            tmp_path = join(basedir, "encrypted_data")
+            tmp_path = join(basedir, "encrypted_key")
             print("TMP_PATH ", tmp_path)
             teacher_token = decrypt_file(tmp_path, "teacher_token.txt") ####### ОШИБКА
             print("teacher_token", teacher_token, "\t", "secret_key ", secret_key)
@@ -206,6 +206,16 @@ class Properties():
                 graph = pickle.load(file)
         else:
             with open(f'answer/states_of_graphs_{i}/state_{self.variant}_task_{subtask}.pickle', 'rb') as file:
+                graph = pickle.load(file)
+        return graph
+
+
+    def get_gft(self, i, subtask = 0):
+        if subtask == 0:
+            with open(f'answer/states_of_graphs_{i}/state_1.pickle', 'rb') as file:
+                graph = pickle.load(file)
+        else:
+            with open(f'answer/states_of_graphs_{i}/state_1_task_{subtask}.pickle', 'rb') as file:
                 graph = pickle.load(file)
         return graph
 #######################################################################################################################

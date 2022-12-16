@@ -218,7 +218,6 @@ class Window1(QMainWindow):
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
 
-
                 if properties.teacherMode:
                     properties.save_graph_for_teacher(graph1, 1)
 
@@ -322,7 +321,12 @@ class Window1(QMainWindow):
         else:
             #print("Режим студента")
             #graph_student = properties.get_graph_for_student(1)
-            self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
+            if (statusTask.get_verification_passed_pretasks(2)):
+                save_graph_for_student_1 = properties.get_graph_for_student(1)
+                self.DisplayObj.graph = save_graph_for_student_1
+            else:
+                self.DisplayObj.graph = graph1
+            # подгружаем граф из нашего общего графа  // здесь поправить нужно
             self.DisplayObj.update()
 
             self.ui.actionbtnCheck.setEnabled(True)
@@ -617,7 +621,12 @@ class Window2(QMainWindow):
                         except ValueError:
                             pass
 
-            self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
+            if (statusTask.get_verification_passed_pretasks(3)):
+                save_graph_for_student_1 = properties.get_graph_for_student(2)
+                self.DisplayObj.graph = save_graph_for_student_1
+            else:
+                self.DisplayObj.graph = graph1
+            #self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
             self.DisplayObj.update()
 
             self.ui.actionbtnCheck.setEnabled(True)
@@ -814,7 +823,11 @@ class Window3(QMainWindow):
             self.ui.actionbtnDottedConnectNode.setEnabled(False)
         else:
             #graph_student = properties.get_graph_for_student(1)
-            self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
+            if (statusTask.get_verification_passed_pretasks(4)):
+                save_graph_for_student_1 = properties.get_graph_for_student(3)
+                self.DisplayObj.graph = save_graph_for_student_1
+            else:
+                self.DisplayObj.graph = graph1
             self.DisplayObj.update()
 
             self.ui.actionbtnCheck.setEnabled(True)
@@ -1004,7 +1017,12 @@ class Window4(QMainWindow):
             self.ui.actionbtnDottedConnectNode.setEnabled(False)
         else:
             #graph_student = properties.get_graph_for_student(1)
-            self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
+            if (statusTask.get_verification_passed_pretasks(5)):
+                save_graph_for_student_1 = properties.get_graph_for_student(4)
+                self.DisplayObj.graph = save_graph_for_student_1
+            else:
+                self.DisplayObj.graph = graph1
+
             self.DisplayObj.update()
 
             self.ui.actionbtnCheck.setEnabled(True)
@@ -1405,6 +1423,7 @@ class Window5(QMainWindow):
                 # for i in range(self.squadNum):
                 #     self.widgetList[i].graph = save_graph_for_student_5_3[i] # подгружаем граф из нашего общего графа
                 #     self.widgetList[i].update()
+                MainWindow.ui.btnTask6.setEnabled(True)
 
             self.checkForm = task5CheckForm(self, mistakes, 3)
             self.checkForm.exec_()
@@ -1515,7 +1534,11 @@ class Window5(QMainWindow):
             print(subtask, ' ', type(subtask))
             #graph_student = properties.get_graph_for_student(1)
             for i in range(self.squadNum):
-                self.widgetList[i].graph = graph5_ort[i] # подгружаем граф из нашего общего графа
+                if (statusTask.get_verification_passed_pretasks(6)):
+                    save_graph_for_student_1 = properties.get_graph_for_student(5, i)
+                    self.DisplayObj.graph = save_graph_for_student_1
+                else:
+                    self.widgetList[i].graph = graph5_ort[i] #подгружаем граф из нашего общего графа
                 self.widgetList[i].update()
 
             if subtask == 1:
@@ -1926,16 +1949,17 @@ class WindowMenu(QMainWindow):
         close.setWindowTitle("Закрыть приложение")
         close.setText("Вы уверены, что хотите закрыть приложение?")
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        properties.clear_answer(1)
-        properties.clear_answer(2)
-        properties.clear_answer(3)
-        properties.clear_answer(4)
-        #properties.clear_answer(5) #тут для 5 задания
         close.setWindowFlags(Qt.WindowStaysOnTopHint)
 
         close = close.exec()
 
         if close == QMessageBox.Ok:
+            properties.clear_answer(1)
+            properties.clear_answer(2)
+            properties.clear_answer(3)
+            properties.clear_answer(4)
+            for i in range(squadNum):
+                properties.clear_answer(5, i)
             event.accept()
         else:
             event.ignore()
@@ -2034,6 +2058,8 @@ class WindowMenu(QMainWindow):
                 lpParameters=printer.printerName()
             )
             win32event.WaitForSingleObject(handle['hProcess'], -1)
+
+
         #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
         # else:
         #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
