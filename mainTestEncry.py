@@ -7,13 +7,18 @@ if __name__ == "__main__":
 
     # input()
 
-    # encry_decry.addFileInZip("tests.txt")
+    # encry_decry.addFileInZip("image2.jpg")
     # encry_decry.delFile("tests.txt")
     # input()
-    # encry_decry.extractFileFromZip("test.json")
+    #encry_decry.extractFileFromZip("test.json")
     # encry_decry.extractFileFromZip("tests.txt")
+    # encry_decry.delImaFromZip()
+
+    # encry_decry.extractAllDocxFile()
+    encry_decry.reEncrypt()
 
 
-    encry_decry.decryptAll()
+
+    # encry_decry.decryptAll()
 
  

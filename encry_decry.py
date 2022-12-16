@@ -7,7 +7,7 @@ class encrypt_decrypt():
         self.secret_password = b'pirat_encrypt123' # пароль для архива
         self.pathToEncry = os.path.abspath(os.curdir) + '\\encrypted_data' # путь до дирриктории в которой лежат файлы которые нужно шифровать
         self.pathToDecry = os.path.abspath(os.curdir) # путь до дирриктории куда надо положить расшифрованную папку
-        self.exceptToZipFile = ['encry_decry.py'] # файлы которые не нужно шифровать в данной дирректории
+        self.exceptToZipFile = [] # файлы которые не нужно шифровать в данной дирректории encry_decry.py
 
     def encryptAll(self, nameZipFile = 'encrypted_data.zip'): # функция шифрования всех нужных нам файлов
         print("\n")
@@ -37,6 +37,7 @@ class encrypt_decrypt():
                 
             
             extracted_zip.extractall(path=self.pathToDecry ,pwd=self.secret_password)
+        self.delZipFile(fileName='encrypted_data.zip')
 
     def addFileInZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # добавление файла в существующий архив по имени этого файла
         if fileName in self.exceptToZipFile:
@@ -103,6 +104,27 @@ class encrypt_decrypt():
             return
         else: 
             os.remove(fileName) 
+
+    def delImaFromZip(self, nameZipFile = 'encrypted_data.zip'): # удаление изображений из архива
+        self.decryptAll()
+        files = os.listdir(self.pathToEncry)
+        photoFiles = [file for file in files if ".jpg" in file]
+        for file in photoFiles:
+            self.delFile(file)
+        self.encryptAll()
+
+    def extractAllDocxFile(self):
+        self.decryptAll()
+        files = os.listdir(self.pathToEncry)
+        docxFiles = [file for file in files if ".docx" in file]
+        for filename in docxFiles: #  
+            files.remove(filename)
+        for filename in files:
+            self.addFileInZip(fileName=filename)
+
+    def reEncrypt(self):
+        self.decryptAll()
+        self.encryptAll()
 
 
 
