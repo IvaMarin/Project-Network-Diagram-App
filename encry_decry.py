@@ -50,6 +50,8 @@ class encrypt_decrypt():
 
             zf.write('encrypted_data\\' + fileName)
 
+        self.delFile(fileName)
+
     def extractFileFromZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # извлечение файла по имени из архива
 
         with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
