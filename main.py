@@ -1422,8 +1422,6 @@ class Window5(QMainWindow):
                     strTemp = str(5)+str(i)+".jpg"
                     encrypt.addFileInZip(strTemp)
 
-                encrypt.addFileInZip('1.jpg')
-
                 self.ui.actionbtnCheck.setVisible(False)
                 for i in self.widgetList:
                     i.functionAble = ""
