@@ -482,11 +482,25 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
                 print(cell, "\t", sep="")
             print()
 
+        # tmpTableVar = []
+        # for i in range(3,len(tabelVar)):
+        #     tmpTableVar.append([])
+        #     for j in range(len(tabelVar[i])):
+        #         tmpTableVar[-1].append(tabelVar[i][j])
+
         tmpTableVar = []
-        for i in range(3,len(tabelVar)):
+        for i in range(len(tabelVar)):
             tmpTableVar.append([])
-            for j in range(len(tabelVar[i])):
-                tmpTableVar[-1].append(tabelVar[i][j])
+            for j in range(4,len(tabelVar[i])):
+                if tabelVar[i][j]:
+                    tmpTableVar[-1].append(tabelVar[i][j])
+                else:
+                    break
+            if tmpTableVar[-1]: # если аоследний элемент списка количества людей пуст то удаляем этот элемент и заканчиваем цикл
+                continue
+            else:
+                tmpTableVar.pop(-1)
+                break
 
         print("tmpTableVar")
         for row in tmpTableVar:
@@ -495,13 +509,15 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
             print()
 
         self.ui.tableNumPeopleInSquad.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
+        countColumns = 0
 
         for list in tmpTableVar:
             rowPosition = self.ui.tableNumPeopleInSquad.rowCount()  # генерируем строку в таблице для записи в нее чиселок
             self.ui.tableNumPeopleInSquad.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
             for item in list:
+                print("tmpTableVar ", item)
                 if countColumns >= 0:
-                    self.ui.tableNumPeopleInSquad.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
+                    self.ui.tableNumPeopleInSquad.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(str(item)))  # заполняем "строку таблицы из файла", каждую ячейку
                 countColumns = countColumns + 1
             countColumns = 0
 
