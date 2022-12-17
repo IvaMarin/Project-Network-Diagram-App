@@ -4,7 +4,7 @@ from transliterate import translit, get_available_language_codes
 if __name__ == "__main__":
     
     encry_decry = encrypt_decrypt()
-    # encry_decry.encryptAll()
+    encry_decry.encryptAll()
 
     # input()
     #print(translit("Иванов", language_code='ru',reversed=True))
