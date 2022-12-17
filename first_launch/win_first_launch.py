@@ -35,7 +35,7 @@ class Ui_first_launch(object):
         _translate = QtCore.QCoreApplication.translate
         first_launch.setWindowTitle(_translate("first_launch", "Регистрация ключа преподавателя в системе"))
         self.btnSearchPathToKey.setText(_translate("first_launch", "Указать путь до\n"
-"ключа преподаваьеля\n"
+"ключа преподавателя\n"
 "в файловой системе"))
 
 
