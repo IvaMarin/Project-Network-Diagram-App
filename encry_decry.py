@@ -7,7 +7,7 @@ class encrypt_decrypt():
         self.secret_password = b'pirat_encrypt123' # пароль для архива
         self.pathToEncry = os.path.abspath(os.curdir) + '\\encrypted_data' # путь до дирриктории в которой лежат файлы которые нужно шифровать
         self.pathToDecry = os.path.abspath(os.curdir) # путь до дирриктории куда надо положить расшифрованную папку
-        self.exceptToZipFile = [] # файлы которые не нужно шифровать в данной дирректории encry_decry.py
+        self.exceptToZipFile = ['bfn.py'] # файлы которые не нужно шифровать в данной дирректории encry_decry.py
 
     def encryptAll(self, nameZipFile = 'encrypted_data.zip'): # функция шифрования всех нужных нам файлов
         print("\n")
