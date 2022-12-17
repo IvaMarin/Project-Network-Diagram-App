@@ -15,6 +15,7 @@ from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 ### Для обработки .xlsx файлов ##############
 import openpyxl
 from PIL import Image
+from encry_decry import encrypt_decrypt
 
 ### Для обработки .pdf файлов ###############
 from docx2pdf import convert
@@ -29,6 +30,7 @@ from docx.shared import Inches, Mm
 import win32event
 import win32comext.shell.shell as shell
 import comtypes.client
+from transliterate import translit, get_available_language_codes
 
 # from borb.pdf import Document
 # from borb.pdf import Page
@@ -233,6 +235,7 @@ class Window1(QMainWindow):
                 #print(self.DisplayObj.size().height)
                 statusTask.set__verification_passed_task(1)
                 self.DisplayObj.save()
+                encrypt.addFileInZip('1.jpg')
                 MainWindow.ui.btnTask2.setEnabled(True)
 
                 self.lockUi()
@@ -548,6 +551,7 @@ class Window2(QMainWindow):
                     self.DisplayObj.graph = save_graph_for_student_2
                     statusTask.set__verification_passed_task(2)
                     self.DisplayObj.save()
+                    encrypt.addFileInZip('2.jpg')
                     MainWindow.ui.btnTask3.setEnabled(True)
                     self.lockUi()
 
@@ -755,6 +759,7 @@ class Window3(QMainWindow):
                 # self.DisplayObj.graph = save_graph_3
 
                 self.DisplayObj.save(3)
+                encrypt.addFileInZip('3.jpg')
                 MainWindow.ui.btnTask4.setEnabled(True)
                 self.lockUi()
 
@@ -951,6 +956,7 @@ class Window4(QMainWindow):
                 self.DisplayObj.graph = save_graph_for_student_4
 
                 self.DisplayObj.save(4)
+                encrypt.addFileInZip('4.jpg')
                 MainWindow.ui.btnTask5.setEnabled(True)
                 self.lockUi()
 
@@ -1423,8 +1429,12 @@ class Window5(QMainWindow):
 
                 for i in range(len(self.images)):
                     strTemp = str(5)+str(i)+".jpg"
-                    self.images[i].save(strTemp)
-                self.ui.actionbtnInfo.setVisible(False)
+                    self.images[i].save('encrypted_data\\'+strTemp)
+
+                for i in range(len(self.images)):
+                    strTemp = str(5)+str(i)+".jpg"
+                    encrypt.addFileInZip(strTemp)
+
                 self.ui.actionbtnCheck.setVisible(False)
                 for i in self.widgetList:
                     i.functionAble = ""
@@ -1724,12 +1734,20 @@ class Window6(QMainWindow):
         self.msgCheck.setStandardButtons(QMessageBox.Ok)
         self.msgCheck.show()
         self.widgetRight.save()
+        encrypt.addFileInZip('6_hist.jpg')
         for i in range(len(self.images)): # ПОСЛЕ ПРОВЕРКИ
             strTemp = str(6)+str(i)+".jpg"
-            self.images[i].save(strTemp)
+            self.images[i].save('encrypted_data\\'+strTemp)
+
+        for i in range(len(self.images)):
+            strTemp = str(6)+str(i)+".jpg"
+            encrypt.addFileInZip(strTemp)
+
+        MainWindow.creatReport()
+        self.backMainMenu()
 
         # MainWindow.creatReport()
-        self.backMainMenu()
+        #self.backMainMenu()
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked() or self.ui.actionbtnCheck.isChecked():
@@ -2035,6 +2053,7 @@ class WindowMenu(QMainWindow):
 
 
     def watch_report(self):
+        encrypt.extractAllDocxFile()
         self.msg = QMessageBox()
         self.msg.setWindowTitle("Предупреждение")
         self.msg.setText("Ошибка открытия отчёта")
@@ -2067,12 +2086,15 @@ class WindowMenu(QMainWindow):
             #     self.msgCheck.show()
 
             print(pdf_report)
-            self.pdf_widget = PdfWidget(pdf_report)
+            self.pdf_widget = PdfWidget(pdf_report, encrypt)
             self.pdf_widget.show()
+            self.pdf_widget.closeEvent()
+            #os.remove(self.pdf_path)
         except Exception:
             self.msg.show()
 
     def print_report(self):
+        encrypt.extractAllDocxFile()
         printer = QPrinter(QPrinter.HighResolution)
         dialog = QPrintDialog(printer, self)
         if dialog.exec_() == QPrintDialog.Accepted:
@@ -2083,6 +2105,7 @@ class WindowMenu(QMainWindow):
                 lpParameters=printer.printerName()
             )
             win32event.WaitForSingleObject(handle['hProcess'], -1)
+        encrypt.reEncrypt()
 
 
         #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
@@ -2100,65 +2123,78 @@ class WindowMenu(QMainWindow):
         document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
         document.add_paragraph("Вариант: {0}".format(self.numINGroup))
         document.add_page_break()
+        encrypt.extractFileFromZip('1.jpg')
         document.add_heading('Задание 1', 0)
         if properties.enter_teacher_mode[0]:
             document.add_paragraph('Режим преподавателя был включен')
         try:
-            document.add_picture('1.jpg', width=Inches(8.5))
+            document.add_picture('encrypted_data\\1.jpg', width=Inches(8.5))
         except:
             pass
         document.add_page_break()
+        encrypt.extractFileFromZip('2.jpg')
         document.add_heading('Задание 2', 0)
         if properties.enter_teacher_mode[1]:
             document.add_paragraph('Режим преподавателя был включен')
         try:
-            document.add_picture('2.jpg', width=Inches(9.5))
+            document.add_picture('encrypted_data\\2.jpg', width=Inches(8.5))
         except:
             pass
         document.add_page_break()
+        encrypt.extractFileFromZip('3.jpg')
         document.add_heading('Задание 3', 0)
         if properties.enter_teacher_mode[2]:
             document.add_paragraph('Режим преподавателя был включен')
         try:
-            document.add_picture('3.jpg', width=Inches(9.5))
+            document.add_picture('encrypted_data\\3.jpg', width=Inches(9.5))
         except:
             pass
         document.add_page_break()
+        encrypt.extractFileFromZip('4.jpg')
         document.add_heading('Задание 4', 0)
         if properties.enter_teacher_mode[3]:
             document.add_paragraph('Режим преподавателя был включен')
         try:
-            document.add_picture('4.jpg', width=Inches(9.5))
+            document.add_picture('encrypted_data\\4.jpg', width=Inches(9.5))
         except:
             pass
         document.add_page_break()
+        for i in range(squadNum):
+            encrypt.extractFileFromZip(str(5)+str(i)+".jpg")
         document.add_heading('Задание 5', 0)
         if properties.enter_teacher_mode[4]:
             document.add_paragraph('Режим преподавателя был включен')
         for i in range(squadNum):
             try:
                 document.add_heading(str(i+1) + " отделение", 0)
-                document.add_picture(str(5)+str(i)+".jpg", width=Inches(9))
+                document.add_picture('encrypted_data\\'+str(5)+str(i)+".jpg", width=Inches(9))
             except:
                 pass
         document.add_page_break()
+        for i in range(squadNum):
+            encrypt.extractFileFromZip(str(6)+str(i)+".jpg")
         document.add_heading('Задание 6', 0)
         if properties.enter_teacher_mode[5]:
             document.add_paragraph('Режим преподавателя был включен')
         for i in range(squadNum):
             try:
                 document.add_heading(str(i+1) + " отделение", 0)
-                document.add_picture(str(6)+str(i)+".jpg", width=Inches(9))
+                document.add_picture('encrypted_data\\'+str(6)+str(i)+".jpg", width=Inches(9))
             except:
                 pass
         document.add_page_break()
+        encrypt.extractFileFromZip('6_hist.jpg')
         document.add_heading('Гистограмма', 0)
         try:
-            document.add_picture('6_hist.jpg', width=Inches(5))
+            document.add_picture('encrypted_data\\6_hist.jpg', width=Inches(5))
         except:
             pass
 
-        document.save('Отчет по лаборатрной работе.docx')
+        str_temp = translit(self.surname, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
+        document.save('encrypted_data\\' + str_temp + '.docx')
+        encrypt.addFileInZip(str_temp + '.docx')
+        encrypt.delImaFromZip()
+
 
     def openTask (self, numTask):
         if not(self.ui.btnTeacherMode.isChecked()):
@@ -2229,6 +2265,7 @@ class WindowMenu(QMainWindow):
             countColumns = 0
 
 if __name__ == "__main__":
+    encrypt = encrypt_decrypt()
     app = QApplication(sys.argv)
     statusTask = Properties.statusTask()
     MainWindow = WindowMenu()

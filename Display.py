@@ -179,7 +179,7 @@ class Display(QWidget):
                     painter.drawText(int(self.graph.Points[i][0] + offset[0]), int(self.graph.Points[i][1] + offset[1]), f'{i}')
     
     def save(self):
-        self.root.image.save('1.jpg')
+        self.root.image.save('encrypted_data\\1.jpg')
 
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
@@ -395,7 +395,7 @@ class Display2(Display):
 
         self.update()
     def save(self):
-        self.root.image.save('2.jpg')
+        self.root.image.save('encrypted_data\\2.jpg')
     def mousePressEvent(self, event):
         if (self.functionAble == "Критический путь"):
             self.TempPoints = np.append(self.TempPoints, self.graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # добавить в массив выбранных вершин
@@ -533,7 +533,7 @@ class Display3_4(Display):
 
     def save(self,i):
         strTemp = str(i)+".jpg"
-        self.root.image.save(strTemp)
+        self.root.image.save('encrypted_data\\'+strTemp)
 
     def checkEvent3(self):
         mistakes = checker.checkTask3(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
@@ -988,4 +988,4 @@ class DrawHist(QWidget):
             painter.drawLines(linesVert)
 
     def save(self):
-        self.image_hist.save('6_hist.jpg')
+        self.image_hist.save('encrypted_data\\6_hist.jpg')
