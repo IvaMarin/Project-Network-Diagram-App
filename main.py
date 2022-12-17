@@ -2053,13 +2053,21 @@ class WindowMenu(QMainWindow):
 
 
     def watch_report(self):
-        encrypt.extractAllDocxFile()
+        self.msgCheck = QMessageBox()
+        self.msgCheck.setWindowTitle("Предупреждение")
+        try:
+            encrypt.extractAllDocxFile()
+        except Exception as e:
+            self.msgCheck.setText(str(e))
+            self.msgCheck.show()
+        
         self.msg = QMessageBox()
         self.msg.setWindowTitle("Предупреждение")
         self.msg.setText("Ошибка открытия отчёта")
         self.msg.setIcon(QMessageBox.Warning)
         self.msg.setStandardButtons(QMessageBox.Ok)
         try:
+        # if True:
             report = (
                 QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]
             )
@@ -2088,7 +2096,7 @@ class WindowMenu(QMainWindow):
             print(pdf_report)
             self.pdf_widget = PdfWidget(pdf_report, encrypt)
             self.pdf_widget.show()
-            self.pdf_widget.closeEvent()
+            # self.pdf_widget.closeEvent()
             #os.remove(self.pdf_path)
         except Exception:
             self.msg.show()
