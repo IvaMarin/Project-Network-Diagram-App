@@ -2031,7 +2031,6 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask6.setEnabled(True)
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
-            #self.ui.btnTask6.setEnabled(True)
         else:
             self.ui.btnReportSign.setEnabled(False)
             self.ui.btnGenVar.setEnabled(False)
@@ -2042,7 +2041,6 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask4.setEnabled(statusTask.get_verification_passed_tasks(3))
             self.ui.btnTask5.setEnabled(statusTask.get_verification_passed_tasks(4))
             self.ui.btnTask6.setEnabled(statusTask.get_verification_passed_tasks(5))
-            #self.ui.btnTask6.setEnabled(False)
             self.ui.btnTeacherMode.setChecked(False)
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
