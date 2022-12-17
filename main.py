@@ -1747,7 +1747,7 @@ class Window6(QMainWindow):
         self.backMainMenu()
 
         # MainWindow.creatReport()
-        self.backMainMenu()
+        #self.backMainMenu()
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked() or self.ui.actionbtnCheck.isChecked():
@@ -2055,6 +2055,7 @@ class WindowMenu(QMainWindow):
 
 
     def watch_report(self):
+        encrypt.extractAllDocxFile()
         self.msg = QMessageBox()
         self.msg.setWindowTitle("Предупреждение")
         self.msg.setText("Ошибка открытия отчёта")
@@ -2087,12 +2088,15 @@ class WindowMenu(QMainWindow):
             #     self.msgCheck.show()
 
             print(pdf_report)
-            self.pdf_widget = PdfWidget(pdf_report)
+            self.pdf_widget = PdfWidget(pdf_report, encrypt)
             self.pdf_widget.show()
+            self.pdf_widget.closeEvent()
+            #os.remove(self.pdf_path)
         except Exception:
             self.msg.show()
 
     def print_report(self):
+        encrypt.extractAllDocxFile()
         printer = QPrinter(QPrinter.HighResolution)
         dialog = QPrintDialog(printer, self)
         if dialog.exec_() == QPrintDialog.Accepted:
@@ -2103,6 +2107,7 @@ class WindowMenu(QMainWindow):
                 lpParameters=printer.printerName()
             )
             win32event.WaitForSingleObject(handle['hProcess'], -1)
+        encrypt.reEncrypt()
 
 
         #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
@@ -2187,7 +2192,7 @@ class WindowMenu(QMainWindow):
         except:
             pass
 
-        str_temp = translit(self.surname, 'ru') + '_' + self.numGroup + '_' + self.numINGroup
+        str_temp = translit(self.surname, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
         document.save('encrypted_data\\' + str_temp + '.docx')
         encrypt.addFileInZip(str_temp + '.docx')
         encrypt.delImaFromZip()
