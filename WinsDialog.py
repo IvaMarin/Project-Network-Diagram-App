@@ -559,116 +559,116 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
             self.ui.tableNumPeopleInSquad.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(i + 1)))  # заполняем "строку таблицы из файла", каждую ячейку
             
 
-class winSearchKey(QtWidgets.QDialog): # окно для загрузки ключа преподавателя при первом запуске программы
+# class winSearchKey(QtWidgets.QDialog): # окно для загрузки ключа преподавателя при первом запуске программы
 
-    def __init__(self, root): # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
-        """Initializer."""
-        super().__init__(root) # инициализация
+#     def __init__(self, root): # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
+#         """Initializer."""
+#         super().__init__(root) # инициализация
 
-        self.ui = Ui_first_launch() # инициализация ui
-        self.ui.setupUi(self) # инициализация ui окна (присвоение конкретных пар-ов)
-        self.mainMenu = root  # сохраняем нашего родителя
+#         self.ui = Ui_first_launch() # инициализация ui
+#         self.ui.setupUi(self) # инициализация ui окна (присвоение конкретных пар-ов)
+#         self.mainMenu = root  # сохраняем нашего родителя
 
-        self.setWindowFlags(QtCore.Qt.Window |
-                                QtCore.Qt.WindowTitleHint 
-                                | QtCore.Qt.CustomizeWindowHint 
-                                | QtCore.Qt.WindowCloseButtonHint)
+#         self.setWindowFlags(QtCore.Qt.Window |
+#                                 QtCore.Qt.WindowTitleHint 
+#                                 | QtCore.Qt.CustomizeWindowHint 
+#                                 | QtCore.Qt.WindowCloseButtonHint)
 
-        sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
-        width = int(sizeWindow.width() - (sizeWindow.width()) * 2 / 3)      # выставляем ширину окна
-        height = int(sizeWindow.height() - (sizeWindow.height()) * 2 / 3)   # выставляем длину окна
-        # присваиваем параметры длины и ширины окну
-        self.resize(width, height)
+#         sizeWindow = QRect(QApplication.desktop().screenGeometry())         # смотрим размер экраны
+#         width = int(sizeWindow.width() - (sizeWindow.width()) * 2 / 3)      # выставляем ширину окна
+#         height = int(sizeWindow.height() - (sizeWindow.height()) * 2 / 3)   # выставляем длину окна
+#         # присваиваем параметры длины и ширины окну
+#         self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
+#         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
-        basedir = os.path.dirname(__file__)
-        self.encrypted_data_path = self.join(basedir, "encrypted_key")
-        self.first_launch_txt_path = self.join(basedir, "first_launch", "first_launch.txt")
+#         basedir = os.path.dirname(__file__)
+#         self.encrypted_data_path = self.join(basedir, "encrypted_key")
+#         self.first_launch_txt_path = self.join(basedir, "first_launch", "first_launch.txt")
 
-        quit = QAction("Quit", self)  # событие выхода
-        quit.triggered.connect(self.closeEvent)  # если событие выхода срабатывает то вызывается closeEvent
+#         quit = QAction("Quit", self)  # событие выхода
+#         quit.triggered.connect(self.closeEvent)  # если событие выхода срабатывает то вызывается closeEvent
 
-        self.ui.btnSearchPathToKey.setCheckable(True)
+#         self.ui.btnSearchPathToKey.setCheckable(True)
 
-        self._connectAction() # ф-ия связи с эл-тами окна
+#         self._connectAction() # ф-ия связи с эл-тами окна
 
-    def _connectAction(self):
-        self.ui.btnSearchPathToKey.clicked.connect(lambda: self.select_key()) # прописываем действие по кнопке
+#     def _connectAction(self):
+#         self.ui.btnSearchPathToKey.clicked.connect(lambda: self.select_key()) # прописываем действие по кнопке
 
-    def select_key(self):
-        file_name = QtWidgets.QFileDialog.getOpenFileName()[0]
-        if file_name == "":
-            return
+#     def select_key(self):
+#         file_name = QtWidgets.QFileDialog.getOpenFileName()[0]
+#         if file_name == "":
+#             return
 
-        if not os.path.exists(file_name):
-            message_box_create("Первоначальная дешифровка файлов", "Выбранный ключ-файл не существует",
-                               QMessageBox.Critical)
-            return
+#         if not os.path.exists(file_name):
+#             message_box_create("Первоначальная дешифровка файлов", "Выбранный ключ-файл не существует",
+#                                QMessageBox.Critical)
+#             return
 
-        try:
-            with open(file_name, "rb") as file:
-                key = file.read()
-        except Exception:
-            message_box_create("Первоначальная дешифровка файлов", "Выбранный ключ-файл повреждён",
-                               QMessageBox.Critical)
-            return
+#         try:
+#             with open(file_name, "rb") as file:
+#                 key = file.read()
+#         except Exception:
+#             message_box_create("Первоначальная дешифровка файлов", "Выбранный ключ-файл повреждён",
+#                                QMessageBox.Critical)
+#             return
 
-        try:
-            found_files = find_files(Path(self.encrypted_data_path))
-        except Exception:
-            message_box_create("Первоначальная дешифровка файлов", "Не удалось дешифровать файлы программы",
-                               QMessageBox.Critical)
-            return
+#         try:
+#             found_files = find_files(Path(self.encrypted_data_path))
+#         except Exception:
+#             message_box_create("Первоначальная дешифровка файлов", "Не удалось дешифровать файлы программы",
+#                                QMessageBox.Critical)
+#             return
 
-        for file in found_files:
-            try:
-                content = initial_decrypt_file(file, key.decode())
-            except Exception:
-                message_box_create("Первоначальная дешифровка файлов",
-                                   "Выбранный ключ-файл не подходит для дешифровки файлов", QMessageBox.Critical)
-                return
-            if content == b"ERROR_DECRYPT":
-                message_box_create("Первоначальная дешифровка файлов",
-                                   "Выбранный ключ-файл не подходит для дешифровки файлов", QMessageBox.Critical)
-                return
-            nonce, cipher_content, tag = aes_encrypt(content, aes_generate_key())
-            try:
-                with open(file.resolve(), "wb") as output_file:
-                    output_file.write(nonce)
-                    output_file.write(tag)
-                    output_file.write(cipher_content)
-            except Exception:
-                message_box_create("Первоначальная дешифровка файлов", "Не удалось зашифровать файлы программы",
-                                   QMessageBox.Critical)
-                return
-        try:
-            with open(self.first_launch_txt_path, "w") as fd:
-                fd.write("false")
-        except Exception:
-            message_box_create("Первоначальная дешифровка файлов",
-                               "Файлы программы повреждены. Необходимо переустановить программу", QMessageBox.Critical)
-        self.close()
+#         for file in found_files:
+#             try:
+#                 content = initial_decrypt_file(file, key.decode())
+#             except Exception:
+#                 message_box_create("Первоначальная дешифровка файлов",
+#                                    "Выбранный ключ-файл не подходит для дешифровки файлов", QMessageBox.Critical)
+#                 return
+#             if content == b"ERROR_DECRYPT":
+#                 message_box_create("Первоначальная дешифровка файлов",
+#                                    "Выбранный ключ-файл не подходит для дешифровки файлов", QMessageBox.Critical)
+#                 return
+#             nonce, cipher_content, tag = aes_encrypt(content, aes_generate_key())
+#             try:
+#                 with open(file.resolve(), "wb") as output_file:
+#                     output_file.write(nonce)
+#                     output_file.write(tag)
+#                     output_file.write(cipher_content)
+#             except Exception:
+#                 message_box_create("Первоначальная дешифровка файлов", "Не удалось зашифровать файлы программы",
+#                                    QMessageBox.Critical)
+#                 return
+#         try:
+#             with open(self.first_launch_txt_path, "w") as fd:
+#                 fd.write("false")
+#         except Exception:
+#             message_box_create("Первоначальная дешифровка файлов",
+#                                "Файлы программы повреждены. Необходимо переустановить программу", QMessageBox.Critical)
+#         self.close()
 
-    def join(self,*args):
-        return os.path.join(*args).replace(os.path.sep, "/")
+#     def join(self,*args):
+#         return os.path.join(*args).replace(os.path.sep, "/")
     
-    def closeEvent(self, event):
-        if self.ui.btnSearchPathToKey.isChecked():
-            event.accept()  # подтверждаем ивент
-            return
-        close = QMessageBox()
-        close.setWindowTitle("Закрыть окно")
-        close.setText("Вы уверены, что хотите закрыть окно?")  #
-        close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
-        close = close.exec()
-        if close == QMessageBox.Ok:  # если нажали да
-            event.accept()  # подтверждаем ивент
-            if not( self.ui.btnSearchPathToKey.isChecked()):
-                sys.exit()
-        else:  # иначе игнорируем
-            event.ignore()
-        self.ui.btnSearchPathToKey.setChecked(False)
+#     def closeEvent(self, event):
+#         if self.ui.btnSearchPathToKey.isChecked():
+#             event.accept()  # подтверждаем ивент
+#             return
+#         close = QMessageBox()
+#         close.setWindowTitle("Закрыть окно")
+#         close.setText("Вы уверены, что хотите закрыть окно?")  #
+#         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
+#         close = close.exec()
+#         if close == QMessageBox.Ok:  # если нажали да
+#             event.accept()  # подтверждаем ивент
+#             if not( self.ui.btnSearchPathToKey.isChecked()):
+#                 sys.exit()
+#         else:  # иначе игнорируем
+#             event.ignore()
+#         self.ui.btnSearchPathToKey.setChecked(False)
 
 
 

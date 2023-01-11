@@ -60,7 +60,7 @@ from qt_designer_ui.TextTask6 import Ui_TextTask6
 #######################################################
 
 import Display
-from WinsDialog import winSigReport,winLogin,winEditTable,winSearchKey
+from WinsDialog import winSigReport,winLogin,winEditTable
 from task1CheckForm import task1CheckForm
 from qt_designer_ui.task5CheckForm import task5CheckForm
 from task5AddSeq import task5AddSeq
@@ -1852,13 +1852,13 @@ class WindowMenu(QMainWindow):
         self.numINGroup = "9"  # данные о студенте проинициализированы    winSearchKey
 
         self.show()
-        first_launch_txt_path = Properties.join(Properties.basedir,"first_launch", "first_launch.txt")
-        with open(first_launch_txt_path, "r") as file:
-            flag = file.read()
+        # first_launch_txt_path = Properties.join(Properties.basedir,"first_launch", "first_launch.txt")
+        # with open(first_launch_txt_path, "r") as file:
+        #     flag = file.read()
 
-        if flag == "true":
-            self.winSearchKey = winSearchKey(self)
-            self.winSearchKey.exec_()
+        # if flag == "true":
+        #     self.winSearchKey = winSearchKey(self)
+        #     self.winSearchKey.exec_()
 
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow.exec_() # его запуск в отдельном потоке
