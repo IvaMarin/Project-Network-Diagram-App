@@ -1,13 +1,14 @@
 import os 
 import zipfile # либа для работы с архивами .zip
 import pyzipper # либа для шифрования архивов, работает на основе либы zipfile 
+from PyQt5 import QtWidgets
 
 class encrypt_decrypt():
     def __init__(self):
         self.secret_password = b'pirat_encrypt123' # пароль для архива
         self.pathToEncry = os.path.abspath(os.curdir) + '\\encrypted_data' # путь до дирриктории в которой лежат файлы которые нужно шифровать
         self.pathToDecry = os.path.abspath(os.curdir) # путь до дирриктории куда надо положить расшифрованную папку
-        self.exceptToZipFile = [] # файлы которые не нужно шифровать в данной дирректории encry_decry.py
+        self.exceptToZipFile = ["tmp_txt_file.txt"] # файлы которые не нужно шифровать 
 
     def encryptAll(self, nameZipFile = 'encrypted_data.zip'): # функция шифрования всех нужных нам файлов
         print("\n")
@@ -40,6 +41,7 @@ class encrypt_decrypt():
         self.delZipFile(fileName='encrypted_data.zip')
 
     def addFileInZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # добавление файла в существующий архив по имени этого файла
+        # также архив может не существовать тогда он создастся с указанным именем (nameZipFile) и в него добавится файл 
         if fileName in self.exceptToZipFile:
             print("Файл находится в списке исключений")
             return
@@ -126,23 +128,58 @@ class encrypt_decrypt():
         self.decryptAll()
         self.encryptAll()
 
+    def enter_key(self):
+        file_name = QtWidgets.QFileDialog.getOpenFileName()[0] # выбираем путь до файла на флешке
+        print(file_name)
+        if file_name == "":
+            print("key_path not exist1")
+            return False
+        if self.check_key(file_name):
+            self.key_path = file_name
+            print("key_path is exist")
+            return True
+        else:
+            print("key_path not exist2")
+            return False
+
+    def check_key(self, teacher_token_zip_name, nameZipFile = 'encrypted_data.zip'):
+        with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
+                as encrypted_data_zip: # открываем архив которы лежит в исходниках проги 
+                encrypted_data_token_file = encrypted_data_zip.read(name='encrypted_data' '/' + 'teacher_token.txt', pwd=self.secret_password)# читаем файл из архива в исходниках
+                with pyzipper.AESZipFile(teacher_token_zip_name, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
+                        as teacher_token_zip: # открываем архив на флешке учителя
+                        teacher_token_file = teacher_token_zip.read(name='encrypted_data' '/' + 'teacher_token.txt', pwd=self.secret_password) # читаем файл с флешки учителя (из архива)
+
+                        if encrypted_data_token_file == teacher_token_file: # проверяем на совпадение строки 
+                            return True
+
+                        
+
+        return False
 
 
 
 
-# if __name__ == "__main__":
+
+
+
+if __name__ == "__main__":
     
-#     encry_decry = encrypt_decrypt()
-#     # encry_decry.encryptAll()
-
-#     # input()
-
-#     # encry_decry.addFileInZip("test1.json")
-#     # encry_decry.delFile("test1.json")
-#     # encry_decry.extractFileFromZip("test.json")
+    encry_decry = encrypt_decrypt()
+    # encry_decry.enter_key()
 
 
-#     encry_decry.decryptAll()
+    # encry_decry.encryptAll()
+
+    # input()
+
+    # encry_decry.addFileInZip("teacher_token.txt") # добавляем файл в существующий архив для программы в котором хранятся также варианты и тд
+    # encry_decry.addFileInZip(fileName="teacher_token.txt", nameZipFile="teacher_token.zip") # добавляем файл в архив созданный для флешки преподавателя 
+    # encry_decry.delFile("test1.json")
+    # encry_decry.extractFileFromZip("test.json")
+
+
+    # encry_decry.decryptAll()
 
  
 

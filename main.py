@@ -2018,7 +2018,7 @@ class WindowMenu(QMainWindow):
 
 
     def activateTeacherMode (self):
-        if self.ui.btnTeacherMode.isChecked() and (properties.enter_key()):
+        if self.ui.btnTeacherMode.isChecked() and (encrypt.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
             self.ui.btnGenVar.setEnabled(True)
