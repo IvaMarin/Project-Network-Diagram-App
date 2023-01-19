@@ -2066,40 +2066,40 @@ class WindowMenu(QMainWindow):
         self.msg.setText("Ошибка открытия отчёта")
         self.msg.setIcon(QMessageBox.Warning)
         self.msg.setStandardButtons(QMessageBox.Ok)
-        # try:
+        try:
         # if True:
-        report = (
-            QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]
-        )
-        report = os.path.abspath(report)
-        if report == "":
-            return
-        wdFormatPDF = 17
+            report = (
+                QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]
+            )
+            report = os.path.abspath(report)
+            if report == "":
+                return
+            wdFormatPDF = 17
             # self.msg = QMessageBox()
             # self.msg.setWindowTitle("Предупреждение")
             # self.msg.setText("В данном варианте отсутствует предустановленное решение!")
             # self.msg.setIcon(QMessageBox.Warning)
             # self.msg.setStandardButtons(QMessageBox.Ok)
-        pdf_report = report.replace("docx", "pdf")
+            pdf_report = report.replace("docx", "pdf")
 
                 # convert(report)
                 # pypandoc.convert_file(report, 'docx', outputfile="report.pdf")
-        word = comtypes.client.CreateObject('Word.Application')
-        doc = word.Documents.Open(report)
-        doc.SaveAs(pdf_report, FileFormat=wdFormatPDF)
-        doc.Close()
-        word.Quit()
+            word = comtypes.client.CreateObject('Word.Application')
+            doc = word.Documents.Open(report)
+            doc.SaveAs(pdf_report, FileFormat=wdFormatPDF)
+            doc.Close()
+            word.Quit()
             # except Exception as e:
             #     self.msgCheck.setText(str(e))
             #     self.msgCheck.show()
 
-        print(pdf_report)
-        self.pdf_widget = PdfWidget(pdf_report, encrypt)
-        self.pdf_widget.show()
+            print(pdf_report)
+            self.pdf_widget = PdfWidget(pdf_report, encrypt)
+            self.pdf_widget.show()
             # self.pdf_widget.closeEvent()
             #os.remove(self.pdf_path)
-        # except Exception:
-        #     self.msg.show()
+        except Exception:
+            self.msg.show()
 
     def print_report(self):
         encrypt.extractAllDocxFile()

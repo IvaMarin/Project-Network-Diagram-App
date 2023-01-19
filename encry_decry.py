@@ -2,6 +2,7 @@ import os
 import zipfile # либа для работы с архивами .zip
 import pyzipper # либа для шифрования архивов, работает на основе либы zipfile 
 from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 class encrypt_decrypt():
     def __init__(self):
@@ -133,20 +134,31 @@ class encrypt_decrypt():
 
     def enter_key(self):
         file_name = QtWidgets.QFileDialog.getOpenFileName()[0] # выбираем путь до файла на флешке
-        print(file_name)
+        msg = QMessageBox()
+        msg.setWindowTitle("Предупреждение")
+        # msg.setText("Ошибка: ")
+        msg.setIcon(QMessageBox.Warning)
+        msg.setStandardButtons(QMessageBox.Ok)
+        # print(file_name)
         if file_name == "":
-            print("key_path not exist1")
+            # print("key_path not exist1")
+            msg.setText("Ошибка: не выбран файл")
+            msg.exec()
             return False
         if self.check_key(file_name):
             self.key_path = file_name
-            print("key_path is exist")
+            # print("key_path is exist")
             return True
         else:
-            print("key_path not exist2")
+            # print("key_path not exist2")
+            # msg.setText("Ошибка: некорректный файл")
+            # msg.exec()
             return False
 
     def check_key(self, teacher_token_zip_name, nameZipFile = 'encrypted_data.zip'):
-        with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
+        
+        try:
+            with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
                 as encrypted_data_zip: # открываем архив которы лежит в исходниках проги 
                 encrypted_data_token_file = encrypted_data_zip.read(name='encrypted_data' '/' + 'teacher_token.txt', pwd=self.secret_password)# читаем файл из архива в исходниках
                 with pyzipper.AESZipFile(teacher_token_zip_name, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
@@ -156,7 +168,14 @@ class encrypt_decrypt():
                         if encrypted_data_token_file == teacher_token_file: # проверяем на совпадение строки 
                             return True
 
-                        
+        except Exception:
+            msg = QMessageBox()
+            msg.setWindowTitle("Предупреждение")
+            msg.setText("Ошибка: некорректный файл, невозможно открыть файл")
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
 
         return False
 
@@ -181,7 +200,7 @@ if __name__ == "__main__":
     # encry_decry.delFile("test1.json")
     # encry_decry.extractFileFromZip("test.json")     Ivanov Ivan Ivanovich_1_2.docx
 
-    encry_decry.addFileInZip("Ivanov Ivan Ivanovich_1_2.docx")
+    # encry_decry.addFileInZip("IvanovIvanIvanovich_1_2.docx")
 
 
     # encry_decry.decryptAll()
