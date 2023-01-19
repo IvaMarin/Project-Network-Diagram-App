@@ -42,8 +42,10 @@ class encrypt_decrypt():
 
     def addFileInZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # добавление файла в существующий архив по имени этого файла
         # также архив может не существовать тогда он создастся с указанным именем (nameZipFile) и в него добавится файл 
+        print(fileName)
+        print(self.exceptToZipFile)
         if fileName in self.exceptToZipFile:
-            print("Файл находится в списке исключений")
+            print("Файл находится в списке исключений 3")
             return
         with pyzipper.AESZipFile(nameZipFile,
                                 'a',
@@ -94,7 +96,7 @@ class encrypt_decrypt():
         zipFiles = [file for file in files if ".zip" in file]
 
         if fileName in self.exceptToZipFile or fileName in zipFiles:
-            print("Файл находится в списке исключений")
+            print("Файл находится в списке исключений 2")
             return
         else: 
             os.remove(self.pathToEncry + '\\' + fileName) 
@@ -102,10 +104,11 @@ class encrypt_decrypt():
     def delZipFile(self, fileName):# удаление zip архив по названию файла
 
         if fileName in self.exceptToZipFile:
-            print("Файл находится в списке исключений")
+            print("Файл находится в списке исключений 1")
             return
         else: 
             os.remove(fileName) 
+        # os.remove(fileName) 
 
     def delImaFromZip(self, nameZipFile = 'encrypted_data.zip'): # удаление изображений из архива
         self.decryptAll()
@@ -176,7 +179,9 @@ if __name__ == "__main__":
     # encry_decry.addFileInZip("teacher_token.txt") # добавляем файл в существующий архив для программы в котором хранятся также варианты и тд
     # encry_decry.addFileInZip(fileName="teacher_token.txt", nameZipFile="teacher_token.zip") # добавляем файл в архив созданный для флешки преподавателя 
     # encry_decry.delFile("test1.json")
-    # encry_decry.extractFileFromZip("test.json")
+    # encry_decry.extractFileFromZip("test.json")     Ivanov Ivan Ivanovich_1_2.docx
+
+    encry_decry.addFileInZip("Ivanov Ivan Ivanovich_1_2.docx")
 
 
     # encry_decry.decryptAll()
