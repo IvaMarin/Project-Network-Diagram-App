@@ -2074,27 +2074,27 @@ class WindowMenu(QMainWindow):
             report = os.path.abspath(report)
             if report == "":
                 return
-            wdFormatPDF = 17
+            # wdFormatPDF = 17
             # self.msg = QMessageBox()
             # self.msg.setWindowTitle("Предупреждение")
             # self.msg.setText("В данном варианте отсутствует предустановленное решение!")
             # self.msg.setIcon(QMessageBox.Warning)
             # self.msg.setStandardButtons(QMessageBox.Ok)
-            pdf_report = report.replace("docx", "pdf")
+            # pdf_report = report.replace("docx", "pdf")
 
                 # convert(report)
                 # pypandoc.convert_file(report, 'docx', outputfile="report.pdf")
-            word = comtypes.client.CreateObject('Word.Application')
-            doc = word.Documents.Open(report)
-            doc.SaveAs(pdf_report, FileFormat=wdFormatPDF)
-            doc.Close()
-            word.Quit()
+            # word = comtypes.client.CreateObject('Word.Application')
+            # doc = word.Documents.Open(report)
+            # doc.SaveAs(pdf_report, FileFormat=wdFormatPDF)
+            # doc.Close()
+            # word.Quit()
             # except Exception as e:
             #     self.msgCheck.setText(str(e))
             #     self.msgCheck.show()
 
-            print(pdf_report)
-            self.pdf_widget = PdfWidget(pdf_report, encrypt)
+            # print(pdf_report)
+            self.pdf_widget = PdfWidget(report, encrypt)
             self.pdf_widget.show()
             # self.pdf_widget.closeEvent()
             #os.remove(self.pdf_path)
