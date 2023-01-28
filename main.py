@@ -19,7 +19,7 @@ from encry_decry import encrypt_decrypt
 
 ### Для обработки .pdf файлов ###############
 from docx2pdf import convert
-import pypandoc
+#import pypandoc
 from docx import Document
 from docx.shared import Inches
 import docx2txt
@@ -27,9 +27,9 @@ import basedir_paths as bp
 from pdf_widget import PdfWidget
 from docx.enum.section import WD_ORIENT, WD_SECTION, WD_SECTION_START
 from docx.shared import Inches, Mm
-import win32event
-import win32comext.shell.shell as shell
-import comtypes.client
+# import win32event
+# import win32comext.shell.shell as shell
+# import comtypes.client
 from transliterate import translit, get_available_language_codes
 
 # from borb.pdf import Document
@@ -37,6 +37,8 @@ from transliterate import translit, get_available_language_codes
 # from borb.pdf import SingleColumnLayout
 # from borb.pdf import Paragraph
 # from borb.pdf import PDF
+
+from report import Controller
 
 ############# Кастомные файлы для проги ######################
 ###############     UI     ###################################
@@ -1429,7 +1431,7 @@ class Window5(QMainWindow):
 
                 for i in range(len(self.images)):
                     strTemp = str(5)+str(i)+".jpg"
-                    self.images[i].save('encrypted_data\\'+strTemp)
+                    self.images[i].save('encrypted_data/'+strTemp)
 
                 for i in range(len(self.images)):
                     strTemp = str(5)+str(i)+".jpg"
@@ -1737,7 +1739,7 @@ class Window6(QMainWindow):
         encrypt.addFileInZip('6_hist.jpg')
         for i in range(len(self.images)): # ПОСЛЕ ПРОВЕРКИ
             strTemp = str(6)+str(i)+".jpg"
-            self.images[i].save('encrypted_data\\'+strTemp)
+            self.images[i].save('encrypted_data/'+strTemp)
 
         for i in range(len(self.images)):
             strTemp = str(6)+str(i)+".jpg"
@@ -2074,13 +2076,12 @@ class WindowMenu(QMainWindow):
             report = os.path.abspath(report)
             if report == "":
                 return
-            # wdFormatPDF = 17
+
             # self.msg = QMessageBox()
             # self.msg.setWindowTitle("Предупреждение")
             # self.msg.setText("В данном варианте отсутствует предустановленное решение!")
             # self.msg.setIcon(QMessageBox.Warning)
             # self.msg.setStandardButtons(QMessageBox.Ok)
-            # pdf_report = report.replace("docx", "pdf")
 
                 # convert(report)
                 # pypandoc.convert_file(report, 'docx', outputfile="report.pdf")
@@ -2089,11 +2090,13 @@ class WindowMenu(QMainWindow):
             # doc.SaveAs(pdf_report, FileFormat=wdFormatPDF)
             # doc.Close()
             # word.Quit()
+
             # except Exception as e:
             #     self.msgCheck.setText(str(e))
             #     self.msgCheck.show()
 
-            # print(pdf_report)
+            print(report)
+
             self.pdf_widget = PdfWidget(report, encrypt)
             self.pdf_widget.show()
             # self.pdf_widget.closeEvent()
@@ -2101,107 +2104,138 @@ class WindowMenu(QMainWindow):
         except Exception:
             self.msg.show()
 
-    def print_report(self):
-        encrypt.extractAllDocxFile()
-        printer = QPrinter(QPrinter.HighResolution)
-        dialog = QPrintDialog(printer, self)
-        if dialog.exec_() == QPrintDialog.Accepted:
-            handle = shell.ShellExecuteEx(
-                fMask=256 + 64,
-                lpVerb='printto',
-                lpFile=os.path.abspath(QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]),
-                lpParameters=printer.printerName()
-            )
-            win32event.WaitForSingleObject(handle['hProcess'], -1)
-        encrypt.reEncrypt()
+    # def print_report(self):
+    #     encrypt.extractAllDocxFile()
+    #     printer = QPrinter(QPrinter.HighResolution)
+    #     dialog = QPrintDialog(printer, self)
+    #     if dialog.exec_() == QPrintDialog.Accepted:
+    #         handle = shell.ShellExecuteEx(
+    #             fMask=256 + 64,
+    #             lpVerb='printto',
+    #             lpFile=os.path.abspath(QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]),
+    #             lpParameters=printer.printerName()
+    #         )
+    #         win32event.WaitForSingleObject(handle['hProcess'], -1)
+    #     encrypt.reEncrypt()
 
 
-        #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
-        # else:
-        #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
+    #     #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
+    #     # else:
+    #     #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
 
 
     def creatReport(self):
-        document = Document()
-        document.sections[-1].orientation = WD_ORIENT.LANDSCAPE
-        document.sections[-1].page_width = Mm(297)
-        document.sections[-1].page_height = Mm(210)
 
-        document.add_paragraph("ФИО: {0}".format(self.surname))
-        document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
-        document.add_paragraph("Вариант: {0}".format(self.numINGroup))
-        document.add_page_break()
+        file = open("inf_of_student.txt", 'w')
+        file.write(self.surname + "\n" + self.numINGroup + "\n" + self.numGroup)
+        file.close()
+
+        name_project = "Практическое занятие: \n«Использование метода сетевого планирования и управления в технологических процессах эксплуатации космических средств»"
         encrypt.extractFileFromZip('1.jpg')
-        document.add_heading('Задание 1', 0)
-        if properties.enter_teacher_mode[0]:
-            document.add_paragraph('Режим преподавателя был включен')
-        try:
-            document.add_picture('encrypted_data\\1.jpg', width=Inches(8.5))
-        except:
-            pass
-        document.add_page_break()
         encrypt.extractFileFromZip('2.jpg')
-        document.add_heading('Задание 2', 0)
-        if properties.enter_teacher_mode[1]:
-            document.add_paragraph('Режим преподавателя был включен')
-        try:
-            document.add_picture('encrypted_data\\2.jpg', width=Inches(8.5))
-        except:
-            pass
-        document.add_page_break()
         encrypt.extractFileFromZip('3.jpg')
-        document.add_heading('Задание 3', 0)
-        if properties.enter_teacher_mode[2]:
-            document.add_paragraph('Режим преподавателя был включен')
-        try:
-            document.add_picture('encrypted_data\\3.jpg', width=Inches(9.5))
-        except:
-            pass
-        document.add_page_break()
         encrypt.extractFileFromZip('4.jpg')
-        document.add_heading('Задание 4', 0)
-        if properties.enter_teacher_mode[3]:
-            document.add_paragraph('Режим преподавателя был включен')
-        try:
-            document.add_picture('encrypted_data\\4.jpg', width=Inches(9.5))
-        except:
-            pass
-        document.add_page_break()
         for i in range(squadNum):
             encrypt.extractFileFromZip(str(5)+str(i)+".jpg")
-        document.add_heading('Задание 5', 0)
-        if properties.enter_teacher_mode[4]:
-            document.add_paragraph('Режим преподавателя был включен')
-        for i in range(squadNum):
-            try:
-                document.add_heading(str(i+1) + " отделение", 0)
-                document.add_picture('encrypted_data\\'+str(5)+str(i)+".jpg", width=Inches(9))
-            except:
-                pass
-        document.add_page_break()
         for i in range(squadNum):
             encrypt.extractFileFromZip(str(6)+str(i)+".jpg")
-        document.add_heading('Задание 6', 0)
-        if properties.enter_teacher_mode[5]:
-            document.add_paragraph('Режим преподавателя был включен')
-        for i in range(squadNum):
-            try:
-                document.add_heading(str(i+1) + " отделение", 0)
-                document.add_picture('encrypted_data\\'+str(6)+str(i)+".jpg", width=Inches(9))
-            except:
-                pass
-        document.add_page_break()
         encrypt.extractFileFromZip('6_hist.jpg')
-        document.add_heading('Гистограмма', 0)
-        try:
-            document.add_picture('encrypted_data\\6_hist.jpg', width=Inches(5))
-        except:
-            pass
+        list_pictures = [["encrypted_data/1.jpg"], ["encrypted_data/2.jpg"], ["encrypted_data/3.jpg"],
+            ["encrypted_data/4.jpg"], ["encrypted_data/50.jpg", "encrypted_data/51.jpg", "encrypted_data/52.jpg"],
+            ["encrypted_data/60.jpg", "encrypted_data/61.jpg", "encrypted_data/62.jpg", "encrypted_data/6_hist.jpg"]]
 
-        str_temp = translit(self.surname, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
-        document.save('encrypted_data\\' + str_temp + '.docx')
-        encrypt.addFileInZip(str_temp + '.docx')
+        
+        name = self.surname.replace(' ', '_')
+
+        information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
+
+        report_controller = Controller.ReportController(information_about_student, None, name_project)
+        name_report = report_controller.create_report(list_pictures, properties.enter_teacher_mode)
+        encrypt.addFileInZip(name_report)
         encrypt.delImaFromZip()
+
+        # document = Document()
+        # document.sections[-1].orientation = WD_ORIENT.LANDSCAPE
+        # document.sections[-1].page_width = Mm(297)
+        # document.sections[-1].page_height = Mm(210)
+
+        # document.add_paragraph("ФИО: {0}".format(self.surname))
+        # document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
+        # document.add_paragraph("Вариант: {0}".format(self.numINGroup))
+        # document.add_page_break()
+        # encrypt.extractFileFromZip('1.jpg')
+        # document.add_heading('Задание 1', 0)
+        # if properties.enter_teacher_mode[0]:
+        #     document.add_paragraph('Режим преподавателя был включен')
+        # try:
+        #     document.add_picture('encrypted_data/1.jpg', width=Inches(8.5))
+        # except:
+        #     pass
+        # document.add_page_break()
+        # encrypt.extractFileFromZip('2.jpg')
+        # document.add_heading('Задание 2', 0)
+        # if properties.enter_teacher_mode[1]:
+        #     document.add_paragraph('Режим преподавателя был включен')
+        # try:encrypt.addFileInZip(str_temp + '.docx')
+        # encrypt.delImaFromZip()
+        #     document.add_picture('encrypted_data/2.jpg', width=Inches(8.5))
+        # except:
+        #     pass
+        # document.add_page_break()
+        # encrypt.extractFileFromZip('3.jpg')
+        # document.add_heading('Задание 3', 0)
+        # if properties.enter_teacher_mode[2]:
+        #     document.add_paragraph('Режим преподавателя был включен')
+        # try:
+        #     document.add_picture('encrypted_data/3.jpg', width=Inches(9.5))
+        # except:
+        #     pass
+        # document.add_page_break()
+        # encrypt.extractFileFromZip('4.jpg')
+        # document.add_heading('Задание 4', 0)
+        # if properties.enter_teacher_mode[3]:
+        #     document.add_paragraph('Режим преподавателя был включен')
+        # try:
+        #     document.add_picture('encrypted_data/4.jpg', width=Inches(9.5))
+        # except:
+        #     pass
+        # document.add_page_break()
+        # for i in range(squadNum):
+        #     encrypt.eencrypt.addFileInZip(str_temp + '.docx')
+        # encrypt.delImaFromZip()xtractFileFromZip(str(5)+str(i)+".jpg")
+        # document.add_heading('Задание 5', 0)
+        # if properties.enter_teacher_mode[4]:
+        #     document.add_paragraph('Режим преподавателя был включен')
+        # for i in range(squadNum):
+        #     try:
+        #         document.add_heading(str(i+1) + " отделение", 0)
+        #         document.add_picture('encrypted_data/'+str(5)+str(i)+".jpg", width=Inches(9))
+        #     except:
+        #         pass
+        # document.add_page_break()
+        # for i in range(squadNum):
+        #     encrypt.extractFileFromZip(str(6)+str(i)+".jpg")
+        # document.add_heading('Задание 6', 0)
+        # if properties.enter_teacher_mode[5]:
+        #     document.add_paragraph('Режим преподавателя был включен')
+        # for i in range(squadNum):
+        #     try:
+        #         document.add_heading(str(i+1) + " отделение", 0)
+        #         document.add_picture('encrypted_data/'+str(6)+str(i)+".jpg", width=Inches(9))
+        #     except:
+        #         pass
+        # document.add_page_break()
+        # encrypt.extractFileFromZip('6_hist.jpg')
+        # document.add_heading('Гистограмма', 0)
+        # try:
+        #     document.add_picture('encrypted_data/6_hist.jpg', width=Inches(5))
+        # except:
+        #     pass
+
+        # str_temp = translit(self.surname, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
+        # document.save('encrypted_data/' + str_temp + '.docx')
+        # encrypt.addFileInZip(str_temp + '.docx')
+        # encrypt.delImaFromZip()
 
 
     def openTask (self, numTask):
