@@ -2076,7 +2076,7 @@ class WindowMenu(QMainWindow):
             report = os.path.abspath(report)
             if report == "":
                 return
-            #wdFormatPDF = 17
+
             # self.msg = QMessageBox()
             # self.msg.setWindowTitle("Предупреждение")
             # self.msg.setText("В данном варианте отсутствует предустановленное решение!")
@@ -2090,12 +2090,13 @@ class WindowMenu(QMainWindow):
             # doc.SaveAs(pdf_report, FileFormat=wdFormatPDF)
             # doc.Close()
             # word.Quit()
-            #output = convert(source=report, output_dir="/home/orion/STUDY/University/Military/Military_Project_Fork/Military-Project/encrypted_data", soft=1)
+
             # except Exception as e:
             #     self.msgCheck.setText(str(e))
             #     self.msgCheck.show()
 
             print(report)
+
             self.pdf_widget = PdfWidget(report, encrypt)
             self.pdf_widget.show()
             # self.pdf_widget.closeEvent()
