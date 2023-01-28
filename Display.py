@@ -913,7 +913,7 @@ class Display6(Display5):
 class DrawHist(QWidget):
     def __init__(self, root, graph, step = 25):
 
-        super().__init__(root)
+        super().__init__()
         self.root = root
         self.step = step
         self.stepAlg = 100
@@ -960,7 +960,7 @@ class DrawHist(QWidget):
                 painter.drawText(int(self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
 
 
-            intervals = np.zeros(18)
+            intervals = np.zeros(self.root.max_possible_time)
             for p in range(len(self.graph)):
                 AdjacencyList = self.graph[p].PeopleWeights
                 ArrowsList = self.graph[p].Arrows
