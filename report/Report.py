@@ -4,14 +4,18 @@ class Report(FPDF):
 
     def header(self):
         file = open("inf_of_student.txt", 'r')
-        surname = file.readline()
+        surname = file.readline().split(" ")
         variant = file.readline()
         group = file.readline()
         file.close()
+        
+        fio = surname[0]
+        for i in range(1, len(surname)):
+            fio = fio + " " + surname[i][0] + '.'
 
         # Logo
-        self.image('report/logo_mac_mai.png', 15, 8, 30)
-        self.image('report/logo_mca.png', 252, 8, 30)
+        self.image('report/logo_mac_mai-min.png', 15, 8, 30)
+        self.image('report/logo_mca-min.png', 252, 8, 30)
         # Arial bold 15
         self.set_x(40)
         self.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
@@ -19,7 +23,7 @@ class Report(FPDF):
         # Move to the right
         self.cell(80)
         # Title
-        self.multi_cell(70, 10, "Вариант №" + variant + "ФИО: " + surname + "Группа " + group, 0, 0, 'C')
+        self.multi_cell(100, 10, "Вариант №" + variant + "ФИО: " + fio + "\nГруппа " + group, 0, 0, 'C')
         # Line break
         self.ln(10)
 
