@@ -122,10 +122,10 @@ class encrypt_decrypt():
             self.delFile(file)
         self.encryptAll()
 
-    def extractAllDocxFile(self):
+    def extractAllPdfFile(self):
         self.decryptAll()
         files = os.listdir(self.pathToEncry)
-        docxFiles = [file for file in files if ".docx" in file]
+        docxFiles = [file for file in files if ".pdf" in file] # был метод для ".docx"
         for filename in docxFiles: #  
             files.remove(filename)
         for filename in files:

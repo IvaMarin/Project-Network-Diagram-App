@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # encry_decry.extractFileFromZip("tests.txt")
     # encry_decry.delImaFromZip()
 
-    # encry_decry.extractAllDocxFile()
+    # encry_decry.extractAllPdfFile()
     #encry_decry.reEncrypt()
 
 

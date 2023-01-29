@@ -2059,7 +2059,7 @@ class WindowMenu(QMainWindow):
         self.msgCheck = QMessageBox()
         self.msgCheck.setWindowTitle("Предупреждение")
         try:
-            encrypt.extractAllDocxFile()
+            encrypt.extractAllPdfFile()
         except Exception as e:
             self.msgCheck.setText(str(e))
             self.msgCheck.show()
@@ -2106,7 +2106,7 @@ class WindowMenu(QMainWindow):
             self.msg.show()
 
     # def print_report(self):
-    #     encrypt.extractAllDocxFile()
+    #     encrypt.extractAllPdfFile()
     #     printer = QPrinter(QPrinter.HighResolution)
     #     dialog = QPrintDialog(printer, self)
     #     if dialog.exec_() == QPrintDialog.Accepted:
