@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow3</class>
+ <widget class="QMainWindow" name="MainWindow3">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1603</width>
+    <height>1253</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Задание 3</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>47</width>
+     <height>42</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionbtnMoveNode"/>
+   <addaction name="actionbtnDottedConnectNode"/>
+   <addaction name="separator"/>
+   <addaction name="actionbtnCheck"/>
+   <addaction name="actionbtnInfo"/>
+   <addaction name="actionHelp"/>
+   <addaction name="actionSolveTask"/>
+   <addaction name="actionbtnHome"/>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1603</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #b8ffc0;</string>
+   </property>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Справка</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionHelpStud"/>
+    <addaction name="actionHelpTeach"/>
+   </widget>
+   <widget class="QMenu" name="menuTask3">
+    <property name="title">
+     <string>Задание 3</string>
+    </property>
+    <addaction name="actionViewTask"/>
+   </widget>
+   <addaction name="menuHelp"/>
+   <addaction name="menuTask3"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background-color: #b8ffc0;</string>
+   </property>
+  </widget>
+  <action name="actionNewFile">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/file.png</normaloff>resources/iconePack/file.png</iconset>
+   </property>
+   <property name="text">
+    <string>Новый файл</string>
+   </property>
+   <property name="toolTip">
+    <string>Создать новый файл</string>
+   </property>
+  </action>
+  <action name="actionOpenFile">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/write.png</normaloff>resources/iconePack/write.png</iconset>
+   </property>
+   <property name="text">
+    <string>Открыть файл</string>
+   </property>
+  </action>
+  <action name="actionSaveFile">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/save.png</normaloff>resources/iconePack/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </action>
+  <action name="actionSaveFileAs">
+   <property name="text">
+    <string>Сохранить как</string>
+   </property>
+  </action>
+  <action name="actionForward">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/forward.png</normaloff>resources/iconePack/forward.png</iconset>
+   </property>
+   <property name="text">
+    <string>Вперед        Ctrl+Y</string>
+   </property>
+  </action>
+  <action name="actionBackward">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/reply.png</normaloff>resources/iconePack/reply.png</iconset>
+   </property>
+   <property name="text">
+    <string>Назад          Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionbtnMoveNode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/axis_arrow_icon_138909.png</normaloff>resources/iconePack/axis_arrow_icon_138909.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnMoveNode</string>
+   </property>
+   <property name="toolTip">
+    <string>Передвинуть элемент</string>
+   </property>
+   <property name="font">
+    <font/>
+   </property>
+   <property name="priority">
+    <enum>QAction::NormalPriority</enum>
+   </property>
+  </action>
+  <action name="actionbtnInfo">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/attachment.png</normaloff>resources/iconePack/attachment.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnInfo</string>
+   </property>
+   <property name="toolTip">
+    <string>Материалы</string>
+   </property>
+  </action>
+  <action name="actionbtnHome">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/home.png</normaloff>resources/iconePack/home.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnHome</string>
+   </property>
+   <property name="toolTip">
+    <string>Перейти к выбору заданий / В меню</string>
+   </property>
+  </action>
+  <action name="actionbtnZoomIn">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/zoom-in.png</normaloff>resources/iconePack/zoom-in.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnZoomIn</string>
+   </property>
+   <property name="toolTip">
+    <string>Увеличить изображение</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionbtnZoomOut">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/zoom-out.png</normaloff>resources/iconePack/zoom-out.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnZoomOut</string>
+   </property>
+   <property name="toolTip">
+    <string>Уменьшить изображение</string>
+   </property>
+  </action>
+  <action name="actionHelpTask">
+   <property name="text">
+    <string>Справка по заданию</string>
+   </property>
+  </action>
+  <action name="actionHelpProgram">
+   <property name="text">
+    <string>Справка по программе </string>
+   </property>
+  </action>
+  <action name="actionSetting">
+   <property name="text">
+    <string>Настройки программы</string>
+   </property>
+  </action>
+  <action name="actionbtnCheck">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/check-mark.png</normaloff>resources/iconePack/check-mark.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnCheck</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Проверить задание&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionbtnDottedConnectNode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/arrowsDotted.png</normaloff>resources/iconePack/arrowsDotted.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnDottedConnectNode</string>
+   </property>
+   <property name="toolTip">
+    <string>Перемещение пунктирной стрелки</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/help.png</normaloff>resources/iconePack/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>подсказка</string>
+   </property>
+   <property name="toolTip">
+    <string>подсказка (режим преподавателя)</string>
+   </property>
+  </action>
+  <action name="actionHelpStud">
+   <property name="text">
+    <string>студенту</string>
+   </property>
+  </action>
+  <action name="actionHelpTeach">
+   <property name="text">
+    <string>преподавателю</string>
+   </property>
+  </action>
+  <action name="actionViewTask">
+   <property name="text">
+    <string>Задание 3</string>
+   </property>
+  </action>
+  <action name="actionSolveTask">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/document.png</normaloff>resources/iconePack/document.png</iconset>
+   </property>
+   <property name="text">
+    <string>SolveTask</string>
+   </property>
+   <property name="toolTip">
+    <string>решить задание (режим преподавателя)</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
