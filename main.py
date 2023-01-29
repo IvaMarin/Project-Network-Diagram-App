@@ -1989,19 +1989,20 @@ class WindowMenu(QMainWindow):
         close.setText("Вы уверены, что хотите закрыть приложение?")
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         close.setWindowFlags(Qt.WindowStaysOnTopHint)
+        
 
-        close = close.exec()
-
-        if close == QMessageBox.Ok:
+        if QMessageBox.Ok:
             properties.clear_answer(1)
             properties.clear_answer(2)
             properties.clear_answer(3)
             properties.clear_answer(4)
-            for i in range(squadNum):
+            for i in range(1, squadNum+1):
                 properties.clear_answer(5, i)
             event.accept()
         else:
             event.ignore()
+
+        close = close.exec()
 
     def _connectAction(self):
         self.ui.btnTask1.clicked.connect(lambda: self.openTask(self.ui.btnTask1.text()))
@@ -2142,7 +2143,7 @@ class WindowMenu(QMainWindow):
         encrypt.extractFileFromZip('6_hist.jpg')
         list_pictures = [["encrypted_data/1.jpg"], ["encrypted_data/2.jpg"], ["encrypted_data/3.jpg"],
             ["encrypted_data/4.jpg"], ["encrypted_data/50.jpg", "encrypted_data/51.jpg", "encrypted_data/52.jpg"],
-            ["encrypted_data/60.jpg", "encrypted_data/61.jpg", "encrypted_data/62.jpg", "encrypted_data/6_hist.jpg"]]
+            ["encrypted_data/60.jpg", "encrypted_data/61.jpg", "encrypted_data/62.jpg"], ["encrypted_data/6_hist.jpg"]]
 
         
         name = self.surname.replace(' ', '_')

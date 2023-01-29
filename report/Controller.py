@@ -39,18 +39,19 @@ class ReportController():
             self.service.add_text(self.report, "Задание №" + str(i+1) + text)
             
 
-        for i in range(len(list_pictures)):
+        for i in range(len(list_pictures)-1):
             if len(list_pictures[i]) == 1:
                 self.service.create_task_page(self.report, "Задание №" +  str(i+1), list_pictures[i][0])
 
             else:
                 for j in range(len(list_pictures[i])):
                     self.service.create_task_page(self.report, "Задание №" +  str(i+1) + " (часть " + str(j+1) + ")", list_pictures[i][j])
+            
+        
+        self.service.create_task_page(self.report, "Гистограмма", list_pictures[6][0], 'H')
 
         name_report = self.text_information_student +'.pdf'
         self.report.output('encrypted_data/' + name_report)
-
-        self.report.output(name_report)
 
         return name_report
 
