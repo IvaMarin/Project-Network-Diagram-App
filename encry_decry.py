@@ -6,10 +6,26 @@ from PyQt5.QtWidgets import QMessageBox
 
 class encrypt_decrypt():
     def __init__(self):
-        self.secret_password = b'pirat_encrypt123' # пароль для архива
+        self.secret_password = self.enterKey().encode("ascii") # пароль для архива в бинарном виде
         self.pathToEncry = os.path.abspath(os.curdir) + '/encrypted_data' # путь до дирриктории в которой лежат файлы которые нужно шифровать
         self.pathToDecry = os.path.abspath(os.curdir) # путь до дирриктории куда надо положить расшифрованную папку
         self.exceptToZipFile = ["tmp_txt_file.txt"] # файлы которые не нужно шифровать 
+
+    def enterKey (self):
+        pathToKey = os.path.abspath(os.curdir) + '/encrypted_key' # teacher_token.txt
+        try:
+            with open(pathToKey + "/teacher_token.txt", 'r') as token_file:
+                teacher_token = token_file.readline()
+                return teacher_token
+        except Exception:
+            msg = QMessageBox()
+            msg.setWindowTitle("Предупреждение")
+            msg.setText("Ошибка: некорректный файл, невозможно открыть файл")
+            msg.setIcon(QMessageBox.Warning)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
+        
 
     def encryptAll(self, nameZipFile = 'encrypted_data.zip'): # функция шифрования всех нужных нам файлов
         print("\n")
@@ -56,7 +72,7 @@ class encrypt_decrypt():
 
             zf.write('encrypted_data/' + fileName)
 
-        self.delFile(fileName)
+        # self.delFile(fileName)
 
     def extractFileFromZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # извлечение файла по имени из архива
 
