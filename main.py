@@ -2014,6 +2014,7 @@ class WindowMenu(QMainWindow):
         self.ui.btnTask5.clicked.connect(lambda: self.openTask(self.ui.btnTask5.text()))
         self.ui.btnTask6.clicked.connect(lambda: self.openTask(self.ui.btnTask6.text()))
         self.ui.btnTeacherMode.clicked.connect(lambda: self.activateTeacherMode())
+        # self.ui.btnSaveReportAs.clicked.connect()
 
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         # self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
