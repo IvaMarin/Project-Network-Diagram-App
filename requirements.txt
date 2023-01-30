@@ -1,3 +1,4 @@
+autopep8==2.0.1
 colorama==0.4.6
 docx2pdf==0.1.8
 docx2txt==0.8
@@ -8,6 +9,7 @@ numpy==1.24.1
 openpyxl==3.0.10
 Pillow==9.4.0
 pyception==0.1.1
+pycodestyle==2.10.0
 pycryptodome==3.17
 pycryptodomex==3.17
 PyQt5==5.15.8
@@ -19,5 +21,6 @@ python-docx==0.8.11
 pywin32==305
 pyzipper==0.3.6
 six==1.16.0
+tomli==2.0.1
 tqdm==4.64.1
 transliterate==1.10.2
