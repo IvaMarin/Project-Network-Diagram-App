@@ -338,22 +338,6 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="3">
-        <widget class="QPushButton" name="btnGenVar">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Генерация вариантов</string>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="3">
         <widget class="QPushButton" name="btnReportSign">
          <property name="font">
@@ -405,6 +389,22 @@
          </property>
         </widget>
        </item>
+       <item row="3" column="3">
+        <widget class="QPushButton" name="btnSaveReportAs">
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
+         <property name="text">
+          <string>Сохранить отчет как</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -416,21 +416,15 @@
      <x>0</x>
      <y>0</y>
      <width>1558</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>файл</string>
-    </property>
-    <addaction name="actionPrintReport"/>
-    <addaction name="actionOpenReport"/>
-    <addaction name="actionactionSaveReportReport_3"/>
-   </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>справка</string>
     </property>
+    <addaction name="actionHelpWithProg"/>
+    <addaction name="actionHelpWithTheory"/>
    </widget>
    <widget class="QMenu" name="menuAboutProgram">
     <property name="title">
@@ -439,7 +433,6 @@
     <addaction name="actionVersion"/>
     <addaction name="actionDevelopers"/>
    </widget>
-   <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
    <addaction name="menuAboutProgram"/>
   </widget>
@@ -473,6 +466,16 @@
   <action name="actionDevelopers">
    <property name="text">
     <string>разработчики</string>
+   </property>
+  </action>
+  <action name="actionHelpWithProg">
+   <property name="text">
+    <string>справка по работе с программой</string>
+   </property>
+  </action>
+  <action name="actionHelpWithTheory">
+   <property name="text">
+    <string>справка по теории</string>
    </property>
   </action>
  </widget>
