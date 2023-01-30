@@ -2,6 +2,7 @@
 /first_launch/__pycache__
 /qt_designer_ui/__pycache__
 /report/__pycache__
+/.vs
 /venv
 /encrypted_key/teacher_token.txt
 /key_prepoda_tipa_fleshka/teacher_token.txt
