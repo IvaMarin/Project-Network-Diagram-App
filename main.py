@@ -1886,6 +1886,9 @@ class WindowMenu(QMainWindow):
 
         self.testGen()
 
+        self.report_controller = Controller.ReportController("mai_cam_password")
+        self.report_was_make = False
+
     def getCorrectAdjacencyMatrix(self):
         arr = []
         n = 0
@@ -2098,8 +2101,7 @@ class WindowMenu(QMainWindow):
 
             print(report)
 
-            self.pdf_widget = PdfWidget(report, encrypt)
-            self.pdf_widget.show()
+            self.report_controller.whatch_report(report)
             # self.pdf_widget.closeEvent()
             #os.remove(self.pdf_path)
         except Exception:
@@ -2150,8 +2152,8 @@ class WindowMenu(QMainWindow):
 
         information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
 
-        report_controller = Controller.ReportController(information_about_student, None, name_project)
-        name_report = report_controller.create_report(list_pictures, properties.enter_teacher_mode)
+        
+        name_report, self.report_was_make = self.report_controller.create_report(list_pictures=list_pictures, list_teach_enter=properties.enter_teacher_mode, title=name_project, information_student=information_about_student)
         encrypt.addFileInZip(name_report)
         encrypt.delImaFromZip()
 

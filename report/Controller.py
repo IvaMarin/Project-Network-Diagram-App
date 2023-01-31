@@ -1,24 +1,44 @@
-import report.Report as rep
-import report.Service as serv
+from report import Report as rep
+from report import Service as serv
+
+import os
 
 class ReportController():
     
-    def __init__(self, text_information_student=None, path_logo=None, text_title=None):
+    def __init__(self, password = "password"):
         self.report = rep.Report(orientation='L', unit='mm', format='A4')
+
+        self.title = ""
+        self.text_information_student = ""
+        self.password = password
+
+        self.folder_source = "report/answer/"
+
+        self.service = serv.ReportService(password)
+
+    def set_title(self, title):
+        self.title = title
+
+    def set_information_student(self, information_student):
+        self.text_information_student = information_student
+
+
+    def create_start_page(self):
 
         self.report.add_page()
         self.report.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
         self.report.set_font('DejaVu', '', 14)
         self.report.cell(190, 20, "", ln=1)
         self.report.set_x(65)
-        self.report.multi_cell(170, 10, text_title, 1, "C")
+        self.report.multi_cell(170, 10, self.title, 1, "C")
 
-        self.service = serv.ReportService()
-        self.text_information_student = text_information_student
+        
 
+    def create_report(self, list_pictures, list_teach_enter=None, path_folder = 'encrypted_data/', title = "", information_student = "", is_show=True):
 
-
-    def create_report(self, list_pictures, list_teach_enter=None):
+        self.set_title(title)
+        self.set_information_student(information_student)
+        self.create_start_page()
 
         self.report.add_page()
         self.report.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
@@ -45,16 +65,62 @@ class ReportController():
 
             else:
                 for j in range(len(list_pictures[i])):
-                    self.service.create_task_page(self.report, "Задание №" +  str(i+1) + " (часть " + str(j+1) + ")", list_pictures[i][j])
+                    self.service.create_task_page(self.report, "Задание №" +  str(i+1) + " (отделение " + str(j+1) + ")", list_pictures[i][j])
             
         
         self.service.create_task_page(self.report, "Гистограмма", list_pictures[6][0], 'H')
 
         name_report = self.text_information_student +'.pdf'
-        self.report.output('encrypted_data/' + name_report)
+        path_report = path_folder + name_report
+        self.report.output(path_report)
 
-        return name_report
+        save_time_path = self.folder_source + name_report
+        self.report.output(save_time_path)
+
+        #показ отчета студенту
+        if is_show:
+            self.service.pdf_show(save_time_path)
+        
+        self.encrypt(save_time_path)
+
+        return name_report, True
 
 
-    def whatch_report(self, report):
-        pass
+    def whatch_report(self, path):
+        #распоковка отчета
+        try:
+            self.service.pdf_decry(path)
+        except:
+            print("Ошибка обработки файла " + path)
+        
+        try:
+            self.service.pdf_show(path)
+        except:
+            print("Ошибка просмотра")
+        
+        #запоковка отчета
+        try:
+            self.service.pdf_encry(path)
+        except:
+            print("Ошибка обработки файла " + path)
+
+    def save_report(self, path_to_save):
+        try:
+            self.service.pdf_save(path_to_save)
+        except:
+            print("Проблема с сохранением файла!")
+
+        
+
+    def encrypt(self, path):
+        try:
+            self.service.pdf_encry(path)
+        except:
+            print("Ошибка обработки файла " + path)
+
+
+    def decrypt(self, path):
+        try:
+            self.service.pdf_decry(path)
+        except:
+            print("Ошибка обработки файла " + path)

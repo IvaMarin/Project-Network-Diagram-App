@@ -1,7 +1,13 @@
+from PyPDF2 import PdfWriter, PdfReader
+from report import PdfViever as pdf_viewer
+
+import os
+
 class ReportService():
 
-    def __init__(self):
-        pass
+    def __init__(self, password):
+        self.password = password
+        self.viewer = pdf_viewer.Viewer()
 
     def add_text(self, report, text, x = 65):
         report.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
@@ -22,7 +28,6 @@ class ReportService():
         except:
             print(path_image + ' not found')
 
-
     def create_task_page(self, report, text, path_image, hist = 'N'):
         
         report.add_page()
@@ -32,5 +37,51 @@ class ReportService():
         else:
             self.add_hist(report, path_image)
         return report
-    
 
+    def pdf_encry(self, pdf_path = "pdf_encry_decry/1.pdf"):
+        
+        out = PdfWriter()
+        pdf = PdfReader(pdf_path)
+
+        num = len(pdf.pages)
+
+        for i in range(num):
+            page = pdf.pages[i]
+            out.add_page(page)
+        
+        try:
+            out.encrypt(self.password)
+            with open(pdf_path, "wb") as f:
+                out.write(f)
+            print("PDF зашифрован и записан!")
+        except:
+            print("PDF не зашифровался или не записался!")
+
+    def pdf_decry(self, pdf_path = "pdf_encry_decry/1.pdf"):
+        out = PdfWriter()
+        pdf = PdfReader(pdf_path)
+
+        # Check if the opened pdf is actually Encrypted
+        if pdf.is_encrypted:
+            pdf.decrypt(self.password)
+
+            for i in range(len(pdf.pages)):
+                page = pdf.pages[i]
+                out.add_page(page)
+            
+            with open(pdf_path, "wb") as f:
+                out.write(f)
+
+            print("PDF расшифрован!")
+        else:
+            print("PDF уже расшифрован!")
+
+    def pdf_show(self, path):
+        self.viewer.show_PDF(path)
+
+    def pdf_save(self, path_to_save):
+        get_files = os.listdir(self.folder_source)
+
+        for g in get_files:
+            os.replace(self.folder_source + g, path_to_save + g)
+    
