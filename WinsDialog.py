@@ -50,7 +50,7 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
 
         self.ui.lineEditNumINGroup.setValidator(QIntValidator())
 
-        rx = QtCore.QRegExp("[a-zA-Zа-яА-Я .,]{100}")
+        rx = QtCore.QRegExp("[a-zA-Zа-яА-Я .,]{200}")
         val = QtGui.QRegExpValidator(rx)
         self.ui.lineEditSurname.setValidator(val)
 
@@ -81,6 +81,8 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
             # WindowMenu это класс окна Меню
 
             #self.mainMenu.creatReport() # перезапись в pdf данных студента
+
+            self.mainMenu.testGen()
 
             self.close()
 
@@ -127,7 +129,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
 
         self.ui.lineEditNumINGroup.setValidator(QIntValidator())
 
-        rx = QtCore.QRegExp("[a-zA-Zа-яА-Я .,]{100}")
+        rx = QtCore.QRegExp("[a-zA-Zа-яА-Я .,]{200}")
         val = QtGui.QRegExpValidator(rx)
         self.ui.lineEditSurname.setValidator(val)
 

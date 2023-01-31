@@ -1869,8 +1869,10 @@ class WindowMenu(QMainWindow):
         #self.creatTable = WinsDialog.creatTable(self) #
 
         self.ui.btnReportSign.setEnabled(False)
-        self.ui.btnGenVar.setEnabled(False)
+        # self.ui.btnGenVar.setEnabled(False)
         self.ui.btnEditTaskVariant.setEnabled(False)
+        self.ui.btnPrint.setEnabled(False)
+        self.ui.previewReport.setEnabled(False) 
         self.ui.btnTask1.setEnabled(True)
         self.ui.btnTask2.setEnabled(statusTask.get_verification_passed_tasks(1))
         self.ui.btnTask3.setEnabled(statusTask.get_verification_passed_tasks(2))
@@ -2015,9 +2017,10 @@ class WindowMenu(QMainWindow):
         self.ui.btnTask5.clicked.connect(lambda: self.openTask(self.ui.btnTask5.text()))
         self.ui.btnTask6.clicked.connect(lambda: self.openTask(self.ui.btnTask6.text()))
         self.ui.btnTeacherMode.clicked.connect(lambda: self.activateTeacherMode())
+        # self.ui.btnSaveReportAs.clicked.connect()
 
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
-        self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
+        # self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         self.ui.previewReport.clicked.connect(lambda: self.watch_report()) #
         self.ui.btnPrint.clicked.connect(lambda: self.print_report())
         self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
@@ -2027,7 +2030,7 @@ class WindowMenu(QMainWindow):
         if self.ui.btnTeacherMode.isChecked() and (encrypt.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
-            self.ui.btnGenVar.setEnabled(True)
+            # self.ui.btnGenVar.setEnabled(True)
             self.ui.btnEditTaskVariant.setEnabled(True)
             self.ui.btnTask1.setEnabled(True)
             self.ui.btnTask2.setEnabled(True)
@@ -2035,12 +2038,16 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask4.setEnabled(True)
             self.ui.btnTask5.setEnabled(True)
             self.ui.btnTask6.setEnabled(True)
+            self.ui.btnPrint.setEnabled(True) 
+            self.ui.previewReport.setEnabled(True) 
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
         else:
             self.ui.btnReportSign.setEnabled(False)
-            self.ui.btnGenVar.setEnabled(False)
+            # self.ui.btnGenVar.setEnabled(False)
             self.ui.btnEditTaskVariant.setEnabled(False)
+            self.ui.btnPrint.setEnabled(False)
+            self.ui.previewReport.setEnabled(False) 
             self.ui.btnTask1.setEnabled(True)
             self.ui.btnTask2.setEnabled(statusTask.get_verification_passed_tasks(1))
             self.ui.btnTask3.setEnabled(statusTask.get_verification_passed_tasks(2))
