@@ -39,6 +39,8 @@ class ReportService():
         return report
 
     def pdf_encry(self, pdf_path = "pdf_encry_decry/1.pdf"):
+
+        print("PASS" + self.password)
         
         out = PdfWriter()
         pdf = PdfReader(pdf_path)
@@ -58,6 +60,9 @@ class ReportService():
             print("PDF не зашифровался или не записался!")
 
     def pdf_decry(self, pdf_path = "pdf_encry_decry/1.pdf"):
+
+        print("PASS" + self.password)
+
         out = PdfWriter()
         pdf = PdfReader(pdf_path)
 
@@ -79,9 +84,14 @@ class ReportService():
     def pdf_show(self, path):
         self.viewer.show_PDF(path)
 
-    def pdf_save(self, path_to_save):
-        get_files = os.listdir(self.folder_source)
+    def pdf_save(self, folder_source, path_to_save):
+
+        print("DIR source      " + os.path.abspath(folder_source))
+        print("DIR save        " + path_to_save)
+
+        get_files = os.listdir(folder_source)
 
         for g in get_files:
-            os.replace(self.folder_source + g, path_to_save + g)
-    
+            print(g)
+            os.replace(os.path.abspath(folder_source) + "/" + g, path_to_save + "/" + g)
+

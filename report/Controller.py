@@ -13,8 +13,9 @@ class ReportController():
         self.password = password
 
         self.folder_source = "report/answer/"
+        self.pdf_is_maked = False
 
-        self.service = serv.ReportService(password)
+        self.service = serv.ReportService(self.password)
 
     def set_title(self, title):
         self.title = title
@@ -34,56 +35,69 @@ class ReportController():
 
         
 
-    def create_report(self, list_pictures, list_teach_enter=None, path_folder = 'encrypted_data/', title = "", information_student = "", is_show=True):
+    def create_report(self, list_pictures = [], list_teach_enter=[], path_folder = 'encrypted_data/', title = "", information_student = "", is_show=True):
 
-        self.set_title(title)
-        self.set_information_student(information_student)
-        self.create_start_page()
+        if self.pdf_is_maked == False:
+            self.set_title(title)
+            self.set_information_student(information_student)
+            self.create_start_page()
 
-        self.report.add_page()
-        self.report.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
-        self.report.set_font('DejaVu', '', 14)
-        self.report.cell(190, 20, "", ln=1)
-        
-        self.service.add_text(self.report, "Статус выполненных заданий", 100)
-        self.report.ln(10)
-        text_1 = " выполнено."
-        text_2 = " выполнено при помощи перподавателя."
-
-        self.report.set_x(15)
-        for i in range(len(list_teach_enter)):
-            if (list_teach_enter[i]):
-                text = text_2
-            else:
-                text = text_1
-            self.service.add_text(self.report, "Задание №" + str(i+1) + text)
+            self.report.add_page()
+            self.report.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
+            self.report.set_font('DejaVu', '', 14)
+            self.report.cell(190, 20, "", ln=1)
             
+            self.service.add_text(self.report, "Статус выполненных заданий", 100)
+            self.report.ln(10)
+            text_1 = " выполнено."
+            text_2 = " выполнено при помощи перподавателя."
 
-        for i in range(len(list_pictures)-1):
-            if len(list_pictures[i]) == 1:
-                self.service.create_task_page(self.report, "Задание №" +  str(i+1), list_pictures[i][0])
+            self.report.set_x(15)
+            for i in range(len(list_teach_enter)):
+                if (list_teach_enter[i]):
+                    text = text_2
+                else:
+                    text = text_1
+                self.service.add_text(self.report, "Задание №" + str(i+1) + text)
+                
 
-            else:
-                for j in range(len(list_pictures[i])):
-                    self.service.create_task_page(self.report, "Задание №" +  str(i+1) + " (отделение " + str(j+1) + ")", list_pictures[i][j])
+            for i in range(len(list_pictures)-1):
+                if len(list_pictures[i]) == 1:
+                    self.service.create_task_page(self.report, "Задание №" +  str(i+1), list_pictures[i][0])
+
+                else:
+                    for j in range(len(list_pictures[i])):
+                        self.service.create_task_page(self.report, "Задание №" +  str(i+1) + " (отделение " + str(j+1) + ")", list_pictures[i][j])
+                
             
-        
-        self.service.create_task_page(self.report, "Гистограмма", list_pictures[6][0], 'H')
+            self.service.create_task_page(self.report, "Гистограмма", list_pictures[6][0], 'H')
 
+            name_report = self.text_information_student +'.pdf'
+            path_report = path_folder + name_report
+            save_time_path = self.folder_source + name_report
+
+            self.report.output(path_report)
+            self.report.output(save_time_path)
+
+            self.pdf_is_maked = True
+            # #показ отчета студенту
+            # if is_show:
+            #     self.service.pdf_show(save_time_path)
+            
+            self.encrypt(save_time_path)
+        
+        self.show_current()
+
+        return name_report
+
+    def show_current(self):
+        
         name_report = self.text_information_student +'.pdf'
-        path_report = path_folder + name_report
-        self.report.output(path_report)
-
         save_time_path = self.folder_source + name_report
-        self.report.output(save_time_path)
 
-        #показ отчета студенту
-        if is_show:
-            self.service.pdf_show(save_time_path)
-        
+        self.decrypt(save_time_path)
+        self.service.pdf_show(save_time_path)
         self.encrypt(save_time_path)
-
-        return name_report, True
 
 
     def whatch_report(self, path):
@@ -106,8 +120,9 @@ class ReportController():
 
     def save_report(self, path_to_save):
         try:
-            self.service.pdf_save(path_to_save)
-        except:
+            self.service.pdf_save(self.folder_source, path_to_save)
+        except Exception as e:
+            print(e)
             print("Проблема с сохранением файла!")
 
         

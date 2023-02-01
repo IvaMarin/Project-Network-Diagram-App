@@ -6,27 +6,10 @@ from PyQt5.QtWidgets import QMessageBox
 
 class encrypt_decrypt():
     def __init__(self):
-        #self.secret_password = self.enterKey() #.encode("ascii") # пароль для архива в бинарном виде
-        self.secret_password = b'pirat_encrypt123'
+        self.secret_password = b'pirat_encrypt123' # пароль для архива
         self.pathToEncry = os.path.abspath(os.curdir) + '/encrypted_data' # путь до дирриктории в которой лежат файлы которые нужно шифровать
         self.pathToDecry = os.path.abspath(os.curdir) # путь до дирриктории куда надо положить расшифрованную папку
         self.exceptToZipFile = ["tmp_txt_file.txt"] # файлы которые не нужно шифровать 
-
-    def enterKey (self):
-        pathToKey = os.path.abspath(os.curdir) + '/encrypted_key' # teacher_token.txt
-        try:
-            with open(pathToKey + "/teacher_token.txt", 'rb') as token_file: # поменял r <-> rb
-                teacher_token = token_file.readline()
-                return teacher_token
-        except Exception:
-            msg = QMessageBox()
-            msg.setWindowTitle("Предупреждение")
-            msg.setText("Ошибка: некорректный файл, невозможно открыть файл")
-            msg.setIcon(QMessageBox.Warning)
-            msg.setStandardButtons(QMessageBox.Ok)
-            msg.exec()
-
-        
 
     def encryptAll(self, nameZipFile = 'encrypted_data.zip'): # функция шифрования всех нужных нам файлов
         print("\n")
@@ -73,17 +56,16 @@ class encrypt_decrypt():
 
             zf.write('encrypted_data/' + fileName)
 
-        # self.delFile(fileName)
+        self.delFile(fileName)
 
     def extractFileFromZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # извлечение файла по имени из архива
-
-        try:
-            with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
-                    as extracted_zip:
-                    fileName = 'encrypted_data' '/' + fileName # нельзя использовать слеши как в пути в виндус с экранированием нужно юзать / он сам поменяется на то что нужно для архива (в винде на /)
-                    extracted_zip.extract(member=fileName, path=self.pathToDecry ,pwd=self.secret_password)
-        except:
-            print("Not found " + fileName)
+        with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
+                as extracted_zip:
+                fileName = 'encrypted_data' + '/' + fileName # нельзя использовать слеши как в пути в виндус с экранированием нужно юзать / он сам поменяется на то что нужно для архива (в винде на /)
+                #print("ИЗВЛЕКАЕМЫЙ ФАЙЛ      " + fileName)
+                #print("Декрай      " + self.pathToDecry)
+                #print("Секрет      " + self.secret_password)
+                extracted_zip.extract(member=fileName, path=self.pathToDecry ,pwd=self.secret_password)
 
 
     def clearDir(self):# удаляем все файлы вне архива кроме файлов исключений (.py и .zip)

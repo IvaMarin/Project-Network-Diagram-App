@@ -960,7 +960,7 @@ class DrawHist(QWidget):
                 painter.drawText(int(self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
 
 
-            intervals = np.zeros(self.root.max_possible_time)
+            intervals = np.zeros(self.root.max_possible_time+1)
             for p in range(len(self.graph)):
                 AdjacencyList = self.graph[p].PeopleWeights
                 ArrowsList = self.graph[p].Arrows
@@ -977,7 +977,7 @@ class DrawHist(QWidget):
 
             painter.setPen(QPen(QColor("red"), 3))
             lines = []
-            for i in range(len(intervals)):
+            for i in range(len(intervals)-1):
                 lines.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step - 10, self.step*(i+2), y0-intervals[i]*self.step - 10))
             painter.drawLines(lines)
 
