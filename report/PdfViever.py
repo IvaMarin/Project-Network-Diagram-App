@@ -41,7 +41,7 @@ class Viewer():
     for i in range(len(pages)):
       #pages[i].save('report/image/page'+ str(i) +'.jpg', 'JPEG')
       #img = pages[i].resize((round(monitor_width*0.5), round((monitor_width*0.5)/1.4142)))
-      img = pages[i].resize((round(monitor_width*0.8), round((monitor_width*0.8)/1.4142)), Image.Resampling.LANCZOS)
+      img = pages[i].resize((round(monitor_width*0.8), round((monitor_width*0.8)/1.4142)))#, Image.Resampling.LANCZOS
       photos.append(ImageTk.PhotoImage(img))
 
     # добавляем фотки в наш viewer
