@@ -7,11 +7,13 @@ fpdf==1.7.2
 lxml==4.9.2
 numpy==1.24.1
 openpyxl==3.0.10
+pdf2image==1.16.2
 Pillow==9.4.0
 pyception==0.1.1
 pycodestyle==2.10.0
 pycryptodome==3.17
 pycryptodomex==3.17
+PyPDF2==3.0.1
 PyQt5==5.15.8
 PyQt5-Qt5==5.15.2
 PyQt5-sip==12.11.1
@@ -24,3 +26,4 @@ six==1.16.0
 tomli==2.0.1
 tqdm==4.64.1
 transliterate==1.10.2
+typing_extensions==4.4.0
