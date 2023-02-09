@@ -545,6 +545,7 @@ class Window2(QMainWindow):
                             if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
                                 self.DisplayObj.QLineEdits[i][j].setReadOnly(True)
 
+                    # если в режиме преподавателя, то записываем в ответ
                     if properties.teacherMode:
                         properties.save_graph_for_teacher(graph1, 2)
 
@@ -1097,7 +1098,7 @@ class Window5(QMainWindow):
 
         self.images = []
         for i in range(squadNum):
-            size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
+            size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (properties.max_sequences_amount + 2) * properties.step_gridY + 10)
             self.images.append(QImage(size, QImage.Format_RGB32))
 
         # Задаём компоновку виджету
@@ -1201,6 +1202,8 @@ class Window5(QMainWindow):
             if (squad == numS):
                 maxY += 1
         maxY *= properties.step_gridY
+        print(maxY)
+        print(properties.step_gridY)
 
         deltaY = set()
         for (x, y) in self.widgetList[i].graph_in.Points.values():
@@ -1432,6 +1435,7 @@ class Window5(QMainWindow):
                 for i in range(len(self.images)):
                     strTemp = str(5)+str(i)+".jpg"
                     self.images[i].save('encrypted_data/'+strTemp)
+                    #self.widgetList[i].save()
 
                 for i in range(len(self.images)):
                     strTemp = str(5)+str(i)+".jpg"
@@ -1609,7 +1613,7 @@ class Window6(QMainWindow):
 
         self.images = []
         for i in range(squadNum):
-            size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, 500)
+            size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (properties.max_sequences_amount + 2) * properties.step_gridY + 10)
             self.images.append(QImage(size, QImage.Format_RGB32))
 
         widgetLeft = QWidget()
@@ -1621,7 +1625,7 @@ class Window6(QMainWindow):
         self.scroll1.setWidgetResizable(True)
         self.scroll1.setWidget(widgetLeft)
 
-        self.widgetRight = Display.DrawHist(self, graph5_ort)
+        self.widgetRight = Display.DrawHist(properties, graph5_ort)
         self.widgetRight.setMinimumSize(int(self.width/2), 500)
         # print(self.widgetRight.height())
 
@@ -1744,9 +1748,11 @@ class Window6(QMainWindow):
         for i in range(len(self.images)):
             strTemp = str(6)+str(i)+".jpg"
             encrypt.addFileInZip(strTemp)
+        
+        print("!!!!!!!!!!!!!!!УПАКОВАНО!!!!!!!!!!!!\nДалее создание\n")
 
         MainWindow.creatReport()
-        self.backMainMenu()
+        #self.backMainMenu()
 
         # MainWindow.creatReport()
         #self.backMainMenu()
@@ -1869,8 +1875,10 @@ class WindowMenu(QMainWindow):
         #self.creatTable = WinsDialog.creatTable(self) #
 
         self.ui.btnReportSign.setEnabled(False)
-        self.ui.btnGenVar.setEnabled(False)
+        # self.ui.btnGenVar.setEnabled(False)
         self.ui.btnEditTaskVariant.setEnabled(False)
+        self.ui.btnPrint.setEnabled(False)
+        self.ui.previewReport.setEnabled(False) 
         self.ui.btnTask1.setEnabled(True)
         self.ui.btnTask2.setEnabled(statusTask.get_verification_passed_tasks(1))
         self.ui.btnTask3.setEnabled(statusTask.get_verification_passed_tasks(2))
@@ -1885,6 +1893,9 @@ class WindowMenu(QMainWindow):
         quit.triggered.connect(self.closeEvent)
 
         self.testGen()
+
+        self.report_controller = Controller.ReportController("mai_cam_password")
+        self.report_was_make = False
 
     def getCorrectAdjacencyMatrix(self):
         arr = []
@@ -1989,19 +2000,20 @@ class WindowMenu(QMainWindow):
         close.setText("Вы уверены, что хотите закрыть приложение?")
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         close.setWindowFlags(Qt.WindowStaysOnTopHint)
+        cl = close.exec()
 
-        close = close.exec()
-
-        if close == QMessageBox.Ok:
+        if cl == QMessageBox.Ok:
             properties.clear_answer(1)
             properties.clear_answer(2)
             properties.clear_answer(3)
             properties.clear_answer(4)
-            for i in range(squadNum):
+            for i in range(1, squadNum+1):
                 properties.clear_answer(5, i)
             event.accept()
         else:
             event.ignore()
+
+        
 
     def _connectAction(self):
         self.ui.btnTask1.clicked.connect(lambda: self.openTask(self.ui.btnTask1.text()))
@@ -2011,9 +2023,10 @@ class WindowMenu(QMainWindow):
         self.ui.btnTask5.clicked.connect(lambda: self.openTask(self.ui.btnTask5.text()))
         self.ui.btnTask6.clicked.connect(lambda: self.openTask(self.ui.btnTask6.text()))
         self.ui.btnTeacherMode.clicked.connect(lambda: self.activateTeacherMode())
+        self.ui.btnSaveReportAs.clicked.connect(lambda: self.save_report_as())
 
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec) # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
-        self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
+        # self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         self.ui.previewReport.clicked.connect(lambda: self.watch_report()) #
         self.ui.btnPrint.clicked.connect(lambda: self.print_report())
         self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
@@ -2023,7 +2036,7 @@ class WindowMenu(QMainWindow):
         if self.ui.btnTeacherMode.isChecked() and (encrypt.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
             self.ui.btnReportSign.setEnabled(True)
-            self.ui.btnGenVar.setEnabled(True)
+            # self.ui.btnGenVar.setEnabled(True)
             self.ui.btnEditTaskVariant.setEnabled(True)
             self.ui.btnTask1.setEnabled(True)
             self.ui.btnTask2.setEnabled(True)
@@ -2031,12 +2044,16 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask4.setEnabled(True)
             self.ui.btnTask5.setEnabled(True)
             self.ui.btnTask6.setEnabled(True)
+            self.ui.btnPrint.setEnabled(True) 
+            self.ui.previewReport.setEnabled(True) 
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
         else:
             self.ui.btnReportSign.setEnabled(False)
-            self.ui.btnGenVar.setEnabled(False)
+            # self.ui.btnGenVar.setEnabled(False)
             self.ui.btnEditTaskVariant.setEnabled(False)
+            self.ui.btnPrint.setEnabled(False)
+            self.ui.previewReport.setEnabled(False) 
             self.ui.btnTask1.setEnabled(True)
             self.ui.btnTask2.setEnabled(statusTask.get_verification_passed_tasks(1))
             self.ui.btnTask3.setEnabled(statusTask.get_verification_passed_tasks(2))
@@ -2069,7 +2086,6 @@ class WindowMenu(QMainWindow):
         self.msg.setIcon(QMessageBox.Warning)
         self.msg.setStandardButtons(QMessageBox.Ok)
         try:
-        # if True:
             report = (
                 QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]
             )
@@ -2077,30 +2093,9 @@ class WindowMenu(QMainWindow):
             if report == "":
                 return
 
-            # self.msg = QMessageBox()
-            # self.msg.setWindowTitle("Предупреждение")
-            # self.msg.setText("В данном варианте отсутствует предустановленное решение!")
-            # self.msg.setIcon(QMessageBox.Warning)
-            # self.msg.setStandardButtons(QMessageBox.Ok)
-
-                # convert(report)
-                # pypandoc.convert_file(report, 'docx', outputfile="report.pdf")
-            # word = comtypes.client.CreateObject('Word.Application')
-            # doc = word.Documents.Open(report)
-            # doc.SaveAs(pdf_report, FileFormat=wdFormatPDF)
-            # doc.Close()
-            # word.Quit()
-
-            # except Exception as e:
-            #     self.msgCheck.setText(str(e))
-            #     self.msgCheck.show()
-
             print(report)
 
-            self.pdf_widget = PdfWidget(report, encrypt)
-            self.pdf_widget.show()
-            # self.pdf_widget.closeEvent()
-            #os.remove(self.pdf_path)
+            self.report_controller.whatch_report(report)
         except Exception:
             self.msg.show()
 
@@ -2129,113 +2124,82 @@ class WindowMenu(QMainWindow):
         file = open("inf_of_student.txt", 'w')
         file.write(self.surname + "\n" + self.numINGroup + "\n" + self.numGroup)
         file.close()
-
+        
         name_project = "Практическое занятие: \n«Использование метода сетевого планирования и управления в технологических процессах эксплуатации космических средств»"
-        encrypt.extractFileFromZip('1.jpg')
-        encrypt.extractFileFromZip('2.jpg')
-        encrypt.extractFileFromZip('3.jpg')
-        encrypt.extractFileFromZip('4.jpg')
-        for i in range(squadNum):
-            encrypt.extractFileFromZip(str(5)+str(i)+".jpg")
-        for i in range(squadNum):
-            encrypt.extractFileFromZip(str(6)+str(i)+".jpg")
-        encrypt.extractFileFromZip('6_hist.jpg')
+        try:
+            encrypt.extractFileFromZip('1.jpg')
+        except:
+            print("Not found " + '1.jpg')
+
+        try:
+            encrypt.extractFileFromZip('2.jpg')
+        except:
+            print("Not found " + '2.jpg')
+
+        try:
+            encrypt.extractFileFromZip('3.jpg')
+        except:
+            print("Not found " + '3.jpg')
+
+        try:
+            encrypt.extractFileFromZip('4.jpg')
+        except:
+            print("Not found " + '4.jpg')
+
+        try:
+            for i in range(squadNum):
+                encrypt.extractFileFromZip(str(5)+str(i)+".jpg")
+        except:
+            print("Not found " + '5....jpg')
+        
+        try:
+            for i in range(squadNum):
+                encrypt.extractFileFromZip(str(6)+str(i)+".jpg")
+        except:
+            print("Not found " + '6.....jpg')
+
+        try:
+            encrypt.extractFileFromZip('6_hist.jpg')
+        except:
+            print("Not found " + '6_hist.jpg')
+
         list_pictures = [["encrypted_data/1.jpg"], ["encrypted_data/2.jpg"], ["encrypted_data/3.jpg"],
             ["encrypted_data/4.jpg"], ["encrypted_data/50.jpg", "encrypted_data/51.jpg", "encrypted_data/52.jpg"],
-            ["encrypted_data/60.jpg", "encrypted_data/61.jpg", "encrypted_data/62.jpg", "encrypted_data/6_hist.jpg"]]
+            ["encrypted_data/60.jpg", "encrypted_data/61.jpg", "encrypted_data/62.jpg"], ["encrypted_data/6_hist.jpg"]]
 
         
         name = self.surname.replace(' ', '_')
+        information_about_student = "test"
+        try:
+            #information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
+            information_about_student = name + '_' + self.numGroup + '_' + self.numINGroup
+            print("NICE information_about_student")
+        except Exception as e:
+            print("BUG   " + information_about_student)
+            print("translit mistake     ", e)
 
-        information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
-
-        report_controller = Controller.ReportController(information_about_student, None, name_project)
-        name_report = report_controller.create_report(list_pictures, properties.enter_teacher_mode)
-        encrypt.addFileInZip(name_report)
+        print("ОШИБКИ С созданием отчета.....")
+        self.report_controller.create_report(list_pictures=list_pictures, list_teach_enter=properties.enter_teacher_mode, title=name_project, information_student=information_about_student)
+        print(".......ОШИБКИ С созданием отчета")
+        # запаковка
+        # encrypt.addFileInZip(name_report)
         encrypt.delImaFromZip()
 
-        # document = Document()
-        # document.sections[-1].orientation = WD_ORIENT.LANDSCAPE
-        # document.sections[-1].page_width = Mm(297)
-        # document.sections[-1].page_height = Mm(210)
+        #self.report_controller.show_current()
 
-        # document.add_paragraph("ФИО: {0}".format(self.surname))
-        # document.add_paragraph("Номер взвода: {0}".format(self.numGroup))
-        # document.add_paragraph("Вариант: {0}".format(self.numINGroup))
-        # document.add_page_break()
-        # encrypt.extractFileFromZip('1.jpg')
-        # document.add_heading('Задание 1', 0)
-        # if properties.enter_teacher_mode[0]:
-        #     document.add_paragraph('Режим преподавателя был включен')
-        # try:
-        #     document.add_picture('encrypted_data/1.jpg', width=Inches(8.5))
-        # except:
-        #     pass
-        # document.add_page_break()
-        # encrypt.extractFileFromZip('2.jpg')
-        # document.add_heading('Задание 2', 0)
-        # if properties.enter_teacher_mode[1]:
-        #     document.add_paragraph('Режим преподавателя был включен')
-        # try:encrypt.addFileInZip(str_temp + '.docx')
-        # encrypt.delImaFromZip()
-        #     document.add_picture('encrypted_data/2.jpg', width=Inches(8.5))
-        # except:
-        #     pass
-        # document.add_page_break()
-        # encrypt.extractFileFromZip('3.jpg')
-        # document.add_heading('Задание 3', 0)
-        # if properties.enter_teacher_mode[2]:
-        #     document.add_paragraph('Режим преподавателя был включен')
-        # try:
-        #     document.add_picture('encrypted_data/3.jpg', width=Inches(9.5))
-        # except:
-        #     pass
-        # document.add_page_break()
-        # encrypt.extractFileFromZip('4.jpg')
-        # document.add_heading('Задание 4', 0)
-        # if properties.enter_teacher_mode[3]:
-        #     document.add_paragraph('Режим преподавателя был включен')
-        # try:
-        #     document.add_picture('encrypted_data/4.jpg', width=Inches(9.5))
-        # except:
-        #     pass
-        # document.add_page_break()
-        # for i in range(squadNum):
-        #     encrypt.eencrypt.addFileInZip(str_temp + '.docx')
-        # encrypt.delImaFromZip()xtractFileFromZip(str(5)+str(i)+".jpg")
-        # document.add_heading('Задание 5', 0)
-        # if properties.enter_teacher_mode[4]:
-        #     document.add_paragraph('Режим преподавателя был включен')
-        # for i in range(squadNum):
-        #     try:
-        #         document.add_heading(str(i+1) + " отделение", 0)
-        #         document.add_picture('encrypted_data/'+str(5)+str(i)+".jpg", width=Inches(9))
-        #     except:
-        #         pass
-        # document.add_page_break()
-        # for i in range(squadNum):
-        #     encrypt.extractFileFromZip(str(6)+str(i)+".jpg")
-        # document.add_heading('Задание 6', 0)
-        # if properties.enter_teacher_mode[5]:
-        #     document.add_paragraph('Режим преподавателя был включен')
-        # for i in range(squadNum):
-        #     try:
-        #         document.add_heading(str(i+1) + " отделение", 0)
-        #         document.add_picture('encrypted_data/'+str(6)+str(i)+".jpg", width=Inches(9))
-        #     except:
-        #         pass
-        # document.add_page_break()
-        # encrypt.extractFileFromZip('6_hist.jpg')
-        # document.add_heading('Гистограмма', 0)
-        # try:
-        #     document.add_picture('encrypted_data/6_hist.jpg', width=Inches(5))
-        # except:
-        #     pass
+    def save_report_as(self):
+        
+        if self.report_controller.pdf_is_maked == True:
+            path_for_save = (
+                    QtWidgets.QFileDialog.getExistingDirectory(self, 'Выберите дирректорию для сохранения')
+                )
+            path_for_save = os.path.abspath(path_for_save)
+            
+            self.report_controller.save_report(path_for_save)
+               
 
-        # str_temp = translit(self.surname, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
-        # document.save('encrypted_data/' + str_temp + '.docx')
-        # encrypt.addFileInZip(str_temp + '.docx')
-        # encrypt.delImaFromZip()
+        else:
+            print("!!!!!!!!!!!!!!!!!!Сначала создайте отчет!!!!!!!!!!!!")
 
 
     def openTask (self, numTask):

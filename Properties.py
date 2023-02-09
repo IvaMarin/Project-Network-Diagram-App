@@ -244,14 +244,17 @@ class Properties():
 
 ####################____ФУНКЦИИ_ДЛЯ_ОЧИСТКИ_СОХРАНЕНИЯ__####################################################
 
-    def clear_answer(self, i, subtask = 0):
+    def clear_answer(self, task, subtask = 0):
+
         if subtask == 0:
-            with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}.pickle', 'wb') as file:
-                graph = self.get_graph_from_radius()
-                pickle.dump(graph, file)
+            try:
+                os.remove(f'answer_of_student/states_of_graphs_{task}/state_{self.variant}.pickle')
+            except:
+                print(f'answer_of_student/states_of_graphs_{task}/state_{self.variant}.pickle' + 'not found!')
         else:
-            with open(f'answer_of_student/states_of_graphs_{i}/state_{self.variant}_task_{subtask}.pickle', 'wb') as file:
-                graph = self.get_graph_from_radius()
-                pickle.dump(graph, file)
+            try:
+                os.remove(f'answer_of_student/states_of_graphs_{task}/state_{self.variant}_task_{subtask}.pickle')
+            except:
+                print(f'answer_of_student/states_of_graphs_{task}/state_{self.variant}_task_{subtask}.pickle' + 'not found!')
 
 ####################################################################################################################### 

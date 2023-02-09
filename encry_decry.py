@@ -59,14 +59,13 @@ class encrypt_decrypt():
         self.delFile(fileName)
 
     def extractFileFromZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # извлечение файла по имени из архива
-
-        try:
-            with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
-                    as extracted_zip:
-                    fileName = 'encrypted_data' '/' + fileName # нельзя использовать слеши как в пути в виндус с экранированием нужно юзать / он сам поменяется на то что нужно для архива (в винде на /)
-                    extracted_zip.extract(member=fileName, path=self.pathToDecry ,pwd=self.secret_password)
-        except:
-            print("Not found " + fileName)
+        with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
+                as extracted_zip:
+                fileName = 'encrypted_data' + '/' + fileName # нельзя использовать слеши как в пути в виндус с экранированием нужно юзать / он сам поменяется на то что нужно для архива (в винде на /)
+                #print("ИЗВЛЕКАЕМЫЙ ФАЙЛ      " + fileName)
+                #print("Декрай      " + self.pathToDecry)
+                #print("Секрет      " + self.secret_password)
+                extracted_zip.extract(member=fileName, path=self.pathToDecry ,pwd=self.secret_password)
 
 
     def clearDir(self):# удаляем все файлы вне архива кроме файлов исключений (.py и .zip)
@@ -161,12 +160,10 @@ class encrypt_decrypt():
     def check_key(self, teacher_token_zip_name, nameZipFile = 'encrypted_data.zip'):
         
         try:
-            with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
-                as encrypted_data_zip: # открываем архив которы лежит в исходниках проги 
-                encrypted_data_token_file = encrypted_data_zip.read(name='encrypted_data' '/' + 'teacher_token.txt', pwd=self.secret_password)# читаем файл из архива в исходниках
-                with pyzipper.AESZipFile(teacher_token_zip_name, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
-                        as teacher_token_zip: # открываем архив на флешке учителя
-                        teacher_token_file = teacher_token_zip.read(name='encrypted_data' '/' + 'teacher_token.txt', pwd=self.secret_password) # читаем файл с флешки учителя (из архива)
+            with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) as encrypted_data_zip: # открываем архив которы лежит в исходниках проги 
+                encrypted_data_token_file = encrypted_data_zip.read(name='encrypted_data' + '/' + 'teacher_token.txt', pwd=self.secret_password)# читаем файл из архива в исходниках
+                with pyzipper.AESZipFile(teacher_token_zip_name, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) as teacher_token_zip: # открываем архив на флешке учителя
+                        teacher_token_file = teacher_token_zip.read(name='encrypted_data' + '/' + 'teacher_token.txt', pwd=self.secret_password) # читаем файл с флешки учителя (из архива)
 
                         if encrypted_data_token_file == teacher_token_file: # проверяем на совпадение строки 
                             return True
