@@ -83,7 +83,7 @@ class ReportController():
             # #показ отчета студенту
             # if is_show:
             #     self.service.pdf_show(save_time_path)
-            
+            print(save_time_path)
             self.encrypt(save_time_path)
         
         self.show_current()
