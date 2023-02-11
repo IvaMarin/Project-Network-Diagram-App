@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>625</width>
-    <height>208</height>
+    <width>857</width>
+    <height>291</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Задание 1&lt;/span&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Постройте граф, используя таблицу данных.&lt;/p&gt;&lt;p&gt;Смотри колонку “Шифр работ”.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Задание 1&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Постройте граф, используя таблицу данных.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Смотри колонку “Шифр работ”.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>

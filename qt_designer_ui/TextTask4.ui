@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1526</width>
-    <height>208</height>
+    <width>1172</width>
+    <height>286</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Задание 4&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;1. Расставьте вершины графа по верным временным осям в поздних сроках.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;2. Передвигая конец стрелки, поставьте стрелку на нужную ось, тем самым указывая продолжительность работ в поздних  сроках. (Пунктирная линия - запас времени).&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Задание 4&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;1. Расставьте вершины графа по верным временным осям в поздних сроках.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;2. Передвигая конец стрелки, поставьте стрелку на нужную ось, тем самым указывая &lt;br/&gt;продолжительность работ в поздних сроках. (Пунктирная линия - запас времени).&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>

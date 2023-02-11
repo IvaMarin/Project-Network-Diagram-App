@@ -34,6 +34,7 @@ class Viewer():
     pdf.pack(fill=BOTH, padx=round(monitor_width*0.1), expand=True)
 
     # конвертируем страницы пдф в список изображений
+    print("path    ", path)
     pages = convert_from_path(path)
     # фотки пдф страниц
     photos = []

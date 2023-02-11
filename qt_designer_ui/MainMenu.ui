@@ -14,7 +14,7 @@
    <string>Меню</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #d5fffe;</string>
+   <string notr="true">#centralwidget{background-color: #d5fffe;}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -479,6 +479,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources/backGround.qrc"/>
+ </resources>
  <connections/>
 </ui>
