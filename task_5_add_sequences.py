@@ -7,7 +7,7 @@ from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QPixmap
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction, QMessageBox
 
 from qt_designer_ui.task5AddSeq import Ui_task5AddSeq
-import Properties
+import properties
 
 
 

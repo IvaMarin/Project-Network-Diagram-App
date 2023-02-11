@@ -47,7 +47,7 @@ from qt_designer_ui.windowTask1 import Ui_MainWindow1
 from qt_designer_ui.windowTask3 import Ui_MainWindow3
 from qt_designer_ui.windowTask5 import Ui_MainWindow5
 from qt_designer_ui.task5AddSeq import Ui_task5AddSeq
-from windowTask2 import Ui_MainWindow2
+from task_2_window import Ui_MainWindow2
 from qt_designer_ui.tableTask1 import Ui_tableTask1
 from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
 from qt_designer_ui.windowTask6 import Ui_MainWindow6
@@ -61,17 +61,17 @@ from qt_designer_ui.TextTask6 import Ui_TextTask6
 
 #######################################################
 
-import Display
-from WinsDialog import winSigReport,winLogin,winEditTable
-from task1CheckForm import task1CheckForm
+import display
+from dialog_windows import winSigReport,winLogin,winEditTable
+from task_1_check_form import task1CheckForm
 from qt_designer_ui.task5CheckForm import task5CheckForm
-from task5AddSeq import task5AddSeq
-import GraphModel
-import Properties
+from task_5_add_sequences import task5AddSeq
+import graph_model
+import properties
 
 ############ глобальные переменные ###########
 global graph1
-graph1 = GraphModel.Graph(30) # граф из первого окна (главный)
+graph1 = graph_model.Graph(30) # граф из первого окна (главный)
 graph5 = [] # графы по количеству отделений
 graph5_ort = []
 
@@ -112,7 +112,7 @@ class Window1(QMainWindow):
         graph1.SquadsPeopleToWork = MainWindow.getCorrectSquadsPeopleToWork()
         graph1.SquadsPeopleNumber = MainWindow.getCorrectSquadsPeopleNumber()
 
-        self.DisplayObj = Display.Display(self, graph1)
+        self.DisplayObj = display.Display(self, graph1)
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -356,7 +356,7 @@ class Window2(QMainWindow):
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        self.DisplayObj = Display.Display2(self, graph1)
+        self.DisplayObj = display.Display2(self, graph1)
         size = QSize(sizeWindow.width(), sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
         self.scroll = QtWidgets.QScrollArea()
@@ -667,7 +667,7 @@ class Window3(QMainWindow):
 
         #self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
 
-        self.DisplayObj = Display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
+        self.DisplayObj = display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
 
 
         self.scroll = QtWidgets.QScrollArea()
@@ -874,7 +874,7 @@ class Window4(QMainWindow):
         self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
-        self.DisplayObj = Display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
+        self.DisplayObj = display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
@@ -1076,7 +1076,7 @@ class Window5(QMainWindow):
 
         for i in range(squadNum):
             self.i = i
-            self.widget1 = Display.Display5(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1)
+            self.widget1 = display.Display5(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1)
             self.widgetList.append(self.widget1)
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
@@ -1602,7 +1602,7 @@ class Window6(QMainWindow):
         self.widgetList = []
         for i in range(squadNum):
             self.i = i
-            self.widgetList.append(Display.Display6(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1))
+            self.widgetList.append(display.Display6(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1))
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -1625,7 +1625,7 @@ class Window6(QMainWindow):
         self.scroll1.setWidgetResizable(True)
         self.scroll1.setWidget(widgetLeft)
 
-        self.widgetRight = Display.DrawHist(properties, graph5_ort)
+        self.widgetRight = display.DrawHist(properties, graph5_ort)
         self.widgetRight.setMinimumSize(int(self.width/2), 500)
         # print(self.widgetRight.height())
 
@@ -2273,9 +2273,9 @@ class WindowMenu(QMainWindow):
 if __name__ == "__main__":
     encrypt = encrypt_decrypt()
     app = QApplication(sys.argv)
-    statusTask = Properties.statusTask()
+    statusTask = properties.statusTask()
     MainWindow = WindowMenu()
-    properties = Properties.Properties(MainWindow)
+    properties = properties.Properties(MainWindow)
 
     squadNum = maxSquadNum()
     MainWindow1 = Window1()
@@ -2284,10 +2284,10 @@ if __name__ == "__main__":
     MainWindow4 = Window4()
 
     for i in range(maxSquadNum()):
-        graph5.append(GraphModel.Graph(30))
+        graph5.append(graph_model.Graph(30))
 
     for i in range(maxSquadNum()):
-        graph5_ort.append(GraphModel.GraphOrthogonal(30))
+        graph5_ort.append(graph_model.GraphOrthogonal(30))
 
     MainWindow5 = Window5()
     MainWindow6 = Window6()
