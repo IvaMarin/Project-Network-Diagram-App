@@ -61,13 +61,13 @@ from qt_designer_ui.TextTask6 import Ui_TextTask6
 
 #######################################################
 
-import display_
+import display
 from dialog_windows import winSigReport,winLogin,winEditTable
 from task_one_check_form import task1CheckForm
 from qt_designer_ui.task5CheckForm import task5CheckForm
 from task_five_add_sequences import task5AddSeq
 import graph_model
-import properties_
+import properties
 
 ############ глобальные переменные ###########
 global graph1
@@ -112,7 +112,7 @@ class Window1(QMainWindow):
         graph1.SquadsPeopleToWork = MainWindow.getCorrectSquadsPeopleToWork()
         graph1.SquadsPeopleNumber = MainWindow.getCorrectSquadsPeopleNumber()
 
-        self.DisplayObj = display_.Display(self, graph1)
+        self.DisplayObj = display.Display(self, graph1)
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -221,14 +221,14 @@ class Window1(QMainWindow):
         mistakes = self.DisplayObj.checkEvent()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                properties_.set__verification_passed_task(1)
+                properties.set__verification_passed_task(1)
 
-                if properties_.teacherMode:
-                    properties_.save_graph_for_teacher(graph1, 1)
+                if properties.teacherMode:
+                    properties.save_graph_for_teacher(graph1, 1)
 
-                properties_.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+                properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
 
-                save_graph_for_student_1 = properties_.get_graph_for_student(1)
+                save_graph_for_student_1 = properties.get_graph_for_student(1)
                 self.DisplayObj.graph = save_graph_for_student_1
 
                 # sys.modules[graph1].__dict__.clear()
@@ -280,16 +280,16 @@ class Window1(QMainWindow):
             self.table.hide()
 
     def show(self):
-        if properties_.teacherMode:
+        if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
-            properties_.enter_teacher_mode[0] = True
+            properties.enter_teacher_mode[0] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
 
         self.DisplayObj.functionAble = ""
-        self.ui.actionHelp.setEnabled(properties_.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
     def lockUi(self):
@@ -313,8 +313,8 @@ class Window1(QMainWindow):
     def switchTeacherMode(self, flag):
         if (flag):
             #print("Режим препода")
-            properties_.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-            graph = properties_.get_graph_for_teacher(1) # берем граф из сохранения
+            properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+            graph = properties.get_graph_for_teacher(1) # берем граф из сохранения
             self.DisplayObj.graph = graph
             self.DisplayObj.update()
 
@@ -328,7 +328,7 @@ class Window1(QMainWindow):
             #print("Режим студента")
             #graph_student = properties.get_graph_for_student(1)
             if (statusTask.get_verification_passed_pretasks(2)):
-                save_graph_for_student_1 = properties_.get_graph_for_student(1)
+                save_graph_for_student_1 = properties.get_graph_for_student(1)
                 self.DisplayObj.graph = save_graph_for_student_1
             else:
                 self.DisplayObj.graph = graph1
@@ -356,7 +356,7 @@ class Window2(QMainWindow):
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        self.DisplayObj = display_.Display2(self, graph1)
+        self.DisplayObj = display.Display2(self, graph1)
         size = QSize(sizeWindow.width(), sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
         self.scroll = QtWidgets.QScrollArea()
@@ -449,17 +449,17 @@ class Window2(QMainWindow):
                 event.ignore()
 
     def show(self):
-        if properties_.teacherMode:
+        if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
-            properties_.enter_teacher_mode[1] = True
+            properties.enter_teacher_mode[1] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         # При вызове окна обновляется колво вершин графа
 
         self.showMaximized()
-        self.ui.actionHelp.setEnabled(properties_.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
 
         if self.firstShow:
             self.cnt = len(graph1.CorrectAdjacencyMatrix)
@@ -537,7 +537,7 @@ class Window2(QMainWindow):
             mistakes = self.DisplayObj.checkEvent()
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
-                    properties_.set__verification_passed_task(2)
+                    properties.set__verification_passed_task(2)
 
                     # после корректного выполнения запрещаем модифицировать продолжительности
                     for i in range(len(self.DisplayObj.QLineEdits)):
@@ -546,11 +546,11 @@ class Window2(QMainWindow):
                                 self.DisplayObj.QLineEdits[i][j].setReadOnly(True)
 
                     # если в режиме преподавателя, то записываем в ответ
-                    if properties_.teacherMode:
-                        properties_.save_graph_for_teacher(graph1, 2)
+                    if properties.teacherMode:
+                        properties.save_graph_for_teacher(graph1, 2)
 
-                    properties_.save_graph_for_student(graph1, 2) # сохраняем граф в файл
-                    save_graph_for_student_2 = properties_.get_graph_for_student(2)
+                    properties.save_graph_for_student(graph1, 2) # сохраняем граф в файл
+                    save_graph_for_student_2 = properties.get_graph_for_student(2)
                     self.DisplayObj.graph = save_graph_for_student_2
                     statusTask.set__verification_passed_task(2)
                     self.DisplayObj.save()
@@ -614,7 +614,7 @@ class Window2(QMainWindow):
                         except ValueError:
                             pass
 
-            graph = properties_.get_graph_for_teacher(2) # берем граф из сохранения
+            graph = properties.get_graph_for_teacher(2) # берем граф из сохранения
             self.DisplayObj.graph = graph
             self.DisplayObj.update()
 
@@ -632,7 +632,7 @@ class Window2(QMainWindow):
                             pass
 
             if (statusTask.get_verification_passed_pretasks(3)):
-                save_graph_for_student_1 = properties_.get_graph_for_student(2)
+                save_graph_for_student_1 = properties.get_graph_for_student(2)
                 self.DisplayObj.graph = save_graph_for_student_1
             else:
                 self.DisplayObj.graph = graph1
@@ -667,16 +667,16 @@ class Window3(QMainWindow):
 
         #self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
 
-        self.DisplayObj = display_.Display3_4(self, graph1, 100, properties_.max_possible_time, horizontal = False, late_time=False, switch=False)
+        self.DisplayObj = display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
 
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
 
-        self.DisplayObj.setMinimumSize((properties_.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-        size = QSize((properties_.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
@@ -697,8 +697,8 @@ class Window3(QMainWindow):
             self.table.ui.tableWidget.setItem(row, 2, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
-        for row in range(properties_.n):
-                self.item = QtWidgets.QTableWidgetItem(str(properties_.tp[row]))
+        for row in range(properties.n):
+                self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
                 self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
         self.table.resize(500, 700)
@@ -745,13 +745,13 @@ class Window3(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
 
-                properties_.set__verification_passed_task(3)
+                properties.set__verification_passed_task(3)
 
-                if properties_.teacherMode:
-                    properties_.save_graph_for_teacher(graph1, 3)
+                if properties.teacherMode:
+                    properties.save_graph_for_teacher(graph1, 3)
 
-                properties_.save_graph_for_student(graph1, 3) # сохраняем граф в файл
-                save_graph_for_student_3 = properties_.get_graph_for_student(3)
+                properties.save_graph_for_student(graph1, 3) # сохраняем граф в файл
+                save_graph_for_student_3 = properties.get_graph_for_student(3)
                 self.DisplayObj.graph = save_graph_for_student_3
 
                 statusTask.set__verification_passed_task(3)
@@ -796,15 +796,15 @@ class Window3(QMainWindow):
         self.close()
 
     def show(self):
-        if properties_.teacherMode:
+        if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
-            properties_.enter_teacher_mode[2] = True
+            properties.enter_teacher_mode[2] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.DisplayObj.functionAble = ""
-        self.ui.actionHelp.setEnabled(properties_.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
     def sizeGet(self):
@@ -828,7 +828,7 @@ class Window3(QMainWindow):
     def switchTeacherMode(self, flag):
         if (flag):
             #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-            graph = properties_.get_graph_for_teacher(3) # берем граф из сохранения
+            graph = properties.get_graph_for_teacher(3) # берем граф из сохранения
             self.DisplayObj.graph = graph
             self.DisplayObj.update()
 
@@ -838,7 +838,7 @@ class Window3(QMainWindow):
         else:
             #graph_student = properties.get_graph_for_student(1)
             if (statusTask.get_verification_passed_pretasks(4)):
-                save_graph_for_student_1 = properties_.get_graph_for_student(3)
+                save_graph_for_student_1 = properties.get_graph_for_student(3)
                 self.DisplayObj.graph = save_graph_for_student_1
             else:
                 self.DisplayObj.graph = graph1
@@ -874,13 +874,13 @@ class Window4(QMainWindow):
         self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
-        self.DisplayObj = display_.Display3_4(self, graph1, 100, properties_.max_possible_time, horizontal = False, late_time=True, switch=False)
+        self.DisplayObj = display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
-        self.DisplayObj.setMinimumSize((properties_.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-        size = QSize((properties_.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
@@ -901,8 +901,8 @@ class Window4(QMainWindow):
             self.table.ui.tableWidget.setItem(row, 2, self.item)
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
-        for row in range(properties_.n):
-                self.item = QtWidgets.QTableWidgetItem(str(int(properties_.tn[row])))
+        for row in range(properties.n):
+                self.item = QtWidgets.QTableWidgetItem(str(int(properties.tn[row])))
                 self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
         self.table.resize(500, 700)
@@ -951,11 +951,11 @@ class Window4(QMainWindow):
             if len(mistakes) == 0:
                 statusTask.set__verification_passed_task(4)
 
-                if properties_.teacherMode:
-                    properties_.save_graph_for_teacher(graph1, 4)
+                if properties.teacherMode:
+                    properties.save_graph_for_teacher(graph1, 4)
 
-                properties_.save_graph_for_student(graph1, 4) # сохраняем граф в файл
-                save_graph_for_student_4 = properties_.get_graph_for_student(4)
+                properties.save_graph_for_student(graph1, 4) # сохраняем граф в файл
+                save_graph_for_student_4 = properties.get_graph_for_student(4)
                 self.DisplayObj.graph = save_graph_for_student_4
 
                 self.DisplayObj.save(4)
@@ -993,15 +993,15 @@ class Window4(QMainWindow):
         self.close()
 
     def show(self):
-        if properties_.teacherMode:
+        if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
-            properties_.enter_teacher_mode[3] = True
+            properties.enter_teacher_mode[3] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.DisplayObj.functionAble = ""
-        self.ui.actionHelp.setEnabled(properties_.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
     def sizeGet(self):
@@ -1026,7 +1026,7 @@ class Window4(QMainWindow):
     def switchTeacherMode(self, flag):
         if (flag):
             #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-            graph = properties_.get_graph_for_teacher(4) # берем граф из сохранения
+            graph = properties.get_graph_for_teacher(4) # берем граф из сохранения
             self.DisplayObj.graph = graph
             self.DisplayObj.update()
 
@@ -1036,7 +1036,7 @@ class Window4(QMainWindow):
         else:
             #graph_student = properties.get_graph_for_student(1)
             if (statusTask.get_verification_passed_pretasks(5)):
-                save_graph_for_student_1 = properties_.get_graph_for_student(4)
+                save_graph_for_student_1 = properties.get_graph_for_student(4)
                 self.DisplayObj.graph = save_graph_for_student_1
             else:
                 self.DisplayObj.graph = graph1
@@ -1076,9 +1076,9 @@ class Window5(QMainWindow):
 
         for i in range(squadNum):
             self.i = i
-            self.widget1 = display_.Display5(self, graph5_ort[i], properties_.step_grid, properties_.max_possible_time, horizontal = False, base_graph=graph1)
+            self.widget1 = display.Display5(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1)
             self.widgetList.append(self.widget1)
-            self.widgetList[i].setMinimumSize((properties_.max_possible_time + 3) * self.widgetList[i].step + 50, properties_.max_sequences_amount * 100) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
@@ -1098,7 +1098,7 @@ class Window5(QMainWindow):
 
         self.images = []
         for i in range(squadNum):
-            size = QSize((properties_.max_possible_time + 3) * self.widgetList[i].step + 50, (properties_.max_sequences_amount + 2) * properties_.step_gridY + 10)
+            size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (properties.max_sequences_amount + 2) * properties.step_gridY + 10)
             self.images.append(QImage(size, QImage.Format_RGB32))
 
         # Задаём компоновку виджету
@@ -1201,9 +1201,9 @@ class Window5(QMainWindow):
             squad = MainWindow.ui.tableVar.item(row, 1).text()
             if (squad == numS):
                 maxY += 1
-        maxY *= properties_.step_gridY
+        maxY *= properties.step_gridY
         print(maxY)
-        print(properties_.step_gridY)
+        print(properties.step_gridY)
 
         deltaY = set()
         for (x, y) in self.widgetList[i].graph_in.Points.values():
@@ -1212,20 +1212,20 @@ class Window5(QMainWindow):
 
         missingSequenceY = None
         for j, y in enumerate(deltaY):
-            current_step = (j+1) * properties_.step_gridY
+            current_step = (j+1) * properties.step_gridY
             if y != current_step:
                 missingSequenceY = current_step
                 break
 
         if len(deltaY) == 0:
-            gridY = properties_.step_gridY
+            gridY = properties.step_gridY
         elif missingSequenceY != None:
             gridY = missingSequenceY
         else:
-            gridY = deltaY[-1] + properties_.step_gridY
+            gridY = deltaY[-1] + properties.step_gridY
 
         if gridY <= maxY:
-            self.widgetList[i].graph_in.AddPointsSequence(sequence, properties_.step_grid, properties_.step_grid*2, gridY)
+            self.widgetList[i].graph_in.AddPointsSequence(sequence, properties.step_grid, properties.step_grid*2, gridY)
             self.widgetList[i].update()
         else:
             warning = QMessageBox()
@@ -1335,19 +1335,19 @@ class Window5(QMainWindow):
                 self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 2, self.item)
                 self.item.setFlags(QtCore.Qt.ItemIsEnabled)
-            for row in range(properties_.n):
-                self.item = QtWidgets.QTableWidgetItem(str(properties_.tp[row]))
+            for row in range(properties.n):
+                self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
                 self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
             for i in self.widgetList:
                     i.functionAble = ""
             self.table.resize(500, 700)
 
-            if properties_.teacherMode:
-                    properties_.save_graph_for_teacher(graph5_ort, 5, 1)
+            if properties.teacherMode:
+                    properties.save_graph_for_teacher(graph5_ort, 5, 1)
 
-            properties_.save_graph_for_student(graph5_ort, 5, 1) # сохраняем граф в файл
-            save_graph_for_student_5_1 = properties_.get_graph_for_student(5, 1)
+            properties.save_graph_for_student(graph5_ort, 5, 1) # сохраняем граф в файл
+            save_graph_for_student_5_1 = properties.get_graph_for_student(5, 1)
 
             # for i in range(self.squadNum):
             #     self.widgetList[i].graph = save_graph_for_student_5_1[i] # подгружаем граф из нашего общего графа
@@ -1393,11 +1393,11 @@ class Window5(QMainWindow):
                 i.functionAble = ""
             self.table.resize(393, 700)
 
-            if properties_.teacherMode:
-                    properties_.save_graph_for_teacher(graph5_ort, 5, 2)
+            if properties.teacherMode:
+                    properties.save_graph_for_teacher(graph5_ort, 5, 2)
 
-            properties_.save_graph_for_student(graph5_ort, 5, 2) # сохраняем граф в файл
-            save_graph_for_student_5_2 = properties_.get_graph_for_student(5, 2)
+            properties.save_graph_for_student(graph5_ort, 5, 2) # сохраняем граф в файл
+            save_graph_for_student_5_2 = properties.get_graph_for_student(5, 2)
             # for i in range(self.squadNum):
             #     self.widgetList[i].graph = save_graph_for_student_5_2[i] # подгружаем граф из нашего общего графа
             #     self.widgetList[i].update()
@@ -1448,11 +1448,11 @@ class Window5(QMainWindow):
                     i.functionAble = ""
 
 
-                if properties_.teacherMode:
-                    properties_.save_graph_for_teacher(graph5_ort, 5, 3)
+                if properties.teacherMode:
+                    properties.save_graph_for_teacher(graph5_ort, 5, 3)
 
-                properties_.save_graph_for_student(graph5_ort, 5, 3) # сохраняем граф в файл
-                save_graph_for_student_5_3 = properties_.get_graph_for_student(5, 3)
+                properties.save_graph_for_student(graph5_ort, 5, 3) # сохраняем граф в файл
+                save_graph_for_student_5_3 = properties.get_graph_for_student(5, 3)
                 # for i in range(self.squadNum):
                 #     self.widgetList[i].graph = save_graph_for_student_5_3[i] # подгружаем граф из нашего общего графа
                 #     self.widgetList[i].update()
@@ -1486,17 +1486,17 @@ class Window5(QMainWindow):
         self.close()
 
     def show(self):
-        if properties_.teacherMode:
+        if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
-            properties_.enter_teacher_mode[4] = True
+            properties.enter_teacher_mode[4] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         for i in self.widgetList:
             i.functionable = ""
         self.showMaximized()
-        self.ui.actionHelp.setEnabled(properties_.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
 
     def help(self):
         if self.table.isHidden():
@@ -1545,7 +1545,7 @@ class Window5(QMainWindow):
             print("ВОШЛИ T")
             print(subtask, ' ', type(subtask))
             #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-            tmp_graphs = properties_.get_graph_for_teacher(5, subtask) # берем граф из сохранения
+            tmp_graphs = properties.get_graph_for_teacher(5, subtask) # берем граф из сохранения
             for i in range(self.squadNum):
                 self.widgetList[i].graph = tmp_graphs[i] # подгружаем граф из нашего общего графа
                 self.widgetList[i].update()
@@ -1568,7 +1568,7 @@ class Window5(QMainWindow):
             #graph_student = properties.get_graph_for_student(1)
             for i in range(self.squadNum):
                 if (statusTask.get_verification_passed_pretasks(6)):
-                    save_graph_for_student_1 = properties_.get_graph_for_student(5, i)
+                    save_graph_for_student_1 = properties.get_graph_for_student(5, i)
                     self.DisplayObj.graph = save_graph_for_student_1
                 else:
                     self.widgetList[i].graph = graph5_ort[i] #подгружаем граф из нашего общего графа
@@ -1604,8 +1604,8 @@ class Window6(QMainWindow):
         self.widgetList = []
         for i in range(squadNum):
             self.i = i
-            self.widgetList.append(display_.Display6(self, graph5_ort[i], properties_.step_grid, properties_.max_possible_time, horizontal = False, base_graph=graph1))
-            self.widgetList[i].setMinimumSize((properties_.max_possible_time + 3) * self.widgetList[i].step + 50, properties_.max_sequences_amount * 100)
+            self.widgetList.append(display.Display6(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1))
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -1615,7 +1615,7 @@ class Window6(QMainWindow):
 
         self.images = []
         for i in range(squadNum):
-            size = QSize((properties_.max_possible_time + 3) * self.widgetList[i].step + 50, (properties_.max_sequences_amount + 2) * properties_.step_gridY + 10)
+            size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (properties.max_sequences_amount + 2) * properties.step_gridY + 10)
             self.images.append(QImage(size, QImage.Format_RGB32))
 
         widgetLeft = QWidget()
@@ -1627,7 +1627,7 @@ class Window6(QMainWindow):
         self.scroll1.setWidgetResizable(True)
         self.scroll1.setWidget(widgetLeft)
 
-        self.widgetRight = display_.DrawHist(properties_, graph5_ort)
+        self.widgetRight = display.DrawHist(properties, graph5_ort)
         self.widgetRight.setMinimumSize(int(self.width/2), 500)
         # print(self.widgetRight.height())
 
@@ -1680,11 +1680,11 @@ class Window6(QMainWindow):
 
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(row, self.headerItem)
-        for row in range(properties_.n):
-                self.item = QtWidgets.QTableWidgetItem(str(properties_.tp[row]))
+        for row in range(properties.n):
+                self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
                 self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
-                self.item = QtWidgets.QTableWidgetItem(str(int(properties_.tn[row])))
+                self.item = QtWidgets.QTableWidgetItem(str(int(properties.tn[row])))
                 self.item.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.table.ui.tableWidget.setItem(row, 1, self.item)
         self.table.resize(700, 700)
@@ -1702,8 +1702,8 @@ class Window6(QMainWindow):
         self.msg.setStandardButtons(QMessageBox.Ok)
 
     def _finishTimer(self):
-        properties_.end_time = time.time_ns()
-        properties_.elapsed_time = properties_.end_time - properties_.start_time
+        properties.end_time = time.time_ns()
+        properties.elapsed_time = properties.end_time - properties.start_time
 
     def taskCheck(self):
         # mistakes = self.DisplayObj.checkEvent()
@@ -1821,16 +1821,16 @@ class Window6(QMainWindow):
         self.close()
 
     def show(self):
-        if properties_.teacherMode:
+        if properties.teacherMode:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(255,0,0,255)}")
-            properties_.enter_teacher_mode[5] = True
+            properties.enter_teacher_mode[5] = True
         else:
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         for i in range(squadNum):
             self.widgetList[i].functionable = ""
-        self.ui.actionHelp.setEnabled(properties_.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
         if self.firstShow:
@@ -2005,12 +2005,12 @@ class WindowMenu(QMainWindow):
         cl = close.exec()
 
         if cl == QMessageBox.Ok:
-            properties_.clear_answer(1)
-            properties_.clear_answer(2)
-            properties_.clear_answer(3)
-            properties_.clear_answer(4)
+            properties.clear_answer(1)
+            properties.clear_answer(2)
+            properties.clear_answer(3)
+            properties.clear_answer(4)
             for i in range(1, squadNum+1):
-                properties_.clear_answer(5, i)
+                properties.clear_answer(5, i)
             event.accept()
         else:
             event.ignore()
@@ -2065,7 +2065,7 @@ class WindowMenu(QMainWindow):
             self.ui.btnTeacherMode.setChecked(False)
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
-        properties_.teacherMode = self.ui.btnTeacherMode.isChecked()
+        properties.teacherMode = self.ui.btnTeacherMode.isChecked()
     def activateDeveloperMode(self):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
@@ -2181,7 +2181,7 @@ class WindowMenu(QMainWindow):
             print("translit mistake     ", e)
 
         print("ОШИБКИ С созданием отчета.....")
-        self.report_controller.create_report(list_pictures=list_pictures, list_teach_enter=properties_.enter_teacher_mode, title=name_project, information_student=information_about_student)
+        self.report_controller.create_report(list_pictures=list_pictures, list_teach_enter=properties.enter_teacher_mode, title=name_project, information_student=information_about_student)
         print(".......ОШИБКИ С созданием отчета")
         # запаковка
         # encrypt.addFileInZip(name_report)
@@ -2275,9 +2275,9 @@ class WindowMenu(QMainWindow):
 if __name__ == "__main__":
     encrypt = encrypt_decrypt()
     app = QApplication(sys.argv)
-    statusTask = properties_.statusTask()
+    statusTask = properties.statusTask()
     MainWindow = WindowMenu()
-    properties_ = properties_.Properties(MainWindow)
+    properties = properties.Properties(MainWindow)
 
     squadNum = maxSquadNum()
     MainWindow1 = Window1()
