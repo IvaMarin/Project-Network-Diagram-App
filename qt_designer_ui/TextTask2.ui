@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1341</width>
-    <height>314</height>
+    <width>1569</width>
+    <height>322</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Задание 2&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;1. Заполните таблицы ранних и поздних сроков.&lt;/p&gt;&lt;p&gt;2. Заполните количество человек, выполняющих работу. Значения вписывать в квадраты над ребрами.&lt;/p&gt;&lt;p&gt;3. Укажите все критические пути. Используйте инструмент “Критический путь” и кликайте на ЛКМ по вершинам находящимся на критическом пути.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Задание 2&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;&lt;br/&gt;1. Заполните таблицы ранних и поздних сроков.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;2. Заполните количество человек, выполняющих работу. Значения вписывать в квадраты над ребрами.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;3. Укажите все критические пути. Используйте инструмент “Критический путь” и кликайте на ЛКМ по вершинам находящимся на критическом пути.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>

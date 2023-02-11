@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TextTask3(object):
     def setupUi(self, TextTask3):
         TextTask3.setObjectName("TextTask3")
-        TextTask3.resize(795, 210)
+        TextTask3.resize(1402, 261)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask3)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask3)
@@ -30,4 +30,4 @@ class Ui_TextTask3(object):
     def retranslateUi(self, TextTask3):
         _translate = QtCore.QCoreApplication.translate
         TextTask3.setWindowTitle(_translate("TextTask3", "Задание 3"))
-        self.label.setText(_translate("TextTask3", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt;\">Задание 3</span><br/></p><p><span style=\" font-size:14pt;\">1. Расставьте вершины графа по верным временным осям в ранних сроках.</span></p><p><span style=\" font-size:14pt;\">2. Передвигая конец стрелки, поставьте стрелку на нужную ось, тем самым указывая продолжительность работ в ранних сроках. (Пунктирная линия - запас времени).</span></p><p><br/></p></body></html>"))
+        self.label.setText(_translate("TextTask3", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">Задание 3<br/></span></p><p><span style=\" font-size:20pt;\">1. Расставьте вершины графа по верным временным осям в ранних сроках.</span></p><p><span style=\" font-size:20pt;\">2. Передвигая конец стрелки, поставьте стрелку на нужную ось,<br/>тем самым указывая продолжительность работ в ранних сроках. (Пунктирная линия - запас времени).</span></p><p><span style=\" font-size:20pt;\"><br/></span></p></body></html>"))

@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TextTask1(object):
     def setupUi(self, TextTask1):
         TextTask1.setObjectName("TextTask1")
-        TextTask1.resize(625, 208)
+        TextTask1.resize(857, 291)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask1)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask1)
@@ -31,4 +31,4 @@ class Ui_TextTask1(object):
     def retranslateUi(self, TextTask1):
         _translate = QtCore.QCoreApplication.translate
         TextTask1.setWindowTitle(_translate("TextTask1", "Задание 1"))
-        self.label.setText(_translate("TextTask1", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt;\">Задание 1</span><br/></p><p>Постройте граф, используя таблицу данных.</p><p>Смотри колонку “Шифр работ”.</p></body></html>"))
+        self.label.setText(_translate("TextTask1", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">Задание 1<br/></span></p><p><span style=\" font-size:20pt;\">Постройте граф, используя таблицу данных.</span></p><p><span style=\" font-size:20pt;\">Смотри колонку “Шифр работ”.</span></p></body></html>"))

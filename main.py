@@ -1860,8 +1860,6 @@ class WindowMenu(QMainWindow):
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы    winSearchKey
-
-        self.show()
         # first_launch_txt_path = Properties.join(Properties.basedir,"first_launch", "first_launch.txt")
         # with open(first_launch_txt_path, "r") as file:
         #     flag = file.read()
@@ -1872,6 +1870,7 @@ class WindowMenu(QMainWindow):
 
         self.startWindow = winLogin(self)# стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow.exec_() # его запуск в отдельном потоке
+        # self.hide()
         self.winSigReport = winSigReport(self) # диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.winEditTable = winEditTable(self) #
         #self.creatTable = WinsDialog.creatTable(self) #
@@ -1898,6 +1897,7 @@ class WindowMenu(QMainWindow):
 
         self.report_controller = Controller.ReportController("mai_cam_password")
         self.report_was_make = False
+        self.show()
 
     def getCorrectAdjacencyMatrix(self):
         arr = []
