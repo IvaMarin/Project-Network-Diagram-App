@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TextTask5(object):
     def setupUi(self, TextTask5):
         TextTask5.setObjectName("TextTask5")
-        TextTask5.resize(621, 208)
+        TextTask5.resize(1367, 407)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask5)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask5)
@@ -30,4 +30,4 @@ class Ui_TextTask5(object):
     def retranslateUi(self, TextTask5):
         _translate = QtCore.QCoreApplication.translate
         TextTask5.setWindowTitle(_translate("TextTask5", "Задание 5"))
-        self.label.setText(_translate("TextTask5", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt;\">Задание 5</span></p><p align=\"center\"><br/></p><p><span style=\" font-size:14pt;\">Данное задание состоит из трех этапов проверки.</span></p><p><span style=\" font-size:14pt;\">Вам нужно перевести полигональный сетевой граф в ранних сроках в ортогональный сетевой граф в ранних сроках.</span></p><p><span style=\" font-size:14pt;\">1. Предлагается ввести последовательности вершин для каждого отделения, в зависимости от шифра работ и      принадлежности той или иной работы определенному отделению.</span></p><p><span style=\" font-size:14pt;\">2. —</span></p><p><span style=\" font-size:14pt;\">3. —  </span></p></body></html>"))
+        self.label.setText(_translate("TextTask5", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">Задание 5</span></p><p align=\"center\"><span style=\" font-size:20pt;\"><br/></span></p><p><span style=\" font-size:20pt;\">Данное задание состоит из трех этапов проверки.</span></p><p><span style=\" font-size:20pt;\">Вам нужно перевести полигональный сетевой граф в ранних сроках в ортогональный сетевой граф в ранних сроках.</span></p><p><span style=\" font-size:20pt;\">1. Предлагается ввести последовательности вершин для каждого отделения, в зависимости от шифра работ<br/>и принадлежности той или иной работы определенному отделению.</span></p><p><span style=\" font-size:20pt;\">2. —</span></p><p><span style=\" font-size:20pt;\">3. — </span></p></body></html>"))
