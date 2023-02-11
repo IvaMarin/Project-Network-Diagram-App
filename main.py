@@ -1752,7 +1752,7 @@ class Window6(QMainWindow):
         print("!!!!!!!!!!!!!!!УПАКОВАНО!!!!!!!!!!!!\nДалее создание\n")
 
         MainWindow.creatReport()
-        self.backMainMenu()
+        #self.backMainMenu()
 
         # MainWindow.creatReport()
         #self.backMainMenu()
@@ -2169,8 +2169,14 @@ class WindowMenu(QMainWindow):
 
         
         name = self.surname.replace(' ', '_')
-
-        information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
+        information_about_student = "test"
+        try:
+            #information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
+            information_about_student = name + '_' + self.numGroup + '_' + self.numINGroup
+            print("NICE information_about_student")
+        except Exception as e:
+            print("BUG   " + information_about_student)
+            print("translit mistake     ", e)
 
         print("ОШИБКИ С созданием отчета.....")
         self.report_controller.create_report(list_pictures=list_pictures, list_teach_enter=properties.enter_teacher_mode, title=name_project, information_student=information_about_student)
