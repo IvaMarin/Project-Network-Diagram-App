@@ -162,10 +162,10 @@ class encrypt_decrypt():
         try:
             with pyzipper.AESZipFile(nameZipFile, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
                 as encrypted_data_zip: # открываем архив которы лежит в исходниках проги 
-                encrypted_data_token_file = encrypted_data_zip.read(name='encrypted_data' '/' + 'teacher_token.txt', pwd=self.secret_password)# читаем файл из архива в исходниках
+                encrypted_data_token_file = encrypted_data_zip.read(name='encrypted_data' + '/' + 'teacher_token.txt', pwd=self.secret_password)# читаем файл из архива в исходниках
                 with pyzipper.AESZipFile(teacher_token_zip_name, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) \
                         as teacher_token_zip: # открываем архив на флешке учителя
-                        teacher_token_file = teacher_token_zip.read(name='encrypted_data' '/' + 'teacher_token.txt', pwd=self.secret_password) # читаем файл с флешки учителя (из архива)
+                        teacher_token_file = teacher_token_zip.read(name='encrypted_data' + '/' + 'teacher_token.txt', pwd=self.secret_password) # читаем файл с флешки учителя (из архива)
 
                         if encrypted_data_token_file == teacher_token_file: # проверяем на совпадение строки 
                             return True
