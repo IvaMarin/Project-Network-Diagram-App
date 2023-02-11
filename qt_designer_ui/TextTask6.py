@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TextTask6(object):
     def setupUi(self, TextTask6):
         TextTask6.setObjectName("TextTask6")
-        TextTask6.resize(1428, 208)
+        TextTask6.resize(1013, 208)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask6)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask6)
@@ -30,4 +30,4 @@ class Ui_TextTask6(object):
     def retranslateUi(self, TextTask6):
         _translate = QtCore.QCoreApplication.translate
         TextTask6.setWindowTitle(_translate("TextTask6", "Задание 6"))
-        self.label.setText(_translate("TextTask6", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt;\">Задание 6</span><br/></p><p><span style=\" font-size:14pt;\">Это задание является творческим и системой не проверяется.</span></p><p><span style=\" font-size:14pt;\">Вам требуется: передвигая компоненты графа получить максимально выгодный график занятости личного состава.</span></p></body></html>"))
+        self.label.setText(_translate("TextTask6", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">Задание 6<br/></span></p><p><span style=\" font-size:20pt;\">Это задание является творческим и системой не проверяется.</span></p><p><span style=\" font-size:20pt;\">Вам требуется: передвигая компоненты графа получить максимально выгодный<br/>график занятости личного состава.</span></p></body></html>"))
