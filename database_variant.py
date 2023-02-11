@@ -5,7 +5,7 @@ import sqlite3 as sl
 
 
 class BDReadWrite():
-    def __init__(self, nameBD = "varForGraph"):
+    def __init__(self, nameBD = "database_graphs"):
         self.con = sl.connect(nameBD)
         
 

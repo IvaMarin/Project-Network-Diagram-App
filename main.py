@@ -15,7 +15,7 @@ from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 ### Для обработки .xlsx файлов ##############
 import openpyxl
 from PIL import Image
-from encry_decry import encrypt_decrypt
+from encrypt_decrypt import encrypt_decrypt
 
 ### Для обработки .pdf файлов ###############
 from docx2pdf import convert
@@ -2123,7 +2123,7 @@ class WindowMenu(QMainWindow):
 
     def creatReport(self):
 
-        file = open("inf_of_student.txt", 'w')
+        file = open("student_info.txt", 'w')
         file.write(self.surname + "\n" + self.numINGroup + "\n" + self.numGroup)
         file.close()
         
