@@ -12,7 +12,7 @@ class ReportController():
         self.text_information_student = ""
         self.password = password
 
-        self.folder_source = "report/answer/"
+        self.folder_source = "report_answer//"
         self.pdf_is_maked = False
 
         self.service = serv.ReportService(self.password)
@@ -27,7 +27,7 @@ class ReportController():
     def create_start_page(self):
 
         self.report.add_page()
-        self.report.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
+        #self.report.add_font('DejaVu', '', 'resources/fonts/DejaVuSansCondensed.ttf', uni=True)
         self.report.set_font('DejaVu', '', 14)
         self.report.cell(190, 20, "", ln=1)
         self.report.set_x(65)
@@ -43,7 +43,7 @@ class ReportController():
             self.create_start_page()
 
             self.report.add_page()
-            self.report.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
+            #self.report.add_font('DejaVu', '', 'resources/fonts/DejaVuSansCondensed.ttf', uni=True)
             self.report.set_font('DejaVu', '', 14)
             self.report.cell(190, 20, "", ln=1)
             
