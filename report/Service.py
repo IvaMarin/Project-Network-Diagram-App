@@ -10,7 +10,7 @@ class ReportService():
         self.viewer = pdf_viewer.Viewer()
 
     def add_text(self, report, text, x = 65):
-        report.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
+        #report.add_font('DejaVu', '', 'resources/fonts/DejaVuSansCondensed.ttf', uni=True)
         report.set_font('DejaVu', '', 16)
         report.set_x(x)
         report.multi_cell(170, 10, text, 0, 1, "C")
