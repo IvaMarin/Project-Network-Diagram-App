@@ -1767,10 +1767,6 @@ class Window6(QMainWindow):
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 class WindowMenu(QMainWindow):
 
-    # {background-image: url(:/newPrefix/backGround.png);}
-# import resources.backGround_rc
-# import resources.labelMAI_rc
-
 # import qt_designer_ui.resources.backGround_rc
 # import qt_designer_ui.resources.labelMAI_rc
 # import qt_designer_ui.resources.spaceBackground_rc
