@@ -15,7 +15,7 @@ class Ui_MainMenu(object):
     def setupUi(self, MainMenu):
         MainMenu.setObjectName("MainMenu")
         MainMenu.resize(1558, 926)
-        MainMenu.setStyleSheet("background-color: #d5fffe;")
+        MainMenu.setStyleSheet("#centralwidget{background-color: #d5fffe;}")
         self.centralwidget = QtWidgets.QWidget(MainMenu)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -284,3 +284,4 @@ class Ui_MainMenu(object):
         self.actionDevelopers.setText(_translate("MainMenu", "разработчики"))
         self.actionHelpWithProg.setText(_translate("MainMenu", "справка по работе с программой"))
         self.actionHelpWithTheory.setText(_translate("MainMenu", "справка по теории"))
+

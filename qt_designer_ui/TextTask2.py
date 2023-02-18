@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TextTask2(object):
     def setupUi(self, TextTask2):
         TextTask2.setObjectName("TextTask2")
-        TextTask2.resize(1341, 314)
+        TextTask2.resize(1569, 322)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask2)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask2)
@@ -31,4 +31,4 @@ class Ui_TextTask2(object):
     def retranslateUi(self, TextTask2):
         _translate = QtCore.QCoreApplication.translate
         TextTask2.setWindowTitle(_translate("TextTask2", "Задание 2"))
-        self.label.setText(_translate("TextTask2", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt;\">Задание 2</span></p><p><br/>1. Заполните таблицы ранних и поздних сроков.</p><p>2. Заполните количество человек, выполняющих работу. Значения вписывать в квадраты над ребрами.</p><p>3. Укажите все критические пути. Используйте инструмент “Критический путь” и кликайте на ЛКМ по вершинам находящимся на критическом пути.</p><p><br/></p></body></html>"))
+        self.label.setText(_translate("TextTask2", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">Задание 2</span></p><p><span style=\" font-size:20pt;\"><br/>1. Заполните таблицы ранних и поздних сроков.</span></p><p><span style=\" font-size:20pt;\">2. Заполните количество человек, выполняющих работу. Значения вписывать в квадраты над ребрами.</span></p><p><span style=\" font-size:20pt;\">3. Укажите все критические пути. Используйте инструмент “Критический путь” и кликайте на ЛКМ по вершинам находящимся на критическом пути.</span></p><p><span style=\" font-size:20pt;\"><br/></span></p></body></html>"))

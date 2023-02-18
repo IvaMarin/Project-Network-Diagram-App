@@ -9,7 +9,8 @@ class Report(FPDF):
     # Функция описания верхнего коллонтитула
     def header(self):
         # считывание нформации о студенте из файла
-        file = open("inf_of_student.txt", 'r') 
+        file = open("student_info.txt", 'r') 
+
         surname = file.readline().split(" ")
         variant = file.readline()
         group = file.readline()
