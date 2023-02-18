@@ -121,6 +121,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
         self.ui = Ui_startWin() # инициализация ui
         self.ui.setupUi(self) # инициализация ui окна (присвоение конкретных пар-ов)
         self.mainMenu = root  # сохраняем нашего родителя
+        # self.sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
         self.setWindowFlags(QtCore.Qt.Window |
                                 QtCore.Qt.WindowTitleHint 
@@ -137,7 +138,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
         width = int(sizeWindow.width())      # выставляем ширину окна
         height = int(sizeWindow.height())   # выставляем длину окна
         # присваиваем параметры длины и ширины окну
-        self.resize(width, height)
+        self.resize(width, height-93)
 
         #self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 

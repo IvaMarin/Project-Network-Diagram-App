@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>561</width>
+    <width>674</width>
     <height>271</height>
    </rect>
   </property>
   <property name="font">
    <font>
     <family>Times New Roman</family>
-    <pointsize>16</pointsize>
+    <pointsize>20</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -43,7 +43,7 @@
      <property name="font">
       <font>
        <family>Times New Roman</family>
-       <pointsize>16</pointsize>
+       <pointsize>20</pointsize>
       </font>
      </property>
      <property name="text">
@@ -53,6 +53,12 @@
    </item>
    <item row="1" column="1">
     <widget class="QDialogButtonBox" name="buttonBoxOKorCancel">
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
