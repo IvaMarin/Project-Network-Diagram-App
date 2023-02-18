@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>866</width>
+    <width>952</width>
     <height>594</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   <property name="windowTitle">
    <string>Редактор таблиц вариантов</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="10,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
    <property name="spacing">
     <number>10</number>
    </property>
@@ -131,12 +131,28 @@
      <property name="verticalSpacing">
       <number>15</number>
      </property>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="btnEditTable">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #66e3ff;</string>
+       </property>
+       <property name="text">
+        <string>Редактировать</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="labelHelp">
        <property name="font">
         <font>
          <family>Times New Roman</family>
-         <pointsize>18</pointsize>
+         <pointsize>20</pointsize>
         </font>
        </property>
        <property name="text">
@@ -154,22 +170,6 @@
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: #fffaea;</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="btnEditTable">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>16</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: #66e3ff;</string>
-       </property>
-       <property name="text">
-        <string>Редактировать</string>
        </property>
       </widget>
      </item>
