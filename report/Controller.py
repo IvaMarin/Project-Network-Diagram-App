@@ -88,7 +88,6 @@ class ReportController():
         
         self.show_current()
 
-        return name_report
 
     def show_current(self):
         
