@@ -4,7 +4,7 @@ import time
 
 from PyQt5 import QtWidgets
 
-import GraphModel
+import graph_model
 from checker import find_t_p, find_t_n
 from encrypt_module import decrypt_file
 
@@ -105,7 +105,7 @@ class Properties():
 
     # функция получения общего графа
     def get_graph_from_radius(self):
-        return GraphModel.Graph(self.radius_points)
+        return graph_model.Graph(self.radius_points)
 
     # функция получения общего графа
     def get_graph_from_graph(self, graph):

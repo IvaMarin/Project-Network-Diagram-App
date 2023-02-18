@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QFileDialog
 
 import controller
 import checker
-import Properties
+import properties
 
 # функция для вычисления точек полигона стрелки
 def calculate_arrow_points(start_point, end_point, radius):
@@ -367,22 +367,11 @@ class Display2(Display):
                     y_off = 5*font_size/8                          # по оси y смещение не зависист от длины строки 
                     painter.drawText(int(x-line_off+x_off/2), int(y+y_off), f'{t_p}')
 
-# <<<<<<< HEAD
-#                 x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
-#                 painter.drawText(int(x+x_off), int(y+line_off+0.5*y_off), f'{R}')
-        
-#         if self.switch:
-#             self._drawQLineEdits()
-#             self.switch = False
-        
-#         self.graph.PeopleWeights = self.GetNumberOfPeople()
-# =======
                     x_off = -(5*len(str(t_n))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
                     painter.drawText(int(x+line_off+1.5*x_off), int(y+y_off), f'{t_n}')
 
                     x_off = -(5*len(str(i+1))*font_size/7.8 - 2.5) # по оси x определим смещение по длине строки
                     painter.drawText(int(x+x_off), int(y-line_off+1.5*y_off), f'{i}')
-#
 
                     x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
                     painter.drawText(int(x+x_off), int(y+line_off+0.5*y_off), f'{R}')
