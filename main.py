@@ -143,18 +143,7 @@ class Window1(QMainWindow):
             self.table.close()
             event.accept()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                event.accept()
-                self.table.close()
-            else:
-                event.ignore()
+            close_app(event)
 
     def addNode(self):
         if self.ui.actionbtnAddNode.isChecked() == False:
@@ -435,18 +424,7 @@ class Window2(QMainWindow):
             event.accept()
             self.table.close()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                event.accept()
-                self.table.close()
-            else:
-                event.ignore()
+            close_app(event)
 
     def show(self):
         if properties.teacherMode:
@@ -713,18 +691,7 @@ class Window3(QMainWindow):
             self.table.close()
             event.accept()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                self.table.close()
-                event.accept()
-            else:
-                event.ignore()
+            close_app(event)
 
     def addDottedArrow(self):
         self.DisplayObj.functionAble = "Добавить пунктирную связь"
@@ -917,18 +884,7 @@ class Window4(QMainWindow):
             self.table.close()
             event.accept()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                self.table.close()
-                event.accept()
-            else:
-                event.ignore()
+            close_app(event)
 
     def addDottedArrow(self):
         self.DisplayObj.functionAble = "Добавить пунктирную связь"
@@ -1160,17 +1116,7 @@ class Window5(QMainWindow):
             self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                event.accept()
-            else:
-                event.ignore()
+            close_app(event)
 
     def addSeq(self):
         if self.ui.actionbtnAddSeq.isChecked() == False:
@@ -1703,59 +1649,40 @@ class Window6(QMainWindow):
         properties.end_time = time.time_ns()
         properties.elapsed_time = properties.end_time - properties.start_time
 
-    def taskCheck(self):
-        # mistakes = self.DisplayObj.checkEvent()
-        # if type(mistakes) != QMessageBox:
-        #     if len(mistakes) == 0:
-        #         properties.set__verification_passed_task(1)
-
-        #         #properties.save_graph_for_teacher(graph1, 1)
-        #         properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-
-        #         save_graph_for_student_1 = properties.get_graph_for_student(1)
-        #         self.DisplayObj.graph = save_graph_for_student_1
-
-        #         # sys.modules[graph1].__dict__.clear()
-        #         # graph1 = properties.get_graph_for_teacher(1)
-
-        #         #print(self.DisplayObj.size().height)
-        #         statusTask.set__verification_passed_task(1)
-        #         self.DisplayObj.save()
-        #         MainWindow.ui.btnTask2.setEnabled(True)
-
-        #         self.lockUi()
-
-        #     self.checkForm1 = task1CheckForm(self, mistakes)
-        #     self.checkForm1.Task1()
-        #     self.checkForm1.exec_()
-        # else:
-        #     mistakes.exec()
-
+    def finish_function(self):
         self._finishTimer()
-
-        self.msgCheck = QMessageBox()
-        self.msgCheck.setWindowTitle("Предупреждение")
-        self.msgCheck.setText("Результат занесён в отчёт.")
-        self.msgCheck.setIcon(QMessageBox.Information)
-        self.msgCheck.setStandardButtons(QMessageBox.Ok)
-        self.msgCheck.show()
         self.widgetRight.save()
         encrypt.addFileInZip('6_hist.jpg')
-        for i in range(len(self.images)): # ПОСЛЕ ПРОВЕРКИ
+
+        for i in range(len(self.images)): 
             strTemp = str(6)+str(i)+".jpg"
             self.images[i].save('encrypted_data/'+strTemp)
 
         for i in range(len(self.images)):
             strTemp = str(6)+str(i)+".jpg"
             encrypt.addFileInZip(strTemp)
-        
-        print("!!!!!!!!!!!!!!!УПАКОВАНО!!!!!!!!!!!!\nДалее создание\n")
 
         MainWindow.creatReport()
-        #self.backMainMenu()
+        self.backMainMenu()
 
-        # MainWindow.creatReport()
-        #self.backMainMenu()
+    def wait_infomation(self):
+        self.msgCheck = QMessageBox()
+        self.msgCheck.setWindowTitle("Идет загрузка")
+        # self.msgCheck.setText("Подождите. Идет загрузка.")
+        # self.msgCheck.setIcon(QMessageBox.Information)
+        # self.msgCheck.setStandardButtons(QMessageBox.Ok)
+        self.msgCheck.show()
+
+    def finish(self):
+        # from multiprocessing import Process
+        # p1 = Process(target=self.wait_infomation)
+        # p1.start()
+        # p2 = Process(target=self.finish_function)
+        # p2.start()
+        # p1.join()
+        # p2.join()
+        self.wait_infomation()
+        self.finish_function()
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked() or self.ui.actionbtnCheck.isChecked():
@@ -1763,17 +1690,7 @@ class Window6(QMainWindow):
             self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                event.accept()
-            else:
-                event.ignore()
+            close_app(event)
 
     def moveNode(self):
         if self.ui.actionbtnMoveNode.isChecked() == False:
@@ -1804,7 +1721,7 @@ class Window6(QMainWindow):
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnCheck.triggered.connect(self.finish)
         self.ui.actionbtnInfo.triggered.connect(self.help)
 
 
@@ -1813,6 +1730,7 @@ class Window6(QMainWindow):
         dialogTask.ui = Ui_TextTask6()
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
+        self.close()
 
     def backMainMenu(self):
         MainWindow.show()
@@ -1995,23 +1913,7 @@ class WindowMenu(QMainWindow):
         return SquadsPeopleNumber
 
     def closeEvent(self, event):
-        close = QMessageBox()
-        close.setWindowTitle("Закрыть приложение")
-        close.setText("Вы уверены, что хотите закрыть приложение?")
-        close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        close.setWindowFlags(Qt.WindowStaysOnTopHint)
-        cl = close.exec()
-
-        if cl == QMessageBox.Ok:
-            properties.clear_answer(1)
-            properties.clear_answer(2)
-            properties.clear_answer(3)
-            properties.clear_answer(4)
-            for i in range(1, squadNum+1):
-                properties.clear_answer(5, i)
-            event.accept()
-        else:
-            event.ignore()
+        close_app(event)
 
         
 
@@ -2270,7 +2172,43 @@ class WindowMenu(QMainWindow):
                 countColumns = countColumns + 1
             countColumns = 0
 
+def clear_data():
+    import os, shutil
+    folder = 'report_answer/'
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+def close_app(event):
+    print("Закрытие приложения!")
+    close = QMessageBox()
+    close.setWindowTitle("Закрыть приложение")
+    close.setText("Вы уверены, что хотите закрыть приложение?")
+    close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    close.setWindowFlags(Qt.WindowStaysOnTopHint)
+    call = close.exec()
+
+    if call == QMessageBox.Ok:
+        properties.clear_answer(1)
+        properties.clear_answer(2)
+        properties.clear_answer(3)
+        properties.clear_answer(4)
+        for i in range(1, squadNum+1):
+            properties.clear_answer(5, i)
+        clear_data()
+        event.accept()
+    else:
+        event.ignore()
+    
+
 if __name__ == "__main__":
+    clear_data()
     encrypt = encrypt_decrypt()
     app = QApplication(sys.argv)
     statusTask = Properties.statusTask()
