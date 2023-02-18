@@ -1580,7 +1580,8 @@ class Window6(QMainWindow):
 
 
         self.scroll2 = QtWidgets.QScrollArea()
-        self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll2.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll2.setWidgetResizable(True)
         self.scroll2.setWidget(self.widgetRight)
 
@@ -1765,6 +1766,10 @@ class Window6(QMainWindow):
 #////////////////////////////////////  КЛАСС ОКНА МЕНЮ  ///////////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 class WindowMenu(QMainWindow):
+
+# import qt_designer_ui.resources.backGround_rc
+# import qt_designer_ui.resources.labelMAI_rc
+# import qt_designer_ui.resources.spaceBackground_rc
 
     def __init__(self, parent=None):
         super().__init__(parent)

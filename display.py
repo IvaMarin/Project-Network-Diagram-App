@@ -925,29 +925,41 @@ class DrawHist(QWidget):
 
             # отрисовка нумерации осей сетки
             painter.setPen(QColor("black"))
-            x0 = 0
+            x0 = 25
             sizeWindow = QRect(QApplication.desktop().screenGeometry())
             number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-            y0 = sizeWindow.height() - 170
+            y0 = sizeWindow.height() - 245
             for i in range(number_vertical_lines):
                 if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-                painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
+                painter.drawText(int(x0 + self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
 
             # отрисовка нумерации осей сетки
-            x0 = 0
+            #x0 = 0
             sizeWindow = QRect(QApplication.desktop().screenGeometry())
             number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-            y0 = sizeWindow.height()-170
+            #y0 = sizeWindow.height()-195
             for i in range(number_vertical_lines):
                 if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-                painter.drawText(int(self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
-
+                painter.drawText(int(x0 + self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
+            # подпись осей
+            font = painter.font()
+            font.setPixelSize(20)
+            font.setBold(True)
+            painter.setFont(font)
+            painter.drawText(int(self.size().width()/2), int(self.size().height()-10), "Время")
+            
+            painter.translate(20, int(self.size().height()/2))
+            painter.rotate(-90)
+            painter.drawText(0,0, "Кол-во людей")
+            
+            painter.rotate(90)
+            painter.translate(-20, -int(self.size().height()/2))
 
             intervals = np.zeros(self.root.max_possible_time+1)
             for p in range(len(self.graph)):
@@ -967,13 +979,13 @@ class DrawHist(QWidget):
             painter.setPen(QPen(QColor("red"), 3))
             lines = []
             for i in range(len(intervals)-1):
-                lines.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step - 10, self.step*(i+2), y0-intervals[i]*self.step - 10))
+                lines.append(QLineF(x0+self.step*(i+1), y0-intervals[i]*self.step - 10, x0 + self.step*(i+2), y0-intervals[i]*self.step - 10))
             painter.drawLines(lines)
 
             linesVert = []
             for i in range(1,len(intervals)):
                 if intervals[i] != intervals[i-1]:
-                    linesVert.append(QLineF(0+self.step*(i+1), y0-intervals[i]*self.step- 10, 0+self.step*(i+1), y0-intervals[i-1]*self.step- 10))
+                    linesVert.append(QLineF(x0+self.step*(i+1), y0-intervals[i]*self.step- 10, x0+self.step*(i+1), y0-intervals[i-1]*self.step- 10))
             painter.drawLines(linesVert)
 
     def save(self):

@@ -20,7 +20,8 @@ class Ui_startWin(object):
         font.setPointSize(20)
         startWin.setFont(font)
         startWin.setAutoFillBackground(False)
-        startWin.setStyleSheet("#startWin{background-image: url(:/newPrefix/backGround.png);}")
+        startWin.setStyleSheet("\n"
+"#startWin{background-image: url(:/newPrefix/spaceBackground.png);}")
         self.verticalLayout = QtWidgets.QVBoxLayout(startWin)
         self.verticalLayout.setContentsMargins(20, 5, 20, 10)
         self.verticalLayout.setSpacing(25)
@@ -35,14 +36,14 @@ class Ui_startWin(object):
         self.labelWelcome.setMidLineWidth(5)
         self.labelWelcome.setObjectName("labelWelcome")
         self.verticalLayout.addWidget(self.labelWelcome)
-        self.label = QtWidgets.QLabel(startWin)
-        self.label.setAutoFillBackground(False)
-        self.label.setStyleSheet("image: url(:/newPrefix/logo_mac_mai-min.png);\n"
+        self.labelPicture = QtWidgets.QLabel(startWin)
+        self.labelPicture.setAutoFillBackground(False)
+        self.labelPicture.setStyleSheet("image: url(:/newPrefix/logo_mac_mai-min.png);\n"
 "background-color: rgba(0, 0, 0, 0);\n"
 "")
-        self.label.setText("")
-        self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label)
+        self.labelPicture.setText("")
+        self.labelPicture.setObjectName("labelPicture")
+        self.verticalLayout.addWidget(self.labelPicture)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setContentsMargins(10, 10, 10, 10)
         self.gridLayout.setObjectName("gridLayout")
@@ -136,9 +137,14 @@ class Ui_startWin(object):
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem3, 3, 2, 1, 1)
         self.gridLayout.setColumnStretch(0, 1)
-        self.gridLayout.setColumnStretch(1, 8)
+        self.gridLayout.setColumnStretch(1, 14)
         self.gridLayout.setColumnStretch(2, 2)
         self.verticalLayout.addLayout(self.gridLayout)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem4)
+        self.verticalLayout.setStretch(0, 1)
+        self.verticalLayout.setStretch(1, 3)
+        self.verticalLayout.setStretch(2, 3)
 
         self.retranslateUi(startWin)
         QtCore.QMetaObject.connectSlotsByName(startWin)
@@ -162,5 +168,6 @@ class Ui_startWin(object):
         self.labelNumGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-size:16pt; color:#e7e7e7;\">ВАРИАНТ</span></p></body></html>"))
         self.btnSignLab.setText(_translate("startWin", "Начать работу"))
         self.btnDeveloperMode.setText(_translate("startWin", "Режим разработчика"))
-import resources.backGround_rc
-import resources.labelMAI_rc
+import qt_designer_ui.resources.backGround_rc
+import qt_designer_ui.resources.labelMAI_rc
+# import qt_designer_ui.resources.spaceBackground_rc
