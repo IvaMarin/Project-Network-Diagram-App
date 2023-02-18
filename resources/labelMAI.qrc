@@ -1,5 +1,0 @@
-<RCC>
-  <qresource prefix="newPrefix">
-    <file>logo_mac_mai-min.png</file>
-  </qresource>
-</RCC>
