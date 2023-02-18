@@ -136,7 +136,7 @@ class Ui_startWin(object):
         self.gridLayout.addItem(spacerItem2, 2, 2, 1, 1)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem3, 3, 2, 1, 1)
-        self.gridLayout.setColumnStretch(0, 1)
+        self.gridLayout.setColumnStretch(0, 2)
         self.gridLayout.setColumnStretch(1, 14)
         self.gridLayout.setColumnStretch(2, 2)
         self.verticalLayout.addLayout(self.gridLayout)
