@@ -15,7 +15,7 @@ from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 ### Для обработки .xlsx файлов ##############
 import openpyxl
 from PIL import Image
-from encry_decry import encrypt_decrypt
+from encrypt_decrypt import encrypt_decrypt
 
 ### Для обработки .pdf файлов ###############
 from docx2pdf import convert
@@ -47,7 +47,7 @@ from qt_designer_ui.windowTask1 import Ui_MainWindow1
 from qt_designer_ui.windowTask3 import Ui_MainWindow3
 from qt_designer_ui.windowTask5 import Ui_MainWindow5
 from qt_designer_ui.task5AddSeq import Ui_task5AddSeq
-from windowTask2 import Ui_MainWindow2
+from task_two_window import Ui_MainWindow2
 from qt_designer_ui.tableTask1 import Ui_tableTask1
 from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
 from qt_designer_ui.windowTask6 import Ui_MainWindow6
@@ -61,17 +61,17 @@ from qt_designer_ui.TextTask6 import Ui_TextTask6
 
 #######################################################
 
-import Display
-from WinsDialog import winSigReport,winLogin,winEditTable
-from task1CheckForm import task1CheckForm
+import display
+from dialog_windows import winSigReport,winLogin,winEditTable
+from task_one_check_form import task1CheckForm
 from qt_designer_ui.task5CheckForm import task5CheckForm
-from task5AddSeq import task5AddSeq
-import GraphModel
-import Properties
+from task_five_add_sequences import task5AddSeq
+import graph_model
+import properties
 
 ############ глобальные переменные ###########
 global graph1
-graph1 = GraphModel.Graph(30) # граф из первого окна (главный)
+graph1 = graph_model.Graph(30) # граф из первого окна (главный)
 graph5 = [] # графы по количеству отделений
 graph5_ort = []
 
@@ -112,7 +112,7 @@ class Window1(QMainWindow):
         graph1.SquadsPeopleToWork = MainWindow.getCorrectSquadsPeopleToWork()
         graph1.SquadsPeopleNumber = MainWindow.getCorrectSquadsPeopleNumber()
 
-        self.DisplayObj = Display.Display(self, graph1)
+        self.DisplayObj = display.Display(self, graph1)
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -143,18 +143,7 @@ class Window1(QMainWindow):
             self.table.close()
             event.accept()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                event.accept()
-                self.table.close()
-            else:
-                event.ignore()
+            close_app(event)
 
     def addNode(self):
         if self.ui.actionbtnAddNode.isChecked() == False:
@@ -356,7 +345,7 @@ class Window2(QMainWindow):
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        self.DisplayObj = Display.Display2(self, graph1)
+        self.DisplayObj = display.Display2(self, graph1)
         size = QSize(sizeWindow.width(), sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
         self.scroll = QtWidgets.QScrollArea()
@@ -435,18 +424,7 @@ class Window2(QMainWindow):
             event.accept()
             self.table.close()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                event.accept()
-                self.table.close()
-            else:
-                event.ignore()
+            close_app(event)
 
     def show(self):
         if properties.teacherMode:
@@ -667,7 +645,7 @@ class Window3(QMainWindow):
 
         #self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
 
-        self.DisplayObj = Display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
+        self.DisplayObj = display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
 
 
         self.scroll = QtWidgets.QScrollArea()
@@ -713,18 +691,7 @@ class Window3(QMainWindow):
             self.table.close()
             event.accept()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                self.table.close()
-                event.accept()
-            else:
-                event.ignore()
+            close_app(event)
 
     def addDottedArrow(self):
         self.DisplayObj.functionAble = "Добавить пунктирную связь"
@@ -874,7 +841,7 @@ class Window4(QMainWindow):
         self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
-        self.DisplayObj = Display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
+        self.DisplayObj = display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=True, switch=False)
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
@@ -917,18 +884,7 @@ class Window4(QMainWindow):
             self.table.close()
             event.accept()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                self.table.close()
-                event.accept()
-            else:
-                event.ignore()
+            close_app(event)
 
     def addDottedArrow(self):
         self.DisplayObj.functionAble = "Добавить пунктирную связь"
@@ -1076,7 +1032,7 @@ class Window5(QMainWindow):
 
         for i in range(squadNum):
             self.i = i
-            self.widget1 = Display.Display5(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1)
+            self.widget1 = display.Display5(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1)
             self.widgetList.append(self.widget1)
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
@@ -1160,17 +1116,7 @@ class Window5(QMainWindow):
             self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                event.accept()
-            else:
-                event.ignore()
+            close_app(event)
 
     def addSeq(self):
         if self.ui.actionbtnAddSeq.isChecked() == False:
@@ -1432,6 +1378,8 @@ class Window5(QMainWindow):
 
                 statusTask.set__verification_passed_task(5)
 
+                self.ui.actionbtnInfo.setVisible(False)
+
                 for i in range(len(self.images)):
                     strTemp = str(5)+str(i)+".jpg"
                     self.images[i].save('encrypted_data/'+strTemp)
@@ -1602,7 +1550,7 @@ class Window6(QMainWindow):
         self.widgetList = []
         for i in range(squadNum):
             self.i = i
-            self.widgetList.append(Display.Display6(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1))
+            self.widgetList.append(display.Display6(self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal = False, base_graph=graph1))
             self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -1625,14 +1573,15 @@ class Window6(QMainWindow):
         self.scroll1.setWidgetResizable(True)
         self.scroll1.setWidget(widgetLeft)
 
-        self.widgetRight = Display.DrawHist(properties, graph5_ort)
+        self.widgetRight = display.DrawHist(properties, graph5_ort)
         self.widgetRight.setMinimumSize(int(self.width/2), 500)
         # print(self.widgetRight.height())
 
 
 
         self.scroll2 = QtWidgets.QScrollArea()
-        self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll2.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll2.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll2.setWidgetResizable(True)
         self.scroll2.setWidget(self.widgetRight)
 
@@ -1703,59 +1652,40 @@ class Window6(QMainWindow):
         properties.end_time = time.time_ns()
         properties.elapsed_time = properties.end_time - properties.start_time
 
-    def taskCheck(self):
-        # mistakes = self.DisplayObj.checkEvent()
-        # if type(mistakes) != QMessageBox:
-        #     if len(mistakes) == 0:
-        #         properties.set__verification_passed_task(1)
-
-        #         #properties.save_graph_for_teacher(graph1, 1)
-        #         properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-
-        #         save_graph_for_student_1 = properties.get_graph_for_student(1)
-        #         self.DisplayObj.graph = save_graph_for_student_1
-
-        #         # sys.modules[graph1].__dict__.clear()
-        #         # graph1 = properties.get_graph_for_teacher(1)
-
-        #         #print(self.DisplayObj.size().height)
-        #         statusTask.set__verification_passed_task(1)
-        #         self.DisplayObj.save()
-        #         MainWindow.ui.btnTask2.setEnabled(True)
-
-        #         self.lockUi()
-
-        #     self.checkForm1 = task1CheckForm(self, mistakes)
-        #     self.checkForm1.Task1()
-        #     self.checkForm1.exec_()
-        # else:
-        #     mistakes.exec()
-
+    def finish_function(self):
         self._finishTimer()
-
-        self.msgCheck = QMessageBox()
-        self.msgCheck.setWindowTitle("Предупреждение")
-        self.msgCheck.setText("Результат занесён в отчёт.")
-        self.msgCheck.setIcon(QMessageBox.Information)
-        self.msgCheck.setStandardButtons(QMessageBox.Ok)
-        self.msgCheck.show()
         self.widgetRight.save()
         encrypt.addFileInZip('6_hist.jpg')
-        for i in range(len(self.images)): # ПОСЛЕ ПРОВЕРКИ
+
+        for i in range(len(self.images)): 
             strTemp = str(6)+str(i)+".jpg"
             self.images[i].save('encrypted_data/'+strTemp)
 
         for i in range(len(self.images)):
             strTemp = str(6)+str(i)+".jpg"
             encrypt.addFileInZip(strTemp)
-        
-        print("!!!!!!!!!!!!!!!УПАКОВАНО!!!!!!!!!!!!\nДалее создание\n")
 
         MainWindow.creatReport()
         self.backMainMenu()
 
-        # MainWindow.creatReport()
-        #self.backMainMenu()
+    def wait_infomation(self):
+        self.msgCheck = QMessageBox()
+        self.msgCheck.setWindowTitle("Идет загрузка")
+        # self.msgCheck.setText("Подождите. Идет загрузка.")
+        # self.msgCheck.setIcon(QMessageBox.Information)
+        # self.msgCheck.setStandardButtons(QMessageBox.Ok)
+        self.msgCheck.show()
+
+    def finish(self):
+        # from multiprocessing import Process
+        # p1 = Process(target=self.wait_infomation)
+        # p1.start()
+        # p2 = Process(target=self.finish_function)
+        # p2.start()
+        # p1.join()
+        # p2.join()
+        self.wait_infomation()
+        self.finish_function()
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked() or self.ui.actionbtnCheck.isChecked():
@@ -1763,17 +1693,7 @@ class Window6(QMainWindow):
             self.ui.actionbtnHome.setChecked(False)
             event.accept()
         else:
-            close = QMessageBox()
-            close.setWindowTitle("Закрыть приложение")
-            close.setText("Вы уверены, что хотите закрыть приложение?")
-            close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            close.setWindowFlags(Qt.WindowStaysOnTopHint)
-            close = close.exec()
-
-            if close == QMessageBox.Ok:
-                event.accept()
-            else:
-                event.ignore()
+            close_app(event)
 
     def moveNode(self):
         if self.ui.actionbtnMoveNode.isChecked() == False:
@@ -1804,7 +1724,7 @@ class Window6(QMainWindow):
         self.ui.actionbtnDottedConnectNode.triggered.connect(self.addDottedArrow)
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
-        self.ui.actionbtnCheck.triggered.connect(self.taskCheck)
+        self.ui.actionbtnCheck.triggered.connect(self.finish)
         self.ui.actionbtnInfo.triggered.connect(self.help)
 
 
@@ -1813,6 +1733,7 @@ class Window6(QMainWindow):
         dialogTask.ui = Ui_TextTask6()
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
+        self.close()
 
     def backMainMenu(self):
         MainWindow.show()
@@ -1845,6 +1766,10 @@ class Window6(QMainWindow):
 #////////////////////////////////////  КЛАСС ОКНА МЕНЮ  ///////////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////
 class WindowMenu(QMainWindow):
+
+# import qt_designer_ui.resources.backGround_rc
+# import qt_designer_ui.resources.labelMAI_rc
+# import qt_designer_ui.resources.spaceBackground_rc
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -1995,23 +1920,7 @@ class WindowMenu(QMainWindow):
         return SquadsPeopleNumber
 
     def closeEvent(self, event):
-        close = QMessageBox()
-        close.setWindowTitle("Закрыть приложение")
-        close.setText("Вы уверены, что хотите закрыть приложение?")
-        close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        close.setWindowFlags(Qt.WindowStaysOnTopHint)
-        cl = close.exec()
-
-        if cl == QMessageBox.Ok:
-            properties.clear_answer(1)
-            properties.clear_answer(2)
-            properties.clear_answer(3)
-            properties.clear_answer(4)
-            for i in range(1, squadNum+1):
-                properties.clear_answer(5, i)
-            event.accept()
-        else:
-            event.ignore()
+        close_app(event)
 
         
 
@@ -2121,7 +2030,7 @@ class WindowMenu(QMainWindow):
 
     def creatReport(self):
 
-        file = open("inf_of_student.txt", 'w')
+        file = open("student_info.txt", 'w')
         file.write(self.surname + "\n" + self.numINGroup + "\n" + self.numGroup)
         file.close()
         
@@ -2169,8 +2078,14 @@ class WindowMenu(QMainWindow):
 
         
         name = self.surname.replace(' ', '_')
-
-        information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
+        information_about_student = "test"
+        try:
+            #information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
+            information_about_student = name + '_' + self.numGroup + '_' + self.numINGroup
+            print("NICE information_about_student")
+        except Exception as e:
+            print("BUG   " + information_about_student)
+            print("translit mistake     ", e)
 
         print("ОШИБКИ С созданием отчета.....")
         self.report_controller.create_report(list_pictures=list_pictures, list_teach_enter=properties.enter_teacher_mode, title=name_project, information_student=information_about_student)
@@ -2264,12 +2179,48 @@ class WindowMenu(QMainWindow):
                 countColumns = countColumns + 1
             countColumns = 0
 
+def clear_data():
+    import os, shutil
+    folder = 'report_answer/'
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+def close_app(event):
+    print("Закрытие приложения!")
+    close = QMessageBox()
+    close.setWindowTitle("Закрыть приложение")
+    close.setText("Вы уверены, что хотите закрыть приложение?")
+    close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    close.setWindowFlags(Qt.WindowStaysOnTopHint)
+    call = close.exec()
+
+    if call == QMessageBox.Ok:
+        properties.clear_answer(1)
+        properties.clear_answer(2)
+        properties.clear_answer(3)
+        properties.clear_answer(4)
+        for i in range(1, squadNum+1):
+            properties.clear_answer(5, i)
+        clear_data()
+        event.accept()
+    else:
+        event.ignore()
+    
+
 if __name__ == "__main__":
+    clear_data()
     encrypt = encrypt_decrypt()
     app = QApplication(sys.argv)
-    statusTask = Properties.statusTask()
+    statusTask = properties.statusTask()
     MainWindow = WindowMenu()
-    properties = Properties.Properties(MainWindow)
+    properties = properties.Properties(MainWindow)
 
     squadNum = maxSquadNum()
     MainWindow1 = Window1()
@@ -2278,10 +2229,10 @@ if __name__ == "__main__":
     MainWindow4 = Window4()
 
     for i in range(maxSquadNum()):
-        graph5.append(GraphModel.Graph(30))
+        graph5.append(graph_model.Graph(30))
 
     for i in range(maxSquadNum()):
-        graph5_ort.append(GraphModel.GraphOrthogonal(30))
+        graph5_ort.append(graph_model.GraphOrthogonal(30))
 
     MainWindow5 = Window5()
     MainWindow6 = Window6()

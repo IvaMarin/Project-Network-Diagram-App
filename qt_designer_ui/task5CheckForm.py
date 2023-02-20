@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt, QRect, QPointF
 from PyQt5.QtGui import QPainter, QColor, QIcon, QCursor, QPolygonF, QPixmap, QFont
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QMenu, QToolBar, QAction
 
-from task1CheckUi import Ui_task1CheckUi
+from task_one_check_ui import Ui_task1CheckUi
 from qt_designer_ui.task5CheckUi import Ui_task5CheckUi
 
 

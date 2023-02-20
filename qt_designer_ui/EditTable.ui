@@ -10,6 +10,12 @@
     <height>1047</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>20</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -74,6 +80,7 @@
     <widget class="QSplitter" name="splitter">
      <property name="font">
       <font>
+       <family>Times New Roman</family>
        <pointsize>16</pointsize>
       </font>
      </property>

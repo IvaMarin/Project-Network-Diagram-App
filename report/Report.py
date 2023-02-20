@@ -1,9 +1,16 @@
+# Этот класс используется для отображения отчетов
+# Класс унаследован от библиотеки FPDF
+# Переопределены методы описания коллонтитулов
+
 from fpdf import FPDF
 
 class Report(FPDF):
 
+    # Функция описания верхнего коллонтитула
     def header(self):
-        file = open("inf_of_student.txt", 'r')
+        # считывание нформации о студенте из файла
+        file = open("student_info.txt", 'r') 
+
         surname = file.readline().split(" ")
         variant = file.readline()
         group = file.readline()
@@ -13,12 +20,13 @@ class Report(FPDF):
         for i in range(1, len(surname)):
             fio = fio + " " + surname[i][0] + '.'
 
-        # Logo
-        self.image('report/logo_mac_mai-min.png', 15, 8, 30)
-        self.image('report/logo_mca-min.png', 252, 8, 30)
-        # Arial bold 15
+        # Подключение логотипов МАИ и АКМ
+        # self.image('report/logo_mac_mai-min.png', 15, 8, 30)
+        # self.image('report/logo_mca-min.png', 252, 8, 30)
+
+        # шрифт DejaVu 8
         self.set_x(40)
-        self.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
+        self.add_font('DejaVu', '', 'resources/fonts/DejaVuSansCondensed.ttf', uni=True)
         self.set_font('DejaVu', '', 14)
         # Move to the right
         self.cell(80)
@@ -27,16 +35,12 @@ class Report(FPDF):
         # Line break
         self.ln(10)
 
-    # Page footer
+    # Функция описания нижнего коллонтитула
     def footer(self):
-        # Position at 1.5 cm from bottom
+        # позиция 1.5 см от нижнего края
         self.set_y(-15)
-        # DejaVu 8
-        self.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
+        # шрифт DejaVu 8
+        #self.add_font('DejaVu', '', 'resources/fonts/DejaVuSansCondensed.ttf', uni=True)
         self.set_font('DejaVu', '', 8)
-        # Page number
+        # номера страниц
         self.cell(0, 10, 'Стр. ' + str(self.page_no()), 0, 0, 'C')
-
-# pdf = Report(orientation='L', unit='mm', format='A4')
-
-# pdf.output("T1.pdf")

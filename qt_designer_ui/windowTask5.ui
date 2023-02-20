@@ -10,6 +10,12 @@
     <height>1253</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>20</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Задание 5</string>
   </property>
@@ -23,7 +29,7 @@
      <x>0</x>
      <y>0</y>
      <width>1601</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">
