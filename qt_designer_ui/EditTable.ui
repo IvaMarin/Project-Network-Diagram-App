@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1687</width>
-    <height>1047</height>
+    <height>1044</height>
    </rect>
   </property>
   <property name="font">
@@ -32,45 +32,78 @@
       <string notr="true">background-color: #fffaea;</string>
      </property>
      <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>350</number>
+      <number>240</number>
      </attribute>
      <column>
       <property name="text">
-       <string>Шифр работы</string>
+       <string>Шифр
+работы</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>14</pointsize>
+        <family>Times New Roman</family>
+        <pointsize>20</pointsize>
        </font>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Номер отделения</string>
+       <string>Номер
+отделения</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>14</pointsize>
+        <family>Times New Roman</family>
+        <pointsize>20</pointsize>
        </font>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Число людей, выполняющих работы</string>
+       <string>Число людей,
+выполняющих
+работы</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>14</pointsize>
+        <family>Times New Roman</family>
+        <pointsize>20</pointsize>
        </font>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Продолжительность работ (час)</string>
+       <string>Продолжительность
+работ (час)</string>
       </property>
       <property name="font">
        <font>
-        <pointsize>14</pointsize>
+        <family>Times New Roman</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Номер
+отделения</string>
+      </property>
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Количество
+людей</string>
+      </property>
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>20</pointsize>
        </font>
       </property>
      </column>
@@ -147,21 +180,6 @@
       </property>
       <property name="text">
        <string>Сохранить и выйти</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSetNumPeopleInSquad">
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>16</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #66e3ff;</string>
-      </property>
-      <property name="text">
-       <string>Задать количество людей
-в подразделениях/отделениях</string>
       </property>
      </widget>
     </widget>
