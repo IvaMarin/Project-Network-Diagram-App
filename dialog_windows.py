@@ -231,7 +231,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20))  # двигаем окно левее и выше
 
         self.ui.lineEdit.setValidator(QIntValidator())
-        self.ui.lineEdit.setMaxLength(2)
+        self.ui.lineEdit.setMaxLength(3)
 
         pathFileXlsx = os.path.join("resources", "variants")  # находим путь до папки с файлами вариантов
         self.onlyfiles = [f for f in listdir(pathFileXlsx) if isfile(join(pathFileXlsx, f))] # собираем список всех файлов в этой папке
@@ -328,7 +328,7 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.ui.btnAddStrInTable.clicked.connect(lambda: self.AddStrInTable())          #
         self.ui.btnDelStrLast.clicked.connect(lambda: self.delStrLast())           #
         self.ui.btnExitAndClose.clicked.connect(lambda: self.close())  #
-        self.ui.btnSetNumPeopleInSquad.clicked.connect(lambda: self.setNumPeopleInSquad())  #
+        # self.ui.btnSetNumPeopleInSquad.clicked.connect(lambda: self.setNumPeopleInSquad())  #
 
     def setNumPeopleInSquad(self):
         winNumSquads = QDialog()
@@ -363,10 +363,10 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
             for colInTblTsk in range(sheet.max_column):
                 sheet.cell(rowInTblTsk + 1, colInTblTsk + 1).value = None
         #row = []
-        for rowInTblTsk in range(self.ui.tableTaskVar.rowCount()):
-            for colInTblTsk in range(self.ui.tableTaskVar.columnCount()):
-                if self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk):
-                    tmpItem = self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk).text()
+        for rowInTblTsk in range(self.ui.tableTaskVar.rowCount()): # цикл по номеру строк
+            for colInTblTsk in range(self.ui.tableTaskVar.columnCount()): # цикл по номеру колонок 
+                if self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk): # проверка на None в item таблицы
+                    tmpItem = self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk).text() # берем текст из item и запоминаем его в переменную 
                 else:
                     tmpItem = ' '
                 sheet.cell(rowInTblTsk + 1, colInTblTsk + 1).value = tmpItem
