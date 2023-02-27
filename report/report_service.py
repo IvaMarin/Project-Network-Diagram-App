@@ -1,7 +1,8 @@
 from PyPDF2 import PdfWriter, PdfReader
-from report import PdfViever as pdf_viewer
+from report import pdf_viewer as pdf_viewer
 
 import os
+
 
 class ReportService():
 
@@ -9,8 +10,8 @@ class ReportService():
         self.password = password
         self.viewer = pdf_viewer.Viewer()
 
-    def add_text(self, report, text, x = 65):
-        #report.add_font('DejaVu', '', 'resources/fonts/DejaVuSansCondensed.ttf', uni=True)
+    def add_text(self, report, text, x=65):
+        # report.add_font('DejaVu', '', 'resources/fonts/DejaVuSansCondensed.ttf', uni=True)
         report.set_font('DejaVu', '', 16)
         report.set_x(x)
         report.multi_cell(170, 10, text, 0, 1, "C")
@@ -28,8 +29,8 @@ class ReportService():
         except:
             print(path_image + ' not found')
 
-    def create_task_page(self, report, text, path_image, hist = 'N'):
-        
+    def create_task_page(self, report, text, path_image, hist='N'):
+
         report.add_page()
         self.add_text(report, text)
         if hist != 'H':
@@ -38,10 +39,10 @@ class ReportService():
             self.add_hist(report, path_image)
         return report
 
-    def pdf_encry(self, pdf_path = "pdf_encry_decry/1.pdf"):
+    def pdf_encry(self, pdf_path="pdf_encry_decry/1.pdf"):
 
         print("PASS" + self.password)
-        
+
         out = PdfWriter()
         pdf = PdfReader(pdf_path)
 
@@ -50,7 +51,7 @@ class ReportService():
         for i in range(num):
             page = pdf.pages[i]
             out.add_page(page)
-        
+
         try:
             out.encrypt(self.password)
             with open(pdf_path, "wb") as f:
@@ -59,7 +60,7 @@ class ReportService():
         except:
             print("PDF не зашифровался или не записался!")
 
-    def pdf_decry(self, pdf_path = "pdf_encry_decry/1.pdf"):
+    def pdf_decry(self, pdf_path="pdf_encry_decry/1.pdf"):
 
         print("PASS" + self.password)
 
@@ -73,7 +74,7 @@ class ReportService():
             for i in range(len(pdf.pages)):
                 page = pdf.pages[i]
                 out.add_page(page)
-            
+
             with open(pdf_path, "wb") as f:
                 out.write(f)
 
@@ -81,8 +82,8 @@ class ReportService():
         else:
             print("PDF уже расшифрован!")
 
-    def pdf_show(self, path):
-        self.viewer.show_PDF(path)
+    def pdf_show(self, path, loading):
+        self.viewer.show_PDF(path, loading)
 
     def pdf_save(self, folder_source, path_to_save):
 
@@ -93,5 +94,5 @@ class ReportService():
 
         for g in get_files:
             print(g)
-            os.replace(os.path.abspath(folder_source) + "/" + g, path_to_save + "/" + g)
-
+            os.replace(os.path.abspath(folder_source) +
+                       "/" + g, path_to_save + "/" + g)

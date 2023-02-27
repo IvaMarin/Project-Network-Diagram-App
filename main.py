@@ -7,7 +7,7 @@ from PyQt5 import QtWidgets, QtCore
 
 
 from PyQt5.QtCore import QRect, Qt, QSize
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog
 from PyQt5.QtGui import QPixmap, QScreen, QImage
 from PyQt5.QtPrintSupport import QPrinter, QPrintDialog
 
@@ -31,14 +31,7 @@ from docx.shared import Inches, Mm
 # import win32comext.shell.shell as shell
 # import comtypes.client
 from transliterate import translit, get_available_language_codes
-
-# from borb.pdf import Document
-# from borb.pdf import Page
-# from borb.pdf import SingleColumnLayout
-# from borb.pdf import Paragraph
-# from borb.pdf import PDF
-
-from report import Controller
+from report import report_controller
 
 ############# Кастомные файлы для проги ######################
 ###############     UI     ###################################
@@ -68,6 +61,7 @@ from qt_designer_ui.task5CheckForm import task5CheckForm
 from task_five_add_sequences import task5AddSeq
 import graph_model
 import properties
+from threaded_report_creation import ThreadedReportCreation
 
 ############ глобальные переменные ###########
 global graph1
@@ -1652,40 +1646,20 @@ class Window6(QMainWindow):
         properties.end_time = time.time_ns()
         properties.elapsed_time = properties.end_time - properties.start_time
 
-    def finish_function(self):
-        self._finishTimer()
-        self.widgetRight.save()
-        encrypt.addFileInZip('6_hist.jpg')
-
-        for i in range(len(self.images)): 
-            strTemp = str(6)+str(i)+".jpg"
-            self.images[i].save('encrypted_data/'+strTemp)
-
-        for i in range(len(self.images)):
-            strTemp = str(6)+str(i)+".jpg"
-            encrypt.addFileInZip(strTemp)
-
-        MainWindow.creatReport()
-        self.backMainMenu()
-
-    def wait_infomation(self):
-        self.msgCheck = QMessageBox()
-        self.msgCheck.setWindowTitle("Идет загрузка")
-        # self.msgCheck.setText("Подождите. Идет загрузка.")
-        # self.msgCheck.setIcon(QMessageBox.Information)
-        # self.msgCheck.setStandardButtons(QMessageBox.Ok)
-        self.msgCheck.show()
-
     def finish(self):
-        # from multiprocessing import Process
-        # p1 = Process(target=self.wait_infomation)
-        # p1.start()
-        # p2 = Process(target=self.finish_function)
-        # p2.start()
-        # p1.join()
-        # p2.join()
-        self.wait_infomation()
-        self.finish_function()
+        self.progressDialog = QProgressDialog("Формирование отчета...", "Cancel", 0, 100)
+        self.progressDialog.setWindowTitle("Загрузка")
+        self.progressDialog.setCancelButton(None)
+        self.progressDialog.setAutoClose(True)
+        self.progressDialog.setWindowModality(Qt.WindowModal)
+        self.progressDialog.setMinimumDuration(0)
+
+        self.threadedReportCreation = ThreadedReportCreation(mainWindow=MainWindow, window6=self, encrypt=encrypt)
+        self.threadedReportCreation.countChanged.connect(self.updateProgressDialog)
+        self.threadedReportCreation.start()
+
+    def updateProgressDialog(self, value):
+        self.progressDialog.setValue(value)
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked() or self.ui.actionbtnCheck.isChecked():
@@ -1818,7 +1792,7 @@ class WindowMenu(QMainWindow):
 
         self.testGen()
 
-        self.report_controller = Controller.ReportController("mai_cam_password")
+        self.report_controller = report_controller.ReportController("mai_cam_password")
         self.report_was_make = False
         self.show()
 
@@ -2028,12 +2002,14 @@ class WindowMenu(QMainWindow):
     #     #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
 
 
-    def creatReport(self):
+    def creatReport(self, loading=None):
+        loading.emit(10) # Процесс загрузки 10%
 
         file = open("student_info.txt", 'w')
-        file.write(self.surname + "\n" + self.numINGroup + "\n" + self.numGroup)
+        file.write(self.surname + "\n" +
+                   self.numINGroup + "\n" + self.numGroup)
         file.close()
-        
+
         name_project = "Практическое занятие: \n«Использование метода сетевого планирования и управления в технологических процессах эксплуатации космических средств»"
         try:
             encrypt.extractFileFromZip('1.jpg')
@@ -2060,7 +2036,7 @@ class WindowMenu(QMainWindow):
                 encrypt.extractFileFromZip(str(5)+str(i)+".jpg")
         except:
             print("Not found " + '5....jpg')
-        
+
         try:
             for i in range(squadNum):
                 encrypt.extractFileFromZip(str(6)+str(i)+".jpg")
@@ -2073,14 +2049,14 @@ class WindowMenu(QMainWindow):
             print("Not found " + '6_hist.jpg')
 
         list_pictures = [["encrypted_data/1.jpg"], ["encrypted_data/2.jpg"], ["encrypted_data/3.jpg"],
-            ["encrypted_data/4.jpg"], ["encrypted_data/50.jpg", "encrypted_data/51.jpg", "encrypted_data/52.jpg"],
-            ["encrypted_data/60.jpg", "encrypted_data/61.jpg", "encrypted_data/62.jpg"], ["encrypted_data/6_hist.jpg"]]
+                         ["encrypted_data/4.jpg"], ["encrypted_data/50.jpg",
+                                                    "encrypted_data/51.jpg", "encrypted_data/52.jpg"],
+                         ["encrypted_data/60.jpg", "encrypted_data/61.jpg", "encrypted_data/62.jpg"], ["encrypted_data/6_hist.jpg"]]
 
-        
         name = self.surname.replace(' ', '_')
         information_about_student = "test"
         try:
-            #information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
+            # information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
             information_about_student = name + '_' + self.numGroup + '_' + self.numINGroup
             print("NICE information_about_student")
         except Exception as e:
@@ -2088,13 +2064,12 @@ class WindowMenu(QMainWindow):
             print("translit mistake     ", e)
 
         print("ОШИБКИ С созданием отчета.....")
-        self.report_controller.create_report(list_pictures=list_pictures, list_teach_enter=properties.enter_teacher_mode, title=name_project, information_student=information_about_student)
+        self.report_controller.create_report(list_pictures=list_pictures, list_teach_enter=properties.enter_teacher_mode,
+                                             title=name_project, information_student=information_about_student, loading=loading)
         print(".......ОШИБКИ С созданием отчета")
         # запаковка
         # encrypt.addFileInZip(name_report)
         encrypt.delImaFromZip()
-
-        #self.report_controller.show_current()
 
     def save_report_as(self):
         
