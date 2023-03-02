@@ -81,23 +81,19 @@ def image_to_jpg(image_path):
 
 class Window1(QMainWindow):
     def __init__(self, parent=None):
-
         super().__init__(parent)
-
         self.ui = Ui_MainWindow1()
         self.ui.setupUi(self)
-
         self.setWindowTitle("Задача №1")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
         graph1.CorrectAdjacencyMatrix = MainWindow.getCorrectAdjacencyMatrix()
         graph1.CorrectWeights = MainWindow.getCorrectWeights()
-
         graph1.CorrectSquadsWork = MainWindow.getCorrectSquadsWork()
         graph1.SquadsPeopleToWork = MainWindow.getCorrectSquadsPeopleToWork()
         graph1.SquadsPeopleNumber = MainWindow.getCorrectSquadsPeopleNumber()
-
-        self.DisplayObj = display.Display(self, graph1)
+        
+        self.DisplayObj = display.Display(self, graph1) 
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -212,7 +208,7 @@ class Window1(QMainWindow):
                 # sys.modules[graph1].__dict__.clear()
                 # graph1 = properties.get_graph_for_teacher(1)
 
-                # print(self.DisplayObj.size().height)
+                #print(self.DisplayObj.size().height)
                 statusTask.set__verification_passed_task(1)
                 self.DisplayObj.save()
                 encrypt.addFileInZip('1.jpg')
@@ -660,8 +656,7 @@ class Window3(QMainWindow):
 
         # self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
 
-        self.DisplayObj = display.Display3_4(
-            self, graph1, 100, properties.max_possible_time, horizontal=False, late_time=False, switch=False)
+        self.DisplayObj = display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -669,9 +664,9 @@ class Window3(QMainWindow):
 
         self.DisplayObj.setMinimumSize(
             (properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-        size = QSize((properties.max_possible_time + 3) *
-                     self.DisplayObj.step + 50, sizeWindow.height())
+        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
@@ -875,8 +870,7 @@ class Window4(QMainWindow):
         self.DisplayObj.setMinimumSize(
             (properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-        size = QSize((properties.max_possible_time + 3) *
-                     self.DisplayObj.step + 50, sizeWindow.height())
+        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
@@ -924,13 +918,13 @@ class Window4(QMainWindow):
 
     def addDottedArrow(self):
         self.DisplayObj.functionAble = "Добавить пунктирную связь"
-        # self.ui.actionbtnConnectNode.setChecked(False)
+        #self.ui.actionbtnConnectNode.setChecked(False)
         self.ui.actionbtnMoveNode.setChecked(False)
         self.ui.actionHelp.setChecked(False)
 
     def moveNode(self):
         self.DisplayObj.functionAble = "Переместить вершины"
-        # self.ui.actionbtnDottedConnectNode.setChecked(False)
+        #self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionHelp.setChecked(False)
 
@@ -993,13 +987,10 @@ class Window4(QMainWindow):
                 "QStatusBar{background:rgba(255,0,0,255)}")
             properties.enter_teacher_mode[3] = True
         else:
-            self.ui.menuBar.setStyleSheet(
-                "QMenuBar{background:rgba(184, 255, 192,255)}")  # rgb(184, 255, 192)
-            self.ui.statusbar.setStyleSheet(
-                "QStatusBar{background:rgba(184, 255, 192,255)}")
+            self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
+            self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.DisplayObj.functionAble = ""
-        # выставляем кнопке помощи значение режима преподавателя T/F
-        self.ui.actionHelp.setEnabled(properties.teacherMode)
+        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
     def sizeGet(self):
@@ -1012,9 +1003,8 @@ class Window4(QMainWindow):
     # показать решение в режиме преподавателя
     def solveTask(self):
         if self.ui.actionHelp.isChecked() == False:
-            self.DisplayObj.functionAble = ""  # пока оставлю
-            # при выкл рисуем то, что пишет ученик
-            self.switchTeacherMode(False)
+            self.DisplayObj.functionAble = "" # пока оставлю
+            self.switchTeacherMode(False) # при выкл рисуем то, что пишет ученик
         else:
             # self.switchTeacherMode(False)
             self.switchTeacherMode(True)  # вкл - рисуем ответ
@@ -1023,9 +1013,8 @@ class Window4(QMainWindow):
 
     def switchTeacherMode(self, flag):
         if (flag):
-            # properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-            graph = properties.get_graph_for_teacher(
-                4)  # берем граф из сохранения
+            #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+            graph = properties.get_graph_for_teacher(4) # берем граф из сохранения
             self.DisplayObj.graph = graph
             self.DisplayObj.update()
 
@@ -1075,9 +1064,7 @@ class Window5(QMainWindow):
             self.widget1 = display.Display5(
                 self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal=False, base_graph=graph1)
             self.widgetList.append(self.widget1)
-            # properties.max_possible_time + 3) * self.DisplayObj.step + 50
-            self.widgetList[i].setMinimumSize(
-                (properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100)
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
@@ -1583,8 +1570,7 @@ class Window5(QMainWindow):
             # graph_student = properties.get_graph_for_student(1)
             for i in range(self.squadNum):
                 if (statusTask.get_verification_passed_pretasks(6)):
-                    save_graph_for_student_1 = properties.get_graph_for_student(
-                        5, i)
+                    save_graph_for_student_1 = properties.get_graph_for_student(5, i)
                     self.DisplayObj.graph = save_graph_for_student_1
                 else:
                     # подгружаем граф из нашего общего графа
@@ -1648,7 +1634,7 @@ class Window6(QMainWindow):
         self.scroll1.setWidget(widgetLeft)
 
         self.widgetRight = display.DrawHist(properties, graph5_ort)
-        self.widgetRight.setMinimumSize(int(self.width/2), 500)
+        self.widgetRight.setMinimumSize(int(self.width/2), self.height)
         # print(self.widgetRight.height())
 
         self.scroll2 = QtWidgets.QScrollArea()
@@ -1834,9 +1820,9 @@ class Window6(QMainWindow):
 # //////////////////////////////////////////////////////////////////////////////////////////////////
 class WindowMenu(QMainWindow):
 
-    # import qt_designer_ui.resources.backGround_rc
-    # import qt_designer_ui.resources.labelMAI_rc
-    # import qt_designer_ui.resources.spaceBackground_rc
+# import qt_designer_ui.resources.backGround_rc
+# import qt_designer_ui.resources.labelMAI_rc
+# import qt_designer_ui.resources.spaceBackground_rc
 
     def __init__(self, parent=None):
         super().__init__(parent)
