@@ -93,12 +93,12 @@ class Window1(QMainWindow):
         graph1.SquadsPeopleToWork = MainWindow.getCorrectSquadsPeopleToWork()
         graph1.SquadsPeopleNumber = MainWindow.getCorrectSquadsPeopleNumber()
         
-        self.DisplayObject = display.Display(self, graph1) 
+        self.DisplayObj = display.Display(self, graph1) 
 
         self.scroll = QtWidgets.QScrollArea()
-        self.scroll.setWidget(self.DisplayObject)
+        self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
-        self.DisplayObject.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+        self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
 
         size = QSize(sizeWindow.width(), sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
@@ -131,9 +131,9 @@ class Window1(QMainWindow):
 
     def addNode(self):
         if self.ui.actionbtnAddNode.isChecked() == False:
-            self.DisplayObject.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.DisplayObject.functionAble = "Добавить вершину"
+            self.DisplayObj.functionAble = "Добавить вершину"
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -142,9 +142,9 @@ class Window1(QMainWindow):
 
     def addArrow(self):
         if self.ui.actionbtnConnectNode.isChecked() == False:
-            self.DisplayObject.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.DisplayObject.functionAble = "Добавить связь"
+            self.DisplayObj.functionAble = "Добавить связь"
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -153,9 +153,9 @@ class Window1(QMainWindow):
 
     def removeArrow(self):
         if self.ui.actionbtnRemoveNodeConnection.isChecked() == False:
-            self.DisplayObject.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.DisplayObject.functionAble = "Удалить связь"
+            self.DisplayObj.functionAble = "Удалить связь"
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -164,9 +164,9 @@ class Window1(QMainWindow):
 
     def removeNode(self):
         if self.ui.actionbtnRemoveNode.isChecked() == False:
-            self.DisplayObject.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.DisplayObject.functionAble = "Удалить вершину"
+            self.DisplayObj.functionAble = "Удалить вершину"
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnMoveNode.setChecked(False)
@@ -175,9 +175,9 @@ class Window1(QMainWindow):
 
     def moveNode(self):
         if self.ui.actionbtnMoveNode.isChecked() == False:
-            self.DisplayObject.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.DisplayObject.functionAble = "Переместить вершины"
+            self.DisplayObj.functionAble = "Переместить вершины"
             self.ui.actionbtnConnectNode.setChecked(False)
             self.ui.actionbtnAddNode.setChecked(False)
             self.ui.actionbtnRemoveNodeConnection.setChecked(False)
@@ -185,13 +185,13 @@ class Window1(QMainWindow):
             self.ui.actionHelp.setChecked(False)
 
     def makeNewFile(self):
-        self.DisplayObject.functionAble = "Новый файл"
+        self.DisplayObj.functionAble = "Новый файл"
 
     def sizeGet(self):
         return self.size()
 
     def taskCheck(self):
-        mistakes = self.DisplayObject.checkEvent()
+        mistakes = self.DisplayObj.checkEvent()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 properties.set__verification_passed_task(1)
@@ -203,14 +203,14 @@ class Window1(QMainWindow):
                     graph1, 1)  # сохраняем граф в файл
 
                 save_graph_for_student_1 = properties.get_graph_for_student(1)
-                self.DisplayObject.graph = save_graph_for_student_1
+                self.DisplayObj.graph = save_graph_for_student_1
 
                 # sys.modules[graph1].__dict__.clear()
                 # graph1 = properties.get_graph_for_teacher(1)
 
                 #print(self.DisplayObj.size().height)
                 statusTask.set__verification_passed_task(1)
-                self.DisplayObject.save()
+                self.DisplayObj.save()
                 encrypt.addFileInZip('1.jpg')
                 MainWindow.ui.btnTask2.setEnabled(True)
 
@@ -313,11 +313,11 @@ class Window1(QMainWindow):
             # graph_student = properties.get_graph_for_student(1)
             if (statusTask.get_verification_passed_pretasks(2)):
                 save_graph_for_student_1 = properties.get_graph_for_student(1)
-                self.DisplayObject.graph = save_graph_for_student_1
+                self.DisplayObj.graph = save_graph_for_student_1
             else:
-                self.DisplayObject.graph = graph1
+                self.DisplayObj.graph = graph1
             # подгружаем граф из нашего общего графа  // здесь поправить нужно
-            self.DisplayObject.update()
+            self.DisplayObj.update()
 
             self.ui.actionbtnCheck.setEnabled(True)
             self.ui.actionbtnAddNode.setEnabled(True)
@@ -339,11 +339,11 @@ class Window2(QMainWindow):
         self.layout = QtWidgets.QHBoxLayout()
         # Добавляем виджет отрисовки в компоновщик
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
-        self.DisplayObject = display.Display2(self, graph1)
+        self.DisplayObj = display.Display2(self, graph1)
         size = QSize(sizeWindow.width(), sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
         self.scroll = QtWidgets.QScrollArea()
-        self.scroll.setWidget(self.DisplayObject)
+        self.scroll.setWidget(self.DisplayObj)
         self.layout.addWidget(self.scroll)
         # Создаём виджет таблицы и добавляем его в компоновщик
         self.layout2 = QtWidgets.QVBoxLayout()
@@ -378,7 +378,7 @@ class Window2(QMainWindow):
         height = int(sizeWindow.height() - sizeWindow.height() / 5)
         # вписываем во весь экран
         self.resize(width, height)
-        self.DisplayObject.setMinimumSize(sizeWindow.width(), sizeWindow.height())
+        self.DisplayObj.setMinimumSize(sizeWindow.width(), sizeWindow.height())
 
         self.move(int(sizeWindow.width() / 12), int(sizeWindow.height() / 12))
 
@@ -477,7 +477,7 @@ class Window2(QMainWindow):
                 self.msg.show()
                 break
         if not show_message:
-            self.DisplayObject.update()
+            self.DisplayObj.update()
         self.update()
 
     def table2Check(self):
@@ -497,14 +497,14 @@ class Window2(QMainWindow):
                 break
 
         if not show_message:
-            self.DisplayObject.update()
+            self.DisplayObj.update()
         self.update()
 
     def critPath(self):
         if self.ui.actionbtnCritPath.isChecked() == False:
-            self.DisplayObject.functionAble = ""
+            self.DisplayObj.functionAble = ""
         else:
-            self.DisplayObject.functionAble = "Критический путь"
+            self.DisplayObj.functionAble = "Критический путь"
             self.ui.actionHelp.setChecked(False)
 
     def taskCheck(self):
@@ -520,7 +520,7 @@ class Window2(QMainWindow):
         if not (is_filled):
             self.msg.show()
         else:
-            mistakes = self.DisplayObject.checkEvent()
+            mistakes = self.DisplayObj.checkEvent()
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
                     properties.set__verification_passed_task(2)
@@ -542,7 +542,7 @@ class Window2(QMainWindow):
                         2)
                     self.DisplayObj.graph = save_graph_for_student_2
                     statusTask.set__verification_passed_task(2)
-                    self.DisplayObject.save()
+                    self.DisplayObj.save()
                     encrypt.addFileInZip('2.jpg')
                     MainWindow.ui.btnTask3.setEnabled(True)
                     self.lockUi()
@@ -597,9 +597,9 @@ class Window2(QMainWindow):
             n = len(self.DisplayObj.QLineEdits)
             for i in range(n):
                 for j in range(n):
-                    if (type(self.DisplayObject.QLineEdits[i][j]) == QLineEdit):
+                    if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
                         try:
-                            self.DisplayObject.QLineEdits[i][j].setVisible(False)
+                            self.DisplayObj.QLineEdits[i][j].setVisible(False)
                         except ValueError:
                             pass
 
@@ -615,15 +615,15 @@ class Window2(QMainWindow):
             n = len(self.DisplayObj.QLineEdits)
             for i in range(n):
                 for j in range(n):
-                    if (type(self.DisplayObject.QLineEdits[i][j]) == QLineEdit):
+                    if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
                         try:
-                            self.DisplayObject.QLineEdits[i][j].setVisible(True)
+                            self.DisplayObj.QLineEdits[i][j].setVisible(True)
                         except ValueError:
                             pass
 
             if (statusTask.get_verification_passed_pretasks(3)):
                 save_graph_for_student_1 = properties.get_graph_for_student(2)
-                self.DisplayObject.graph = save_graph_for_student_1
+                self.DisplayObj.graph = save_graph_for_student_1
             else:
                 self.DisplayObj.graph = graph1
             # self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
@@ -659,14 +659,14 @@ class Window3(QMainWindow):
         self.DisplayObj = display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
 
         self.scroll = QtWidgets.QScrollArea()
-        self.scroll.setWidget(self.DisplayObject)
+        self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
 
         self.DisplayObj.setMinimumSize(
             (properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
-        self.DisplayObject.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObject.step + 50, sizeWindow.height())
+        self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-        size = QSize((properties.max_possible_time + 3) * self.DisplayObject.step + 50, sizeWindow.height())
+        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
@@ -712,20 +712,20 @@ class Window3(QMainWindow):
             close_app(event)
 
     def addDottedArrow(self):
-        self.DisplayObject.functionAble = "Добавить пунктирную связь"
+        self.DisplayObj.functionAble = "Добавить пунктирную связь"
         self.ui.actionbtnMoveNode.setChecked(False)
         self.ui.actionHelp.setChecked(False)
 
     def moveNode(self):
-        self.DisplayObject.functionAble = "Переместить вершины"
+        self.DisplayObj.functionAble = "Переместить вершины"
         self.ui.actionbtnDottedConnectNode.setChecked(False)
         self.ui.actionHelp.setChecked(False)
 
     def makeNewFile(self):
-        self.DisplayObject.functionAble = "Новый файл"
+        self.DisplayObj.functionAble = "Новый файл"
 
     def taskCheck(self):
-        mistakes = self.DisplayObject.checkEvent3()
+        mistakes = self.DisplayObj.checkEvent3()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
 
@@ -737,15 +737,15 @@ class Window3(QMainWindow):
                 properties.save_graph_for_student(
                     graph1, 3)  # сохраняем граф в файл
                 save_graph_for_student_3 = properties.get_graph_for_student(3)
-                self.DisplayObject.graph = save_graph_for_student_3
+                self.DisplayObj.graph = save_graph_for_student_3
 
                 statusTask.set__verification_passed_task(3)
                 # properties.save_graph_for_teacher(graph1, 3) # сохраняем граф в файл
 
                 # save_graph_3 = properties.get_graph_for_teacher(3)
-                # self.DisplayObject.graph = save_graph_3
+                # self.DisplayObj.graph = save_graph_3
 
-                self.DisplayObject.save(3)
+                self.DisplayObj.save(3)
                 encrypt.addFileInZip('3.jpg')
                 MainWindow.ui.btnTask4.setEnabled(True)
                 self.lockUi()
@@ -830,10 +830,10 @@ class Window3(QMainWindow):
             # graph_student = properties.get_graph_for_student(1)
             if (statusTask.get_verification_passed_pretasks(4)):
                 save_graph_for_student_1 = properties.get_graph_for_student(3)
-                self.DisplayObject.graph = save_graph_for_student_1
+                self.DisplayObj.graph = save_graph_for_student_1
             else:
-                self.DisplayObject.graph = graph1
-            self.DisplayObject.update()
+                self.DisplayObj.graph = graph1
+            self.DisplayObj.update()
 
             self.ui.actionbtnCheck.setEnabled(True)
             self.ui.actionbtnMoveNode.setEnabled(True)
@@ -865,12 +865,12 @@ class Window4(QMainWindow):
         self.DisplayObj = display.Display3_4(
             self, graph1, 100, properties.max_possible_time, horizontal=False, late_time=True, switch=False)
         self.scroll = QtWidgets.QScrollArea()
-        self.scroll.setWidget(self.DisplayObject)
+        self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
         self.DisplayObj.setMinimumSize(
             (properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-        size = QSize((properties.max_possible_time + 3) * self.DisplayObject.step + 50, sizeWindow.height())
+        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
@@ -929,10 +929,10 @@ class Window4(QMainWindow):
         self.ui.actionHelp.setChecked(False)
 
     def makeNewFile(self):
-        self.DisplayObject.functionAble = "Новый файл"
+        self.DisplayObj.functionAble = "Новый файл"
 
     def taskCheck(self):
-        mistakes = self.DisplayObject.checkEvent4()
+        mistakes = self.DisplayObj.checkEvent4()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
                 statusTask.set__verification_passed_task(4)
@@ -943,9 +943,9 @@ class Window4(QMainWindow):
                 properties.save_graph_for_student(
                     graph1, 4)  # сохраняем граф в файл
                 save_graph_for_student_4 = properties.get_graph_for_student(4)
-                self.DisplayObject.graph = save_graph_for_student_4
+                self.DisplayObj.graph = save_graph_for_student_4
 
-                self.DisplayObject.save(4)
+                self.DisplayObj.save(4)
                 encrypt.addFileInZip('4.jpg')
                 MainWindow.ui.btnTask5.setEnabled(True)
                 self.lockUi()
@@ -1025,11 +1025,11 @@ class Window4(QMainWindow):
             # graph_student = properties.get_graph_for_student(1)
             if (statusTask.get_verification_passed_pretasks(5)):
                 save_graph_for_student_1 = properties.get_graph_for_student(4)
-                self.DisplayObject.graph = save_graph_for_student_1
+                self.DisplayObj.graph = save_graph_for_student_1
             else:
-                self.DisplayObject.graph = graph1
+                self.DisplayObj.graph = graph1
 
-            self.DisplayObject.update()
+            self.DisplayObj.update()
 
             self.ui.actionbtnCheck.setEnabled(True)
             self.ui.actionbtnMoveNode.setEnabled(True)
