@@ -1,7 +1,7 @@
 class DTO():
     def __init__(self):
         # вариант
-        self.variant = 0
+        self.variant = '0'
         # шифр работ
         self.cipherOfWorks = []
         # кто исполняет

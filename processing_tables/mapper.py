@@ -1,4 +1,4 @@
-from dto import DTO
+from processing_tables.dto import DTO
 
 class Mapper():
     def __init__(self):
@@ -9,9 +9,10 @@ class Mapper():
         self.dictionaryParametrs = dto.__dict__
         listData = []
         parametr = None
+        print("IN")
         for key in self.dictionaryParametrs:
             
-            if type(self.dictionaryParametrs[key]) == int:
+            if type(self.dictionaryParametrs[key]) == str:
                 # обработка int поля
                 parametr = self.dictionaryParametrs[key]
             elif type(self.dictionaryParametrs[key]) == list:
@@ -33,7 +34,7 @@ class Mapper():
         i = 0
         for key in self.dictionaryParametrs:
 
-            if type(self.dictionaryParametrs[key]) == int:
+            if type(self.dictionaryParametrs[key]) == str:
                 self.dictionaryParametrs[key] = listData[i]
             elif type(self.dictionaryParametrs[key]) == list:
                 self.dictionaryParametrs[key] = listData[i].split(' ')
