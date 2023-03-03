@@ -73,6 +73,14 @@ class DataBaseManager(object):
         sql = 'DELETE FROM variants;'
         self.cursor.execute(sql)
         self.connect.commit()
+    
+    # получить все номера вариантов
+    def getAllNumberOfVariant(self):
+        sql = 'SELECT variant FROM variants;'
+        self.cursor.execute(sql)
+        data = self.cursor.fetchall()
+        return data
+
         
 
 

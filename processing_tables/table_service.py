@@ -1,6 +1,6 @@
-from data_base_maneger import DataBaseManager
-from dto import DTO
-from mapper import Mapper
+from processing_tables.data_base_maneger import DataBaseManager
+from processing_tables.dto import DTO
+from processing_tables.mapper import Mapper
 
 class TableService():
     def __init__(self):
@@ -11,6 +11,7 @@ class TableService():
     def createVariant(self, dto):
         try:
             data = self.mapper.dtoToString(dto);
+            print("DROTOSTRING ", data )
             self.dataBaseManager.createVariant(data)
             print(f'''[INFO] SQLite -----> CREATE: запись {data} создана.''') 
         except Exception as e:
@@ -28,9 +29,10 @@ class TableService():
                 (Ошибка: {e})''') 
         
     # обновление варианта
-    def updateVariant(self, variant, dto):       
+    def updateVariant(self, dto): 
+        variant = dto.variant      
         try:
-            data = self.mapper.dtoToString(dto);
+            data = self.mapper.dtoToString(dto)
             self.dataBaseManager.updateVariant(variant, data)
             print(f'''[INFO] SQLite -----> UPDATE: запись {data} обновлена.''') 
         except Exception as e:
@@ -64,7 +66,18 @@ class TableService():
         except Exception as e:
             print(f'''[WARR] SQLite -----> DELETE ALL: не удалось удалить записи.\n
                 (Ошибка: {e})''') 
-
-
+            
+    def getAllNumberOfVariant(self):
+        try:
+            data = self.dataBaseManager.getAllNumberOfVariant()
+            listData = []
+            for i in data:
+                listData.append(str(i[0]))
+            print(f'''[INFO] SQLite -----> GET ALL VARIANT: записи номеров вариантов получены.\n
+                    Записи: {listData}''') 
+            return listData
+        except Exception as e:
+            print(f'''[WARR] SQLite -----> GET ALL VARIANT: записи номеров вариантов не удалось получить.\n
+                (Ошибка: {e})''') 
 
 

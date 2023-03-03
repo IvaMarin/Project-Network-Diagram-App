@@ -1,6 +1,7 @@
 import sys, os
 import numpy as np
 import time
+import re
 from pathlib import Path
 
 from PyQt5 import QtWidgets, QtCore
@@ -69,6 +70,10 @@ from task_five_add_sequences import task5AddSeq
 import graph_model
 import properties
 
+#######################################################
+
+from processing_tables.variant_controller import VariantController
+
 ############ глобальные переменные ###########
 global graph1
 graph1 = graph_model.Graph(30) # граф из первого окна (главный)
@@ -76,12 +81,11 @@ graph5 = [] # графы по количеству отделений
 graph5_ort = []
 
 def maxSquadNum():
-    maxSquadNum = 1
+    maxSquadNum = 0
     for row in range(MainWindow.ui.tableVar.rowCount()):
-        if MainWindow.ui.tableVar.item(row, 1).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
-            i = int(MainWindow.ui.tableVar.item(row, 1).text())
-        if maxSquadNum < i:
-            maxSquadNum = i
+        if MainWindow.ui.tableVar.item(row, 5):
+        # if type(MainWindow.ui.tableVar.item(row, 5).text()) == str: #and MainWindow.ui.tableVar.item(row, 5).text() >= '1' and MainWindow.ui.tableVar.item(row, 1).text() <= '9' :
+            maxSquadNum = maxSquadNum + 1
     return maxSquadNum
 
 def image_to_jpg(image_path):
@@ -1783,6 +1787,7 @@ class WindowMenu(QMainWindow):
         self.surname = "Иванов" # данные о студенте проинициализированы
         self.numGroup = "1"   # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы    winSearchKey
+        self.variantController = VariantController()
         # first_launch_txt_path = Properties.join(Properties.basedir,"first_launch", "first_launch.txt")
         # with open(first_launch_txt_path, "r") as file:
         #     flag = file.read()
@@ -2072,9 +2077,25 @@ class WindowMenu(QMainWindow):
         except:
             print("Not found " + '6_hist.jpg')
 
-        list_pictures = [["encrypted_data/1.jpg"], ["encrypted_data/2.jpg"], ["encrypted_data/3.jpg"],
-            ["encrypted_data/4.jpg"], ["encrypted_data/50.jpg", "encrypted_data/51.jpg", "encrypted_data/52.jpg"],
-            ["encrypted_data/60.jpg", "encrypted_data/61.jpg", "encrypted_data/62.jpg"], ["encrypted_data/6_hist.jpg"]]
+        # list_pictures = [["encrypted_data/1.jpg"], ["encrypted_data/2.jpg"], ["encrypted_data/3.jpg"],
+        #     ["encrypted_data/4.jpg"], ["encrypted_data/50.jpg", "encrypted_data/51.jpg", "encrypted_data/52.jpg"],
+        #     ["encrypted_data/60.jpg", "encrypted_data/61.jpg", "encrypted_data/62.jpg"], ["encrypted_data/6_hist.jpg"]]
+        
+        list_pictures = []
+        for i in range(7):
+            l = []
+            if i == 4 or i == 5:
+                for j in range (squadNum):
+                    name = f'encrypted_data/{i+1}{j}.jpg'
+                    l.append(name)
+            elif i == 6:
+                name = 'encrypted_data/6_hist.jpg'
+                l.append(name)
+            else:
+                name = f'encrypted_data/{i+1}_hist.jpg'
+                l.append(name)
+
+            list_pictures.append(l)
 
         
         name = self.surname.replace(' ', '_')
@@ -2145,39 +2166,79 @@ class WindowMenu(QMainWindow):
         self.ui.tableVar.horizontalHeader().setDefaultSectionSize(int(self.sizeWindow.width() / self.ui.tableVar.columnCount()))
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
+        
+        variant = self.numINGroup
+        requestFileName = self.variantController.readVariant(variant)
+        
+        file = open(requestFileName,'r+')
+        try:
+            # работа с файлом
+            self.ui.tableVar.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
+            
+            countColumns = 0 # счетчик колонок
+            tabelVar = [] # список строк
 
-        fileName = "В" + self.numINGroup + ".xlsx" # выбираем нужную табличку по названию
-        # файлик с таблицой должен называться "В" + номер студента по списку + ".xlsx" (расширение файла)
-        pathFileXlsx = os.path.join("resources", "variants", fileName)# находим путь до файла
-        book = openpyxl.open(pathFileXlsx, read_only=True) # открываем файл с помощью либы для обработки .xlsx
-        sheet = book.active # active - выбирает номер страницы в книге без параметров (по умолчанию) первая страница
+            lines = file.readlines()
+            for line in lines:
+                l = re.split(' |\n', line)
+                try:
+                    while True:
+                        l.remove('')
+                except:
+                    pass
 
-        countColumns = 0
-        tabelVar = []
+                tabelVar.append(l)
 
-        for row in sheet.iter_rows(sheet.min_row, sheet.max_row):# подкачиваем данные из xlsx файла
-            rowVar = []
-            for cell in row:
-                if cell.value:
-                    rowVar.append(str(cell.value))
-                else:
-                    rowVar.append(' ')
-            tabelVar.append(rowVar)
+            for line in tabelVar:
+                rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
+                self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
+                for item in line:
+                    if countColumns >= 0:
+                        self.ui.tableVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
+                    countColumns = countColumns + 1
+                countColumns = 0
+        finally:
+            file.close()
+
+        try:
+            os.remove(requestFileName)
+            print(f'[INFO]  FILE {requestFileName} DELETED')
+        except:
+            print(f'[WARR]  TROUBLE WITH FILE {requestFileName}')
+
+
+        # fileName = "В" + self.numINGroup + ".xlsx" # выбираем нужную табличку по названию
+        # # файлик с таблицой должен называться "В" + номер студента по списку + ".xlsx" (расширение файла)
+        # pathFileXlsx = os.path.join("resources", "variants", fileName)# находим путь до файла
+        # book = openpyxl.open(pathFileXlsx, read_only=True) # открываем файл с помощью либы для обработки .xlsx
+        # sheet = book.active # active - выбирает номер страницы в книге без параметров (по умолчанию) первая страница
+
+        # countColumns = 0
+        # tabelVar = []
+
+        # for row in sheet.iter_rows(sheet.min_row, sheet.max_row):# подкачиваем данные из xlsx файла
+        #     rowVar = []
+        #     for cell in row:
+        #         if cell.value:
+        #             rowVar.append(str(cell.value))
+        #         else:
+        #             rowVar.append(' ')
+        #     tabelVar.append(rowVar)
+
+        # # for list in tabelVar:
+        # #     print(list)
+
+        # self.ui.tableVar.setRowCount(0) # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
 
         # for list in tabelVar:
-        #     print(list)
-
-        self.ui.tableVar.setRowCount(0) # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
-
-        for list in tabelVar:
-            rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
-            self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
-            for item in list:
-                if countColumns >= 0:
-                    # print(item, end=" ")
-                    self.ui.tableVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
-                countColumns = countColumns + 1
-            countColumns = 0
+        #     rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
+        #     self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
+        #     for item in list:
+        #         if countColumns >= 0:
+        #             # print(item, end=" ")
+        #             self.ui.tableVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
+        #         countColumns = countColumns + 1
+        #     countColumns = 0
 
 def clear_data():
     import os, shutil

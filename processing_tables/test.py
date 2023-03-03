@@ -12,7 +12,7 @@ from dto import DTO
 from table_service import TableService
 
 dto = DTO()
-dto.variant = 55
+dto.variant = '55'
 dto.cipherOfWorks = ['1-2', '1-4', '3-4']
 dto.performers = [1, 23, 3]
 dto.numberOfPerformers = [1, 2, 3]
@@ -24,7 +24,7 @@ serv = TableService()
 serv.createVariant(dto)
 serv.readVariant(55)
 
-dto.variant = 55
+dto.variant = '55'
 dto.cipherOfWorks = ['5-6', '7-8', '7-9']
 dto.numberOfPeople = [76, 55]
 
