@@ -925,28 +925,29 @@ class DrawHist(QWidget):
 
             # отрисовка нумерации осей сетки
             painter.setPen(QColor("black"))
-            x0 = 25
+            x0 = self.step
             sizeWindow = QRect(QApplication.desktop().screenGeometry())
-            number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-            y0 = sizeWindow.height() - 245
+            number_vertical_lines = (self.size().width() - x0) // self.step + 1  # количество вертикальных линий
+            y0 = 42*self.step
             for i in range(number_vertical_lines):
                 if len(str(i+1)) < 2:
-                        offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
-                        offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-                painter.drawText(int(x0 + self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+                painter.drawText(int(x0 + self.step + self.step * i + offset[0]), int(-self.step/2+y0 + offset[1]), f'{i}')
 
             # отрисовка нумерации осей сетки
             #x0 = 0
             sizeWindow = QRect(QApplication.desktop().screenGeometry())
-            number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
+            #number_vertical_lines = (self.size().height() - y0) // self.step + 1  # количество вертикальных линий
             #y0 = sizeWindow.height()-195
+            print(number_vertical_lines)
             for i in range(number_vertical_lines):
                 if len(str(i+1)) < 2:
-                        offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
-                        offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-                painter.drawText(int(x0 + self.step + offset[0]-7), int(y0 - self.step * (i+1) - offset[1]/2), f'{i+1}')
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+                painter.drawText(int(x0 + self.step + offset[0]-7), int(self.step/3+y0 - self.step * (i+1) - offset[1]/2), f'{i}')
             # подпись осей
             font = painter.font()
             font.setPixelSize(20)
@@ -975,17 +976,17 @@ class DrawHist(QWidget):
                             if k*self.stepAlg >= x1 and x2 >= (k+1)*self.stepAlg:
                                 if ax <= k*self.stepAlg or ax == 140+(k-1)*self.stepAlg:
                                     intervals[k-1] += w
-
+            y0 = y0 -self.step
             painter.setPen(QPen(QColor("red"), 3))
             lines = []
             for i in range(len(intervals)-1):
-                lines.append(QLineF(x0+self.step*(i+1), y0-intervals[i]*self.step - 10, x0 + self.step*(i+2), y0-intervals[i]*self.step - 10))
+                lines.append(QLineF(x0+self.step*(i+1), y0-intervals[i]*self.step, x0 + self.step*(i+2), y0-intervals[i]*self.step))
             painter.drawLines(lines)
 
             linesVert = []
             for i in range(1,len(intervals)):
                 if intervals[i] != intervals[i-1]:
-                    linesVert.append(QLineF(x0+self.step*(i+1), y0-intervals[i]*self.step- 10, x0+self.step*(i+1), y0-intervals[i-1]*self.step- 10))
+                    linesVert.append(QLineF(x0+self.step*(i+1), y0-intervals[i]*self.step, x0+self.step*(i+1), y0-intervals[i-1]*self.step))
             painter.drawLines(linesVert)
 
     def save(self):
