@@ -15,8 +15,8 @@ def join(*args):
 basedir = os.path.dirname(__file__) # путь до данного файла
 
 class statusTask():
-    def __init__(self):
-        self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
+    # static field
+    verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
 
     def get_verification_passed_tasks(self, current):
         return self.verification_passed_tasks[current]    

@@ -272,6 +272,17 @@ class Display(QWidget):
         else:
             return None
 
+    @staticmethod 
+    def findCoordinatesAboveArrow(x1, y1, x2, y2):
+        cos_sign = x2 - x1
+        sin_sign = y2 - y1
+        offset = 10
+        if ((cos_sign >= 0 and sin_sign >= 0) or (cos_sign <= 0 and sin_sign <= 0)):
+            x = ((int)(x1) + (int)(x2)) / 2 + offset
+        else:
+            x = ((int)(x1) + (int)(x2)) / 2 - offset
+        y = ((int)(y1) + (int)(y2)) / 2 - offset
+        return x, y
 
 class Display2(Display):
     def __init__(self, root, graph_in):
@@ -324,10 +335,12 @@ class Display2(Display):
                         triangle_source = calculate_arrow_points(self.graph.Points[i], self.graph.Points[j], radius/2)
                         if triangle_source is not None:
                             painter.drawPolygon(triangle_source)
-                            painter.drawLine((int)(self.graph.Points[i][0]),
-                                            (int)(self.graph.Points[i][1]),
-                                            (int)(self.graph.Points[j][0]),
-                                            (int)(self.graph.Points[j][1]))
+                            (x1, y1) = ((int)(self.graph.Points[i][0]), (int)(self.graph.Points[i][1]))
+                            (x2, y2) = ((int)(self.graph.Points[j][0]), (int)(self.graph.Points[j][1]))
+                            if (properties.statusTask.verification_passed_tasks[2]):
+                                x, y = Display.findCoordinatesAboveArrow(x1, y1, x2, y2)
+                                painter.drawText(int(x), int(y), f'{self.graph.PeopleWeights[i][j]}')
+                            painter.drawLine(x1, y1, x2, y2)
 
             # отрисовка вершин и цифр
             painter.setPen(QPen(QColor("black"), 2.5))
@@ -837,15 +850,7 @@ class Display6(Display5):
                 triangle_source = calculate_arrow_points((x1, y1), self.graph.Arrows[(p1, p2)], 0)
                 if triangle_source is not None:
                     painter.drawPolygon(triangle_source)
-
-                    cos_sign = x2 - x1
-                    sin_sign = y2 - y1
-                    offset = 10
-                    if ((cos_sign >= 0 and sin_sign >= 0) or (cos_sign <= 0 and sin_sign <= 0)):
-                        x = ((int)(x1) + (int)(x2)) / 2 + offset
-                    else:
-                        x = ((int)(x1) + (int)(x2)) / 2 - offset
-                    y = ((int)(y1) + (int)(y2)) / 2 - offset
+                    x, y = Display.findCoordinatesAboveArrow(x1, y1, x2, y2)
                     painter.drawText(int(x), int(y), f'{self.graph.PeopleWeights[(p1, p2)]}')
 
                     if (self.late_time == None):  # в зависимости от резерва
@@ -887,17 +892,7 @@ class Display6(Display5):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
             self.root.widgetRight.update()
-    
 
-        for (digit, id), (x, y) in self.graph.Points.items(): 
-            painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
-            painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
-                                int(2*self.graph.Radius), int(2*self.graph.Radius))
-            if len(str(i+1)) < 2:
-                offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
-            else:
-                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-            painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
 
 class DrawHist(QWidget):
     def __init__(self, root, graph, step = 25):
