@@ -244,6 +244,7 @@ class Window1(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask1()
+        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
 
@@ -577,6 +578,7 @@ class Window2(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask2()
+        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
 
@@ -773,6 +775,7 @@ class Window3(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask3()
+        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
 
@@ -973,6 +976,7 @@ class Window4(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask4()
+        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
 
@@ -1478,6 +1482,7 @@ class Window5(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask5()
+        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
 
@@ -1784,6 +1789,7 @@ class Window6(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask6()
+        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
         self.close()
