@@ -892,17 +892,7 @@ class Display6(Display5):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
             self.root.widgetRight.update()
-    
 
-        for (digit, id), (x, y) in self.graph.Points.items(): 
-            painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
-            painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
-                                int(2*self.graph.Radius), int(2*self.graph.Radius))
-            if len(str(i+1)) < 2:
-                offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
-            else:
-                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-            painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
 
 class DrawHist(QWidget):
     def __init__(self, root, graph, step = 25):
