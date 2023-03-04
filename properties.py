@@ -1,6 +1,7 @@
 import os
 import pickle
 import time
+import numpy as np
 
 from PyQt5 import QtWidgets
 
@@ -74,6 +75,7 @@ class Properties():
         #свойства пятого окна
         self.state_of_graph_5 = None
         self.number_of_squads = self.get_number_of_squads() # количество отделений
+        self.correctSquadsPeopleNumber = self.getCorrectSquadsPeopleNumber()
         self.max_sequences_amount = self.GetMaxSequencesAmount(self.number_of_squads) # максимальное число последовательностей по отделениям
         self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
@@ -188,6 +190,15 @@ class Properties():
         print(" ")
         for i in self.tableNumSquad:
             print(i)
+
+    def getCorrectSquadsPeopleNumber(self):
+        SquadsPeopleNumber = np.zeros((self.number_of_squads), int)
+
+        for row in range(self.number_of_squads):
+            SquadPeopleNumber = int(self.MainWindow.ui.tableVar.item(row, 5).text())
+            SquadsPeopleNumber[row] = SquadPeopleNumber
+
+        return SquadsPeopleNumber
 
 
 ####################____ФУНКЦИИ_ДЛЯ_РАБОТЫ_С_СОХРАНЕНИЕМ_ОБЪЕКТА_ДЛЯ_ПРЕПОДА__####################################################

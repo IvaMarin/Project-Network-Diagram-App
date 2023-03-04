@@ -3,6 +3,8 @@ import numpy as np
 from os import listdir
 from os.path import isfile, join
 import openpyxl
+import os
+import re
 
 from PyQt5 import QtWidgets, QtGui ,QtCore
 from PyQt5.QtCore import QRect
@@ -14,6 +16,7 @@ from encrypt_module import initial_decrypt_file, aes_encrypt, aes_generate_key
 from message_box_creator import message_box_create
 from pathlib import Path
 ############################################################
+
 ########################     UI     #########################
 from qt_designer_ui.login import Ui_login
 from qt_designer_ui.startWindow import Ui_startWin
@@ -23,6 +26,10 @@ from qt_designer_ui.tableNumPeopleInSquad import Ui_winTableNumPeopleInSquad
 from qt_designer_ui.setNumSquad import Ui_SetNumSquad
 #############################################################
 
+########################     DB     #########################
+from processing_tables.dto import DTO
+from processing_tables.variant_controller import VariantController
+#############################################################
 
 def find_files(catalog: Path):
 
@@ -88,8 +95,10 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
 
     def checkInputData(self): # проверка входящих данных (есть ли незаполненные строки или
         # существует ли файл с указанным номером варианта )
-        fileName = "В" + self.ui.lineEditNumINGroup.text() + ".xlsx"
-        pathFileXlsx = os.path.join("resources", "variants", fileName)
+        # fileName = "В" + self.ui.lineEditNumINGroup.text() + ".xlsx"
+        # pathFileXlsx = os.path.join("resources", "variants", fileName)
+
+        listNumberVariant = self.mainMenu.variantController.getAllNumberOfVariant()
 
         if self.ui.lineEditSurname.text() == "" or\
                 self.ui.lineEditNumINGroup.text() == "" or\
@@ -101,7 +110,7 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
-        elif not(os.path.exists(pathFileXlsx)): # если не существует файла с указанным вариантом, выводим предупреждение и
+        elif listNumberVariant.count(self.ui.lineEditNumINGroup.text()) == 0: # если не существует файла с указанным вариантом, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
             warning.setWindowTitle("Предупреждение")
@@ -167,8 +176,10 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
 
     def checkInputData(self):# проверка входящих данных (есть ли незаполненные строки или
         # существует ли файл с указанным номером варианта )
-        fileName = "В" + self.ui.lineEditNumINGroup.text() + ".xlsx"
-        pathFileXlsx = os.path.join("resources", "variants", fileName)
+        # fileName = "В" + self.ui.lineEditNumINGroup.text() + ".xlsx"
+        # pathFileXlsx = os.path.join("resources", "variants", fileName)
+
+        listNumberVariant = self.mainMenu.variantController.getAllNumberOfVariant()
 
         if self.ui.lineEditSurname.text() == "" or\
                 self.ui.lineEditNumINGroup.text() == "" or\
@@ -180,7 +191,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
-        elif not(os.path.exists(pathFileXlsx)):# если не существует файла с указанным вариантом, выводим предупреждение и
+        elif listNumberVariant.count(self.ui.lineEditNumINGroup.text()) == 0:# если не существует файла с указанным вариантом, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
             warning.setWindowTitle("Предупреждение")
@@ -231,11 +242,14 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20))  # двигаем окно левее и выше
 
         self.ui.lineEdit.setValidator(QIntValidator())
-        self.ui.lineEdit.setMaxLength(2)
+        self.ui.lineEdit.setMaxLength(3)
 
-        pathFileXlsx = os.path.join("resources", "variants")  # находим путь до папки с файлами вариантов
-        self.onlyfiles = [f for f in listdir(pathFileXlsx) if isfile(join(pathFileXlsx, f))] # собираем список всех файлов в этой папке
-        self.ui.comboBoxVariants.addItems([name for name in self.onlyfiles]) # загружаем список файлов в comboBoxVariants
+        self.variantController = VariantController()
+
+        # pathFileXlsx = os.path.join("resources", "variants")  # находим путь до папки с файлами вариантов
+        # self.onlyfiles = [f for f in listdir(pathFileXlsx) if isfile(join(pathFileXlsx, f))] # собираем список всех файлов в этой папке
+        self.listNumberVariants = self.variantController.getAllNumberOfVariant()
+        self.ui.comboBoxVariants.addItems([name for name in self.listNumberVariants]) # загружаем список файлов в comboBoxVariants
 
         self.creatTable = creatTable(self)  # создаем окно с таблицей для редактирования вариантов
         #fileName = self.ui.comboBoxVariants
@@ -248,47 +262,95 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         self.ui.btnDeletTable.clicked.connect(lambda: self.deleteTable())
 
     def creatNewTable(self): # функция создания файлов с вариантами таблиц для лабы
-        newTableVar = openpyxl.Workbook() # создание книги (Excel файла)
-        self.fileName = "В" + self.ui.lineEdit.text() + ".xlsx" # генерируем имя Excel файла
-        pathFileXlsx = os.path.join("resources", "variants", self.fileName)  # находим путь до директории с вариантами
-        # проверяем существует ли файл с указанным названием (self.fileName) по пути pathFileXlsx
-        if os.path.isfile(pathFileXlsx): # если существует
-            warning = QMessageBox()  # выводим предупреждение
-            warning.setWindowTitle("Предупреждение")
-            warning.setText("Такой файл уже существует.")  #
-            warning.setDefaultButton(QMessageBox.Ok)  #
-            warning = warning.exec()  #
-        else: # иначе сохраняем созданную пустую книгу с названием файла self.fileName по пути в директорию pathFileXlsx
-            newTableVar.save(pathFileXlsx) #
-            self.ui.comboBoxVariants.addItem(self.fileName) # добавляем название файла в выпадающий список
+        
+        # newTableVar = openpyxl.Workbook() # создание книги (Excel файла)
+        # self.fileName = "В" + self.ui.lineEdit.text() + ".xlsx" # генерируем имя Excel файла
+        # pathFileXlsx = os.path.join("resources", "variants", self.fileName)  # находим путь до директории с вариантами
+        # # проверяем существует ли файл с указанным названием (self.fileName) по пути pathFileXlsx
+        # if os.path.isfile(pathFileXlsx): # если существует
+        #     warning = QMessageBox()  # выводим предупреждение
+        #     warning.setWindowTitle("Предупреждение")
+        #     warning.setText("Такой файл уже существует.")  #
+        #     warning.setDefaultButton(QMessageBox.Ok)  #
+        #     warning = warning.exec()  #
+        # else: # иначе сохраняем созданную пустую книгу с названием файла self.fileName по пути в директорию pathFileXlsx
+            # часть работы с БД
+            responseFileName = 'variant_table_data.txt'
+            variant = self.ui.lineEdit.text()
+            f = open(responseFileName, 'a+')
+            try:
+                # работа с файлом
+                print('[INFO]  OPEN FILE')
+                f.write(variant + '\n')
+                print(f'[INFO]  SAVE NUMBER VARIANT {variant} IN FILE ----> Успешно')
+            finally:
+                print('[INFO]  CLOSE FILE')
+                f.close()
+            # newTableVar.save(pathFileXlsx) #
+            # self.ui.comboBoxVariants.addItem(self.fileName) # добавляем название файла в выпадающий список
+            
 
             self.close() #
-            self.creatTable.openFile(pathFileXlsx) #
+            #self.creatTable.openFile(pathFileXlsx) #
+            self.creatTable.openNewVariant()
             self.creatTable.exec_()
 
+            self.variantController.createVariant(responseFileName)
+            self.ui.comboBoxVariants.addItem(variant) # добавляем название файла в выпадающий список
+
     def editTable(self):
+        # часть работы с БД
+        tmpFileName = 'variant_table_data.txt'
+        variant = 0
+        f = open(tmpFileName, 'a+')
+        try:
+            # работа с файлом
+            print('[INFO]  OPEN FILE')
+            # stringList = self.ui.comboBoxVariants.currentText().split('.') # убрать лишнее
+            # variant = stringList[0][1:]
+            variant = self.ui.comboBoxVariants.currentText()
+
+            f.write(variant + '\n')
+            print(f'[INFO]  SAVE NUMBER VARIANT {variant} IN FILE ----> Успешно')
+        finally:
+            print('[INFO]  CLOSE FILE')
+            f.close()
+
         #self.ui.comboBoxVariants.currentText()  выбранный вариант из comboBoxVariants
-        self.fileName = os.path.join("resources", "variants", self.ui.comboBoxVariants.currentText())  # находим путь до файла
+        # self.fileName = os.path.join("resources", "variants", self.ui.comboBoxVariants.currentText())  # находим путь до файла
 
         self.close()
-        self.creatTable.openFile(self.fileName) # открываем указанный файл в окне для редактирования вариантов
+        requestFileName = self.variantController.readVariant(variant)
+        self.creatTable.openVariant(requestFileName)
+        #self.creatTable.openFile(self.fileName) # открываем указанный файл в окне для редактирования вариантов
         self.creatTable.exec_()
 
+        self.variantController.updateVariant(tmpFileName)
+
     def deleteTable(self): # удаление файла с вариантом и удаление его названия из выпадающего списка
-        self.fileName = os.path.join("resources", "variants",
-                                     self.ui.comboBoxVariants.currentText())  # находим путь до файла
+
+        # self.fileName = os.path.join("resources", "variants",
+        #                              self.ui.comboBoxVariants.currentText())  # находим путь до файла
+        
+        # stringList = self.ui.comboBoxVariants.currentText().split('.') # убрать лишнее
+        # variant = stringList[0][1:]
+        variant = self.ui.comboBoxVariants.currentText()
+        
         try:
-            with open(self.fileName, "r") as file:
-            # Распечатать сообщение об успешном завершении
-                file.close()
+            # with open(self.fileName, "r") as file:
+            # # Распечатать сообщение об успешном завершении
+            #     file.close()
             close = QMessageBox()
             close.setWindowTitle("Удалить вариант")
             close.setText("Вы уверены, что хотите удалить вариант?")  #
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
             close = close.exec()
             if close == QMessageBox.Ok:  # если нажали да
-                os.remove(self.fileName)
+                # os.remove(self.fileName)
+                self.variantController.deleteVariant(variant)
+                print("ОЧИСТКА")
                 self.ui.comboBoxVariants.removeItem(self.ui.comboBoxVariants.currentIndex())
+                print("ОЧИСТКА завершена")
             else:  # иначе игнорируем
                 return
 
@@ -300,6 +362,8 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             warning.setDefaultButton(QMessageBox.Ok)  #
             warning = warning.exec()  #
 
+        
+
 class creatTable(QtWidgets.QDialog): # окно с таблицей для непосредственного ее редактирования 
     def __init__(self,root):  # передаем параметр root это родитель т е MainMenu (в этом классе и лежит наше окно winSigReport)
         """Initializer."""
@@ -308,6 +372,9 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.ui = Ui_Dialog()  # инициализация ui
         self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
         self.winEditTable = root  # сохраняем нашего родителя
+        #self.winEditTable = winEditTable()
+
+
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
         width = int(sizeWindow.width() - (sizeWindow.width()) / 3)  # выставляем ширину окна
@@ -323,12 +390,13 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.listNumPeopleInSquad = []
         self._connectAction()  # ф-ия связи с эл-тами окна
 
+        
     def _connectAction(self):
         self.ui.btnSaveTable.clicked.connect(lambda: self.saveTable())          #
         self.ui.btnAddStrInTable.clicked.connect(lambda: self.AddStrInTable())          #
         self.ui.btnDelStrLast.clicked.connect(lambda: self.delStrLast())           #
         self.ui.btnExitAndClose.clicked.connect(lambda: self.close())  #
-        self.ui.btnSetNumPeopleInSquad.clicked.connect(lambda: self.setNumPeopleInSquad())  #
+        # self.ui.btnSetNumPeopleInSquad.clicked.connect(lambda: self.setNumPeopleInSquad())  #
 
     def setNumPeopleInSquad(self):
         winNumSquads = QDialog()
@@ -346,42 +414,128 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
 
     def delStrLast(self):
         rowInTblTsk = self.ui.tableTaskVar.rowCount()
-        sheet = self.book.active
+        # sheet = self.book.active
         if rowInTblTsk > 0:
             self.ui.tableTaskVar.removeRow(rowInTblTsk-1)
-        if sheet.max_row > 0:
-            sheet.delete_cols(sheet.max_row,1)
+        # if sheet.max_row > 0:
+        #     sheet.delete_cols(sheet.max_row,1)
 
     # def closeWinCreatTable(self):
     #     self.saveTable()
     #     self.close()
 
-    def saveTable(self):
-        sheet = self.book.active
+    def writeTibleInList(self):
+        tableValues = []
 
-        for rowInTblTsk in range(sheet.max_row):
-            for colInTblTsk in range(sheet.max_column):
-                sheet.cell(rowInTblTsk + 1, colInTblTsk + 1).value = None
-        #row = []
-        for rowInTblTsk in range(self.ui.tableTaskVar.rowCount()):
-            for colInTblTsk in range(self.ui.tableTaskVar.columnCount()):
-                if self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk):
-                    tmpItem = self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk).text()
+        for column in range(self.ui.tableTaskVar.columnCount()):
+            tableParametr = []
+            for row in range(self.ui.tableTaskVar.rowCount()):
+                if self.ui.tableTaskVar.item(row, column):
+                    tmpItem = self.ui.tableTaskVar.item(row, column).text()
+                    tableParametr.append(tmpItem)
                 else:
-                    tmpItem = ' '
-                sheet.cell(rowInTblTsk + 1, colInTblTsk + 1).value = tmpItem
+                    if column >= (self.ui.tableTaskVar.columnCount() - 2):
+                        tableParametr.append('')
+                    else:
+                        tableParametr.append('-')
+            tableValues.append(tableParametr)
+        
+        print ("tableValues", tableValues)
+        return tableValues
 
-        for rowInSqdTbl in range(len(self.listNumPeopleInSquad)):
-            for colInSqdTbl in range(len(self.listNumPeopleInSquad[rowInSqdTbl])):
-                sheet.cell(rowInSqdTbl + 1, colInSqdTbl + self.ui.tableTaskVar.columnCount()+1).value = self.listNumPeopleInSquad[rowInSqdTbl][colInSqdTbl]
+    # def prepareDataFromList(self, listData):
+    #     dictionaryParametrs = self.winEditTable.dto.__dict__
+        
+    #     i = 0
+    #     for key in dictionaryParametrs:
+    #         if type(dictionaryParametrs[key]) == list:
+    #             dictionaryParametrs[key] = listData[i]
+    #         i = i + 1
+
+    
+    def saveDataTable(self, fileName = 'variant_table_data.txt'):
+        f = open(fileName,'a+')
+        try:
+            # работа с файлом
+            print('[INFO]  OPEN FILE')
+            listData = self.writeTibleInList()
+            for row in listData:
+                f.write(' '.join([a for a in row]) + '\n')
+            print('[INFO]  SAVE TABLE IN FILE ----> Успешно')
+        finally:
+            f.close()
+            print('[INFO]  CLOSE FILE')
+
+    def saveTable(self):
+        self.saveDataTable('variant_table_data.txt')
+        # sheet = self.book.active
+
+        # for rowInTblTsk in range(sheet.max_row):
+        #     for colInTblTsk in range(sheet.max_column):
+        #         sheet.cell(rowInTblTsk + 1, colInTblTsk + 1).value = None
+        # #row = []
+        # for rowInTblTsk in range(self.ui.tableTaskVar.rowCount()): # цикл по номеру строк
+        #     for colInTblTsk in range(self.ui.tableTaskVar.columnCount()): # цикл по номеру колонок 
+        #         if self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk): # проверка на None в item таблицы
+        #             tmpItem = self.ui.tableTaskVar.item(rowInTblTsk, colInTblTsk).text() # берем текст из item и запоминаем его в переменную 
+        #         else:
+        #             tmpItem = ' '
+        #         sheet.cell(rowInTblTsk + 1, colInTblTsk + 1).value = tmpItem
+
+        # for rowInSqdTbl in range(len(self.listNumPeopleInSquad)):
+        #     for colInSqdTbl in range(len(self.listNumPeopleInSquad[rowInSqdTbl])):
+        #         sheet.cell(rowInSqdTbl + 1, colInSqdTbl + self.ui.tableTaskVar.columnCount()+1).value = self.listNumPeopleInSquad[rowInSqdTbl][colInSqdTbl]
                 
-        self.book.save(self.pathToExcelFile)
+        # self.book.save(self.pathToExcelFile)
 
     def AddStrInTable(self): # генерируем строку в таблице для записи в нее чиселок
         #rowPosition = self.ui.tableTaskVar.rowCount()
         self.ui.tableTaskVar.insertRow(self.ui.tableTaskVar.rowCount() )  # вставляем в таблицу "строку таблицы из файла"
         #for colInTblTsk in range(self.ui.tableTaskVar.columnCount() + 1):
         #    self.ui.tableTaskVar.setItem(self.ui.tableTaskVar.rowCount() - 1, colInTblTsk, QtWidgets.QTableWidgetItem(' '))  # заполняем "строку таблицы из файла", каждую ячейку
+
+    def openVariant(self, fileName = 'variant_dto_data.txt'):
+        file = open(fileName,'r+')
+        try:
+            # работа с файлом
+            self.ui.tableTaskVar.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
+            
+            countColumns = 0 # счетчик колонок
+            tabelVar = [] # список строк
+
+            lines = file.readlines()
+            for line in lines:
+                l = re.split(' |\n', line)
+                try:
+                    while True:
+                        l.remove('')
+                except:
+                    pass
+
+                tabelVar.append(l)
+
+            for line in tabelVar:
+                rowPosition = self.ui.tableTaskVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
+                self.ui.tableTaskVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
+                for item in line:
+                    if countColumns >= 0:
+                        self.ui.tableTaskVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
+                    countColumns = countColumns + 1
+                countColumns = 0
+        finally:
+            file.close()
+
+        try:
+            os.remove(fileName)
+            print(f'[INFO]  FILE {fileName} DELETED')
+        except:
+            print(f'[WARR]  TROUBLE WITH FILE {fileName}')
+
+    def openNewVariant(self):
+        self.ui.tableTaskVar.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
+
+        rowPosition = self.ui.tableTaskVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
+        self.ui.tableTaskVar.insertRow(rowPosition)
 
     def openFile(self, pathToExcelFile): # открываем указанный файл в окне для редактирования вариантов
         self.pathToExcelFile = pathToExcelFile # сохраняем путь до файла
@@ -422,7 +576,7 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.saveTable()
         close = close.exec()
         if close == QMessageBox.Ok:  # если нажали да
-            self.book.close()
+            # self.book.close()
             event.accept()  # подтверждаем ивент
             #self.winEditTable.mainMenu.show()
         else:  # иначе игнорируем
