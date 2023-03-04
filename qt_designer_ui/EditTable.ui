@@ -17,7 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Таблица варианта работы</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
@@ -32,7 +32,10 @@
       <string notr="true">background-color: #fffaea;</string>
      </property>
      <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>240</number>
+      <number>360</number>
+     </attribute>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
      </attribute>
      <column>
       <property name="text">
@@ -120,26 +123,6 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QPushButton" name="btnSaveTable">
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>16</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #66e3ff;</string>
-      </property>
-      <property name="text">
-       <string>Сохранить</string>
-      </property>
-      <property name="default">
-       <bool>false</bool>
-      </property>
-      <property name="flat">
-       <bool>false</bool>
-      </property>
-     </widget>
      <widget class="QPushButton" name="btnAddStrInTable">
       <property name="font">
        <font>

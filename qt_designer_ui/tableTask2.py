@@ -28,7 +28,7 @@ class Ui_tableTask2Widget(object):
         item.setFont(font)
         self.tableWidget.setHorizontalHeaderItem(0, item)
         self.tableWidget.setHorizontalHeaderLabels(["Ранний срок"]) #, "Поздний срок"
-        
+
         self.verticalLayout.addWidget(self.tableWidget)
         self.tableCheckButton = QtWidgets.QPushButton(tableTask2Widget)
         self.tableCheckButton.setObjectName("tableCheckButton")
