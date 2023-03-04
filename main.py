@@ -22,6 +22,10 @@ from encrypt_decrypt import encrypt_decrypt
 import basedir_paths as bp
 from report import report_controller
 
+# import qt_designer_ui.resources.backGround_rc
+# import qt_designer_ui.resources.labelMAI_rc
+# import qt_designer_ui.resources.spaceBackground_rc
+
 ############# Кастомные файлы для проги ######################
 ###############     UI     ###################################
 from qt_designer_ui.MainMenu import Ui_MainMenu
@@ -363,6 +367,9 @@ class Window2(QMainWindow):
         self.layout2.addWidget(self.table2)
         self.widget2 = QWidget()
         self.widget2.setLayout(self.layout2)
+        
+
+        
 
         self.layout.addWidget(self.widget2)
         # Задаём растяжение объектов в компоновщике
@@ -1852,6 +1859,7 @@ class WindowMenu(QMainWindow):
 
         # стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow = winLogin(self)
+        self.startWindow.showMaximized()
         self.startWindow.exec_()  # его запуск в отдельном потоке
         # self.hide()
         # диалоговое окно для подписти отчета (имя фамилия номер группы)
