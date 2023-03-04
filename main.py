@@ -1430,6 +1430,7 @@ class Window5(QMainWindow):
                 statusTask.set__verification_passed_task(5)
 
                 self.ui.actionbtnInfo.setVisible(False)
+                self.ui.actionHelp.setVisible(False)
 
                 for i in range(len(self.images)):
                     strTemp = str(5)+str(i)+".jpg"
