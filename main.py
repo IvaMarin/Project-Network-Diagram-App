@@ -541,8 +541,7 @@ class Window2(QMainWindow):
                     for i in range(len(self.DisplayObj.QLineEdits)):
                         for j in range(len(self.DisplayObj.QLineEdits)):
                             if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
-                                self.DisplayObj.QLineEdits[i][j].setReadOnly(
-                                    True)
+                                self.DisplayObj.QLineEdits[i][j].hide()
 
                     # если в режиме преподавателя, то записываем в ответ
                     if properties.teacherMode:
@@ -1437,6 +1436,7 @@ class Window5(QMainWindow):
                 statusTask.set__verification_passed_task(5)
 
                 self.ui.actionbtnInfo.setVisible(False)
+                self.ui.actionHelp.setVisible(False)
 
                 for i in range(len(self.images)):
                     strTemp = str(5)+str(i)+".jpg"
@@ -2066,7 +2066,7 @@ class WindowMenu(QMainWindow):
     def activateDeveloperMode(self):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
-        self.numINGroup = "1"  # данные о студенте проинициализированы
+        self.numINGroup = "0"  # данные о студенте проинициализированы
 
     def watch_report(self):
         self.msgCheck = QMessageBox()
