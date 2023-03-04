@@ -19,6 +19,9 @@ class Ui_MainMenu(object):
         font.setFamily("Times New Roman")
         font.setPointSize(20)
         MainMenu.setFont(font)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("resources/logo_mca-min.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainMenu.setWindowIcon(icon)
         MainMenu.setStyleSheet("#centralwidget{background-color: #d5fffe;}")
         self.centralwidget = QtWidgets.QWidget(MainMenu)
         self.centralwidget.setObjectName("centralwidget")
@@ -288,4 +291,4 @@ class Ui_MainMenu(object):
         self.actionDevelopers.setText(_translate("MainMenu", "разработчики"))
         self.actionHelpWithProg.setText(_translate("MainMenu", "справка по работе с программой"))
         self.actionHelpWithTheory.setText(_translate("MainMenu", "справка по теории"))
-
+import qt_designer_ui.resources.backGround_rc

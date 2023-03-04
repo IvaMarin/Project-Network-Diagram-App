@@ -66,7 +66,8 @@ class Ui_Dialog(object):
         font.setPointSize(20)
         item.setFont(font)
         self.tableTaskVar.setHorizontalHeaderItem(5, item)
-        self.tableTaskVar.horizontalHeader().setDefaultSectionSize(240)
+        self.tableTaskVar.horizontalHeader().setDefaultSectionSize(360)
+        self.tableTaskVar.horizontalHeader().setStretchLastSection(True)
         self.horizontalLayout.addWidget(self.tableTaskVar)
         self.splitter = QtWidgets.QSplitter(Dialog)
         font = QtGui.QFont()
@@ -75,15 +76,6 @@ class Ui_Dialog(object):
         self.splitter.setFont(font)
         self.splitter.setOrientation(QtCore.Qt.Vertical)
         self.splitter.setObjectName("splitter")
-        self.btnSaveTable = QtWidgets.QPushButton(self.splitter)
-        font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(16)
-        self.btnSaveTable.setFont(font)
-        self.btnSaveTable.setStyleSheet("background-color: #66e3ff;")
-        self.btnSaveTable.setDefault(False)
-        self.btnSaveTable.setFlat(False)
-        self.btnSaveTable.setObjectName("btnSaveTable")
         self.btnAddStrInTable = QtWidgets.QPushButton(self.splitter)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
@@ -112,7 +104,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Таблица варианта работы"))
         item = self.tableTaskVar.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "Шифр\n"
 "работы"))
@@ -132,7 +124,6 @@ class Ui_Dialog(object):
         item = self.tableTaskVar.horizontalHeaderItem(5)
         item.setText(_translate("Dialog", "Количество\n"
 "людей"))
-        self.btnSaveTable.setText(_translate("Dialog", "Сохранить"))
         self.btnAddStrInTable.setText(_translate("Dialog", "Добвить строку"))
         self.btnDelStrLast.setText(_translate("Dialog", "Удалить последнюю строку "))
         self.btnExitAndClose.setText(_translate("Dialog", "Сохранить и выйти"))

@@ -38,7 +38,7 @@ class Ui_startWin(object):
         self.verticalLayout.addWidget(self.labelWelcome)
         self.labelPicture = QtWidgets.QLabel(startWin)
         self.labelPicture.setAutoFillBackground(False)
-        self.labelPicture.setStyleSheet("image: url(:/newPrefix/logo_mac_mai-min.png);\n"
+        self.labelPicture.setStyleSheet("image: url(:/newPrefix/logo_mca-min.png);\n"
 "background-color: rgba(0, 0, 0, 0);\n"
 "")
         self.labelPicture.setText("")
@@ -155,19 +155,18 @@ class Ui_startWin(object):
         self.labelWelcome.setText(_translate("startWin", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Times New Roman\'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:22pt; color:#e7e7e7;\">ПРАКТИЧЕСКОЕ ЗАНЯТИЕ № 3</span></p>\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:22pt; color:#e7e7e7;\">ПОСТРОЕНИЕ МЕТОДА СЕТЕВОГО ПЛАНИРОВАНИЯ И УПРАВЛЕНИЯ В </span></p>\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:22pt; color:#e7e7e7;\">ТЕХНОЛОГИЧЕСКИХ ПРОЦЕССАХ ЭКСПЛУАТАЦИИ КОСМИЧЕСКИХ СРЕДСТВ</span></p></body></html>"))
-        self.labelGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-size:16pt; color:#e7e7e7;\">ВЗВОД</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Times New Roman\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:22pt; font-weight:600; color:#e7e7e7;\">ПОСТРОЕНИЕ МЕТОДА СЕТЕВОГО ПЛАНИРОВАНИЯ И УПРАВЛЕНИЯ В </span></p>\n"
+"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:22pt; font-weight:600; color:#e7e7e7;\">ТЕХНОЛОГИЧЕСКИХ ПРОЦЕССАХ ЭКСПЛУАТАЦИИ КОСМИЧЕСКИХ СРЕДСТВ</span></p></body></html>"))
+        self.labelGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-weight:600; color:#e7e7e7;\">ВЗВОД</span></p></body></html>"))
         self.labelSurname.setText(_translate("startWin", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Times New Roman\'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; color:#e7e7e7;\">Ф.И.О.</span></p></body></html>"))
-        self.labelNumGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-size:16pt; color:#e7e7e7;\">ВАРИАНТ</span></p></body></html>"))
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600; color:#e7e7e7;\">Ф.И.О.</span></p></body></html>"))
+        self.labelNumGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-weight:600; color:#e7e7e7;\">ВАРИАНТ</span></p></body></html>"))
         self.btnSignLab.setText(_translate("startWin", "Начать работу"))
         self.btnDeveloperMode.setText(_translate("startWin", "Режим разработчика"))
 import qt_designer_ui.resources.backGround_rc
-import qt_designer_ui.resources.labelMAI_rc
+import qt_designer_ui.resources.labelVKAMoj_rc
 # import qt_designer_ui.resources.spaceBackground_rc

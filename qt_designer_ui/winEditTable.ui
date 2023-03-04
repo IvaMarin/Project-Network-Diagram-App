@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>952</width>
-    <height>594</height>
+    <width>1047</width>
+    <height>596</height>
    </rect>
   </property>
   <property name="font">
@@ -60,7 +60,7 @@
         </font>
        </property>
        <property name="text">
-        <string>название варианта - &quot;В</string>
+        <string>Нумирация варианта:</string>
        </property>
       </widget>
      </item>
@@ -76,7 +76,7 @@
         <string notr="true">background-color: #fffaea;</string>
        </property>
        <property name="placeholderText">
-        <string>Введите номер варианта студента</string>
+        <string>Введите номер варианта</string>
        </property>
       </widget>
      </item>
@@ -89,7 +89,7 @@
         </font>
        </property>
        <property name="text">
-        <string>.xlsx&quot;</string>
+        <string/>
        </property>
       </widget>
      </item>
