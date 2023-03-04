@@ -199,7 +199,7 @@ class Window1(QMainWindow):
         mistakes = self.DisplayObj.checkEvent()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                properties.set__verification_passed_task(1)
+                properties.setVerificationPassedTask(1)
 
                 if properties.teacherMode:
                     properties.save_graph_for_teacher(graph1, 1)
@@ -214,7 +214,7 @@ class Window1(QMainWindow):
                 # graph1 = properties.get_graph_for_teacher(1)
 
                 #print(self.DisplayObj.size().height)
-                statusTask.set__verification_passed_task(1)
+                statusTask.setVerificationPassedTask(1)
                 self.DisplayObj.save()
                 encrypt.addFileInZip('1.jpg')
                 MainWindow.ui.btnTask2.setEnabled(True)
@@ -528,7 +528,7 @@ class Window2(QMainWindow):
             mistakes = self.DisplayObj.checkEvent()
             if type(mistakes) != QMessageBox:
                 if len(mistakes) == 0:
-                    properties.set__verification_passed_task(2)
+                    properties.setVerificationPassedTask(2)
 
                     # после корректного выполнения запрещаем модифицировать продолжительности
                     for i in range(len(self.DisplayObj.QLineEdits)):
@@ -545,7 +545,7 @@ class Window2(QMainWindow):
                     save_graph_for_student_2 = properties.get_graph_for_student(
                         2)
                     self.DisplayObj.graph = save_graph_for_student_2
-                    statusTask.set__verification_passed_task(2)
+                    statusTask.setVerificationPassedTask(2)
                     self.DisplayObj.save()
                     encrypt.addFileInZip('2.jpg')
                     MainWindow.ui.btnTask3.setEnabled(True)
@@ -733,7 +733,7 @@ class Window3(QMainWindow):
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
 
-                properties.set__verification_passed_task(3)
+                properties.setVerificationPassedTask(3)
 
                 if properties.teacherMode:
                     properties.save_graph_for_teacher(graph1, 3)
@@ -743,7 +743,7 @@ class Window3(QMainWindow):
                 save_graph_for_student_3 = properties.get_graph_for_student(3)
                 self.DisplayObj.graph = save_graph_for_student_3
 
-                statusTask.set__verification_passed_task(3)
+                statusTask.setVerificationPassedTask(3)
                 # properties.save_graph_for_teacher(graph1, 3) # сохраняем граф в файл
 
                 # save_graph_3 = properties.get_graph_for_teacher(3)
@@ -939,7 +939,7 @@ class Window4(QMainWindow):
         mistakes = self.DisplayObj.checkEvent4()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                statusTask.set__verification_passed_task(4)
+                statusTask.setVerificationPassedTask(4)
 
                 if properties.teacherMode:
                     properties.save_graph_for_teacher(graph1, 4)
@@ -1424,9 +1424,9 @@ class Window5(QMainWindow):
                 # после корректного выполнения запрещаем модифицировать число людей
                 for d in self.widgetList:
                     for qle in d.QLineEdits.values():
-                        qle.setReadOnly(True)
+                        qle.hide()
 
-                statusTask.set__verification_passed_task(5)
+                statusTask.setVerificationPassedTask(5)
 
                 self.ui.actionbtnInfo.setVisible(False)
                 self.ui.actionHelp.setVisible(False)

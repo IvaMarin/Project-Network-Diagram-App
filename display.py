@@ -654,6 +654,9 @@ class Display5(Display):
                 triangle_source = calculate_arrow_points((x1, y1), self.graph.Arrows[(p1, p2)], 0)
                 if triangle_source is not None:
                     painter.drawPolygon(triangle_source)
+                    if (properties.statusTask.verification_passed_tasks[5]):
+                        x, y = Display.findCoordinatesAboveArrow(x1, y1, x2, y2)
+                        painter.drawText(int(x), int(y), f'{self.graph.PeopleWeights[(p1, p2)]}')
                     if (self.late_time == None):  # в зависимости от резерва
                         if (len(self.base_graph.R) > p1[0]) and (self.base_graph.R[p1[0]] > 0):
                             painter.setPen(Qt.PenStyle.SolidLine)

@@ -29,10 +29,10 @@ class statusTask():
             return True
 
     # функция присваивания  подтверждения заданию
-    def set__verification_passed_task(self, number):
+    def setVerificationPassedTask(self, number):
         self.verification_passed_tasks[number] = True
 
-    def set__verification_passed_task_all(self, arg):
+    def setVerificationPassedTaskAll(self, arg):
         if (arg):
             self.verification_passed_tasks = {1: True, 2: True, 3: True, 4: True, 5: True}
         else:
@@ -132,10 +132,10 @@ class Properties():
             return True
 
     # функция присваивания  подтверждения заданию
-    def set__verification_passed_task(self, number):
+    def setVerificationPassedTask(self, number):
         self.verification_passed_tasks[number] = True
 
-    def set__verification_passed_task_all(self, arg):
+    def setVerificationPassedTaskAll(self, arg):
         if (arg):
             self.verification_passed_tasks = {1: True, 2: True, 3: True, 4: True, 5: True}
         else:
