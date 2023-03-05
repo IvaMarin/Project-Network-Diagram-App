@@ -33,6 +33,7 @@ class statusTask():
         self.verification_passed_tasks[number] = True
 
     def setVerificationPassedTask_all(self, arg):
+
         if (arg):
             self.verification_passed_tasks = {1: True, 2: True, 3: True, 4: True, 5: True}
         else:
@@ -135,7 +136,9 @@ class Properties():
     def setVerificationPassedTask(self, number):
         self.verification_passed_tasks[number] = True
 
+
     def setVerificationPassedTask_all(self, arg):
+
         if (arg):
             self.verification_passed_tasks = {1: True, 2: True, 3: True, 4: True, 5: True}
         else:

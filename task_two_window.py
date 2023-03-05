@@ -16,7 +16,7 @@ class Ui_MainWindow2(object):
         MainWindow1.setObjectName("MainWindow1")
         MainWindow1.resize(1308, 1253)
         icon0 = QtGui.QIcon()
-        icon0.addPixmap(QtGui.QPixmap("resources/iconePack/pngwing.com.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon0.addPixmap(QtGui.QPixmap("resources/logo_mca-min.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow1.setWindowIcon(icon0)
         self.centralwidget = QtWidgets.QWidget(MainWindow1)
         self.centralwidget.setObjectName("centralwidget")

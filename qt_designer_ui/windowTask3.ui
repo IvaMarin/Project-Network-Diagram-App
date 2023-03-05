@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Задание 3</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>resources/logo_mca-min.png</normaloff>resources/logo_mca-min.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QToolBar" name="toolBar">
    <property name="sizePolicy">

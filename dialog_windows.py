@@ -147,7 +147,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
         width = int(sizeWindow.width())      # выставляем ширину окна
         height = int(sizeWindow.height())   # выставляем длину окна
         # присваиваем параметры длины и ширины окну
-        self.resize(width, height-93)
+        self.resize(width, height)
 
         #self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
@@ -293,7 +293,9 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             self.close() #
             #self.creatTable.openFile(pathFileXlsx) #
             self.creatTable.openNewVariant()
+            self.creatTable.showMaximized()
             self.creatTable.exec_()
+            
 
             self.variantController.createVariant(responseFileName)
             self.ui.comboBoxVariants.addItem(variant) # добавляем название файла в выпадающий список
@@ -323,7 +325,9 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         requestFileName = self.variantController.readVariant(variant)
         self.creatTable.openVariant(requestFileName)
         #self.creatTable.openFile(self.fileName) # открываем указанный файл в окне для редактирования вариантов
+        self.creatTable.showMaximized()
         self.creatTable.exec_()
+    
 
         self.variantController.updateVariant(tmpFileName)
 
@@ -375,12 +379,12 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
 
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
-        width = int(sizeWindow.width() - (sizeWindow.width()) / 3)  # выставляем ширину окна
-        height = int(sizeWindow.height() - (sizeWindow.height()) / 3)  # выставляем длину окна
+        width = int(sizeWindow.width())  # выставляем ширину окна
+        height = int(sizeWindow.height())  # выставляем длину окна
         # присваиваем параметры длины и ширины окну
-        self.resize(width, height)
+        # self.resize(width, height)
 
-        self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20))  # двигаем окно левее и выше
+        # self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20))  # двигаем окно левее и выше
 
         quit = QAction("Quit", self)  # событие выхода
         quit.triggered.connect(self.closeEvent)  # если событие выхода срабатывает то вызывается closeEvent
@@ -388,9 +392,12 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.listNumPeopleInSquad = []
         self._connectAction()  # ф-ия связи с эл-тами окна
 
+    # def show(self):
+    #     self.showMaximized()
+
         
     def _connectAction(self):
-        self.ui.btnSaveTable.clicked.connect(lambda: self.saveTable())          #
+        # self.ui.btnSaveTable.clicked.connect(lambda: self.saveTable())          #
         self.ui.btnAddStrInTable.clicked.connect(lambda: self.AddStrInTable())          #
         self.ui.btnDelStrLast.clicked.connect(lambda: self.delStrLast())           #
         self.ui.btnExitAndClose.clicked.connect(lambda: self.close())  #

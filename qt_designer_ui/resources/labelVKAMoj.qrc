@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>logo_mca-min.png</file>
+  </qresource>
+</RCC>
