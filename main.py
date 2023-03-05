@@ -1079,7 +1079,7 @@ class Window5(QMainWindow):
             self.widget1 = display.Display5(
                 self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal=False, base_graph=graph1)
             self.widgetList.append(self.widget1)
-            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (properties.max_sequences_amount+1) * 100) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
@@ -1194,6 +1194,7 @@ class Window5(QMainWindow):
 
     def displayAddSeq(self, numS, sequence):
         i = int(numS) - 1
+        indent = 50
 
         maxY = 0
         for row in range(MainWindow.ui.tableVar.rowCount()):
@@ -1211,19 +1212,19 @@ class Window5(QMainWindow):
 
         missingSequenceY = None
         for j, y in enumerate(deltaY):
-            current_step = (j+1) * properties.step_gridY
+            current_step = (j+1) * properties.step_gridY + indent
             if y != current_step:
                 missingSequenceY = current_step
                 break
 
         if len(deltaY) == 0:
-            gridY = properties.step_gridY
+            gridY = properties.step_gridY + indent
         elif missingSequenceY != None:
-            gridY = missingSequenceY
+            gridY = missingSequenceY 
         else:
             gridY = deltaY[-1] + properties.step_gridY
 
-        if gridY <= maxY:
+        if gridY <= maxY + indent:
             self.widgetList[i].graph_in.AddPointsSequence(
                 sequence, properties.step_grid, properties.step_grid*2, gridY)
             self.widgetList[i].update()
@@ -1627,7 +1628,7 @@ class Window6(QMainWindow):
             self.widgetList.append(display.Display6(
                 self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal=False, base_graph=graph1))
             self.widgetList[i].setMinimumSize(
-                (properties.max_possible_time + 3) * self.widgetList[i].step + 50, properties.max_sequences_amount * 100)
+                (properties.max_possible_time + 3) * self.widgetList[i].step + 50, (properties.max_sequences_amount+1) * 100)
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
