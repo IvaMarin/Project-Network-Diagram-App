@@ -87,6 +87,7 @@ def createGaps(size, step=50, sizeNumber = 40, yNumber = 50, max_time = -1):
         number_vertical_lines = max_time +1 + 3
     for i in range(number_vertical_lines):
         lines.append(QLineF(x0, sizeWindow.height() - yNumber - sizeNumber, x0, sizeWindow.height() - yNumber + sizeNumber))
+        lines.append(QLineF(x0, yNumber - sizeNumber, x0, yNumber + sizeNumber))
         x0 = x0 + step
 
     return lines
@@ -459,13 +460,15 @@ class Display3_4(Display):
                 number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
             else:
                 number_vertical_lines = self.max_time + 3
-            y0 = sizeWindow.height() - 50 
+            yLow = sizeWindow.height() - 50
+            yHight = 50 
             for i in range(number_vertical_lines):
                 if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-                painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
+                painter.drawText(int(self.step + self.step * i + offset[0]), int(yLow + offset[1]), f'{i}')
+                painter.drawText(int(self.step + self.step * i + offset[0]), int(yHight + offset[1]), f'{i}')
 
             # отрисовка стрелок
             for i in range(len(self.graph.AdjacencyMatrix)):
@@ -639,13 +642,15 @@ class Display5(Display):
             x0 = 0
             sizeWindow = self.size()
             number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-            y0 = sizeWindow.height() - 50 
+            yLow = sizeWindow.height() - 50
+            yHight = 50  
             for i in range(number_vertical_lines):
                 if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-                painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
+                painter.drawText(int(self.step + self.step * i + offset[0]), int(yLow + offset[1]), f'{i}')
+                painter.drawText(int(self.step + self.step * i + offset[0]), int(yHight + offset[1]), f'{i}')
 
             # отрисовка стрелок
             for p1, p2 in self.graph.AdjacencyList.items():
@@ -835,13 +840,15 @@ class Display6(Display5):
             x0 = 0
             sizeWindow = self.size()
             number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-            y0 = sizeWindow.height() - 50 
+            yLow = sizeWindow.height() - 50
+            yHight = 50 
             for i in range(number_vertical_lines):
                 if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
-                painter.drawText(int(self.step + self.step * i + offset[0]), int(y0 + offset[1]), f'{i}')
+                painter.drawText(int(self.step + self.step * i + offset[0]), int(yLow + offset[1]), f'{i}')
+                painter.drawText(int(self.step + self.step * i + offset[0]), int(yHight + offset[1]), f'{i}')
 
             # отрисовка стрелок
             for p1, p2 in self.graph.AdjacencyList.items():
