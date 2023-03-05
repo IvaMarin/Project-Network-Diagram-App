@@ -50,6 +50,7 @@ from task_five_add_sequences import task5AddSeq
 import graph_model
 import properties
 from threaded_report_creation import ThreadedReportCreation
+from threaded_report_watch import ThreadedReportWatch
 
 #######################################################
 
@@ -2008,7 +2009,7 @@ class WindowMenu(QMainWindow):
         # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec)
         # self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
-        self.ui.previewReport.clicked.connect(lambda: self.watch_report())
+        self.ui.previewReport.clicked.connect(lambda: self.watchReport())
         self.ui.btnPrint.clicked.connect(lambda: self.print_report())
         self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
 
@@ -2058,21 +2059,12 @@ class WindowMenu(QMainWindow):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "0"  # данные о студенте проинициализированы
+    
+    def updateProgressDialog(self, value):
+        self.progressDialog.setValue(value)
 
-    def watch_report(self):
-        self.msgCheck = QMessageBox()
-        self.msgCheck.setWindowTitle("Предупреждение")
-        try:
-            encrypt.extractAllPdfFile()
-        except Exception as e:
-            self.msgCheck.setText(str(e))
-            self.msgCheck.show()
-
-        self.msg = QMessageBox()
-        self.msg.setWindowTitle("Предупреждение")
-        self.msg.setText("Ошибка открытия отчёта")
-        self.msg.setIcon(QMessageBox.Warning)
-        self.msg.setStandardButtons(QMessageBox.Ok)
+    def watchReport(self):
+        report = 'text'
         try:
             report = (
                 QtWidgets.QFileDialog.getOpenFileName(
@@ -2082,11 +2074,34 @@ class WindowMenu(QMainWindow):
             if report == "":
                 return
 
-            print(report)
+            print(f'[INFO] SELECTED FILE ----> {report}')
 
             self.report_controller.whatch_report(report)
-        except Exception:
-            self.msg.show()
+        except Exception as e:
+            print(f'''[INFO] SELECTED FILE ----> FALL
+            ERROR: {e}''')
+
+        self.progressDialog = QProgressDialog(
+            "Формирование отчета...", "Cancel", 0, 100)
+        self.progressDialog.setWindowTitle("Загрузка")
+        self.progressDialog.setCancelButton(None)
+        self.progressDialog.setAutoClose(True)
+        self.progressDialog.setWindowModality(Qt.WindowModal)
+        self.progressDialog.setMinimumDuration(0)
+        
+
+        self.threadedReportWatch = ThreadedReportWatch(
+            mainWindow=MainWindow, encrypt=encrypt, report=report)
+        self.threadedReportWatch.countChanged.connect(
+            self.updateProgressDialog)
+        self.threadedReportWatch.start()
+
+    def runWatchReport(self, report, loading=None):
+        loading.emit(10)
+        try:
+            self.report_controller.whatch_report(report, loading)
+        except:
+            pass
 
     # def print_report(self):
     #     encrypt.extractAllPdfFile()
@@ -2201,6 +2216,11 @@ class WindowMenu(QMainWindow):
             self.report_controller.save_report(path_for_save)
 
         else:
+            warning = QMessageBox()
+            warning.setWindowTitle("Предупреждение")
+            warning.setText("Для начала необходимо сформировать отчет.")
+            warning.setDefaultButton(QMessageBox.Ok)
+            warning = warning.exec()
             print('[WARN] NO REPORT ----> create report')
 
     def openTask(self, numTask):
