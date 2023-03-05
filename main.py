@@ -1191,8 +1191,6 @@ class Window5(QMainWindow):
             if (squad == numS):
                 maxY += 1
         maxY *= properties.step_gridY
-        print(maxY)
-        print(properties.step_gridY)
 
         deltaY = set()
         for (x, y) in self.widgetList[i].graph_in.Points.values():
@@ -1550,8 +1548,6 @@ class Window5(QMainWindow):
     def switchTeacherMode(self, flag, subtask):
 
         if (flag):
-            print("ВОШЛИ T")
-            print(subtask, ' ', type(subtask))
             # properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
             tmp_graphs = properties.get_graph_for_teacher(
                 5, subtask)  # берем граф из сохранения
@@ -1571,8 +1567,6 @@ class Window5(QMainWindow):
             self.ui.actionbtnCheck.setEnabled(False)
             self.ui.actionbtnMoveNode.setEnabled(False)
         else:
-            print("ВОШЛИ Y")
-            print(subtask, ' ', type(subtask))
             # graph_student = properties.get_graph_for_student(1)
             for i in range(self.squadNum):
                 if (statusTask.get_verification_passed_pretasks(6)):
@@ -1722,6 +1716,7 @@ class Window6(QMainWindow):
     def _finishTimer(self):
         properties.end_time = time.time_ns()
         properties.elapsed_time = properties.end_time - properties.start_time
+        pass
 
     def finish(self):
         self.progressDialog = QProgressDialog(
@@ -1731,12 +1726,15 @@ class Window6(QMainWindow):
         self.progressDialog.setAutoClose(True)
         self.progressDialog.setWindowModality(Qt.WindowModal)
         self.progressDialog.setMinimumDuration(0)
+        
 
         self.threadedReportCreation = ThreadedReportCreation(
             mainWindow=MainWindow, window6=self, encrypt=encrypt)
         self.threadedReportCreation.countChanged.connect(
             self.updateProgressDialog)
         self.threadedReportCreation.start()
+
+        self.backMainMenu()
 
     def updateProgressDialog(self, value):
         self.progressDialog.setValue(value)
@@ -2120,43 +2118,39 @@ class WindowMenu(QMainWindow):
         try:
             encrypt.extractFileFromZip('1.jpg')
         except:
-            print("Not found " + '1.jpg')
+            print("[WARN] CREATE REPORT ---->  Not found " + '1.jpg')
 
         try:
             encrypt.extractFileFromZip('2.jpg')
         except:
-            print("Not found " + '2.jpg')
+            print("[WARN] CREATE REPORT ---->  Not found " + '2.jpg')
 
         try:
             encrypt.extractFileFromZip('3.jpg')
         except:
-            print("Not found " + '3.jpg')
+            print("[WARN] CREATE REPORT ---->  Not found " + '3.jpg')
 
         try:
             encrypt.extractFileFromZip('4.jpg')
         except:
-            print("Not found " + '4.jpg')
+            print("[WARN] CREATE REPORT ---->  Not found " + '4.jpg')
 
         try:
             for i in range(squadNum):
                 encrypt.extractFileFromZip(str(5)+str(i)+".jpg")
         except:
-            print("Not found " + '5....jpg')
+            print("[WARN] CREATE REPORT ---->  Not found " + '5....jpg')
 
         try:
             for i in range(squadNum):
                 encrypt.extractFileFromZip(str(6)+str(i)+".jpg")
         except:
-            print("Not found " + '6.....jpg')
+            print("[WARN] CREATE REPORT ---->  Not found " + '6.....jpg')
 
         try:
             encrypt.extractFileFromZip('6_hist.jpg')
         except:
-            print("Not found " + '6_hist.jpg')
-
-        # list_pictures = [["encrypted_data/1.jpg"], ["encrypted_data/2.jpg"], ["encrypted_data/3.jpg"],
-        #     ["encrypted_data/4.jpg"], ["encrypted_data/50.jpg", "encrypted_data/51.jpg", "encrypted_data/52.jpg"],
-        #     ["encrypted_data/60.jpg", "encrypted_data/61.jpg", "encrypted_data/62.jpg"], ["encrypted_data/6_hist.jpg"]]
+            print("[WARN] CREATE REPORT ---->  Not found " + '6_hist.jpg')
         
         list_pictures = []
         for i in range(7):
@@ -2169,7 +2163,7 @@ class WindowMenu(QMainWindow):
                 name = 'encrypted_data/6_hist.jpg'
                 l.append(name)
             else:
-                name = f'encrypted_data/{i+1}_hist.jpg'
+                name = f'encrypted_data/{i+1}.jpg'
                 l.append(name)
 
             list_pictures.append(l)
@@ -2180,15 +2174,17 @@ class WindowMenu(QMainWindow):
         try:
             # information_about_student = translit(name, language_code='ru',reversed=True) + '_' + self.numGroup + '_' + self.numINGroup
             information_about_student = name + '_' + self.numGroup + '_' + self.numINGroup
-            print("NICE information_about_student")
+            print('[INFO] CREATE INFORMATION ABOUT STUDENT ---->  OK')
         except Exception as e:
-            print("BUG   " + information_about_student)
+            print('[WARN] CREATE INFORMATION ABOUT STUDENT ----> FALL')
             print("translit mistake     ", e)
 
-        print("ОШИБКИ С созданием отчета.....")
-        self.report_controller.create_report(list_pictures=list_pictures, list_teach_enter=properties.enter_teacher_mode,
-                                             title=name_project, information_student=information_about_student, loading=loading)
-        print(".......ОШИБКИ С созданием отчета")
+        try:
+            self.report_controller.create_report(list_pictures=list_pictures, list_teach_enter=properties.enter_teacher_mode,
+                                                title=name_project, information_student=information_about_student, loading=loading)
+            print('[INFO] CREATE REPORT---->  OK')
+        except:
+            print('[INFO] CREATE REPORT---->  FALL')
         # запаковка
         # encrypt.addFileInZip(name_report)
         encrypt.delImaFromZip()
@@ -2205,7 +2201,7 @@ class WindowMenu(QMainWindow):
             self.report_controller.save_report(path_for_save)
 
         else:
-            print("!!!!!!!!!!!!!!!!!!Сначала создайте отчет!!!!!!!!!!!!")
+            print('[WARN] NO REPORT ----> create report')
 
     def openTask(self, numTask):
         if not (self.ui.btnTeacherMode.isChecked()):
@@ -2287,9 +2283,9 @@ class WindowMenu(QMainWindow):
 
         try:
             os.remove(requestFileName)
-            print(f'[INFO]  FILE {requestFileName} DELETED')
+            print(f'[INFO] FILE {requestFileName} DELETED')
         except:
-            print(f'[WARR]  TROUBLE WITH FILE {requestFileName}')
+            print(f'[WARN] TROUBLE WITH FILE {requestFileName}')
 
         # fileName = "В" + self.numINGroup + ".xlsx" # выбираем нужную табличку по названию
         # # файлик с таблицой должен называться "В" + номер студента по списку + ".xlsx" (расширение файла)
@@ -2336,12 +2332,13 @@ def clear_data():
                 os.unlink(file_path)
             elif os.path.isdir(file_path):
                 shutil.rmtree(file_path)
+            tmpFile = open(folder + 'tmp.txt', 'w')
+            tmpFile.close()
         except Exception as e:
-            print('Failed to delete %s. Reason: %s' % (file_path, e))
+            print('[WARN] Failed to delete %s. Reason: %s' % (file_path, e))
 
 
 def close_app(event):
-    print("Закрытие приложения!")
     close = QMessageBox()
     close.setWindowTitle("Закрыть приложение")
     close.setText("Вы уверены, что хотите закрыть приложение?")
@@ -2357,6 +2354,7 @@ def close_app(event):
         for i in range(1, squadNum+1):
             properties.clear_answer(5, i)
         clear_data()
+        print('[INFO] CLOSE APP.')
         event.accept()
     else:
         event.ignore()

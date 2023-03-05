@@ -280,11 +280,11 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             f = open(responseFileName, 'a+')
             try:
                 # работа с файлом
-                print('[INFO]  OPEN FILE')
+                print('[INFO] OPEN FILE')
                 f.write(variant + '\n')
-                print(f'[INFO]  SAVE NUMBER VARIANT {variant} IN FILE ----> Успешно')
+                print(f'[INFO] SAVE NUMBER VARIANT {variant} IN FILE ----> Успешно')
             finally:
-                print('[INFO]  CLOSE FILE')
+                print('[INFO] CLOSE FILE')
                 f.close()
             # newTableVar.save(pathFileXlsx) #
             # self.ui.comboBoxVariants.addItem(self.fileName) # добавляем название файла в выпадающий список
@@ -305,15 +305,15 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         f = open(tmpFileName, 'a+')
         try:
             # работа с файлом
-            print('[INFO]  OPEN FILE')
+            print('[INFO] OPEN FILE')
             # stringList = self.ui.comboBoxVariants.currentText().split('.') # убрать лишнее
             # variant = stringList[0][1:]
             variant = self.ui.comboBoxVariants.currentText()
 
             f.write(variant + '\n')
-            print(f'[INFO]  SAVE NUMBER VARIANT {variant} IN FILE ----> Успешно')
+            print(f'[INFO] SAVE NUMBER VARIANT {variant} IN FILE ----> Успешно')
         finally:
-            print('[INFO]  CLOSE FILE')
+            print('[INFO] CLOSE FILE')
             f.close()
 
         #self.ui.comboBoxVariants.currentText()  выбранный вариант из comboBoxVariants
@@ -348,9 +348,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             if close == QMessageBox.Ok:  # если нажали да
                 # os.remove(self.fileName)
                 self.variantController.deleteVariant(variant)
-                print("ОЧИСТКА")
                 self.ui.comboBoxVariants.removeItem(self.ui.comboBoxVariants.currentIndex())
-                print("ОЧИСТКА завершена")
             else:  # иначе игнорируем
                 return
 
@@ -457,14 +455,14 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         f = open(fileName,'a+')
         try:
             # работа с файлом
-            print('[INFO]  OPEN FILE')
+            print('[INFO] OPEN FILE')
             listData = self.writeTibleInList()
             for row in listData:
                 f.write(' '.join([a for a in row]) + '\n')
-            print('[INFO]  SAVE TABLE IN FILE ----> Успешно')
+            print('[INFO] SAVE TABLE IN FILE ----> Успешно')
         finally:
             f.close()
-            print('[INFO]  CLOSE FILE')
+            print('[INFO] CLOSE FILE')
 
     def saveTable(self):
         self.saveDataTable('variant_table_data.txt')
@@ -527,9 +525,9 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
 
         try:
             os.remove(fileName)
-            print(f'[INFO]  FILE {fileName} DELETED')
+            print(f'[INFO] FILE {fileName} DELETED')
         except:
-            print(f'[WARR]  TROUBLE WITH FILE {fileName}')
+            print(f'[WARN] TROUBLE WITH FILE {fileName}')
 
     def openNewVariant(self):
         self.ui.tableTaskVar.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
@@ -551,11 +549,6 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
             for cell in row: # Две последнии колонки обрезаются т к их некуда вписать !!!!!!!!!
                 rowVar.append(cell.value)
             tabelVar.append(rowVar)
-
-        for row in tabelVar:
-            for cell in row:
-                print(cell, "\t", sep="")
-            print()
 
         self.ui.tableTaskVar.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
 
@@ -633,12 +626,6 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
                 rowVar.append(cell.value)
             tabelVar.append(rowVar)
 
-        print("tabelVar")
-        for row in tabelVar:
-            for cell in row:
-                print(cell, "\t", sep="")
-            print()
-
         # tmpTableVar = []
         # for i in range(3,len(tabelVar)):
         #     tmpTableVar.append([])
@@ -659,11 +646,6 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
                 tmpTableVar.pop(-1)
                 break
 
-        print("tmpTableVar")
-        for row in tmpTableVar:
-            for cell in row:
-                print(cell, "\t", sep="")
-            print()
 
         self.ui.tableNumPeopleInSquad.setRowCount(0)  # удаление старых данных из таблицы (если уже генерировалась таблица с заданием)
         countColumns = 0
@@ -672,7 +654,6 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
             rowPosition = self.ui.tableNumPeopleInSquad.rowCount()  # генерируем строку в таблице для записи в нее чиселок
             self.ui.tableNumPeopleInSquad.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
             for item in list:
-                print("tmpTableVar ", item)
                 if countColumns >= 0:
                     self.ui.tableNumPeopleInSquad.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(str(item)))  # заполняем "строку таблицы из файла", каждую ячейку
                 countColumns = countColumns + 1

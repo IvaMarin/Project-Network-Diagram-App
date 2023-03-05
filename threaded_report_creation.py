@@ -13,7 +13,7 @@ class ThreadedReportCreation(QThread):
     def run(self):
         """Report creation."""
 
-        self.window6._finishTimer()
+        # self.window6._finishTimer()
         self.window6.widgetRight.save()
         self.encrypt.addFileInZip('6_hist.jpg')
 
@@ -27,4 +27,4 @@ class ThreadedReportCreation(QThread):
 
         self.mainWindow.creatReport(self.countChanged)
 
-        self.window6.backMainMenu()
+        # self.window6.backMainMenu()

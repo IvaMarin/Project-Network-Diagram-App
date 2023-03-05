@@ -12,12 +12,7 @@ class encrypt_decrypt():
         self.exceptToZipFile = ["tmp_txt_file.txt"] # файлы которые не нужно шифровать 
 
     def encryptAll(self, nameZipFile = 'encrypted_data.zip'): # функция шифрования всех нужных нам файлов
-        print("\n")
-        print(self.pathToEncry)
-        print("\n")
         files = os.listdir(self.pathToEncry)
-
-        print(files)
 
         for filename in self.exceptToZipFile: # удаление из списка файлов для шифрования файлы исключения 
             files.remove(filename)
@@ -43,8 +38,6 @@ class encrypt_decrypt():
 
     def addFileInZip(self, fileName, nameZipFile = 'encrypted_data.zip'): # добавление файла в существующий архив по имени этого файла
         # также архив может не существовать тогда он создастся с указанным именем (nameZipFile) и в него добавится файл 
-        print(fileName)
-        print(self.exceptToZipFile)
         if fileName in self.exceptToZipFile:
             print("Файл находится в списке исключений 3")
             return
@@ -69,12 +62,7 @@ class encrypt_decrypt():
 
 
     def clearDir(self):# удаляем все файлы вне архива кроме файлов исключений (.py и .zip)
-        print("\n")
-        print(self.pathToEncry)
-        print("\n")
         files = os.listdir(self.pathToEncry)
-
-        print(files)
 
         zipFiles = [file for file in files if ".zip" in file]
 
@@ -86,9 +74,7 @@ class encrypt_decrypt():
 
         for file in files:
             if os.path.isfile(self.pathToEncry + '/' + file): 
-                print(file)
-                os.remove(self.pathToEncry + '/' + file) 
-                print("success") 
+                os.remove(self.pathToEncry + '/' + file)
             else: 
                 print("File doesn't exists!")
 
@@ -102,8 +88,14 @@ class encrypt_decrypt():
             print("Файл находится в списке исключений 2")
             return
         else: 
-            os.remove(self.pathToEncry + '/' + fileName) 
-    
+            try:
+                os.remove(self.pathToEncry + '/' + fileName) 
+                print(f'[INFO] DELETE FILE ----> {self.pathToEncry}/{fileName}')
+            except:
+                print(f'[WARN] DELETE FILE ----> {self.pathToEncry}/{fileName} wasnt delete')
+
+
+
     def delZipFile(self, fileName):# удаление zip архив по названию файла
 
         if fileName in self.exceptToZipFile:
@@ -190,6 +182,7 @@ if __name__ == "__main__":
     encry_decry = encrypt_decrypt()
     # encry_decry.enter_key()
 
+    # encry_decry.delImaFromZip()
 
     # encry_decry.encryptAll()
 

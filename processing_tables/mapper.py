@@ -9,7 +9,6 @@ class Mapper():
         self.dictionaryParametrs = dto.__dict__
         listData = []
         parametr = None
-        print("IN")
         for key in self.dictionaryParametrs:
             
             if type(self.dictionaryParametrs[key]) == str:

@@ -10,24 +10,24 @@ class ReportService():
         self.password = password
         self.viewer = pdf_viewer.Viewer()
 
-    def add_text(self, report, text, x=65):
+    def add_text(self, report, text, x=40, position = 'C'):
         # report.add_font('DejaVu', '', 'resources/fonts/DejaVuSansCondensed.ttf', uni=True)
         report.set_font('DejaVu', '', 16)
         report.set_x(x)
-        report.multi_cell(170, 10, text, 0, 1, "C")
+        report.multi_cell(170, 10, text, 0, 1, 'C')
 
     def add_image(self, report, path_image):
 
         try:
             report.image(path_image, 25, 60, 240)
         except:
-            print(path_image + ' not found')
+            pass
 
     def add_hist(self, report, path_image):
         try:
             report.image(path_image, 80, 60, h=130)
         except:
-            print(path_image + ' not found')
+            pass
 
     def create_task_page(self, report, text, path_image, hist='N'):
 
@@ -40,8 +40,6 @@ class ReportService():
         return report
 
     def pdf_encry(self, pdf_path="pdf_encry_decry/1.pdf"):
-
-        print("PASS" + self.password)
 
         out = PdfWriter()
         pdf = PdfReader(pdf_path)
@@ -56,13 +54,11 @@ class ReportService():
             out.encrypt(self.password)
             with open(pdf_path, "wb") as f:
                 out.write(f)
-            print("PDF зашифрован и записан!")
+            print("[INFO] PDF зашифрован и записан!")
         except:
-            print("PDF не зашифровался или не записался!")
+            print("[INFO] PDF не зашифровался или не записался!")
 
     def pdf_decry(self, pdf_path="pdf_encry_decry/1.pdf"):
-
-        print("PASS" + self.password)
 
         out = PdfWriter()
         pdf = PdfReader(pdf_path)
@@ -78,21 +74,25 @@ class ReportService():
             with open(pdf_path, "wb") as f:
                 out.write(f)
 
-            print("PDF расшифрован!")
+            print("[INFO] PDF расшифрован")
         else:
-            print("PDF уже расшифрован!")
+            print("[INFO] PDF уже расшифрован")
 
     def pdf_show(self, path, loading):
-        self.viewer.show_PDF(path, loading)
+        try:
+            self.viewer.show_PDF(path, loading)
+        except Exception as e:
+            print(f'''SHOW ERROR: {e}''')
 
     def pdf_save(self, folder_source, path_to_save):
+        try:
+            get_files = os.listdir(folder_source)
 
-        print("DIR source      " + os.path.abspath(folder_source))
-        print("DIR save        " + path_to_save)
-
-        get_files = os.listdir(folder_source)
-
-        for g in get_files:
-            print(g)
-            os.replace(os.path.abspath(folder_source) +
-                       "/" + g, path_to_save + "/" + g)
+            for g in get_files:
+                print(g)
+                os.replace(os.path.abspath(folder_source) +
+                        "/" + g, path_to_save + "/" + g)
+            print("[INFO] DIR source " + os.path.abspath(folder_source))
+            print("[INFO] DIR save " + path_to_save)
+        except Exception as e:
+            print(f'''SAVE ERROR: {e}''')

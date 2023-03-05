@@ -2,11 +2,16 @@ from processing_tables.dto import DTO
 import re
 import numpy as np 
 from processing_tables.variant_controller import VariantController
+import os
 
+pathToEncry = os.path.abspath(os.curdir) + '/report_answer'
+files = os.listdir(pathToEncry)
+photoFiles = [file for file in files if ".txt" in file]
+print(photoFiles)
 
-vc = VariantController()
+# vc = VariantController()
 
-vc.getAllNumberOfVariant()
+# vc.getAllNumberOfVariant()
 
 
 
