@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Меню</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>resources/logo_mca-min.png</normaloff>resources/logo_mca-min.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">#centralwidget{background-color: #d5fffe;}</string>
   </property>

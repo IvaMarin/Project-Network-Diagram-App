@@ -662,7 +662,7 @@ class Display5(Display):
                     if (properties.statusTask.verification_passed_tasks[5]):
                         x, y = Display.findCoordinatesAboveArrow(x1, y1, x2, y2)
                         painter.drawText(int(x), int(y), f'{self.graph.PeopleWeights[(p1, p2)]}')
-                    
+
                     if (self.late_time == None):  # в зависимости от резерва
                         if (len(self.base_graph.R) > p1[0]) and (self.base_graph.R[p1[0]] > 0):
                             painter.setPen(Qt.PenStyle.SolidLine)
@@ -903,17 +903,7 @@ class Display6(Display5):
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
             self.root.widgetRight.update()
-    
 
-        for (digit, id), (x, y) in self.graph.Points.items(): 
-            painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
-            painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
-                                int(2*self.graph.Radius), int(2*self.graph.Radius))
-            if len(str(i+1)) < 2:
-                offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
-            else:
-                offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-            painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
 
 class DrawHist(QWidget):
     def __init__(self, root, graph, step = 25):
