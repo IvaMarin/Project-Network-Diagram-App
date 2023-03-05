@@ -947,7 +947,6 @@ class DrawHist(QWidget):
             sizeWindow = QRect(QApplication.desktop().screenGeometry())
             #number_vertical_lines = (self.size().height() - y0) // self.step + 1  # количество вертикальных линий
             #y0 = sizeWindow.height()-195
-            print(number_vertical_lines)
             for i in range(number_vertical_lines):
                 if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины

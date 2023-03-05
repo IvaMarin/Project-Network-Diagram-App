@@ -13,7 +13,7 @@ class ReportController():
         self.text_information_student = ""
         self.password = password
 
-        self.folder_source = "report_answer//"
+        self.folder_source = "report_answer/"
         self.pdf_is_maked = False
 
         self.service = serv.ReportService(self.password)
@@ -46,7 +46,7 @@ class ReportController():
             self.report.cell(190, 20, "", ln=1)
 
             self.service.add_text(
-                self.report, "Статус выполненных заданий", 100)
+                self.report, "СТАТУС ВЫПОЛНЕННЫХ ЗАДАНИЙ")
             self.report.ln(10)
             text_1 = " выполнено."
             text_2 = " выполнено при помощи перподавателя."
@@ -58,33 +58,32 @@ class ReportController():
                 else:
                     text = text_1
                 self.service.add_text(
-                    self.report, "Задание №" + str(i+1) + text)
+                    self.report, "Задание №" + str(i+1) + text, 40)
 
             for i in range(len(list_pictures)-1):
                 if len(list_pictures[i]) == 1:
                     self.service.create_task_page(
-                        self.report, "Задание №" + str(i+1), list_pictures[i][0])
+                        self.report, "ЗАДАНИЕ №" + str(i+1), list_pictures[i][0])
 
                 else:
                     for j in range(len(list_pictures[i])):
                         self.service.create_task_page(
-                            self.report, "Задание №" + str(i+1) + " (отделение " + str(j+1) + ")", list_pictures[i][j])
+                            self.report, "ЗАДАНИЕ №" + str(i+1) + " (ОТДЕЛЕНИЕ " + str(j+1) + ")", list_pictures[i][j])
 
             self.service.create_task_page(
-                self.report, "Гистограмма", list_pictures[6][0], 'H')
+                self.report, "ГИСТОГРАММА", list_pictures[6][0], 'H')
 
             name_report = self.text_information_student + '.pdf'
-            path_report = path_folder + name_report
+            # path_report = path_folder + name_report
             save_time_path = self.folder_source + name_report
 
-            self.report.output(path_report)
+            # self.report.output(path_report)
             self.report.output(save_time_path)
 
             self.pdf_is_maked = True
             # #показ отчета студенту
             # if is_show:
             #     self.service.pdf_show(save_time_path)
-            print(save_time_path)
             self.encrypt(save_time_path)
         self.show_current(loading)
 
@@ -101,35 +100,38 @@ class ReportController():
         # распоковка отчета
         try:
             self.service.pdf_decry(path)
+            print('[INFO] DECRY PDF ----> OK')
         except:
-            print("Ошибка обработки файла " + path)
+            print(f'''[WARN] DECRY PDF ----> FALL''')
 
         try:
             self.service.pdf_show(path)
+            print('[INFO] SHOW PDF ----> OK')
         except:
-            print("Ошибка просмотра")
+            print(f'''[WARN] SHOW PDF ----> FALL''')
 
         # запоковка отчета
         try:
             self.service.pdf_encry(path)
+            print('[INFO] ENCRY PDF ----> OK')
         except:
-            print("Ошибка обработки файла " + path)
+            print(f'''[WARN] ENCRY PDF ----> FALL''')
 
     def save_report(self, path_to_save):
         try:
             self.service.pdf_save(self.folder_source, path_to_save)
+            print('[INFO] SAVE PDF ----> OK')
         except Exception as e:
-            print(e)
-            print("Проблема с сохранением файла!")
+            print(f'''[WARN] ENCRY PDF ----> FALL''')
 
     def encrypt(self, path):
         try:
             self.service.pdf_encry(path)
-        except:
-            print("Ошибка обработки файла " + path)
+        except Exception as e:
+            print(f'''ENCRY ERROR: {e}''')
 
     def decrypt(self, path):
         try:
             self.service.pdf_decry(path)
-        except:
-            print("Ошибка обработки файла " + path)
+        except Exception as e:
+            print(f'''DECRY ERROR: {e}''')

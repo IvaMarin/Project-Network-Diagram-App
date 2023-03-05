@@ -41,9 +41,9 @@ class statusTask():
 
 class Properties():
     def __init__(self, MainWindow):
-        self.start_time = time.time_ns() # время начала работы программы в наносекундах
-        self.end_time = None # время завершения последнего задания в наносекундах
-        self.elapsed_time = None # время прошедшее с начала работы программы до завершения последнего задания в наносекундах
+        # self.start_time = time.time_ns() # время начала работы программы в наносекундах
+        # self.end_time = None # время завершения последнего задания в наносекундах
+        # self.elapsed_time = None # время прошедшее с начала работы программы до завершения последнего задания в наносекундах
 
         # свойства, использующиеся в разных заданиях
         self.variant = MainWindow.numINGroup
@@ -263,12 +263,14 @@ class Properties():
         if subtask == 0:
             try:
                 os.remove(f'answer_of_student/states_of_graphs_{task}/state_{self.variant}.pickle')
+                print(f'[INFO] DELETE ----> answer_of_student/states_of_graphs_{task}/state_{self.variant}.pickle')
             except:
-                print(f'answer_of_student/states_of_graphs_{task}/state_{self.variant}.pickle' + 'not found!')
+                print(f'[WARN] DELETE ----> answer_of_student/states_of_graphs_{task}/state_{self.variant}.pickle' + 'not found!')
         else:
             try:
                 os.remove(f'answer_of_student/states_of_graphs_{task}/state_{self.variant}_task_{subtask}.pickle')
+                print(f'[INFO] DELETE ----> answer_of_student/states_of_graphs_{task}/state_{self.variant}_task_{subtask}.pickle')
             except:
-                print(f'answer_of_student/states_of_graphs_{task}/state_{self.variant}_task_{subtask}.pickle' + 'not found!')
+                print(f'[WARN] DELETE ----> answer_of_student/states_of_graphs_{task}/state_{self.variant}_task_{subtask}.pickle' + 'not found!')
 
 ####################################################################################################################### 

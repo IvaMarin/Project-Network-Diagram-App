@@ -15,7 +15,7 @@ class TableService():
             self.dataBaseManager.createVariant(data)
             print(f'''[INFO] SQLite -----> CREATE: запись {data} создана.''') 
         except Exception as e:
-            print(f'''[WARR] SQLite -----> CREATE: не удалось создать запись.\n
+            print(f'''[WARN] SQLite -----> CREATE: не удалось создать запись.\n
                 (Ошибка: {e})''')   
     # чтение записи из табицы вариантов
     def readVariant(self, variant):
@@ -25,7 +25,7 @@ class TableService():
             print(f'''[INFO] SQLite -----> READ: запись {data} прочитана.''') 
             return dto
         except Exception as e:
-            print(f'''[WARR] SQLite -----> READ: не удалось прочитать запись. Вариант:{variant}.\n
+            print(f'''[WARN] SQLite -----> READ: не удалось прочитать запись. Вариант:{variant}.\n
                 (Ошибка: {e})''') 
         
     # обновление варианта
@@ -36,7 +36,7 @@ class TableService():
             self.dataBaseManager.updateVariant(variant, data)
             print(f'''[INFO] SQLite -----> UPDATE: запись {data} обновлена.''') 
         except Exception as e:
-            print(f'''[WARR] SQLite -----> UPDATE: не удалось обновить запись. Вариант:{variant}.\n
+            print(f'''[WARN] SQLite -----> UPDATE: не удалось обновить запись. Вариант:{variant}.\n
                 (Ошибка: {e})''') 
     
     # удаление записи из табицы вариантов
@@ -45,17 +45,16 @@ class TableService():
             self.dataBaseManager.deleteVariant(variant)
             print(f'''[INFO] SQLite -----> DELETE: запись {variant} удалена.''') 
         except Exception as e:
-            print(f'''[WARR] SQLite -----> DELETE: не удалось удалить запись. Вариант:{variant}.\n
+            print(f'''[WARN] SQLite -----> DELETE: не удалось удалить запись. Вариант:{variant}.\n
                 (Ошибка: {e})''') 
             
     # чтение всех записей вариантов         
     def readAll(self):
         try:
             data = self.dataBaseManager.readAll()
-            print(data)
             print(f'''[INFO] SQLite -----> READ ALL: записи успешно прочитаны.''') 
         except Exception as e:
-            print(f'''[WARR] SQLite -----> READ ALL: не удалось прочитать записи.\n
+            print(f'''[WARN] SQLite -----> READ ALL: не удалось прочитать записи.\n
                 (Ошибка: {e})''') 
     
     # удаление всех записей вариантов 
@@ -64,7 +63,7 @@ class TableService():
             self.dataBaseManager.deleteAll()
             print(f'''[INFO] SQLite -----> DELETE ALL: записи успешно удалены.''') 
         except Exception as e:
-            print(f'''[WARR] SQLite -----> DELETE ALL: не удалось удалить записи.\n
+            print(f'''[WARN] SQLite -----> DELETE ALL: не удалось удалить записи.\n
                 (Ошибка: {e})''') 
             
     def getAllNumberOfVariant(self):
@@ -77,7 +76,7 @@ class TableService():
                     Записи: {listData}''') 
             return listData
         except Exception as e:
-            print(f'''[WARR] SQLite -----> GET ALL VARIANT: записи номеров вариантов не удалось получить.\n
+            print(f'''[WARN] SQLite -----> GET ALL VARIANT: записи номеров вариантов не удалось получить.\n
                 (Ошибка: {e})''') 
 
 

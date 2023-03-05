@@ -44,9 +44,9 @@ class VariantController():
 
         try:
             os.remove(response)
-            print(f'[INFO]  FILE {response} DELETED')
+            print(f'[INFO] FILE {response} DELETED')
         except:
-            print(f'[WARR]  TROUBLE WITH FILE {response}')
+            print(f'[WARN] TROUBLE WITH FILE {response}')
         
         return dto
     
@@ -57,7 +57,7 @@ class VariantController():
         f = open(fileName,'a+')
         try:
             # работа с файлом
-            print('[INFO]  OPEN FILE')
+            print('[INFO] OPEN FILE')
             # собираем матрицу данных
             listData = []
             maxLength = 0
@@ -84,10 +84,10 @@ class VariantController():
 
             for row in listCollInRow:
                 f.write(' '.join([a for a in row]) + '\n')
-            print('[INFO]  SAVE TABLE IN FILE ----> Успешно')
+            print('[INFO] SAVE TABLE IN FILE ----> Успешно')
         finally:
             f.close()
-            print('[INFO]  CLOSE FILE')
+            print('[INFO] CLOSE FILE')
         return fileName
 
     def createVariant(self, response):

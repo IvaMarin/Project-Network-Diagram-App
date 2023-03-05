@@ -37,7 +37,6 @@ class Viewer():
 
         # конвертируем страницы пдф в список изображений
         loading.emit(70)  # Процесс загрузки 70%
-        print("!!!!!!!!" + path)
 
         pages = convert_from_path(path)
         # фотки пдф страниц
