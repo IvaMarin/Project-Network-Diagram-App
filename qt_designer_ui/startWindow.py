@@ -19,6 +19,9 @@ class Ui_startWin(object):
         font.setFamily("Times New Roman")
         font.setPointSize(20)
         startWin.setFont(font)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("resources/login_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        startWin.setWindowIcon(icon)
         startWin.setAutoFillBackground(False)
         startWin.setStyleSheet("\n"
 "#startWin{background-image: url(:/newPrefix/spaceBackground.png);}")
@@ -167,6 +170,7 @@ class Ui_startWin(object):
         self.labelNumGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-weight:600; color:#e7e7e7;\">ВАРИАНТ</span></p></body></html>"))
         self.btnSignLab.setText(_translate("startWin", "Начать работу"))
         self.btnDeveloperMode.setText(_translate("startWin", "Режим разработчика"))
-import qt_designer_ui.resources.backGround_rc
-import qt_designer_ui.resources.labelVKAMoj_rc
-# import qt_designer_ui.resources.spaceBackground_rc
+from qt_designer_ui.resources import backGround_rc
+from qt_designer_ui.resources import labelMAI_rc
+from qt_designer_ui.resources import labelVKAMoj_rc
+from qt_designer_ui.resources import spaceBackground_rc

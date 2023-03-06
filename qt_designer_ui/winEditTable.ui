@@ -18,6 +18,10 @@
   <property name="windowTitle">
    <string>Редактор таблиц вариантов</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>resources/login_icon.png</normaloff>resources/login_icon.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
    <property name="spacing">
     <number>10</number>

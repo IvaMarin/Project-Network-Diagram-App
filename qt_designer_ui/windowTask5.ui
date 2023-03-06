@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>resources/logo_mca-min.png</normaloff>resources/logo_mca-min.png</iconset>
+    <normaloff>resources/login_icon.png</normaloff>resources/login_icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -33,7 +33,7 @@
      <x>0</x>
      <y>0</y>
      <width>1601</width>
-     <height>22</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="styleSheet">

@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>resources/logo_mca-min.png</normaloff>resources/logo_mca-min.png</iconset>
+    <normaloff>resources/login_icon.png</normaloff>resources/login_icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">#centralwidget{background-color: #d5fffe;}</string>
@@ -426,7 +426,7 @@
      <x>0</x>
      <y>0</y>
      <width>1558</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
