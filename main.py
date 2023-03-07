@@ -22,10 +22,6 @@ from encrypt_decrypt import encrypt_decrypt
 import basedir_paths as bp
 from report import report_controller
 
-# import qt_designer_ui.resources.backGround_rc
-# import qt_designer_ui.resources.labelMAI_rc
-# import qt_designer_ui.resources.spaceBackground_rc
-
 ############# Кастомные файлы для проги ######################
 ###############     UI     ###################################
 from qt_designer_ui.MainMenu import Ui_MainMenu
@@ -54,6 +50,7 @@ from task_five_add_sequences import task5AddSeq
 import graph_model
 import properties
 from threaded_report_creation import ThreadedReportCreation
+from threaded_report_watch import ThreadedReportWatch
 
 #######################################################
 
@@ -248,7 +245,6 @@ class Window1(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask1()
-        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
 
@@ -303,38 +299,45 @@ class Window1(QMainWindow):
             self.ui.actionbtnRemoveNode.setChecked(False)
 
     def switchTeacherMode(self, flag):
-        if (flag):
-            # print("Режим препода")
-            properties.save_graph_for_student(
-                graph1, 1)  # сохраняем граф в файл
-            graph = properties.get_graph_for_teacher(
-                1)  # берем граф из сохранения
-            self.DisplayObj.graph = graph
-            self.DisplayObj.update()
+        try:
+            if (flag):
+                # print("Режим препода")
+                properties.save_graph_for_student(
+                    graph1, 1)  # сохраняем граф в файл
+                graph = properties.get_graph_for_teacher(
+                    1)  # берем граф из сохранения
+                self.DisplayObj.graph = graph
+                self.DisplayObj.update()
 
-            self.ui.actionbtnCheck.setEnabled(False)
-            self.ui.actionbtnAddNode.setEnabled(False)
-            self.ui.actionbtnConnectNode.setEnabled(False)
-            self.ui.actionbtnRemoveNodeConnection.setEnabled(False)
-            self.ui.actionbtnMoveNode.setEnabled(False)
-            self.ui.actionbtnRemoveNode.setEnabled(False)
-        else:
-            # print("Режим студента")
-            # graph_student = properties.get_graph_for_student(1)
-            if (statusTask.get_verification_passed_pretasks(2)):
-                save_graph_for_student_1 = properties.get_graph_for_student(1)
-                self.DisplayObj.graph = save_graph_for_student_1
+                self.ui.actionbtnCheck.setEnabled(False)
+                self.ui.actionbtnAddNode.setEnabled(False)
+                self.ui.actionbtnConnectNode.setEnabled(False)
+                self.ui.actionbtnRemoveNodeConnection.setEnabled(False)
+                self.ui.actionbtnMoveNode.setEnabled(False)
+                self.ui.actionbtnRemoveNode.setEnabled(False)
             else:
-                self.DisplayObj.graph = graph1
-            # подгружаем граф из нашего общего графа  // здесь поправить нужно
-            self.DisplayObj.update()
+                # print("Режим студента")
+                # graph_student = properties.get_graph_for_student(1)
+                if (statusTask.get_verification_passed_pretasks(2)):
+                    save_graph_for_student_1 = properties.get_graph_for_student(1)
+                    self.DisplayObj.graph = save_graph_for_student_1
+                else:
+                    self.DisplayObj.graph = graph1
+                # подгружаем граф из нашего общего графа  // здесь поправить нужно
+                self.DisplayObj.update()
 
-            self.ui.actionbtnCheck.setEnabled(True)
-            self.ui.actionbtnAddNode.setEnabled(True)
-            self.ui.actionbtnConnectNode.setEnabled(True)
-            self.ui.actionbtnRemoveNodeConnection.setEnabled(True)
-            self.ui.actionbtnMoveNode.setEnabled(True)
-            self.ui.actionbtnRemoveNode.setEnabled(True)
+                self.ui.actionbtnCheck.setEnabled(True)
+                self.ui.actionbtnAddNode.setEnabled(True)
+                self.ui.actionbtnConnectNode.setEnabled(True)
+                self.ui.actionbtnRemoveNodeConnection.setEnabled(True)
+                self.ui.actionbtnMoveNode.setEnabled(True)
+                self.ui.actionbtnRemoveNode.setEnabled(True)
+        except:
+                warning = QMessageBox()
+                warning.setWindowTitle("Предупреждение")
+                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setDefaultButton(QMessageBox.Ok)
+                warning = warning.exec()
 
 
 # ////////////////////////////////  КЛАСС ОКНА ВТОРОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -368,9 +371,6 @@ class Window2(QMainWindow):
         self.layout2.addWidget(self.table2)
         self.widget2 = QWidget()
         self.widget2.setLayout(self.layout2)
-        
-
-        
 
         self.layout.addWidget(self.widget2)
         # Задаём растяжение объектов в компоновщике
@@ -585,7 +585,6 @@ class Window2(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask2()
-        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
 
@@ -605,45 +604,52 @@ class Window2(QMainWindow):
             self.ui.actionbtnCritPath.setChecked(False)
 
     def switchTeacherMode(self, flag):
-        if (flag):
-            # properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-            n = len(self.DisplayObj.QLineEdits)
-            for i in range(n):
-                for j in range(n):
-                    if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
-                        try:
-                            self.DisplayObj.QLineEdits[i][j].setVisible(False)
-                        except ValueError:
-                            pass
+        try:
+            if (flag):
+                # properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+                n = len(self.DisplayObj.QLineEdits)
+                for i in range(n):
+                    for j in range(n):
+                        if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
+                            try:
+                                self.DisplayObj.QLineEdits[i][j].setVisible(False)
+                            except ValueError:
+                                pass
 
-            graph = properties.get_graph_for_teacher(
-                2)  # берем граф из сохранения
-            self.DisplayObj.graph = graph
-            self.DisplayObj.update()
+                graph = properties.get_graph_for_teacher(
+                    2)  # берем граф из сохранения
+                self.DisplayObj.graph = graph
+                self.DisplayObj.update()
 
-            self.ui.actionbtnCheck.setEnabled(False)
-            self.ui.actionbtnCritPath.setEnabled(False)
-        else:
-            # graph_student = properties.get_graph_for_student(1)
-            n = len(self.DisplayObj.QLineEdits)
-            for i in range(n):
-                for j in range(n):
-                    if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
-                        try:
-                            self.DisplayObj.QLineEdits[i][j].setVisible(True)
-                        except ValueError:
-                            pass
-
-            if (statusTask.get_verification_passed_pretasks(3)):
-                save_graph_for_student_1 = properties.get_graph_for_student(2)
-                self.DisplayObj.graph = save_graph_for_student_1
+                self.ui.actionbtnCheck.setEnabled(False)
+                self.ui.actionbtnCritPath.setEnabled(False)
             else:
-                self.DisplayObj.graph = graph1
-            # self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
-            self.DisplayObj.update()
+                # graph_student = properties.get_graph_for_student(1)
+                n = len(self.DisplayObj.QLineEdits)
+                for i in range(n):
+                    for j in range(n):
+                        if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
+                            try:
+                                self.DisplayObj.QLineEdits[i][j].setVisible(True)
+                            except ValueError:
+                                pass
 
-            self.ui.actionbtnCheck.setEnabled(True)
-            self.ui.actionbtnCritPath.setEnabled(True)
+                if (statusTask.get_verification_passed_pretasks(3)):
+                    save_graph_for_student_1 = properties.get_graph_for_student(2)
+                    self.DisplayObj.graph = save_graph_for_student_1
+                else:
+                    self.DisplayObj.graph = graph1
+                # self.DisplayObj.graph = graph1 # подгружаем граф из нашего общего графа
+                self.DisplayObj.update()
+
+                self.ui.actionbtnCheck.setEnabled(True)
+                self.ui.actionbtnCritPath.setEnabled(True)
+        except:
+                warning = QMessageBox()
+                warning.setWindowTitle("Предупреждение")
+                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setDefaultButton(QMessageBox.Ok)
+                warning = warning.exec()
 
     def help(self):
         if self.table.isHidden():
@@ -782,7 +788,6 @@ class Window3(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask3()
-        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
 
@@ -830,28 +835,35 @@ class Window3(QMainWindow):
             self.ui.actionbtnMoveNode.setChecked(False)
 
     def switchTeacherMode(self, flag):
-        if (flag):
-            # properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-            graph = properties.get_graph_for_teacher(
-                3)  # берем граф из сохранения
-            self.DisplayObj.graph = graph
-            self.DisplayObj.update()
+        try:
+            if (flag):
+                # properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+                graph = properties.get_graph_for_teacher(
+                    3)  # берем граф из сохранения
+                self.DisplayObj.graph = graph
+                self.DisplayObj.update()
 
-            self.ui.actionbtnCheck.setEnabled(False)
-            self.ui.actionbtnMoveNode.setEnabled(False)
-            self.ui.actionbtnDottedConnectNode.setEnabled(False)
-        else:
-            # graph_student = properties.get_graph_for_student(1)
-            if (statusTask.get_verification_passed_pretasks(4)):
-                save_graph_for_student_1 = properties.get_graph_for_student(3)
-                self.DisplayObj.graph = save_graph_for_student_1
+                self.ui.actionbtnCheck.setEnabled(False)
+                self.ui.actionbtnMoveNode.setEnabled(False)
+                self.ui.actionbtnDottedConnectNode.setEnabled(False)
             else:
-                self.DisplayObj.graph = graph1
-            self.DisplayObj.update()
+                # graph_student = properties.get_graph_for_student(1)
+                if (statusTask.get_verification_passed_pretasks(4)):
+                    save_graph_for_student_1 = properties.get_graph_for_student(3)
+                    self.DisplayObj.graph = save_graph_for_student_1
+                else:
+                    self.DisplayObj.graph = graph1
+                self.DisplayObj.update()
 
-            self.ui.actionbtnCheck.setEnabled(True)
-            self.ui.actionbtnMoveNode.setEnabled(True)
-            self.ui.actionbtnDottedConnectNode.setEnabled(True)
+                self.ui.actionbtnCheck.setEnabled(True)
+                self.ui.actionbtnMoveNode.setEnabled(True)
+                self.ui.actionbtnDottedConnectNode.setEnabled(True)
+        except:
+            warning = QMessageBox()
+            warning.setWindowTitle("Предупреждение")
+            warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+            warning.setDefaultButton(QMessageBox.Ok)
+            warning = warning.exec()
 
     def help(self):
         if self.table.isHidden():
@@ -983,7 +995,6 @@ class Window4(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask4()
-        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
 
@@ -1027,28 +1038,35 @@ class Window4(QMainWindow):
             self.ui.actionbtnMoveNode.setChecked(False)
 
     def switchTeacherMode(self, flag):
-        if (flag):
-            #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-            graph = properties.get_graph_for_teacher(4) # берем граф из сохранения
-            self.DisplayObj.graph = graph
-            self.DisplayObj.update()
+        try:
+            if (flag):
+                #properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+                graph = properties.get_graph_for_teacher(4) # берем граф из сохранения
+                self.DisplayObj.graph = graph
+                self.DisplayObj.update()
 
-            self.ui.actionbtnCheck.setEnabled(False)
-            self.ui.actionbtnMoveNode.setEnabled(False)
-            self.ui.actionbtnDottedConnectNode.setEnabled(False)
-        else:
-            # graph_student = properties.get_graph_for_student(1)
-            if (statusTask.get_verification_passed_pretasks(5)):
-                save_graph_for_student_1 = properties.get_graph_for_student(4)
-                self.DisplayObj.graph = save_graph_for_student_1
+                self.ui.actionbtnCheck.setEnabled(False)
+                self.ui.actionbtnMoveNode.setEnabled(False)
+                self.ui.actionbtnDottedConnectNode.setEnabled(False)
             else:
-                self.DisplayObj.graph = graph1
+                # graph_student = properties.get_graph_for_student(1)
+                if (statusTask.get_verification_passed_pretasks(5)):
+                    save_graph_for_student_1 = properties.get_graph_for_student(4)
+                    self.DisplayObj.graph = save_graph_for_student_1
+                else:
+                    self.DisplayObj.graph = graph1
 
-            self.DisplayObj.update()
+                self.DisplayObj.update()
 
-            self.ui.actionbtnCheck.setEnabled(True)
-            self.ui.actionbtnMoveNode.setEnabled(True)
-            self.ui.actionbtnDottedConnectNode.setEnabled(True)
+                self.ui.actionbtnCheck.setEnabled(True)
+                self.ui.actionbtnMoveNode.setEnabled(True)
+                self.ui.actionbtnDottedConnectNode.setEnabled(True)
+        except:
+                warning = QMessageBox()
+                warning.setWindowTitle("Предупреждение")
+                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setDefaultButton(QMessageBox.Ok)
+                warning = warning.exec()
 
     def help(self):
         if self.table.isHidden():
@@ -1488,7 +1506,6 @@ class Window5(QMainWindow):
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask5()
-        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
 
@@ -1558,47 +1575,54 @@ class Window5(QMainWindow):
             self.ui.actionbtnMoveNode.setChecked(False)
 
     def switchTeacherMode(self, flag, subtask):
-
-        if (flag):
-            # properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-            tmp_graphs = properties.get_graph_for_teacher(
-                5, subtask)  # берем граф из сохранения
-            for i in range(self.squadNum):
-                # подгружаем граф из нашего общего графа
-                self.widgetList[i].graph = tmp_graphs[i]
-                self.widgetList[i].update()
-
-            if subtask == 1:
-                self.ui.actionbtnAddSeq.setEnabled(False)
-                self.ui.actionbtnRemoveSeq.setEnabled(False)
-
-            if subtask == 2:
-                self.ui.actionbtnMoveNode.setEnabled(False)
-                self.ui.actionbtnDottedConnectNode.setEnabled(False)
-
-            self.ui.actionbtnCheck.setEnabled(False)
-            self.ui.actionbtnMoveNode.setEnabled(False)
-        else:
-            # graph_student = properties.get_graph_for_student(1)
-            for i in range(self.squadNum):
-                if (statusTask.get_verification_passed_pretasks(6)):
-                    save_graph_for_student_1 = properties.get_graph_for_student(5, i)
-                    self.DisplayObj.graph = save_graph_for_student_1
-                else:
+        try:
+            if (flag):
+                # properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
+                tmp_graphs = properties.get_graph_for_teacher(
+                    5, subtask)  # берем граф из сохранения
+                
+                for i in range(self.squadNum):
                     # подгружаем граф из нашего общего графа
-                    self.widgetList[i].graph = graph5_ort[i]
-                self.widgetList[i].update()
+                    self.widgetList[i].graph = tmp_graphs[i]
+                    self.widgetList[i].update()
 
-            if subtask == 1:
-                self.ui.actionbtnAddSeq.setEnabled(True)
-                self.ui.actionbtnRemoveSeq.setEnabled(True)
+                if subtask == 1:
+                    self.ui.actionbtnAddSeq.setEnabled(False)
+                    self.ui.actionbtnRemoveSeq.setEnabled(False)
 
-            if subtask == 2:
+                if subtask == 2:
+                    self.ui.actionbtnMoveNode.setEnabled(False)
+                    self.ui.actionbtnDottedConnectNode.setEnabled(False)
+
+                self.ui.actionbtnCheck.setEnabled(False)
+                self.ui.actionbtnMoveNode.setEnabled(False)
+            else:
+                # graph_student = properties.get_graph_for_student(1)
+                for i in range(self.squadNum):
+                    if (statusTask.get_verification_passed_pretasks(6)):
+                        save_graph_for_student_1 = properties.get_graph_for_student(5, i)
+                        self.DisplayObj.graph = save_graph_for_student_1
+                    else:
+                        # подгружаем граф из нашего общего графа
+                        self.widgetList[i].graph = graph5_ort[i]
+                    self.widgetList[i].update()
+
+                if subtask == 1:
+                    self.ui.actionbtnAddSeq.setEnabled(True)
+                    self.ui.actionbtnRemoveSeq.setEnabled(True)
+
+                if subtask == 2:
+                    self.ui.actionbtnMoveNode.setEnabled(True)
+                    self.ui.actionbtnDottedConnectNode.setEnabled(True)
+
+                self.ui.actionbtnCheck.setEnabled(True)
                 self.ui.actionbtnMoveNode.setEnabled(True)
-                self.ui.actionbtnDottedConnectNode.setEnabled(True)
-
-            self.ui.actionbtnCheck.setEnabled(True)
-            self.ui.actionbtnMoveNode.setEnabled(True)
+        except:
+                warning = QMessageBox()
+                warning.setWindowTitle("Предупреждение")
+                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setDefaultButton(QMessageBox.Ok)
+                warning = warning.exec()
 
 
 # ////////////////////////////////  КЛАСС ОКНА ШЕСТОГО ЗАДАНИЯ  ////////////////////////////////////
@@ -1790,12 +1814,11 @@ class Window6(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
         self.ui.actionbtnCheck.triggered.connect(self.finish)
-        self.ui.actionbtnInfo.triggered.connect(self.help)
+        # self.ui.actionbtnInfo.triggered.connect(self.help)
 
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask6()
-        dialogTask.setWindowFlags(Qt.Dialog | Qt.WindowCloseButtonHint)
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
         self.close()
@@ -1864,7 +1887,6 @@ class WindowMenu(QMainWindow):
 
         # стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow = winLogin(self)
-        self.startWindow.showMaximized()
         self.startWindow.exec_()  # его запуск в отдельном потоке
         # self.hide()
         # диалоговое окно для подписти отчета (имя фамилия номер группы)
@@ -2022,7 +2044,7 @@ class WindowMenu(QMainWindow):
         # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnReportSign.clicked.connect(self.winSigReport.exec)
         # self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
-        self.ui.previewReport.clicked.connect(lambda: self.watch_report())
+        self.ui.previewReport.clicked.connect(lambda: self.watchReport())
         self.ui.btnPrint.clicked.connect(lambda: self.print_report())
         self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
 
@@ -2072,21 +2094,12 @@ class WindowMenu(QMainWindow):
         self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
         self.numGroup = "1"  # данные о студенте проинициализированы
         self.numINGroup = "0"  # данные о студенте проинициализированы
+    
+    def updateProgressDialog(self, value):
+        self.progressDialog.setValue(value)
 
-    def watch_report(self):
-        self.msgCheck = QMessageBox()
-        self.msgCheck.setWindowTitle("Предупреждение")
-        try:
-            encrypt.extractAllPdfFile()
-        except Exception as e:
-            self.msgCheck.setText(str(e))
-            self.msgCheck.show()
-
-        self.msg = QMessageBox()
-        self.msg.setWindowTitle("Предупреждение")
-        self.msg.setText("Ошибка открытия отчёта")
-        self.msg.setIcon(QMessageBox.Warning)
-        self.msg.setStandardButtons(QMessageBox.Ok)
+    def watchReport(self):
+        report = 'text'
         try:
             report = (
                 QtWidgets.QFileDialog.getOpenFileName(
@@ -2096,11 +2109,34 @@ class WindowMenu(QMainWindow):
             if report == "":
                 return
 
-            print(report)
+            print(f'[INFO] SELECTED FILE ----> {report}')
 
             self.report_controller.whatch_report(report)
-        except Exception:
-            self.msg.show()
+        except Exception as e:
+            print(f'''[INFO] SELECTED FILE ----> FALL
+            ERROR: {e}''')
+
+        self.progressDialog = QProgressDialog(
+            "Формирование отчета...", "Cancel", 0, 100)
+        self.progressDialog.setWindowTitle("Загрузка")
+        self.progressDialog.setCancelButton(None)
+        self.progressDialog.setAutoClose(True)
+        self.progressDialog.setWindowModality(Qt.WindowModal)
+        self.progressDialog.setMinimumDuration(0)
+        
+
+        self.threadedReportWatch = ThreadedReportWatch(
+            mainWindow=MainWindow, encrypt=encrypt, report=report)
+        self.threadedReportWatch.countChanged.connect(
+            self.updateProgressDialog)
+        self.threadedReportWatch.start()
+
+    def runWatchReport(self, report, loading=None):
+        loading.emit(10)
+        try:
+            self.report_controller.whatch_report(report, loading)
+        except:
+            pass
 
     # def print_report(self):
     #     encrypt.extractAllPdfFile()
@@ -2215,6 +2251,11 @@ class WindowMenu(QMainWindow):
             self.report_controller.save_report(path_for_save)
 
         else:
+            warning = QMessageBox()
+            warning.setWindowTitle("Предупреждение")
+            warning.setText("Для начала необходимо сформировать отчет.")
+            warning.setDefaultButton(QMessageBox.Ok)
+            warning = warning.exec()
             print('[WARN] NO REPORT ----> create report')
 
     def openTask(self, numTask):
@@ -2361,12 +2402,7 @@ def close_app(event):
     call = close.exec()
 
     if call == QMessageBox.Ok:
-        properties.clear_answer(1)
-        properties.clear_answer(2)
-        properties.clear_answer(3)
-        properties.clear_answer(4)
-        for i in range(1, squadNum+1):
-            properties.clear_answer(5, i)
+        properties.clear_answer_universal(MainWindow.numINGroup)
         clear_data()
         print('[INFO] CLOSE APP.')
         event.accept()

@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>РЕГИСТРАЦИЯ</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>resources/login_icon.png</normaloff>resources/login_icon.png</iconset>
+  </property>
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>

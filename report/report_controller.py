@@ -96,7 +96,7 @@ class ReportController():
         self.service.pdf_show(save_time_path, loading)
         self.encrypt(save_time_path)
 
-    def whatch_report(self, path):
+    def whatch_report(self, path, loading=None):
         # распоковка отчета
         try:
             self.service.pdf_decry(path)
@@ -105,7 +105,7 @@ class ReportController():
             print(f'''[WARN] DECRY PDF ----> FALL''')
 
         try:
-            self.service.pdf_show(path)
+            self.service.pdf_show(path, loading)
             print('[INFO] SHOW PDF ----> OK')
         except:
             print(f'''[WARN] SHOW PDF ----> FALL''')

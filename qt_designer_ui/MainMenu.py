@@ -20,7 +20,7 @@ class Ui_MainMenu(object):
         font.setPointSize(20)
         MainMenu.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("resources/logo_mca-min.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("resources/login_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainMenu.setWindowIcon(icon)
         MainMenu.setStyleSheet("#centralwidget{background-color: #d5fffe;}")
         self.centralwidget = QtWidgets.QWidget(MainMenu)
@@ -214,7 +214,7 @@ class Ui_MainMenu(object):
         self.verticalLayout.addWidget(self.frame_2)
         MainMenu.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(MainMenu)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1558, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1558, 21))
         self.menuBar.setObjectName("menuBar")
         self.menuHelp = QtWidgets.QMenu(self.menuBar)
         self.menuHelp.setObjectName("menuHelp")
@@ -291,4 +291,4 @@ class Ui_MainMenu(object):
         self.actionDevelopers.setText(_translate("MainMenu", "разработчики"))
         self.actionHelpWithProg.setText(_translate("MainMenu", "справка по работе с программой"))
         self.actionHelpWithTheory.setText(_translate("MainMenu", "справка по теории"))
-import qt_designer_ui.resources.backGround_rc
+from qt_designer_ui.resources import backGround_rc

@@ -6,6 +6,8 @@ import openpyxl
 import os
 import re
 
+from file_service import FileService
+
 from PyQt5 import QtWidgets, QtGui ,QtCore
 from PyQt5.QtCore import QRect
 from PyQt5.QtGui import QIntValidator
@@ -230,6 +232,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         self.ui = Ui_CreatEditTask()  # инициализация ui
         self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
         self.mainMenu = root  # сохраняем нашего родителя
+        self.fileService = FileService()
         self.fileName = ""
 
         sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
@@ -322,8 +325,13 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         # self.fileName = os.path.join("resources", "variants", self.ui.comboBoxVariants.currentText())  # находим путь до файла
 
         self.close()
-        requestFileName = self.variantController.readVariant(variant)
-        self.creatTable.openVariant(requestFileName)
+        try:
+            requestFileName = self.variantController.readVariant(variant)
+            self.creatTable.openVariant(requestFileName)
+            self.fileService.clear_answer_universal(variant, 'answer/')
+        except:
+            pass
+            
         #self.creatTable.openFile(self.fileName) # открываем указанный файл в окне для редактирования вариантов
         self.creatTable.showMaximized()
         self.creatTable.exec_()
@@ -353,6 +361,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
                 # os.remove(self.fileName)
                 self.variantController.deleteVariant(variant)
                 self.ui.comboBoxVariants.removeItem(self.ui.comboBoxVariants.currentIndex())
+                self.fileService.clear_answer_universal(variant, 'answer/')
             else:  # иначе игнорируем
                 return
 
@@ -445,7 +454,6 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
                         tableParametr.append('-')
             tableValues.append(tableParametr)
         
-        print ("tableValues", tableValues)
         return tableValues
 
     # def prepareDataFromList(self, listData):

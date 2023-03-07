@@ -184,7 +184,7 @@ if __name__ == "__main__":
 
     # encry_decry.delImaFromZip()
 
-    # encry_decry.encryptAll()
+    encry_decry.encryptAll()
 
     # input()
 

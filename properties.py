@@ -1,4 +1,5 @@
 import os
+import re
 import pickle
 import time
 import numpy as np
@@ -190,7 +191,6 @@ class Properties():
             #self.tableNumSquad[-1].appclear_answerend(tmpItem)
             #print("item", row, self.MainWindow.ui.tableVar.columnCount() - 1, " ", self.tableNumSquad[-1][-1])
         
-        print(" ")
         for i in self.tableNumSquad:
             print(i)
 
@@ -256,7 +256,7 @@ class Properties():
         return graph
 #######################################################################################################################
 
-####################____ФУНКЦИИ_ДЛЯ_ОЧИСТКИ_СОХРАНЕНИЯ__####################################################
+####################____ФУНКЦИИ_ДЛЯ_ОЧИСТКИ_СОХРАНЕНИЯ_СТУДЕНТА____####################################################
 
     def clear_answer(self, task, subtask = 0):
 
@@ -273,4 +273,42 @@ class Properties():
             except:
                 print(f'[WARN] DELETE ----> answer_of_student/states_of_graphs_{task}/state_{self.variant}_task_{subtask}.pickle' + 'not found!')
 
+####################################################################################################################### 
+
+
+####################____ФУНКЦИИ_ДЛЯ_ОЧИСТКИ_СОХРАНЕНИЯ_ПРЕПОДА___####################################################
+
+    def clear_answer_teacher(self, task, subtask = 0):
+
+        if subtask == 0:
+            try:
+                os.remove(f'answer/states_of_graphs_{task}/state_{self.variant}.pickle')
+                print(f'[INFO] DELETE ----> answer/states_of_graphs_{task}/state_{self.variant}.pickle')
+            except:
+                print(f'[WARN] DELETE ----> answer/states_of_graphs_{task}/state_{self.variant}.pickle' + 'not found!')
+        else:
+            try:
+                os.remove(f'answer/states_of_graphs_{task}/state_{self.variant}_task_{subtask}.pickle')
+                print(f'[INFO] DELETE ----> answer/states_of_graphs_{task}/state_{self.variant}_task_{subtask}.pickle')
+            except:
+                print(f'[WARN] DELETE ----> answer/states_of_graphs_{task}/state_{self.variant}_task_{subtask}.pickle' + 'not found!')
+
+####################################################################################################################### 
+
+####################____ФУНКЦИИ_ДЛЯ_ОЧИСТКИ_СОХРАНЕНИЯ_СТУДЕНТА____####################################################
+    
+    def clear_answer_universal(self, variant, pathToDir = 'answer_of_student/'):
+        for i in range(1, 6):
+            path = pathToDir + f'states_of_graphs_{i}/'
+            pattern = f'state_{variant}'
+            self.purge(path, pattern)
+        
+    def purge(self, dir, pattern):
+        try:
+            for f in os.listdir(dir):
+                if re.search(pattern, f):
+                    print(f'[INFO] DELETE FILE ----> {os.path.join(dir, f)}')
+                    os.remove(os.path.join(dir, f))
+        except:
+            pass
 ####################################################################################################################### 

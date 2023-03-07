@@ -4,10 +4,20 @@ import numpy as np
 from processing_tables.variant_controller import VariantController
 import os
 
-pathToEncry = os.path.abspath(os.curdir) + '/report_answer'
-files = os.listdir(pathToEncry)
-photoFiles = [file for file in files if ".txt" in file]
-print(photoFiles)
+
+def purge(dir, pattern):
+    for f in os.listdir(dir):
+        if re.search(pattern, f):
+            print(os.path.join(dir, f))
+            os.remove(os.path.join(dir, f))
+
+purge('test_dir/1/', f'state_{0}')
+
+
+# pathToEncry = os.path.abspath(os.curdir) + '/report_answer'
+# files = os.listdir(pathToEncry)
+# photoFiles = [file for file in files if ".txt" in file]
+# print(photoFiles)
 
 # vc = VariantController()
 
