@@ -2402,12 +2402,7 @@ def close_app(event):
     call = close.exec()
 
     if call == QMessageBox.Ok:
-        properties.clear_answer(1)
-        properties.clear_answer(2)
-        properties.clear_answer(3)
-        properties.clear_answer(4)
-        for i in range(1, squadNum+1):
-            properties.clear_answer(5, i)
+        properties.clear_answer_universal(MainWindow.numINGroup)
         clear_data()
         print('[INFO] CLOSE APP.')
         event.accept()
