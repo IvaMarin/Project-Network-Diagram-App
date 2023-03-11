@@ -91,7 +91,7 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
 
             #self.mainMenu.creatReport() # перезапись в pdf данных студента
 
-            self.mainMenu.testGen()
+             
 
             self.close()
 
@@ -257,6 +257,9 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         self.creatTable = creatTable(self)  # создаем окно с таблицей для редактирования вариантов
         #fileName = self.ui.comboBoxVariants
 
+        # quit = QAction("Quit", self)  # событие выхода
+        # quit.triggered.connect(self.closeEvent)  # если событие выхода срабатывает то вызывается closeEvent
+
         self._connectAction()  # ф-ия связи с эл-тами окна
 
     def _connectAction(self):
@@ -325,6 +328,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         # self.fileName = os.path.join("resources", "variants", self.ui.comboBoxVariants.currentText())  # находим путь до файла
 
         self.close()
+        
         try:
             requestFileName = self.variantController.readVariant(variant)
             self.creatTable.openVariant(requestFileName)
@@ -372,6 +376,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             warning.setText("Закройте выбранный файл.")  #
             warning.setDefaultButton(QMessageBox.Ok)  #
             warning = warning.exec()  #
+
 
         
 

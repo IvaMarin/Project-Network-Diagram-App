@@ -15,6 +15,7 @@ class Ui_tableTask1(object):
     def setupUi(self, tableTask1):
         tableTask1.setObjectName("tableTask1")
         tableTask1.resize(205, 601)
+        tableTask1.move(700, 200)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../resources/iconePack/pngwing.com.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         tableTask1.setWindowIcon(icon)

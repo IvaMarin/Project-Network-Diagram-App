@@ -81,6 +81,42 @@ class Properties():
         self.max_sequences_amount = self.GetMaxSequencesAmount(self.number_of_squads) # максимальное число последовательностей по отделениям
         self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
         self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
+
+    def update(self):
+        self.variant = self.MainWindow.numINGroup
+        self.teacherMode = False
+        self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
+        self.key_path = "" # путь до ключа преподавателя 
+        self.enter_teacher_mode = [False, False, False, False, False, False]
+
+        # свойства первого окна
+        self.radius_points = 30 # радиус вершин по всем заданиям (кроме второго)
+        self.step_grid = 100 # шаг сетки по X
+        self.step_gridY = 75 # шаг сетки по Y
+        self.correct_w = self.MainWindow.getCorrectWeights()
+        self.n = len(self.correct_w)
+        self.tp = find_t_p(self.correct_w, self.n)
+        self.tn = find_t_n(self.correct_w, self.tp, self.n)
+        self.max_possible_time = self.tp[self.n-1] # максимальное время (для сетки)
+
+        #свойства второго окна
+        self.scaler = 3 # параметр увеличения радиуса для второго задания
+        self.radius_points_task_2 = self.radius_points * self.scaler # радиус во втором задании
+
+        #свойства третьего окна
+        self.state_of_graph_3 = None
+
+        #свойства четвертого окна
+        self.state_of_graph_4 = None
+
+        #свойства пятого окна
+        self.state_of_graph_5 = None
+        self.number_of_squads = self.get_number_of_squads() # количество отделений
+        self.correctSquadsPeopleNumber = self.getCorrectSquadsPeopleNumber()
+        self.max_sequences_amount = self.GetMaxSequencesAmount(self.number_of_squads) # максимальное число последовательностей по отделениям
+        self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
+        self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
+
     
     def GetMaxSequencesAmount(self, number_of_squads):
         max_sequences_amount = 0

@@ -2,6 +2,16 @@ from PyPDF2 import PdfWriter, PdfReader
 from report import pdf_viewer as pdf_viewer
 
 import os
+import sys
+
+from PIL.ImageQt import ImageQt
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPainter
+from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
+from PyQt5.QtWidgets import QFileDialog
+import tempfile
+
+from pdf2image import convert_from_path
 
 
 class ReportService():
@@ -96,3 +106,25 @@ class ReportService():
             print("[INFO] DIR save " + path_to_save)
         except Exception as e:
             print(f'''SAVE ERROR: {e}''')
+    
+    def pdf_print(self, filePath):
+        file_extension = os.path.splitext(filePath)[1]
+
+        if file_extension == ".pdf":
+            printer = QPrinter(QPrinter.HighResolution)
+            dialog = QPrintDialog(printer, self)
+            if dialog.exec_() == QPrintDialog.Accepted:
+                with tempfile.TemporaryDirectory() as path:
+                    images = convert_from_path(filePath, dpi=300, output_folder=path)
+                    painter = QPainter()
+                    painter.begin(printer)
+                    for i, image in enumerate(images):
+                        if i > 0:
+                            printer.newPage()
+                        rect = painter.viewport()
+                        qtImage = ImageQt(image)
+                        qtImageScaled = qtImage.scaled(rect.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                        painter.drawImage(rect, qtImageScaled)
+                    painter.end()
+        else:
+            pass

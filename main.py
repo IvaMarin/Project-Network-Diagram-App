@@ -11,6 +11,13 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QRect, Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog
 from PyQt5.QtGui import QImage
+from PIL.ImageQt import ImageQt
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QPainter
+from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QPushButton
+import tempfile
+from pdf2image import convert_from_path
 
 
 ### Для обработки .xlsx файлов ##############
@@ -90,7 +97,7 @@ class Window1(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_MainWindow1()
         self.ui.setupUi(self)
-        self.setWindowTitle("Задача №1")
+        self.setWindowTitle("\"Задание №1 (Построение сетевого графика в полигональной форме)\"")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
         graph1.CorrectAdjacencyMatrix = MainWindow.getCorrectAdjacencyMatrix()
@@ -279,6 +286,10 @@ class Window1(QMainWindow):
         self.ui.actionHelp.setEnabled(properties.teacherMode)
         self.showMaximized()
 
+        # показать информацию по заданию
+        self.openTextTask()
+        self.help()
+
     def lockUi(self):
         self.ui.toolBar.clear()
         self.ui.toolBar.addAction(self.ui.actionbtnHome)
@@ -385,7 +396,7 @@ class Window2(QMainWindow):
         # Присваиваем виджет с компоновкой окну
         self.setCentralWidget(self.widget)
 
-        self.setWindowTitle("Задача №2")
+        self.setWindowTitle("\"Задание №2 (Расчет ранних и поздних сроков наступления событий, нахождение критического пути)\"")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         width = int(sizeWindow.width() - sizeWindow.width() / 5 + 280)
         height = int(sizeWindow.height() - sizeWindow.height() / 5)
@@ -472,6 +483,10 @@ class Window2(QMainWindow):
                 self.headerItem = QtWidgets.QTableWidgetItem(str(row))
                 self.table2.ui.tableWidget.setVerticalHeaderItem(
                     row, self.headerItem)
+
+        # показать информацию по заданию
+        self.openTextTask()
+        self.help()
 
     def table1Check(self):
         # Обнуляем данные в модели
@@ -667,7 +682,7 @@ class Window3(QMainWindow):
         self.ui = Ui_MainWindow3()
         self.ui.setupUi(self)
 
-        self.setWindowTitle("Задача №3")
+        self.setWindowTitle("\"Задание №3 (Размещение сетевого графика на сетке времени в соответствии с ранними сроками наступления событий)\"")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
         # self.ui.actionbtnMoveNode.setEnabled(False)
@@ -815,6 +830,10 @@ class Window3(QMainWindow):
         self.ui.actionHelp.setEnabled(properties.teacherMode)
         self.showMaximized()
 
+        # показать информацию по заданию
+        self.openTextTask()
+        self.help()
+
     def sizeGet(self):
         return self.size()
 
@@ -882,7 +901,7 @@ class Window4(QMainWindow):
         self.ui = Ui_MainWindow3()
         self.ui.setupUi(self)
 
-        self.setWindowTitle("Задача №4")
+        self.setWindowTitle("\"Задание №4 (Размещение сетевого графика сетке времени в соответствии с поздними сроками наступления событий)\"")
         _translate = QtCore.QCoreApplication.translate
         self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
         self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
@@ -1019,6 +1038,10 @@ class Window4(QMainWindow):
         self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
+        # показать информацию по заданию
+        self.openTextTask()
+        self.help()
+
     def sizeGet(self):
         return self.size()
 
@@ -1142,7 +1165,7 @@ class Window5(QMainWindow):
         self.ui.actionbtnMoveNode.setVisible(False)
         self.ui.actionbtnDottedConnectNode.setVisible(False)
 
-        self.setWindowTitle("Задача №5")
+        self.setWindowTitle("\"Задание №5 (Перестроение полигонального сетевого графика при ранних стоках наступления событий в ортогональный сетевой график по отделениям)\"")
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
         width = int(sizeWindow.width() - sizeWindow.width() / 5)
         height = int(sizeWindow.height() - sizeWindow.height() / 5)
@@ -1531,6 +1554,10 @@ class Window5(QMainWindow):
         # выставляем кнопке помощи значение режима преподавателя T/F
         self.ui.actionHelp.setEnabled(properties.teacherMode)
 
+        # показать информацию по заданию
+        self.openTextTask()
+        self.help()
+
     def help(self):
         if self.table.isHidden():
             self.table.show()
@@ -1694,7 +1721,7 @@ class Window6(QMainWindow):
         self.setCentralWidget(widget)
         # self.update_plot()
 
-        self.setWindowTitle("Задача №6")
+        self.setWindowTitle("\"Задание №6 (Корректирование ортогонального сетевого графика по отделениям)\"")
 
         # вписываем во весь экран
         self.resize(self.width, self.height)
@@ -1814,14 +1841,13 @@ class Window6(QMainWindow):
         self.ui.actionbtnHome.triggered.connect(self.backMainMenu)
         self.ui.actionViewTask.triggered.connect(self.openTextTask)
         self.ui.actionbtnCheck.triggered.connect(self.finish)
-        # self.ui.actionbtnInfo.triggered.connect(self.help)
+        self.ui.actionbtnInfo.triggered.connect(self.help)
 
     def openTextTask(self):
         dialogTask = QDialog()
         dialogTask.ui = Ui_TextTask6()
         dialogTask.ui.setupUi(dialogTask)
         dialogTask.exec()
-        self.close()
 
     def backMainMenu(self):
         MainWindow.show()
@@ -1845,10 +1871,13 @@ class Window6(QMainWindow):
         self.ui.actionHelp.setEnabled(properties.teacherMode)
         self.showMaximized()
 
-        if self.firstShow:
-            self.msg.show()
-            self.firstShow = False
-
+        # показать информацию по заданию
+        # if self.firstShow:
+        #     self.msg.show()
+        #     self.firstShow = False
+        self.openTextTask()
+        self.help()
+        
     def help(self):
         if self.table.isHidden():
             self.table.show()
@@ -1870,7 +1899,7 @@ class WindowMenu(QMainWindow):
         self.ui = Ui_MainMenu()
         self.ui.setupUi(self)
 
-        self.setWindowTitle("Меню")
+        self.setWindowTitle("\"Использование метода сетевого планирования и управления в технологических процессах эксплуатации космических средств\"")
         self.sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
         self.surname = "Иванов"  # данные о студенте проинициализированы
@@ -2042,11 +2071,27 @@ class WindowMenu(QMainWindow):
         self.ui.btnSaveReportAs.clicked.connect(lambda: self.save_report_as())
 
         # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
-        self.ui.btnReportSign.clicked.connect(self.winSigReport.exec)
+        self.ui.btnReportSign.clicked.connect(lambda: self.openWinSigReport())
         # self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         self.ui.previewReport.clicked.connect(lambda: self.watchReport())
         self.ui.btnPrint.clicked.connect(lambda: self.print_report())
-        self.ui.btnEditTaskVariant.clicked.connect(self.winEditTable.exec)
+        self.ui.btnEditTaskVariant.clicked.connect(lambda: self.openWinEditTable())
+
+    def openWinSigReport(self):
+        try:
+            self.winSigReport.exec()
+            self.update()
+            properties.update()
+        except:
+            pass
+
+    def openWinEditTable(self):
+        try:
+            self.winEditTable.exec()
+            self.update()
+            properties.update()
+        except:
+            pass
 
     def activateTeacherMode(self):
         if self.ui.btnTeacherMode.isChecked() and (encrypt.enter_key()):
@@ -2138,23 +2183,33 @@ class WindowMenu(QMainWindow):
         except:
             pass
 
-    # def print_report(self):
-    #     encrypt.extractAllPdfFile()
-    #     printer = QPrinter(QPrinter.HighResolution)
-    #     dialog = QPrintDialog(printer, self)
-    #     if dialog.exec_() == QPrintDialog.Accepted:
-    #         handle = shell.ShellExecuteEx(
-    #             fMask=256 + 64,
-    #             lpVerb='printto',
-    #             lpFile=os.path.abspath(QtWidgets.QFileDialog.getOpenFileName(self, 'Выберите отчёт', bp.reports_path)[0]),
-    #             lpParameters=printer.printerName()
-    #         )
-    #         win32event.WaitForSingleObject(handle['hProcess'], -1)
-    #     encrypt.reEncrypt()
-
-    #     #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
-    #     # else:
-    #     #     os.remove(bp.join("Отчет по лаборатрной работе.docx"))
+    def print_report(self):
+        filePath, filter = QFileDialog.getOpenFileName(self, 'Open file', '', 'PDF (*.pdf)')
+        if not filePath:
+            return
+        self.report_controller.print_report(filePath)
+        # from sys import platform
+        # if platform == "linux" or platform == "linux2":
+        #     # linux
+        #     warning = QMessageBox()
+        #     warning.setWindowTitle("Предупреждние")
+        #     warning.setText("Linux.")
+        #     warning.setDefaultButton(QMessageBox.Ok)
+        #     warning = warning.exec()
+        # elif platform == "darwin":
+        #     # OS X
+        #     warning = QMessageBox()
+        #     warning.setWindowTitle("Предупреждение")
+        #     warning.setText("OS X.")
+        #     warning.setDefaultButton(QMessageBox.Ok)
+        #     warning = warning.exec()
+        # elif platform == "win32":
+        #     # Windows...
+        #     warning = QMessageBox()
+        #     warning.setWindowTitle("Предупреждение")
+        #     warning.setText("Windows.")
+        #     warning.setDefaultButton(QMessageBox.Ok)
+        #     warning = warning.exec()
 
     def creatReport(self, loading=None):
         loading.emit(10)  # Процесс загрузки 10%
@@ -2299,6 +2354,16 @@ class WindowMenu(QMainWindow):
         self.showMaximized()
         self.ui.tableVar.horizontalHeader().setDefaultSectionSize(
             int(self.sizeWindow.width() / self.ui.tableVar.columnCount()))
+        
+    def update(self):
+        self.testGen()
+        graph1.CorrectAdjacencyMatrix = self.getCorrectAdjacencyMatrix()
+        graph1.CorrectWeights = self.getCorrectWeights()
+        graph1.CorrectSquadsWork = self.getCorrectSquadsWork()
+        graph1.SquadsPeopleToWork = self.getCorrectSquadsPeopleToWork()
+        graph1.SquadsPeopleNumber = self.getCorrectSquadsPeopleNumber()
+
+
 
     def testGen(self):  # функция записи в таблицу лабы конкретного задания (цифр: номер работы, номер отделения, кол-во часов и тд)
         
@@ -2409,6 +2474,25 @@ def close_app(event):
     else:
         event.ignore()
 
+def run(encrypt = None, app = None,
+        statusTask = None, MainWindow = None,
+        properties = None, squadNum = None,
+        MainWindow1 = None, MainWindow2 = None, MainWindow3 = None,
+        MainWindow4 = None, MainWindow5 = None, MainWindow6 = None):
+    pass
+
+# encrypt = None
+# app = None
+# statusTask = None
+# MainWindow = None
+# properties = None
+# squadNum = None
+# MainWindow1 = None
+# MainWindow2 = None
+# MainWindow3 = None
+# MainWindow4 = None
+# MainWindow5 = None
+# MainWindow6 = None
 
 if __name__ == "__main__":
     clear_data()

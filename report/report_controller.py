@@ -135,3 +135,26 @@ class ReportController():
             self.service.pdf_decry(path)
         except Exception as e:
             print(f'''DECRY ERROR: {e}''')
+
+    def print_report(self, path):
+        # распоковка отчета
+        try:
+            self.service.pdf_decry(path)
+            print('[INFO] DECRY PDF ----> OK')
+        except:
+            print(f'''[WARN] DECRY PDF ----> FALL''')
+
+        try:
+            self.service.pdf_print(path)
+            print('[INFO] PRINT PDF ----> OK')
+        except Exception as e:
+            print(f'''[WARN] PRINT PDF ----> FALL
+            ОШИБКА: {e}''')
+
+        # запоковка отчета
+        try:
+            self.service.pdf_encry(path)
+            print('[INFO] ENCRY PDF ----> OK')
+        except:
+            print(f'''[WARN] ENCRY PDF ----> FALL''')
+

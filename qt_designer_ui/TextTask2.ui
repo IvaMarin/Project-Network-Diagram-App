@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1569</width>
-    <height>322</height>
+    <width>707</width>
+    <height>354</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,12 +18,12 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
-       <family>Times New Roman</family>
-       <pointsize>14</pointsize>
+       <family>Liberation Serif</family>
+       <pointsize>16</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Задание 2&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;&lt;br/&gt;1. Заполните таблицы ранних и поздних сроков.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;2. Заполните количество человек, выполняющих работу. Значения вписывать в квадраты над ребрами.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;3. Укажите все критические пути. Используйте инструмент “Критический путь” и кликайте на ЛКМ по вершинам находящимся на критическом пути.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Расчет ранних и поздних сроков наступления событий,&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;нахождение критического пути&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;1. заполнить продолжительности работ;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;2. рассчитать для каждого события:&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;    - ранний срок наступления события;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;    - поздний срок наступления события; &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;3. найти и выделить критический путь (если их несколько, &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;то выделить нужно все критические пути).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
