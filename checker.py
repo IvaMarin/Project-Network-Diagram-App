@@ -96,8 +96,10 @@ def find_t_n(graph, early, n):
                 cur_min_t = late[j] - graph[i][j]
                 if (cur_min_t < min_t):
                     min_t = cur_min_t
-
-        late[i] = min_t
+        if (min_t == np.inf):
+            late[i] = early[i]
+        else:
+            late[i] = min_t
     return late
 
 def find_R(reserve, early, late, n):
