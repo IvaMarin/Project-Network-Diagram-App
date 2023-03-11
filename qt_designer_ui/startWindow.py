@@ -57,7 +57,7 @@ class Ui_startWin(object):
         self.lineEditGroup.setFont(font)
         self.lineEditGroup.setStyleSheet("background-color: #fffaea;")
         self.lineEditGroup.setInputMethodHints(QtCore.Qt.ImhNone)
-        self.lineEditGroup.setMaxLength(15)
+        self.lineEditGroup.setMaxLength(30)
         self.lineEditGroup.setObjectName("lineEditGroup")
         self.gridLayout.addWidget(self.lineEditGroup, 2, 1, 1, 1)
         self.labelGroup = QtWidgets.QLabel(startWin)
@@ -74,7 +74,7 @@ class Ui_startWin(object):
         self.lineEditSurname.setFont(font)
         self.lineEditSurname.setStyleSheet("background-color: #fffaea;")
         self.lineEditSurname.setInputMethodHints(QtCore.Qt.ImhDialableCharactersOnly|QtCore.Qt.ImhHiddenText|QtCore.Qt.ImhLatinOnly)
-        self.lineEditSurname.setMaxLength(25)
+        self.lineEditSurname.setMaxLength(200)
         self.lineEditSurname.setObjectName("lineEditSurname")
         self.gridLayout.addWidget(self.lineEditSurname, 0, 1, 1, 1)
         self.labelSurname = QtWidgets.QLabel(startWin)
@@ -93,7 +93,7 @@ class Ui_startWin(object):
         self.lineEditNumINGroup.setStyleSheet("background-color: #fffaea;")
         self.lineEditNumINGroup.setInputMethodHints(QtCore.Qt.ImhNone)
         self.lineEditNumINGroup.setInputMask("")
-        self.lineEditNumINGroup.setMaxLength(2)
+        self.lineEditNumINGroup.setMaxLength(8)
         self.lineEditNumINGroup.setObjectName("lineEditNumINGroup")
         self.gridLayout.addWidget(self.lineEditNumINGroup, 1, 1, 1, 1)
         self.labelNumGroup = QtWidgets.QLabel(startWin)
@@ -169,8 +169,17 @@ class Ui_startWin(object):
 "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600; color:#e7e7e7;\">Ф.И.О.</span></p></body></html>"))
         self.labelNumGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-weight:600; color:#e7e7e7;\">ВАРИАНТ</span></p></body></html>"))
         self.btnSignLab.setText(_translate("startWin", "Начать работу"))
-        self.btnDeveloperMode.setText(_translate("startWin", "Режим разработчика"))
+        self.btnDeveloperMode.setText(_translate("startWin", "Вход преподавателя"))
 from qt_designer_ui.resources import backGround_rc
 from qt_designer_ui.resources import labelMAI_rc
 from qt_designer_ui.resources import labelVKAMoj_rc
 from qt_designer_ui.resources import spaceBackground_rc
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    startWin = QtWidgets.QDialog()
+    ui = Ui_startWin()
+    ui.setupUi(startWin)
+    startWin.show()
+    sys.exit(app.exec_())

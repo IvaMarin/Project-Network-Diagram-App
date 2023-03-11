@@ -24,7 +24,8 @@
     <normaloff>resources/login_icon.png</normaloff>resources/login_icon.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">#centralwidget{background-color: #d5fffe;}</string>
+   <string notr="true">#centralwidget{background-color: #d5fffe;}
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -45,7 +46,7 @@
          <property name="font">
           <font>
            <family>Times New Roman</family>
-           <pointsize>14</pointsize>
+           <pointsize>18</pointsize>
           </font>
          </property>
          <property name="cursor" stdset="0">
@@ -56,6 +57,7 @@
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: #fffaea;
+
 </string>
          </property>
          <property name="inputMethodHints">
@@ -95,7 +97,7 @@
           <number>70</number>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>228</number>
+          <number>245</number>
          </attribute>
          <attribute name="horizontalHeaderHighlightSections">
           <bool>true</bool>
@@ -131,7 +133,7 @@
           <property name="font">
            <font>
             <family>Times New Roman</family>
-            <pointsize>16</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
          </column>
@@ -142,7 +144,7 @@
           <property name="font">
            <font>
             <family>Times New Roman</family>
-            <pointsize>16</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
          </column>
@@ -154,7 +156,7 @@
           <property name="font">
            <font>
             <family>Times New Roman</family>
-            <pointsize>16</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
          </column>
@@ -166,7 +168,7 @@
           <property name="font">
            <font>
             <family>Times New Roman</family>
-            <pointsize>16</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
          </column>
@@ -178,7 +180,7 @@
           <property name="font">
            <font>
             <family>Times New Roman</family>
-            <pointsize>16</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="background">
@@ -197,7 +199,7 @@
           <property name="font">
            <font>
             <family>Times New Roman</family>
-            <pointsize>16</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
          </column>
@@ -220,22 +222,6 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="6" column="2">
-        <widget class="QPushButton" name="btnTask6">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Задание 6</string>
-         </property>
-        </widget>
-       </item>
        <item row="5" column="2">
         <widget class="QPushButton" name="btnTask5">
          <property name="font">
@@ -249,6 +235,38 @@
          </property>
          <property name="text">
           <string>Задание 5</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QPushButton" name="btnPrint">
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
+         <property name="text">
+          <string>Печать отчета</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QPushButton" name="btnTask6">
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
+         <property name="text">
+          <string>Задание 6</string>
          </property>
         </widget>
        </item>
@@ -268,6 +286,70 @@
          </property>
         </widget>
        </item>
+       <item row="4" column="2">
+        <widget class="QPushButton" name="btnTask4">
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
+         <property name="text">
+          <string>Задание 4</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <widget class="QPushButton" name="btnReportSign">
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
+         <property name="text">
+          <string>Изменить данные студента</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QPushButton" name="btnEditTaskVariant">
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
+         <property name="text">
+          <string>Редактировать варианты</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="3">
+        <widget class="QPushButton" name="btnSaveReportAs">
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #66e3ff;</string>
+         </property>
+         <property name="text">
+          <string>Сохранить отчет как</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="2">
         <widget class="QPushButton" name="btnTask3">
          <property name="font">
@@ -284,8 +366,8 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="2">
-        <widget class="QPushButton" name="btnTask4">
+       <item row="5" column="3">
+        <widget class="QPushButton" name="btnTeacherMode">
          <property name="font">
           <font>
            <family>Times New Roman</family>
@@ -296,7 +378,10 @@
           <string notr="true">background-color: #66e3ff;</string>
          </property>
          <property name="text">
-          <string>Задание 4</string>
+          <string>Режим преподавателя</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -332,89 +417,6 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="3">
-        <widget class="QPushButton" name="btnPrint">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Печать отчета</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="3">
-        <widget class="QPushButton" name="btnReportSign">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Данные о студенте</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="3">
-        <widget class="QPushButton" name="btnEditTaskVariant">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Редактировать варианты работ</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3">
-        <widget class="QPushButton" name="btnTeacherMode">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Режим преподавателя</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="3">
-        <widget class="QPushButton" name="btnSaveReportAs">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Сохранить отчет как</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
     </item>
@@ -426,7 +428,7 @@
      <x>0</x>
      <y>0</y>
      <width>1558</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
