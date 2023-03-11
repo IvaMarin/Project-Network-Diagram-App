@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TextTask5(object):
     def setupUi(self, TextTask5):
         TextTask5.setObjectName("TextTask5")
-        TextTask5.resize(1367, 407)
+        TextTask5.resize(1548, 459)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask5)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask5)
@@ -29,5 +29,15 @@ class Ui_TextTask5(object):
 
     def retranslateUi(self, TextTask5):
         _translate = QtCore.QCoreApplication.translate
-        TextTask5.setWindowTitle(_translate("TextTask5", "Условие 5 задания"))
-        self.label.setText(_translate("TextTask5", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:600; background-color:transparent;\">Перестроение полигонального сетевого графика при ранних стоках наступления событий в ортогональный сетевой график по отделениям</span></p><p align=\"justify\"><span style=\" font-size:14pt; background-color:transparent;\">В этом задании необходимо построить ортогональный сетевой график работы в каждом из отделений. <br/>Следует иметь в виду необходимость в некоторых случаях расчленения событий на равнозначные.<br/>Данное задание разделено на три этапа. </span></p><p align=\"justify\"><span style=\" font-size:14pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">1 этап:</span><span style=\" font-size:14pt; background-color:transparent;\"> распределить работы по отделениям. </span></p><p align=\"justify\"><span style=\" font-size:14pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">2 этап:</span><span style=\" font-size:14pt; background-color:transparent;\"> разместить события и работы на сетке времени в соответствии с ранними сроками наступления событий.</span></p><p align=\"justify\"><span style=\" font-size:14pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">3 этап:</span><span style=\" font-size:14pt; background-color:transparent;\"> необходимо над стрелками указать количество людей, выполняющих данную работу.</span></p></body></html>"))
+        TextTask5.setWindowTitle(_translate("TextTask5", "Задание 5"))
+        self.label.setText(_translate("TextTask5", "<html><head/><body><p><span style=\" font-size:18pt; font-weight:600; background-color:transparent;\">Перестроение полигонального сетевого графика при ранних стоках наступления событий в ортогональный сетевой график по отделениям</span></p><p align=\"justify\"><span style=\" font-size:16pt; background-color:transparent;\">В этом задании необходимо построить ортогональный сетевой график работы в каждом из отделений. <br/>Следует иметь в виду необходимость в некоторых случаях расчленения событий на равнозначные.<br/>Данное задание разделено на три этапа. </span></p><p align=\"justify\"><span style=\" font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">1 этап:</span><span style=\" font-size:16pt; background-color:transparent;\"> распределить работы по отделениям. </span></p><p align=\"justify\"><span style=\" font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">2 этап:</span><span style=\" font-size:16pt; background-color:transparent;\"> разместить события и работы на сетке времени в соответствии с ранними сроками наступления событий.</span></p><p align=\"justify\"><span style=\" font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">3 этап:</span><span style=\" font-size:16pt; background-color:transparent;\"> необходимо над стрелками указать количество людей, выполняющих данную работу.</span></p></body></html>"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    TextTask5 = QtWidgets.QDialog()
+    ui = Ui_TextTask5()
+    ui.setupUi(TextTask5)
+    TextTask5.show()
+    sys.exit(app.exec_())

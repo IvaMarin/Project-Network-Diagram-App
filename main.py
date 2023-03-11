@@ -1906,6 +1906,8 @@ class WindowMenu(QMainWindow):
         self.numGroup = "1"   # данные о студенте проинициализированы
         self.numINGroup = "9"  # данные о студенте проинициализированы    winSearchKey
         self.variantController = VariantController()
+
+        # self.uiself.setStyleSheet('')
         # first_launch_txt_path = Properties.join(Properties.basedir,"first_launch", "first_launch.txt")
         # with open(first_launch_txt_path, "r") as file:
         #     flag = file.read()
@@ -1916,6 +1918,7 @@ class WindowMenu(QMainWindow):
 
         # стартовое диалоговое окно для подписти отчета (имя фамилия номер группы)
         self.startWindow = winLogin(self)
+        self.startWindow.showMaximized()
         self.startWindow.exec_()  # его запуск в отдельном потоке
         # self.hide()
         # диалоговое окно для подписти отчета (имя фамилия номер группы)

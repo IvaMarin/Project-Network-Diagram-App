@@ -57,7 +57,6 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
                                 | QtCore.Qt.CustomizeWindowHint 
                                 | QtCore.Qt.WindowCloseButtonHint)
 
-        self.ui.lineEditNumINGroup.setValidator(QIntValidator())
 
         rx = QtCore.QRegExp("[a-zA-Zа-яА-Я .,]{200}")
         val = QtGui.QRegExpValidator(rx)
@@ -72,7 +71,7 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
         self.ui.lineEditSurname.insert(self.mainMenu.surname)       # подгружаем из mainMenu данные если они уже были указаны
-        self.ui.lineEditNumINGroup.insert(self.mainMenu.numINGroup) #
+        # self.ui.lineEditNumINGroup.insert(self.mainMenu.numINGroup) #
         self.ui.lineEditGroup.insert(self.mainMenu.numGroup)        #
 
         self._connectAction() # ф-ия связи с эл-тами окна
@@ -149,7 +148,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
         width = int(sizeWindow.width())      # выставляем ширину окна
         height = int(sizeWindow.height())   # выставляем длину окна
         # присваиваем параметры длины и ширины окну
-        self.resize(width, height)
+        self.resize(int(width/2), int(height/2))
 
         #self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 

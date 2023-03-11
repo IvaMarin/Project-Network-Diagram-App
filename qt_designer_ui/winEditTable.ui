@@ -16,13 +16,13 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Редактор таблиц вариантов</string>
+   <string>Редактирование таблиц вариантов работ</string>
   </property>
   <property name="windowIcon">
    <iconset>
     <normaloff>resources/login_icon.png</normaloff>resources/login_icon.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
    <property name="spacing">
     <number>10</number>
    </property>
@@ -64,7 +64,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Нумирация варианта:</string>
+        <string>Номер варианта:</string>
        </property>
       </widget>
      </item>
@@ -78,6 +78,9 @@
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: #fffaea;</string>
+       </property>
+       <property name="maxLength">
+        <number>8</number>
        </property>
        <property name="placeholderText">
         <string>Введите номер варианта</string>
@@ -116,7 +119,20 @@
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout" rowstretch="20,40,20" columnstretch="40,10">
+    <widget class="Line" name="line">
+     <property name="lineWidth">
+      <number>30</number>
+     </property>
+     <property name="midLineWidth">
+      <number>30</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout" rowstretch="20,40,20,0" columnstretch="40,10">
      <property name="leftMargin">
       <number>10</number>
      </property>
@@ -135,7 +151,36 @@
      <property name="verticalSpacing">
       <number>15</number>
      </property>
-     <item row="1" column="1">
+     <item row="2" column="0">
+      <widget class="QComboBox" name="comboBoxVariants">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>18</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #fffaea;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QPushButton" name="btnDeletTable">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #66e3ff;</string>
+       </property>
+       <property name="text">
+        <string>Удалить</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
       <widget class="QPushButton" name="btnEditTable">
        <property name="font">
         <font>
@@ -151,7 +196,7 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="labelHelp">
        <property name="font">
         <font>
@@ -161,35 +206,6 @@
        </property>
        <property name="text">
         <string>Выберите вариант задания, который вы хотите редактировать или удалить.</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QComboBox" name="comboBoxVariants">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: #fffaea;</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="btnDeletTable">
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>16</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: #66e3ff;</string>
-       </property>
-       <property name="text">
-        <string>Удалить</string>
        </property>
       </widget>
      </item>

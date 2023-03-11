@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TextTask4(object):
     def setupUi(self, TextTask4):
         TextTask4.setObjectName("TextTask4")
-        TextTask4.resize(1172, 286)
+        TextTask4.resize(1267, 395)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask4)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask4)
@@ -29,5 +29,15 @@ class Ui_TextTask4(object):
 
     def retranslateUi(self, TextTask4):
         _translate = QtCore.QCoreApplication.translate
-        TextTask4.setWindowTitle(_translate("TextTask4", "Условие 4 задания"))
-        self.label.setText(_translate("TextTask4", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt; font-weight:600;\">Размещение сетевого графика на сетке времени в соответствии с поздними сроками наступления событий</span></p><p align=\"center\"><br/></p><p align=\"justify\"><span style=\" font-size:14pt;\">1. разместить сетевой график на сетке времени (временном поле)<br/>в соответствии с </span><span style=\" font-size:14pt;\">поздними</span><span style=\" font-size:14pt;\"> сроками их наступления; </span></p><p align=\"justify\"><span style=\" font-size:14pt;\">2. расставить правильные продолжительности работ.</span></p><p align=\"justify\"><span style=\" font-size:14pt;\"><br/>Следует обратить внимание на то, что после расположения событий на временной сетке <br/>расстояния между некоторыми событиями могут быть больше, <br/>чем продолжительность работ. Это свидетельствует о том, что такие работы имеют <br/>резерв времени.</span></p></body></html>"))
+        TextTask4.setWindowTitle(_translate("TextTask4", "Задание 4"))
+        self.label.setText(_translate("TextTask4", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">Размещение сетевого графика на сетке времени в соответствии с поздними сроками наступления событий</span></p><p align=\"center\"><br/></p><p align=\"justify\"><span style=\" font-size:16pt;\">1. разместить сетевой график на сетке времени (временном поле)<br/>в соответствии с поздними сроками их наступления; </span></p><p align=\"justify\"><span style=\" font-size:16pt;\">2. расставить правильные продолжительности работ.</span></p><p align=\"justify\"><span style=\" font-size:16pt;\"><br/>Следует обратить внимание на то, что после расположения событий на временной сетке <br/>расстояния между некоторыми событиями могут быть больше, <br/>чем продолжительность работ. Это свидетельствует о том, что такие работы имеют <br/>резерв времени.</span></p></body></html>"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    TextTask4 = QtWidgets.QDialog()
+    ui = Ui_TextTask4()
+    ui.setupUi(TextTask4)
+    TextTask4.show()
+    sys.exit(app.exec_())
