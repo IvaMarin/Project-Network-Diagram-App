@@ -10,7 +10,7 @@ from file_service import FileService
 
 from PyQt5 import QtWidgets, QtGui ,QtCore
 from PyQt5.QtCore import QRect
-from PyQt5.QtGui import QIntValidator
+from PyQt5.QtGui import QIntValidator, QFont
 from PyQt5.QtWidgets import QApplication, QAction, QMessageBox, QDialog
 #############    Первый запуск    #######################
 from first_launch.win_first_launch import Ui_first_launch
@@ -57,7 +57,6 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
                                 | QtCore.Qt.CustomizeWindowHint 
                                 | QtCore.Qt.WindowCloseButtonHint)
 
-        self.ui.lineEditNumINGroup.setValidator(QIntValidator())
 
         rx = QtCore.QRegExp("[a-zA-Zа-яА-Я .,]{200}")
         val = QtGui.QRegExpValidator(rx)
@@ -72,7 +71,7 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
         self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
         self.ui.lineEditSurname.insert(self.mainMenu.surname)       # подгружаем из mainMenu данные если они уже были указаны
-        self.ui.lineEditNumINGroup.insert(self.mainMenu.numINGroup) #
+        # self.ui.lineEditNumINGroup.insert(self.mainMenu.numINGroup) #
         self.ui.lineEditGroup.insert(self.mainMenu.numGroup)        #
 
         self._connectAction() # ф-ия связи с эл-тами окна
@@ -109,6 +108,7 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
             warning = QMessageBox()
             warning.setWindowTitle("Предупреждение")
             warning.setText("Заполните все предложенные поля.")
+            warning.setFont(QFont('Times', 16))
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
@@ -117,6 +117,7 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
             warning = QMessageBox()
             warning.setWindowTitle("Предупреждение")
             warning.setText("Введите корректный номер варианта.")
+            warning.setFont(QFont('Times', 16))
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
@@ -149,7 +150,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
         width = int(sizeWindow.width())      # выставляем ширину окна
         height = int(sizeWindow.height())   # выставляем длину окна
         # присваиваем параметры длины и ширины окну
-        self.resize(width, height)
+        self.resize(int(width/2), int(height/2))
 
         #self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 
@@ -167,6 +168,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
             close = QMessageBox()
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?") #
+            close.setFont(QFont('Times', 16))
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel) #
             close = close.exec()
             if close == QMessageBox.Ok: # если нажали да
@@ -190,6 +192,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
             warning = QMessageBox()
             warning.setWindowTitle("Предупреждение")
             warning.setText("Заполните все предложенные поля.")
+            warning.setFont(QFont('Times', 16))
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
@@ -198,6 +201,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
             warning = QMessageBox()
             warning.setWindowTitle("Предупреждение")
             warning.setText("Введите корректный номер варианта.")
+            warning.setFont(QFont('Times', 16))
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
@@ -312,6 +316,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
                 warning = QMessageBox()
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Такой вариант уже существует.\nВведите другой номер варианта.")
+                warning.setFont(QFont('Times', 16))
                 warning.setDefaultButton(QMessageBox.Ok)
                 warning = warning.exec()
                 print('[WARN] NO REPORT ----> create report')
@@ -369,6 +374,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             close = QMessageBox()
             close.setWindowTitle("Удалить вариант")
             close.setText("Вы уверены, что хотите удалить вариант?")  #
+            close.setFont(QFont('Times', 16))
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
             close = close.exec()
             if close == QMessageBox.Ok:  # если нажали да
@@ -595,6 +601,7 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         close = QMessageBox()
         close.setWindowTitle("Закрыть редактор")
         close.setText("Вы уверены, что хотите закрыть редактор?")  #
+        close.setFont(QFont('Times', 16))
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
         self.saveTable()
         close = close.exec()
@@ -708,6 +715,7 @@ class creatTableNumPeopleInSquad(QtWidgets.QDialog): # окно с таблиц�
         close = QMessageBox()
         close.setWindowTitle("Закрыть окно")
         close.setText("Вы уверены, что хотите закрыть окно?")  #
+        close.setFont(QFont('Times', 16))
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
         close = close.exec()
         if close == QMessageBox.Ok:  # если нажали да

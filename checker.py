@@ -3,6 +3,7 @@ import numpy as np
 
 from PyQt5.QtCore import QPointF
 from PyQt5.QtWidgets import QMessageBox, QLineEdit
+from PyQt5.QtGui import QFont
 
 
 class TaskOneMistakes(Enum):
@@ -237,22 +238,22 @@ class Checker:
         CorrectCountOfConnections = 0
         mistakes = []  # список ошибок:
 
-        if (not ignore):
-            # проверяем не находятся ли точки слишком близко
-            distancing_radius = Graph.RadiusPoint * 3
-            for i in range(len(Graph.Points)):
-                for j in range(len(Graph.Points)):
-                    if (j != i and (Graph.Points[j][0] + distancing_radius >= Graph.Points[i][0] - distancing_radius and
-                                    Graph.Points[j][0] - distancing_radius <= Graph.Points[i][0] + distancing_radius and
-                                    Graph.Points[j][1] + distancing_radius >= Graph.Points[i][1] - distancing_radius and
-                                    Graph.Points[j][1] - distancing_radius <= Graph.Points[i][1] + distancing_radius)):
-                        warning = QMessageBox()
-                        warning.setWindowTitle("Предупреждение")
-                        warning.setText(
-                            "Некоторые вершины находятся слишком близко друг к другу!")
-                        warning.setIcon(QMessageBox.Warning)
-                        warning.setStandardButtons(QMessageBox.Ok)
-                        return warning
+    if (not ignore):
+        # проверяем не находятся ли точки слишком близко
+        distancing_radius = Graph.RadiusPoint * 3
+        for i in range(len(Graph.Points)):
+            for j in range(len(Graph.Points)):
+                if (j != i and (Graph.Points[j][0] + distancing_radius >= Graph.Points[i][0] - distancing_radius and
+                                Graph.Points[j][0] - distancing_radius <= Graph.Points[i][0] + distancing_radius and
+                                Graph.Points[j][1] + distancing_radius >= Graph.Points[i][1] - distancing_radius and
+                                Graph.Points[j][1] - distancing_radius <= Graph.Points[i][1] + distancing_radius)):
+                    warning = QMessageBox()
+                    warning.setWindowTitle("Предупреждение")
+                    warning.setText("Некоторые вершины находятся слишком близко друг к другу!")
+                    warning.setFont(QFont('Times', 16))
+                    warning.setIcon(QMessageBox.Warning)
+                    warning.setStandardButtons(QMessageBox.Ok)
+                    return warning
 
         # считаем число точек
         for i in range(len(Graph.Points)):
@@ -300,13 +301,14 @@ class Checker:
         old_mistakes = []
         old_mistakes = Checker.checkTask1(Graph, CorrectAdjacencyMatrix, True)
 
-        if (old_mistakes):
-            warning = QMessageBox()
-            warning.setWindowTitle("Предупреждение")
-            warning.setText("Связи пересекаются!")
-            warning.setIcon(QMessageBox.Warning)
-            warning.setStandardButtons(QMessageBox.Ok)
-            return warning
+    if (old_mistakes):
+        warning = QMessageBox()
+        warning.setWindowTitle("Предупреждение")
+        warning.setText("Связи пересекаются!")
+        warning.setFont(QFont('Times', 16))
+        warning.setIcon(QMessageBox.Warning)
+        warning.setStandardButtons(QMessageBox.Ok)
+        return warning
 
         early = Checker.findEarlyPeriods(CorrectWeights, n)
         late = Checker.findLatePeriods(CorrectWeights, early, n)
@@ -328,28 +330,27 @@ class Checker:
                     mistakes.append(TaskTwoMistakes.WRONG_LATE_DATES.value)
                     break
 
-        for i in range(n):
-            for j in range(n):
-                if (type(Display.QLineEdits[i][j]) == QLineEdit):
-                    try:
-                        if (int(Display.QLineEdits[i][j].text()) != CorrectWeights[i][j]):
-                            mistakes.append(
-                                TaskTwoMistakes.WRONG_DURATIONS.value)
-                            mistakes.append(
-                                TaskTwoMistakes.WRONG_CRITICAL_PATHS.value)
-                            return mistakes
-                    except ValueError:
-                        warning = QMessageBox()
-                        warning.setWindowTitle("Предупреждение")
-                        warning.setText(
-                            "Не введено значение продолжительности работы для одного или нескольких рёбер!")
-                        warning.setIcon(QMessageBox.Warning)
-                        warning.setStandardButtons(QMessageBox.Ok)
-                        return warning
-
-        # Критические Пути:
-        # на первом шаге найдем правильное значение максимального пути в графе
-        global Stack, visited, adj, paths
+    for i in range(n):
+        for j in range(n):
+            if (type(Display.QLineEdits[i][j]) == QLineEdit):
+                try:
+                    if (int(Display.QLineEdits[i][j].text()) != CorrectWeights[i][j]):
+                        mistakes.append(TaskTwoMistakes.WRONG_DURATIONS.value)
+                        mistakes.append(TaskTwoMistakes.WRONG_CRITICAL_PATHS.value)
+                        return mistakes
+                except ValueError:
+                    warning = QMessageBox()
+                    warning.setWindowTitle("Предупреждение")
+                    warning.setText("Не введено значение продолжительности работы для одного или нескольких рёбер!")
+                    warning.setFont(QFont('Times', 16))
+                    warning.setIcon(QMessageBox.Warning)
+                    warning.setStandardButtons(QMessageBox.Ok)
+                    return warning
+                
+    
+    # Критические Пути:
+    # на первом шаге найдем правильное значение максимального пути в графе
+    global Stack, visited, adj, paths
 
         Stack = []
         visited = [False]*(n)
@@ -420,13 +421,14 @@ class Checker:
         old_mistakes = []
         old_mistakes = Checker.checkTask1(Graph, CorrectAdjacencyMatrix, True)
 
-        if (old_mistakes):
-            warning = QMessageBox()
-            warning.setWindowTitle("Предупреждение")
-            warning.setText("Связи пересекаются!")
-            warning.setIcon(QMessageBox.Warning)
-            warning.setStandardButtons(QMessageBox.Ok)
-            return warning
+    if (old_mistakes):
+        warning = QMessageBox()
+        warning.setWindowTitle("Предупреждение")
+        warning.setText("Связи пересекаются!")
+        warning.setFont(QFont('Times', 16))
+        warning.setIcon(QMessageBox.Warning)
+        warning.setStandardButtons(QMessageBox.Ok)
+        return warning
 
         early = Checker.findEarlyPeriods(CorrectWeights, n)
 
@@ -476,13 +478,14 @@ class Checker:
         old_mistakes = []
         old_mistakes = Checker.checkTask1(Graph, CorrectAdjacencyMatrix, True)
 
-        if (old_mistakes):
-            warning = QMessageBox()
-            warning.setWindowTitle("Предупреждение")
-            warning.setText("Связи пересекаются!")
-            warning.setIcon(QMessageBox.Warning)
-            warning.setStandardButtons(QMessageBox.Ok)
-            return warning
+    if (old_mistakes):
+        warning = QMessageBox()
+        warning.setWindowTitle("Предупреждение")
+        warning.setText("Связи пересекаются!")
+        warning.setFont(QFont('Times', 16))
+        warning.setIcon(QMessageBox.Warning)
+        warning.setStandardButtons(QMessageBox.Ok)
+        return warning
 
         early = Checker.findEarlyPeriods(CorrectWeights, n)
         late = Checker.findLatePeriods(CorrectWeights, early, n)
@@ -648,30 +651,30 @@ class Checker:
     def checkTask5Part3(BaseGraph, CorrectWeights, Display, Id) -> bool:
         is_correct = True
 
-        CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
-        for i in range(len(BaseGraph.CorrectSquadsWork)):
-            for j in range(len(BaseGraph.CorrectSquadsWork)):
-                if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
-                    CorrectAdjacencyMatrix[i][j] = 1
-                else:
-                    CorrectAdjacencyMatrix[i][j] = 0
-
-        # Численность в отделении
-        for k, v in Display.QLineEdits.items():
-            i = k[0][0]
-            j = k[1][0]
-            if (CorrectAdjacencyMatrix[i][j] == 1):
-                try:
-                    if (int(v.text()) != CorrectWeights[i][j]):
-                        is_correct = False
-                        return is_correct
-                except ValueError:
-                    warning = QMessageBox()
-                    warning.setWindowTitle("Предупреждение")
-                    warning.setText(
-                        "Не введено значение числа людей, выполняющих работу, для одного или нескольких рёбер!")
-                    warning.setIcon(QMessageBox.Warning)
-                    warning.setStandardButtons(QMessageBox.Ok)
-                    return warning
-
-        return is_correct
+    CorrectAdjacencyMatrix = BaseGraph.CorrectSquadsWork.copy()
+    for i in range(len(BaseGraph.CorrectSquadsWork)):
+        for j in range(len(BaseGraph.CorrectSquadsWork)):
+            if (BaseGraph.CorrectSquadsWork[i][j] == Id+1):
+                CorrectAdjacencyMatrix[i][j] = 1
+            else:
+                CorrectAdjacencyMatrix[i][j] = 0
+    
+    # Численность в отделении
+    for k, v in Display.QLineEdits.items():
+        i = k[0][0]
+        j = k[1][0]
+        if (CorrectAdjacencyMatrix[i][j] == 1):
+            try:
+                if (int(v.text()) != CorrectWeights[i][j]):
+                    is_correct = False
+                    return is_correct
+            except ValueError:
+                warning = QMessageBox()
+                warning.setWindowTitle("Предупреждение")
+                warning.setText("Не введено значение числа людей, выполняющих работу, для одного или нескольких рёбер!")
+                warning.setFont(QFont('Times', 16))
+                warning.setIcon(QMessageBox.Warning)
+                warning.setStandardButtons(QMessageBox.Ok)
+                return warning
+    
+    return is_correct

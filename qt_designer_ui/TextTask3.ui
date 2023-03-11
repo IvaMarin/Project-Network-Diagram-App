@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1025</width>
-    <height>322</height>
+    <width>1379</width>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Размещение сетевого графика на сетке времени в соответствии с ранними сроками наступления событий&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;1. разместить сетевой график на сетке времени (временном поле)&lt;br/&gt;в соответствии с ранними сроками их наступления; &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;2. расставить правильные продолжительности работ.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;br/&gt;Следует обратить внимание на то, что после расположения событий на временной сетке &lt;br/&gt;расстояния между некоторыми событиями могут быть больше, &lt;br/&gt;чем продолжительность работ. Это свидетельствует о том, что такие работы имеют &lt;br/&gt;резерв времени.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Размещение сетевого графика на сетке времени в соответствии с ранними сроками наступления событий&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;1. разместить сетевой график на сетке времени (временном поле)&lt;br/&gt;в соответствии с ранними сроками их наступления; &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;2. расставить правильные продолжительности работ.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;&lt;br/&gt;Следует обратить внимание на то, что после расположения событий на временной сетке &lt;br/&gt;расстояния между некоторыми событиями могут быть больше, &lt;br/&gt;чем продолжительность работ. Это свидетельствует о том, что такие работы имеют &lt;br/&gt;резерв времени.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
