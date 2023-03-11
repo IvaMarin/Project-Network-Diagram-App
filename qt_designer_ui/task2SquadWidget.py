@@ -75,4 +75,6 @@ class Ui_task2SquadWidget(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label_3.setText(_translate("Form", "Отделение №"))
-        self.label_2.setText(_translate("Form", "Человек в отделении"))
+        self.label_3.setFont(QtGui.QFont('Arial', 16))
+        self.label_2.setText(_translate("Form", "Людей в отделении"))
+        self.label_2.setFont(QtGui.QFont('Arial', 16))
