@@ -42,6 +42,7 @@ class Ui_CreatEditTask(object):
         font.setPointSize(18)
         self.lineEdit.setFont(font)
         self.lineEdit.setStyleSheet("background-color: #fffaea;")
+        self.lineEdit.setMaxLength(4)
         self.lineEdit.setObjectName("lineEdit")
         self.horizontalLayout.addWidget(self.lineEdit)
         self.labelHelpRight = QtWidgets.QLabel(CreatEditTask)

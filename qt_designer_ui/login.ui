@@ -61,7 +61,7 @@
       <set>Qt::ImhNone</set>
      </property>
      <property name="maxLength">
-      <number>25</number>
+      <number>200</number>
      </property>
     </widget>
    </item>
@@ -80,7 +80,7 @@
       <set>Qt::ImhNone</set>
      </property>
      <property name="maxLength">
-      <number>15</number>
+      <number>30</number>
      </property>
     </widget>
    </item>

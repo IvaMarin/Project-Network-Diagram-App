@@ -148,7 +148,7 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
         width = int(sizeWindow.width())      # выставляем ширину окна
         height = int(sizeWindow.height())   # выставляем длину окна
         # присваиваем параметры длины и ширины окну
-        self.resize(width, height)
+        self.resize(int(width/2), int(height/2))
 
         #self.move(int(sizeWindow.width() / 20), int(sizeWindow.height() / 20)) # двигаем окно левее и выше
 

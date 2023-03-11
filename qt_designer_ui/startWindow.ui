@@ -117,7 +117,7 @@ background-color: rgba(0, 0, 0, 0);
         <set>Qt::ImhNone</set>
        </property>
        <property name="maxLength">
-        <number>15</number>
+        <number>30</number>
        </property>
       </widget>
      </item>
@@ -149,7 +149,7 @@ background-color: rgba(0, 0, 0, 0);
         <set>Qt::ImhDialableCharactersOnly|Qt::ImhHiddenText|Qt::ImhLatinOnly</set>
        </property>
        <property name="maxLength">
-        <number>25</number>
+        <number>200</number>
        </property>
       </widget>
      </item>
@@ -191,7 +191,7 @@ p, li { white-space: pre-wrap; }
         <string/>
        </property>
        <property name="maxLength">
-        <number>2</number>
+        <number>8</number>
        </property>
       </widget>
      </item>
@@ -257,7 +257,7 @@ background-color: rgb(46, 101, 158);</string>
 background-color: rgb(46, 101, 158);</string>
        </property>
        <property name="text">
-        <string>Режим разработчика</string>
+        <string>Вход преподавателя</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
