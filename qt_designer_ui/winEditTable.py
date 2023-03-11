@@ -65,6 +65,13 @@ class Ui_CreatEditTask(object):
         self.horizontalLayout.setStretch(2, 10)
         self.horizontalLayout.setStretch(3, 11)
         self.verticalLayout.addLayout(self.horizontalLayout)
+        self.line = QtWidgets.QFrame(CreatEditTask)
+        self.line.setLineWidth(30)
+        self.line.setMidLineWidth(30)
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.verticalLayout.addWidget(self.line)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setContentsMargins(10, 10, 10, 130)
         self.gridLayout.setHorizontalSpacing(10)
@@ -113,10 +120,20 @@ class Ui_CreatEditTask(object):
 
     def retranslateUi(self, CreatEditTask):
         _translate = QtCore.QCoreApplication.translate
-        CreatEditTask.setWindowTitle(_translate("CreatEditTask", "Редактор таблиц вариантов"))
-        self.labelHelpLeft.setText(_translate("CreatEditTask", "Нумирация варианта:"))
+        CreatEditTask.setWindowTitle(_translate("CreatEditTask", "Редактирование таблиц вариантов работ"))
+        self.labelHelpLeft.setText(_translate("CreatEditTask", "Номер варианта:"))
         self.lineEdit.setPlaceholderText(_translate("CreatEditTask", "Введите номер варианта"))
         self.btnCreatTable.setText(_translate("CreatEditTask", "Создать"))
         self.btnEditTable.setText(_translate("CreatEditTask", "Редактировать"))
         self.labelHelp.setText(_translate("CreatEditTask", "Выберите вариант задания, который вы хотите редактировать или удалить."))
         self.btnDeletTable.setText(_translate("CreatEditTask", "Удалить"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    CreatEditTask = QtWidgets.QDialog()
+    ui = Ui_CreatEditTask()
+    ui.setupUi(CreatEditTask)
+    CreatEditTask.show()
+    sys.exit(app.exec_())

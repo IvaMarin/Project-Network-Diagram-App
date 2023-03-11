@@ -16,13 +16,13 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Редактор таблиц вариантов</string>
+   <string>Редактирование таблиц вариантов работ</string>
   </property>
   <property name="windowIcon">
    <iconset>
     <normaloff>resources/login_icon.png</normaloff>resources/login_icon.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
    <property name="spacing">
     <number>10</number>
    </property>
@@ -64,7 +64,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Нумирация варианта:</string>
+        <string>Номер варианта:</string>
        </property>
       </widget>
      </item>
@@ -114,6 +114,19 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="lineWidth">
+      <number>30</number>
+     </property>
+     <property name="midLineWidth">
+      <number>30</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout" rowstretch="20,40,20" columnstretch="40,10">
