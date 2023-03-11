@@ -251,7 +251,8 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         # pathFileXlsx = os.path.join("resources", "variants")  # находим путь до папки с файлами вариантов
         # self.onlyfiles = [f for f in listdir(pathFileXlsx) if isfile(join(pathFileXlsx, f))] # собираем список всех файлов в этой папке
         self.listNumberVariants = self.variantController.getAllNumberOfVariant()
-        self.ui.comboBoxVariants.addItems([name for name in self.listNumberVariants]) # загружаем список файлов в comboBoxVariants
+        #self.listNumberVariants.remove('0')
+        self.ui.comboBoxVariants.addItems([name for name in self.listNumberVariants if name != '0']) # загружаем список файлов в comboBoxVariants
 
         self.creatTable = creatTable(self)  # создаем окно с таблицей для редактирования вариантов
         #fileName = self.ui.comboBoxVariants
@@ -282,28 +283,37 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             # часть работы с БД
             responseFileName = 'variant_table_data.txt'
             variant = self.ui.lineEdit.text()
-            f = open(responseFileName, 'a+')
-            try:
-                # работа с файлом
-                print('[INFO] OPEN FILE')
-                f.write(variant + '\n')
-                print(f'[INFO] SAVE NUMBER VARIANT {variant} IN FILE ----> Успешно')
-            finally:
-                print('[INFO] CLOSE FILE')
-                f.close()
-            # newTableVar.save(pathFileXlsx) #
-            # self.ui.comboBoxVariants.addItem(self.fileName) # добавляем название файла в выпадающий список
-            
+            if self.listNumberVariants.count(variant) == 0:
 
-            self.close() #
-            #self.creatTable.openFile(pathFileXlsx) #
-            self.creatTable.openNewVariant()
-            self.creatTable.showMaximized()
-            self.creatTable.exec_()
-            
+                f = open(responseFileName, 'a+')
+                try:
+                    # работа с файлом
+                    print('[INFO] OPEN FILE')
+                    f.write(variant + '\n')
+                    print(f'[INFO] SAVE NUMBER VARIANT {variant} IN FILE ----> Успешно') 
+                finally:
+                    print('[INFO] CLOSE FILE')
+                    f.close()
+                # newTableVar.save(pathFileXlsx) #
+                # self.ui.comboBoxVariants.addItem(self.fileName) # добавляем название файла в выпадающий список
+                
 
-            self.variantController.createVariant(responseFileName)
-            self.ui.comboBoxVariants.addItem(variant) # добавляем название файла в выпадающий список
+                self.close() #
+                #self.creatTable.openFile(pathFileXlsx) #
+                self.creatTable.openNewVariant()
+                self.creatTable.showMaximized()
+                self.creatTable.exec_()
+                
+
+                self.variantController.createVariant(responseFileName)
+                self.ui.comboBoxVariants.addItem(variant) # добавляем название файла в выпадающий список
+            else:
+                warning = QMessageBox()
+                warning.setWindowTitle("Предупреждение")
+                warning.setText("Такой вариант уже существует.\nВведите другой номер варианта.")
+                warning.setDefaultButton(QMessageBox.Ok)
+                warning = warning.exec()
+                print('[WARN] NO REPORT ----> create report')
 
     def editTable(self):
         # часть работы с БД
@@ -327,7 +337,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
         # self.fileName = os.path.join("resources", "variants", self.ui.comboBoxVariants.currentText())  # находим путь до файла
 
         self.close()
-        
+
         try:
             requestFileName = self.variantController.readVariant(variant)
             self.creatTable.openVariant(requestFileName)
