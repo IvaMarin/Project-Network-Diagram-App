@@ -3,6 +3,7 @@ import numpy as np
 
 from PyQt5.QtCore import QPointF
 from PyQt5.QtWidgets import QMessageBox, QLineEdit
+from PyQt5.QtGui import QFont
 
 
 class TaskOneMistakes(Enum):
@@ -233,6 +234,7 @@ def checkTask1(Graph, CorrectAdjacencyMatrix, ignore=False):
                     warning = QMessageBox()
                     warning.setWindowTitle("Предупреждение")
                     warning.setText("Некоторые вершины находятся слишком близко друг к другу!")
+                    warning.setFont(QFont('Times', 16))
                     warning.setIcon(QMessageBox.Warning)
                     warning.setStandardButtons(QMessageBox.Ok)
                     return warning
@@ -285,6 +287,7 @@ def checkTask2(Graph, Display):
         warning = QMessageBox()
         warning.setWindowTitle("Предупреждение")
         warning.setText("Связи пересекаются!")
+        warning.setFont(QFont('Times', 16))
         warning.setIcon(QMessageBox.Warning)
         warning.setStandardButtons(QMessageBox.Ok)
         return warning
@@ -321,6 +324,7 @@ def checkTask2(Graph, Display):
                     warning = QMessageBox()
                     warning.setWindowTitle("Предупреждение")
                     warning.setText("Не введено значение продолжительности работы для одного или нескольких рёбер!")
+                    warning.setFont(QFont('Times', 16))
                     warning.setIcon(QMessageBox.Warning)
                     warning.setStandardButtons(QMessageBox.Ok)
                     return warning
@@ -403,6 +407,7 @@ def checkTask3(Graph, CorrectWeights, GridBegin, GridStep):
         warning = QMessageBox()
         warning.setWindowTitle("Предупреждение")
         warning.setText("Связи пересекаются!")
+        warning.setFont(QFont('Times', 16))
         warning.setIcon(QMessageBox.Warning)
         warning.setStandardButtons(QMessageBox.Ok)
         return warning
@@ -454,6 +459,7 @@ def checkTask4(Graph, CorrectWeights, GridBegin, GridStep):
         warning = QMessageBox()
         warning.setWindowTitle("Предупреждение")
         warning.setText("Связи пересекаются!")
+        warning.setFont(QFont('Times', 16))
         warning.setIcon(QMessageBox.Warning)
         warning.setStandardButtons(QMessageBox.Ok)
         return warning
@@ -630,6 +636,7 @@ def checkTask5Part3(BaseGraph, CorrectWeights, Display, Id) -> bool:
                 warning = QMessageBox()
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Не введено значение числа людей, выполняющих работу, для одного или нескольких рёбер!")
+                warning.setFont(QFont('Times', 16))
                 warning.setIcon(QMessageBox.Warning)
                 warning.setStandardButtons(QMessageBox.Ok)
                 return warning
