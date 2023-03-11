@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_tableTask1(object):
     def setupUi(self, tableTask1):
         tableTask1.setObjectName("tableTask1")
-        tableTask1.resize(205, 601)
+        tableTask1.resize(173, 601)
         tableTask1.move(700, 200)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../resources/iconePack/pngwing.com.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -25,7 +25,8 @@ class Ui_tableTask1(object):
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(1)
         self.tableWidget.setRowCount(0)
-        self.tableWidget.horizontalHeader().setVisible(False)
+        self.tableWidget.horizontalHeader().setVisible(True)
+        self.tableWidget.setHorizontalHeaderLabels(["Шифр"])
         self.verticalLayout.addWidget(self.tableWidget)
 
         self.retranslateUi(tableTask1)
@@ -33,4 +34,4 @@ class Ui_tableTask1(object):
 
     def retranslateUi(self, tableTask1):
         _translate = QtCore.QCoreApplication.translate
-        tableTask1.setWindowTitle(_translate("tableTask1", "Шифр работы"))
+        tableTask1.setWindowTitle(_translate("tableTask1", "Материалы"))

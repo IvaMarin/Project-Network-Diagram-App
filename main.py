@@ -119,6 +119,7 @@ class Window1(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.move(int(sizeWindow.width()*3/4), 200)
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint |
                                   QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(
@@ -128,6 +129,8 @@ class Window1(QMainWindow):
                 MainWindow.ui.tableVar.item(row, 0).text())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(173, self.tableHeight)
 
         self._connectAction()
 
@@ -416,6 +419,7 @@ class Window2(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.move(int(sizeWindow.width()*3/4), 200)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
         self.table.ui.tableWidget.setColumnCount(2)
         self.table.ui.tableWidget.setHorizontalHeaderLabels(
@@ -428,13 +432,15 @@ class Window2(QMainWindow):
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(
                 MainWindow.ui.tableVar.item(row, 0).text())
+            print(self.item.sizeHint())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
             self.item = QtWidgets.QTableWidgetItem(
                 MainWindow.ui.tableVar.item(row, 3).text())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
-        self.table.resize(393, 700)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(298, self.tableHeight)
 
         self._connectAction()
 
@@ -706,6 +712,7 @@ class Window3(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.move(int(sizeWindow.width()*3/4), 200)
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint |
                                   QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(
@@ -731,7 +738,8 @@ class Window3(QMainWindow):
             self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.table.resize(500, 700)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(423, self.tableHeight)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -921,6 +929,7 @@ class Window4(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.move(int(sizeWindow.width()*3/4), 200)
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint |
                                   QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(
@@ -947,7 +956,8 @@ class Window4(QMainWindow):
                 str(int(properties.tn[row])))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.table.resize(500, 700)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(423, self.tableHeight)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -1177,6 +1187,7 @@ class Window5(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.move(int(sizeWindow.width()*3/4), 200)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
         self.table.ui.tableWidget.setColumnCount(2)
         self.table.ui.tableWidget.setHorizontalHeaderLabels(
@@ -1198,7 +1209,8 @@ class Window5(QMainWindow):
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(
                 row, self.headerItem)
-        self.table.resize(393, 700)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(298, self.tableHeight)
 
         self._connectAction()
 
@@ -1384,7 +1396,8 @@ class Window5(QMainWindow):
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
-            self.table.resize(500, 700)
+            self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+            self.table.resize(423, self.tableHeight)
 
             if properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 1)
@@ -1437,7 +1450,8 @@ class Window5(QMainWindow):
                 self.table.ui.tableWidget.setItem(row, 1, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
-            self.table.resize(393, 700)
+            self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+            self.table.resize(298, self.tableHeight)
 
             if properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 2)
@@ -1762,7 +1776,8 @@ class Window6(QMainWindow):
                 str(int(properties.tn[row])))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
-        self.table.resize(700, 700)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(549, self.tableHeight)
 
         self._connectAction()
 
