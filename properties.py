@@ -7,7 +7,7 @@ import numpy as np
 from PyQt5 import QtWidgets
 
 import graph_model
-from checker import find_t_p, find_t_n
+from checker import Checker
 from encrypt_module import decrypt_file
 
 def join(*args):
@@ -60,8 +60,8 @@ class Properties():
         self.step_gridY = 75 # шаг сетки по Y
         self.correct_w = self.MainWindow.getCorrectWeights()
         self.n = len(self.correct_w)
-        self.tp = find_t_p(self.correct_w, self.n)
-        self.tn = find_t_n(self.correct_w, self.tp, self.n)
+        self.tp = Checker.findEarlyPeriods(self.correct_w, self.n)
+        self.tn = Checker.findLatePeriods(self.correct_w, self.tp, self.n)
         self.max_possible_time = self.tp[self.n-1] # максимальное время (для сетки)
 
         #свойства второго окна
@@ -95,8 +95,8 @@ class Properties():
         self.step_gridY = 75 # шаг сетки по Y
         self.correct_w = self.MainWindow.getCorrectWeights()
         self.n = len(self.correct_w)
-        self.tp = find_t_p(self.correct_w, self.n)
-        self.tn = find_t_n(self.correct_w, self.tp, self.n)
+        self.tp = Checker.findEarlyPeriods(self.correct_w, self.n)
+        self.tn = Checker.findLatePeriods(self.correct_w, self.tp, self.n)
         self.max_possible_time = self.tp[self.n-1] # максимальное время (для сетки)
 
         #свойства второго окна
