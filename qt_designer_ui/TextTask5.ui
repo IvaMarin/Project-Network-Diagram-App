@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1367</width>
-    <height>407</height>
+    <width>1548</width>
+    <height>459</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600; background-color:transparent;&quot;&gt;Перестроение полигонального сетевого графика при ранних стоках наступления событий в ортогональный сетевой график по отделениям&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:14pt; background-color:transparent;&quot;&gt;В этом задании необходимо построить ортогональный сетевой график работы в каждом из отделений. &lt;br/&gt;Следует иметь в виду необходимость в некоторых случаях расчленения событий на равнозначные.&lt;br/&gt;Данное задание разделено на три этапа. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;&quot;&gt;1 этап:&lt;/span&gt;&lt;span style=&quot; font-size:14pt; background-color:transparent;&quot;&gt; распределить работы по отделениям. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;&quot;&gt;2 этап:&lt;/span&gt;&lt;span style=&quot; font-size:14pt; background-color:transparent;&quot;&gt; разместить события и работы на сетке времени в соответствии с ранними сроками наступления событий.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;&quot;&gt;3 этап:&lt;/span&gt;&lt;span style=&quot; font-size:14pt; background-color:transparent;&quot;&gt; необходимо над стрелками указать количество людей, выполняющих данную работу.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; background-color:transparent;&quot;&gt;Перестроение полигонального сетевого графика при ранних стоках наступления событий в ортогональный сетевой график по отделениям&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:16pt; background-color:transparent;&quot;&gt;В этом задании необходимо построить ортогональный сетевой график работы в каждом из отделений. &lt;br/&gt;Следует иметь в виду необходимость в некоторых случаях расчленения событий на равнозначные.&lt;br/&gt;Данное задание разделено на три этапа. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;&quot;&gt;1 этап:&lt;/span&gt;&lt;span style=&quot; font-size:16pt; background-color:transparent;&quot;&gt; распределить работы по отделениям. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;&quot;&gt;2 этап:&lt;/span&gt;&lt;span style=&quot; font-size:16pt; background-color:transparent;&quot;&gt; разместить события и работы на сетке времени в соответствии с ранними сроками наступления событий.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;&quot;&gt;3 этап:&lt;/span&gt;&lt;span style=&quot; font-size:16pt; background-color:transparent;&quot;&gt; необходимо над стрелками указать количество людей, выполняющих данную работу.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>

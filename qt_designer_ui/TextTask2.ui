@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>707</width>
-    <height>354</height>
+    <height>374</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Расчет ранних и поздних сроков наступления событий,&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;нахождение критического пути&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;1. заполнить продолжительности работ;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;2. рассчитать для каждого события:&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;    - ранний срок наступления события;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;    - поздний срок наступления события; &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;3. найти и выделить критический путь (если их несколько, &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;то выделить нужно все критические пути).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Расчет ранних и поздних сроков наступления событий,&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;нахождение критического пути&lt;/span&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;1. заполнить продолжительности работ;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;2. рассчитать для каждого события:&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;- ранний срок наступления события;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;- поздний срок наступления события; &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;3. найти и выделить критический путь (если их несколько, &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;то выделить нужно все критические пути).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>

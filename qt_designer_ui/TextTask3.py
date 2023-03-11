@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TextTask3(object):
     def setupUi(self, TextTask3):
         TextTask3.setObjectName("TextTask3")
-        TextTask3.resize(1025, 322)
+        TextTask3.resize(1379, 405)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask3)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask3)
@@ -30,5 +30,15 @@ class Ui_TextTask3(object):
 
     def retranslateUi(self, TextTask3):
         _translate = QtCore.QCoreApplication.translate
-        TextTask3.setWindowTitle(_translate("TextTask3", "Условие 3 задания"))
-        self.label.setText(_translate("TextTask3", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt; font-weight:600;\">Размещение сетевого графика на сетке времени в соответствии с ранними сроками наступления событий</span></p><p align=\"center\"><br/></p><p align=\"justify\">1. разместить сетевой график на сетке времени (временном поле)<br/>в соответствии с ранними сроками их наступления; </p><p align=\"justify\">2. расставить правильные продолжительности работ.</p><p align=\"justify\"><br/>Следует обратить внимание на то, что после расположения событий на временной сетке <br/>расстояния между некоторыми событиями могут быть больше, <br/>чем продолжительность работ. Это свидетельствует о том, что такие работы имеют <br/>резерв времени.</p></body></html>"))
+        TextTask3.setWindowTitle(_translate("TextTask3", "Задание 3"))
+        self.label.setText(_translate("TextTask3", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">Размещение сетевого графика на сетке времени в соответствии с ранними сроками наступления событий</span></p><p align=\"center\"><br/></p><p align=\"justify\"><span style=\" font-size:16pt;\">1. разместить сетевой график на сетке времени (временном поле)<br/>в соответствии с ранними сроками их наступления; </span></p><p align=\"justify\"><span style=\" font-size:16pt;\">2. расставить правильные продолжительности работ.</span></p><p align=\"justify\"><span style=\" font-size:16pt;\"><br/>Следует обратить внимание на то, что после расположения событий на временной сетке <br/>расстояния между некоторыми событиями могут быть больше, <br/>чем продолжительность работ. Это свидетельствует о том, что такие работы имеют <br/>резерв времени.</span></p></body></html>"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    TextTask3 = QtWidgets.QDialog()
+    ui = Ui_TextTask3()
+    ui.setupUi(TextTask3)
+    TextTask3.show()
+    sys.exit(app.exec_())
