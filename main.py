@@ -2080,7 +2080,7 @@ class WindowMenu(QMainWindow):
             Properties.getVerificationPassedTasks(4))
         self.ui.btnTask6.setEnabled(
             Properties.getVerificationPassedTasks(5))
-        pass
+        
 
     def colorTable(self):
         for i in range(self.ui.tableVar.rowCount()):

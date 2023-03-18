@@ -15,11 +15,16 @@ class Ui_TextTask5(object):
     def setupUi(self, TextTask5):
         TextTask5.setObjectName("TextTask5")
         TextTask5.resize(1548, 459)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(16)
+        TextTask5.setFont(font)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask5)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask5)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
+        font.setPointSize(16)
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
@@ -30,7 +35,7 @@ class Ui_TextTask5(object):
     def retranslateUi(self, TextTask5):
         _translate = QtCore.QCoreApplication.translate
         TextTask5.setWindowTitle(_translate("TextTask5", "Задание 5"))
-        self.label.setText(_translate("TextTask5", "<html><head/><body><p><span style=\" font-size:18pt; font-weight:600; background-color:transparent;\">Перестроение полигонального сетевого графика при ранних стоках наступления событий в ортогональный сетевой график по отделениям</span></p><p align=\"justify\"><span style=\" font-size:16pt; background-color:transparent;\">В этом задании необходимо построить ортогональный сетевой график работы в каждом из отделений. <br/>Следует иметь в виду необходимость в некоторых случаях расчленения событий на равнозначные.<br/>Данное задание разделено на три этапа. </span></p><p align=\"justify\"><span style=\" font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">1 этап:</span><span style=\" font-size:16pt; background-color:transparent;\"> распределить работы по отделениям. </span></p><p align=\"justify\"><span style=\" font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">2 этап:</span><span style=\" font-size:16pt; background-color:transparent;\"> разместить события и работы на сетке времени в соответствии с ранними сроками наступления событий.</span></p><p align=\"justify\"><span style=\" font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">3 этап:</span><span style=\" font-size:16pt; background-color:transparent;\"> необходимо над стрелками указать количество людей, выполняющих данную работу.</span></p></body></html>"))
+        self.label.setText(_translate("TextTask5", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600; background-color:transparent;\">Перестроение полигонального сетевого графика<br/>при ранних стоках наступления событий<br/>в ортогональный сетевой график по отделениям</span></p><p align=\"justify\"><span style=\" font-size:16pt; background-color:transparent;\">В этом задании необходимо построить ортогональный сетевой график работы в каждом из отделений. <br/>Следует иметь в виду необходимость в некоторых случаях расчленения событий на равнозначные.<br/>Данное задание разделено на три этапа. </span></p><p align=\"justify\"><span style=\" font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">1 этап:</span><span style=\" font-size:16pt; background-color:transparent;\"> распределить работы по отделениям. </span></p><p align=\"justify\"><span style=\" font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">2 этап:</span><span style=\" font-size:16pt; background-color:transparent;\"> разместить события и работы на сетке времени в соответствии с ранними сроками наступления событий.</span></p><p align=\"justify\"><span style=\" font-size:16pt; font-weight:600; font-style:italic; text-decoration: underline; background-color:transparent;\">3 этап:</span><span style=\" font-size:16pt; background-color:transparent;\"> необходимо над стрелками указать количество людей, выполняющих данную работу.</span></p></body></html>"))
 
 
 if __name__ == "__main__":
