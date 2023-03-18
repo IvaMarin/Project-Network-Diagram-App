@@ -13,6 +13,7 @@ from PyQt5.QtCore import QRect, Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog
 from PyQt5.QtGui import QImage, QFont
 from PyQt5.QtCore import QSize, Qt
+from PyQt5.Qt import QGraphicsDropShadowEffect
 from PyQt5.QtGui import QPainter
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QPushButton
@@ -347,6 +348,7 @@ class Window1(QMainWindow):
                 self.ui.actionbtnRemoveNode.setEnabled(True)
         except:
                 warning = QMessageBox()
+                warning.setFont(QFont('Times', 16))
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
                 self.ui.actionbtnCheck.setCheckable(False)
@@ -411,6 +413,7 @@ class Window2(QMainWindow):
 
         # Создаём окно для ошибки заполнения таблицы
         self.msg = QMessageBox()
+        self.msg.setFont(QFont('Times', 16))
         self.msg.setWindowTitle("Предупреждение")
         self.msg.setText("Заполните все поля таблицы!")
         self.msg.setIcon(QMessageBox.Critical)
@@ -660,6 +663,7 @@ class Window2(QMainWindow):
                 self.ui.actionbtnCritPath.setEnabled(True)
         except:
                 warning = QMessageBox()
+                warning.setFont(QFont('Times', 16))
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
                 self.ui.actionbtnCheck.setCheckable(False)
@@ -696,11 +700,15 @@ class Window3(QMainWindow):
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
 
-        self.DisplayObj.setMinimumSize(
-            (properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
-        self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        numAxis = sizeWindow.width() // self.DisplayObj.step
 
-        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        if (properties.max_possible_time > numAxis):
+            numAxis = properties.max_possible_time + 3
+
+
+        self.DisplayObj.setMinimumSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
+
+        size = QSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
@@ -880,6 +888,7 @@ class Window3(QMainWindow):
                 self.ui.actionbtnDottedConnectNode.setEnabled(True)
         except:
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
             self.ui.actionbtnCheck.setCheckable(False)
@@ -917,7 +926,16 @@ class Window4(QMainWindow):
         self.DisplayObj.setMinimumSize(
             (properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        numAxis = sizeWindow.width() // self.DisplayObj.step
+
+        if (properties.max_possible_time > numAxis):
+            numAxis = properties.max_possible_time + 3
+
+
+        self.DisplayObj.setMinimumSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
+
+        size = QSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
+
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
@@ -1090,6 +1108,7 @@ class Window4(QMainWindow):
                 self.ui.actionbtnDottedConnectNode.setEnabled(True)
         except:
                 warning = QMessageBox()
+                warning.setFont(QFont('Times', 16))
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
                 self.ui.actionbtnCheck.setCheckable(False)
@@ -1276,6 +1295,7 @@ class Window5(QMainWindow):
             self.widgetList[i].update()
         else:
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText(
                 f"Превышено максимальное число последовательностей работ для {numS}-го отделения!")
@@ -1653,6 +1673,7 @@ class Window5(QMainWindow):
                 self.ui.actionbtnMoveNode.setEnabled(True)
         except:
                 warning = QMessageBox()
+                warning.setFont(QFont('Times', 16))
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
                 self.ui.actionbtnCheck.setCheckable(False)
@@ -1931,7 +1952,7 @@ class HelpWithProgram():
         # подгоняем под размер уаждцю фотку и собираем их в лист
         for i in range(9):
             img = Image.open('documentation/doc_' + str(i)+'.jpg')
-            img = img.resize((round(monitor_width*0.8), round((monitor_width*0.8))))
+            img = img.resize((round(0.8*monitor_width), round((1.8*monitor_height))))
             photos.append(ImageTk.PhotoImage(img))
 
         for photo in photos:
@@ -1953,6 +1974,16 @@ class WindowMenu(QMainWindow):
 
         self.ui = Ui_MainMenu()
         self.ui.setupUi(self)
+
+        for children in self.findChildren(QPushButton):
+            shadow = QGraphicsDropShadowEffect(blurRadius=3, xOffset=2, yOffset=2)
+            children.setGraphicsEffect(shadow)
+
+        shadow = QGraphicsDropShadowEffect(blurRadius=5, xOffset=2, yOffset=2)
+        self.ui.tableVar.setGraphicsEffect(shadow)
+        shadow1 = QGraphicsDropShadowEffect(blurRadius=3, xOffset=3, yOffset=3)
+        self.ui.menuBar.setGraphicsEffect(shadow1)
+
 
         self.setWindowTitle("\"Использование метода сетевого планирования и управления в технологических процессах эксплуатации космических средств\"")
         self.sizeWindow = QRect(QApplication.desktop().screenGeometry())
@@ -1981,22 +2012,23 @@ class WindowMenu(QMainWindow):
         self.winEditTable = winEditTable(self)
         # self.creatTable = WinsDialog.creatTable(self) #
 
-        self.ui.btnReportSign.setEnabled(False)
-        # self.ui.btnGenVar.setEnabled(False)
-        self.ui.btnEditTaskVariant.setEnabled(False)
-        self.ui.btnPrint.setEnabled(False)
-        self.ui.previewReport.setEnabled(False)
-        self.ui.btnTask1.setEnabled(True)
-        self.ui.btnTask2.setEnabled(
-            Properties.getVerificationPassedTasks(1))
-        self.ui.btnTask3.setEnabled(
-            Properties.getVerificationPassedTasks(2))
-        self.ui.btnTask4.setEnabled(
-            Properties.getVerificationPassedTasks(3))
-        self.ui.btnTask5.setEnabled(
-            Properties.getVerificationPassedTasks(4))
-        self.ui.btnTask6.setEnabled(
-            Properties.getVerificationPassedTasks(5))
+        # self.ui.actionReportSign.setEnabled(False)
+        # # self.ui.btnGenVar.setEnabled(False)
+        # self.ui.actionEditTaskVariant.setEnabled(False)
+        # self.ui.actionPrint.setEnabled(False)
+        # self.ui.actionPreviewReport.setEnabled(False)
+        # self.ui.btnTask1.setEnabled(True)
+        # self.ui.btnTask2.setEnabled(
+        #     statusTask.get_verification_passed_tasks(1))
+        # self.ui.btnTask3.setEnabled(
+        #     statusTask.get_verification_passed_tasks(2))
+        # self.ui.btnTask4.setEnabled(
+        #     statusTask.get_verification_passed_tasks(3))
+        # self.ui.btnTask5.setEnabled(
+        #     statusTask.get_verification_passed_tasks(4))
+        # self.ui.btnTask6.setEnabled(
+        #     statusTask.get_verification_passed_tasks(5))
+        self.setFalseButton()
 
         self._connectAction()
         # self.creatReport()
@@ -2013,6 +2045,43 @@ class WindowMenu(QMainWindow):
         self.report_was_make = False
         self.show()
         self.colorTable()
+        
+        # QGraphicsDropShadowEffects
+        # shadow = QGraphicsDropShadowEffect(blurRadius=5, xOffset=3, yOffset=3)
+        # self.ui.btnTask1.setGraphicsEffect(shadow)
+        
+
+    def setTrueButton(self):
+        self.ui.actionReportSign.setEnabled(True)
+        # self.ui.btnGenVar.setEnabled(True)
+        self.ui.actionEditTaskVariant.setEnabled(True)
+        self.ui.btnTask1.setEnabled(True)
+        self.ui.btnTask2.setEnabled(True)
+        self.ui.btnTask3.setEnabled(True)
+        self.ui.btnTask4.setEnabled(True)
+        self.ui.btnTask5.setEnabled(True)
+        self.ui.btnTask6.setEnabled(True)
+        self.ui.actionPrint.setEnabled(True)
+        self.ui.actionPreviewReport.setEnabled(True)
+
+    def setFalseButton(self):
+        self.ui.actionReportSign.setEnabled(False)
+        # self.ui.btnGenVar.setEnabled(False)
+        self.ui.actionEditTaskVariant.setEnabled(False)
+        self.ui.actionPrint.setEnabled(False)
+        self.ui.actionPreviewReport.setEnabled(False)
+        self.ui.btnTask1.setEnabled(True)
+        self.ui.btnTask2.setEnabled(
+            Properties.getVerificationPassedTasks(1))
+        self.ui.btnTask3.setEnabled(
+            Properties.getVerificationPassedTasks(2))
+        self.ui.btnTask4.setEnabled(
+            Properties.getVerificationPassedTasks(3))
+        self.ui.btnTask5.setEnabled(
+            Properties.getVerificationPassedTasks(4))
+        self.ui.btnTask6.setEnabled(
+            Properties.getVerificationPassedTasks(5))
+        pass
 
     def colorTable(self):
         for i in range(self.ui.tableVar.rowCount()):
@@ -2158,15 +2227,11 @@ class WindowMenu(QMainWindow):
         self.ui.actionHelpWithProg.triggered.connect(lambda: self.openHelpWithProg())
 
         # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
-        self.ui.btnReportSign.clicked.connect(lambda: self.openWinSigReport())
+        self.ui.actionReportSign.triggered.connect(lambda: self.openWinSigReport())
         # self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
-        self.ui.previewReport.clicked.connect(lambda: self.watchReport())
-        self.ui.btnPrint.clicked.connect(lambda: self.printReport())
-        self.ui.btnEditTaskVariant.clicked.connect(lambda: self.openWinEditTable())
-
-    def openHelpWithProg(self):
-        self.helpWithProgram.ShowWindow()
-
+        self.ui.actionPreviewReport.triggered.connect(lambda: self.watchReport())
+        self.ui.actionPrint.triggered.connect(lambda: self.printReport())
+        self.ui.actionEditTaskVariant.triggered.connect(lambda: self.openWinEditTable())
     def openWinSigReport(self):
         try:
             self.winSigReport.exec()
@@ -2182,38 +2247,13 @@ class WindowMenu(QMainWindow):
     def activateTeacherMode(self):
         if self.ui.btnTeacherMode.isChecked() and (encrypt.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
-            self.ui.btnReportSign.setEnabled(True)
-            # self.ui.btnGenVar.setEnabled(True)
-            self.ui.btnEditTaskVariant.setEnabled(True)
-            self.ui.btnTask1.setEnabled(True)
-            self.ui.btnTask2.setEnabled(True)
-            self.ui.btnTask3.setEnabled(True)
-            self.ui.btnTask4.setEnabled(True)
-            self.ui.btnTask5.setEnabled(True)
-            self.ui.btnTask6.setEnabled(True)
-            self.ui.btnPrint.setEnabled(True)
-            self.ui.previewReport.setEnabled(True)
+            self.setTrueButton()
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet(
                 "QStatusBar{background:rgba(255,0,0,255)}")
         else:
-            self.ui.btnReportSign.setEnabled(False)
-            # self.ui.btnGenVar.setEnabled(False)
-            self.ui.btnEditTaskVariant.setEnabled(False)
-            self.ui.btnPrint.setEnabled(False)
-            self.ui.previewReport.setEnabled(False)
-            self.ui.btnTask1.setEnabled(True)
-            self.ui.btnTask2.setEnabled(
-                Properties.getVerificationPassedTasks(1))
-            self.ui.btnTask3.setEnabled(
-                Properties.getVerificationPassedTasks(2))
-            self.ui.btnTask4.setEnabled(
-                Properties.getVerificationPassedTasks(3))
-            self.ui.btnTask5.setEnabled(
-                Properties.getVerificationPassedTasks(4))
-            self.ui.btnTask6.setEnabled(
-                Properties.getVerificationPassedTasks(5))
+            self.setFalseButton()
             self.ui.btnTeacherMode.setChecked(False)
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(184, 255, 192,255)}")  # rgb(184, 255, 192)
@@ -2222,8 +2262,8 @@ class WindowMenu(QMainWindow):
         properties.teacherMode = self.ui.btnTeacherMode.isChecked()
 
     def activateDeveloperMode(self):
-        self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
-        self.numGroup = "1"  # данные о студенте проинициализированы
+        self.surname = "ПРЕПОДАВАТЕЛЬ"  # данные о студенте проинициализированы
+        self.numGroup = "---"  # данные о студенте проинициализированы
         self.numINGroup = "0"  # данные о студенте проинициализированы
     
     def updateProgressDialog(self, value):
@@ -2387,9 +2427,9 @@ class WindowMenu(QMainWindow):
 
         else:
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText("Для начала необходимо сформировать отчет.")
-            warning.setFont(QFont('Times', 16))
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             print('[WARN] NO REPORT ----> create report')
@@ -2541,6 +2581,8 @@ def clear_data():
 
 def close_app(event):
     close = QMessageBox()
+    close.setFont(QFont('Times', 16))
+    close.setFont(QFont('Times', properties.commonFont))
     close.setWindowTitle("Закрыть приложение")
     close.setText("Вы уверены, что хотите закрыть приложение?")
     close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)

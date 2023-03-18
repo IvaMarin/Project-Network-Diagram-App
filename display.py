@@ -52,14 +52,17 @@ def createGrid(size, step=50, vertical=True, horizontal=True, max_time = -1):
     y0=0
     sizeWindow = size
     lines = []
+    sizeDesktop = QRect(QApplication.desktop().screenGeometry())
+    numAxis = sizeDesktop.width() // step
 
     if vertical:
         if (max_time == -1):
-            number_vertical_lines = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
+            numAxis = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
         else:
-            number_vertical_lines = max_time + 1 + 3
+            if (max_time > numAxis):
+                numAxis = max_time
 
-        for i in range(number_vertical_lines):
+        for i in range(numAxis):
             lines.append(QLineF(x0, 0, x0, sizeWindow.height()))
             x0 = x0 + step
 
@@ -78,14 +81,19 @@ def createGaps(size, step=50, sizeNumber = 40, yNumber = 50, max_time = -1):
     sizeWindow = size
     lines = []
     sizeNumber = sizeNumber / 2
+    sizeDesktop = QRect(QApplication.desktop().screenGeometry())
+    numAxis = sizeDesktop.width() // step
 
     x0 = x0 + step
 
     if (max_time == -1):
-        number_vertical_lines = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
+        numAxis = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
     else:
-        number_vertical_lines = max_time +1 + 3
-    for i in range(number_vertical_lines):
+        if (max_time > numAxis):
+                numAxis = max_time +1 + 3
+
+
+    for i in range(numAxis - 1):
         lines.append(QLineF(x0, sizeWindow.height() - yNumber - sizeNumber, x0, sizeWindow.height() - yNumber + sizeNumber))
         lines.append(QLineF(x0, yNumber - sizeNumber, x0, yNumber + sizeNumber))
         x0 = x0 + step
@@ -128,7 +136,7 @@ class Display(QWidget):
 
         else:
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
-        self.whiteLines = createGaps(self.size(), self.step, self.max_time)
+        self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
 
         for el in [self, self.root.image]:
             painter = QPainter(el)
@@ -176,7 +184,7 @@ class Display(QWidget):
                     if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                     else:
-                        offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+                        offset = [-(5*len(str(i+1))*font_size/7.8 - 3.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                     painter.drawText(int(self.graph.Points[i][0] + offset[0]), int(self.graph.Points[i][1] + offset[1]), f'{i}')
     
     def save(self):
@@ -306,7 +314,7 @@ class Display2(Display):
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
         else:
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
-        self.whiteLines = createGaps(self.size(), self.step, self.max_time)
+        self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
 
         for el in [self, self.root.image]:
             painter = QPainter(el)
@@ -448,7 +456,7 @@ class Display3_4(Display):
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
         else:
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
-        self.whiteLines = createGaps(self.size(), self.step, self.max_time)
+        self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
         for el in [self, self.root.image]:
             painter = QPainter(el)
             painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
@@ -462,7 +470,7 @@ class Display3_4(Display):
 
             painter.setPen(QColor("black"))
             font = 'Times'
-            font_size = 12
+            font_size = 16
             painter.setFont(QFont(font, font_size))
             painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
             painter.setBrush(QColor("black"))
@@ -470,19 +478,16 @@ class Display3_4(Display):
             # отрисовка нумерации осей сетки
             x0 = 0
             sizeWindow = self.size()
-            if (self.max_time == -1):
-                number_vertical_lines = (sizeWindow.width() - x0) // self.step + 1  # количество вертикальных линий
-            else:
-                number_vertical_lines = self.max_time + 3
             yLow = sizeWindow.height() - 50
             yHight = 50 
-            for i in range(number_vertical_lines):
+            for i in range(len(self.lines) - 1):
                 if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
-                        offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+                        offset = [-(5*len(str(i+1))*font_size/7.8 - 3.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
                 painter.drawText(int(self.step + self.step * i + offset[0]), int(yLow + offset[1]), f'{i}')
                 painter.drawText(int(self.step + self.step * i + offset[0]), int(yHight + offset[1]), f'{i}')
+            font_size = 12
 
             # отрисовка стрелок
             for i in range(len(self.graph.AdjacencyMatrix)):
@@ -545,7 +550,7 @@ class Display3_4(Display):
                     if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                     else:
-                        offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+                        offset = [-(5*len(str(i+1))*font_size/7.8 - 3.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                     painter.drawText(int(self.graph.Points[i][0] + offset[0]), int(self.graph.Points[i][1] + offset[1]), f'{i}')
 
             self.graph_in.PeopleWeights = self.GetNumberOfPeople()
@@ -648,7 +653,7 @@ class Display5(Display):
 
             painter.setPen(QColor("black"))
             font = 'Times'
-            font_size = 12
+            font_size = 16
             painter.setFont(QFont(font, font_size))
             painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
             painter.setBrush(QColor("black"))
@@ -663,9 +668,11 @@ class Display5(Display):
                 if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
-                        offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+                        offset = [-(5*len(str(i+1))*font_size/7.8 - 3.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
                 painter.drawText(int(self.step + self.step * i + offset[0]), int(yLow + offset[1]), f'{i}')
                 painter.drawText(int(self.step + self.step * i + offset[0]), int(yHight + offset[1]), f'{i}')
+
+            font_size = 12
 
             # отрисовка стрелок
             for p1, p2 in self.graph.AdjacencyList.items():
@@ -711,7 +718,7 @@ class Display5(Display):
                 if len(str(digit+1)) < 2:
                     offset = [-(5*len(str(digit+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
-                    offset = [-(5*len(str(digit+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+                    offset = [-(5*len(str(digit+1))*font_size/7.8 - 3.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
 
             # после корректного выполнения запрещаем модифицировать число людей
@@ -854,7 +861,7 @@ class Display6(Display5):
 
             painter.setPen(QColor("black"))
             font = 'Times'
-            font_size = 12
+            font_size = 16
             painter.setFont(QFont(font, font_size))
             painter.setPen(Qt.PenStyle.SolidLine)  # тут можно использовать Qt.PenStyle.DashLine для пунктирных линий
             painter.setBrush(QColor("black"))
@@ -869,9 +876,10 @@ class Display6(Display5):
                 if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
-                        offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
+                        offset = [-(5*len(str(i+1))*font_size/7.8 - 3.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины
                 painter.drawText(int(self.step + self.step * i + offset[0]), int(yLow + offset[1]), f'{i}')
                 painter.drawText(int(self.step + self.step * i + offset[0]), int(yHight + offset[1]), f'{i}')
+            font_size = 12
 
             # отрисовка стрелок
             for p1, p2 in self.graph.AdjacencyList.items():
@@ -919,7 +927,7 @@ class Display6(Display5):
                 if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                 else:
-                    offset = [-(5*len(str(i+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
+                    offset = [-(5*len(str(i+1))*font_size/7.8 - 3.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
             self.root.widgetRight.update()
 
