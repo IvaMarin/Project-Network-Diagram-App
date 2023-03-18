@@ -1,7 +1,6 @@
 import os
 import re
 import pickle
-import time
 import numpy as np
 
 from PyQt5 import QtWidgets
@@ -18,7 +17,7 @@ basedir = os.path.dirname(__file__) # путь до данного файла
 
 class Properties():
     # static field
-    verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
+    verificationPassedTasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
 
     def __init__(self, MainWindow):
         # self.start_time = time.time_ns() # время начала работы программы в наносекундах
@@ -63,7 +62,7 @@ class Properties():
     def update(self):
         self.variant = self.MainWindow.numINGroup
         self.teacherMode = False
-        self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
+        Properties.verificationPassedTasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
         self.key_path = "" # путь до ключа преподавателя 
         self.enter_teacher_mode = [False, False, False, False, False, False]
 
@@ -139,26 +138,27 @@ class Properties():
 
     @staticmethod
     def getVerificationPassedTasks(current):
-        return Properties.verification_passed_tasks[current]    
+        return Properties.verificationPassedTasks[current]    
 
     # функция получения подтверждения пройденых заданий
-    def get_verification_passed_pretasks(self, current):
-        if (self.verification_passed_tasks[current - 1] == False):
+    @staticmethod
+    def getVerificationPassedPretasks(current):
+        if (Properties.verificationPassedTasks[current - 1] == False):
             return False
         else:
             return True
 
     # функция присваивания  подтверждения заданию
-    def setVerificationPassedTask(self, number):
-        self.verification_passed_tasks[number] = True
+    @staticmethod
+    def setVerificationPassedTask(number):
+        Properties.verificationPassedTasks[number] = True
 
-
-    def setVerificationPassedTaskAll(self, arg):
-
+    @staticmethod
+    def setVerificationPassedTaskAll(arg):
         if (arg):
-            self.verification_passed_tasks = {1: True, 2: True, 3: True, 4: True, 5: True}
+            Properties.verificationPassedTasks = {1: True, 2: True, 3: True, 4: True, 5: True}
         else:
-            self.verification_passed_tasks = {1: False, 2: False, 3: False, 4: False, 5: False}
+            Properties.verificationPassedTasks = {1: False, 2: False, 3: False, 4: False, 5: False}
 
     # ФУНКЦИИ ДЛЯ РАБОТЫ С ШИФРОВАНИЕМ   
     def check_key(self, key_path) -> bool:
