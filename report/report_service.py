@@ -29,7 +29,7 @@ class ReportService():
     def add_image(self, report, path_image):
 
         try:
-            report.image(path_image, 25, 60, 240)
+            report.image(path_image, 35, 60, h=130)
         except:
             pass
 
@@ -39,14 +39,22 @@ class ReportService():
         except:
             pass
 
+    def add_image_long(self, report, path_image):
+        try:
+            report.image(path_image, 35, 60, w=240)
+        except:
+            pass
+
     def create_task_page(self, report, text, path_image, hist='N'):
 
         report.add_page()
         self.add_text(report, text)
-        if hist != 'H':
+        if hist == 'N':
             self.add_image(report, path_image)
-        else:
+        elif hist == 'H':
             self.add_hist(report, path_image)
+        elif hist == 'L':
+            self.add_image_long(report, path_image)
         return report
 
     def pdf_encry(self, pdf_path="pdf_encry_decry/1.pdf"):
