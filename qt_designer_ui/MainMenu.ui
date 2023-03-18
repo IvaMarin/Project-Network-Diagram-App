@@ -440,7 +440,7 @@
   </action>
   <action name="actionDevelopers">
    <property name="text">
-    <string>Рразработчики</string>
+    <string>Разработчики</string>
    </property>
   </action>
   <action name="actionHelpWithProg">
