@@ -84,7 +84,7 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
             return
         else:
             self.mainMenu.surname = self.ui.lineEditSurname.text()  # сохраняем в класс WindowMenu фамилию
-            self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()  # сохраняем в класс WindowMenu группу
+            # self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()  # сохраняем в класс WindowMenu группу
             self.mainMenu.numGroup = self.ui.lineEditGroup.text()  # сохраняем в класс WindowMenu группу
             # WindowMenu это класс окна Меню
 
@@ -102,7 +102,6 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
         listNumberVariant = self.mainMenu.variantController.getAllNumberOfVariant()
 
         if self.ui.lineEditSurname.text() == "" or\
-                self.ui.lineEditNumINGroup.text() == "" or\
                 self.ui.lineEditGroup.text() == "": # если существует незаполненная строка, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
@@ -112,15 +111,15 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
-        elif listNumberVariant.count(self.ui.lineEditNumINGroup.text()) == 0: # если не существует файла с указанным вариантом, выводим предупреждение и
-            # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
-            warning = QMessageBox()
-            warning.setWindowTitle("Предупреждение")
-            warning.setText("Введите корректный номер варианта.")
-            warning.setFont(QFont('Times', 16))
-            warning.setDefaultButton(QMessageBox.Ok)
-            warning = warning.exec()
-            return True
+        # elif listNumberVariant.count(self.ui.lineEditNumINGroup.text()) == 0: # если не существует файла с указанным вариантом, выводим предупреждение и
+        #     # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
+        #     warning = QMessageBox()
+        #     warning.setWindowTitle("Предупреждение")
+        #     warning.setText("Введите корректный номер варианта.")
+        #     warning.setFont(QFont('Times', 16))
+        #     warning.setDefaultButton(QMessageBox.Ok)
+        #     warning = warning.exec()
+        #     return True
         else: # иначе возвращаем False (проверки пройдены)
             return False
 
@@ -307,6 +306,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
                 #self.creatTable.openFile(pathFileXlsx) #
                 self.creatTable.openNewVariant()
                 self.creatTable.showMaximized()
+                self.creatTable.colorTable()
                 self.creatTable.exec_()
                 
 
@@ -353,6 +353,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             
         #self.creatTable.openFile(self.fileName) # открываем указанный файл в окне для редактирования вариантов
         self.creatTable.showMaximized()
+        self.creatTable.colorTable()
         self.creatTable.exec_()
     
 
@@ -406,8 +407,6 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.winEditTable = root  # сохраняем нашего родителя
         #self.winEditTable = winEditTable()
 
-
-
         sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
         width = int(sizeWindow.width())  # выставляем ширину окна
         height = int(sizeWindow.height())  # выставляем длину окна
@@ -421,9 +420,21 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
 
         self.listNumPeopleInSquad = []
         self._connectAction()  # ф-ия связи с эл-тами окна
+        self.colorTable()
+
 
     # def show(self):
     #     self.showMaximized()
+    def colorTable(self):
+        for i in range(self.ui.tableTaskVar.rowCount()):
+            for j in range(self.ui.tableTaskVar.columnCount()-2):
+                if self.ui.tableTaskVar.item(i, j):
+                    self.ui.tableTaskVar.item(i, j).setBackground(QtGui.QColor(202,238,255,255))
+        
+        for i in range(self.ui.tableTaskVar.rowCount()):
+            for j in range(self.ui.tableTaskVar.columnCount()-2, self.ui.tableTaskVar.columnCount()):
+                if self.ui.tableTaskVar.item(i, j):
+                    self.ui.tableTaskVar.item(i, j).setBackground(QtGui.QColor(198,255,197, 255))
 
         
     def _connectAction(self):
