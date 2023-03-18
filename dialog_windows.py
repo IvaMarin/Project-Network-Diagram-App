@@ -11,9 +11,7 @@ from file_service import FileService
 from PyQt5 import QtWidgets, QtGui ,QtCore
 from PyQt5.QtCore import QRect
 from PyQt5.QtGui import QIntValidator, QFont
-from PyQt5.QtWidgets import QApplication, QAction, QMessageBox, QDialog
-from PyQt5.Qt import QGraphicsDropShadowEffect
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog, QGraphicsDropShadowEffect
 from PyQt5.QtGui import QImage, QFont
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QPushButton, QLabel, QLineEdit, QComboBox
 #############    Первый запуск    #######################
