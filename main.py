@@ -10,7 +10,7 @@ from PyQt5 import QtWidgets, QtCore
 
 from PyQt5.QtCore import QRect, Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog
-from PyQt5.QtGui import QImage
+from PyQt5.QtGui import QImage, QFont
 from PIL.ImageQt import ImageQt
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPainter
@@ -119,6 +119,7 @@ class Window1(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.move(int(sizeWindow.width()*3/4), 200)
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint |
                                   QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(
@@ -128,6 +129,8 @@ class Window1(QMainWindow):
                 MainWindow.ui.tableVar.item(row, 0).text())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(173, self.tableHeight)
 
         self._connectAction()
 
@@ -346,7 +349,8 @@ class Window1(QMainWindow):
         except:
                 warning = QMessageBox()
                 warning.setWindowTitle("Предупреждение")
-                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                self.ui.actionbtnCheck.setCheckable(False)
                 warning.setDefaultButton(QMessageBox.Ok)
                 warning = warning.exec()
 
@@ -416,6 +420,7 @@ class Window2(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.move(int(sizeWindow.width()*3/4), 200)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
         self.table.ui.tableWidget.setColumnCount(2)
         self.table.ui.tableWidget.setHorizontalHeaderLabels(
@@ -428,13 +433,15 @@ class Window2(QMainWindow):
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(
                 MainWindow.ui.tableVar.item(row, 0).text())
+            print(self.item.sizeHint())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
             self.item = QtWidgets.QTableWidgetItem(
                 MainWindow.ui.tableVar.item(row, 3).text())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
-        self.table.resize(393, 700)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(298, self.tableHeight)
 
         self._connectAction()
 
@@ -662,7 +669,8 @@ class Window2(QMainWindow):
         except:
                 warning = QMessageBox()
                 warning.setWindowTitle("Предупреждение")
-                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                self.ui.actionbtnCheck.setCheckable(False)
                 warning.setDefaultButton(QMessageBox.Ok)
                 warning = warning.exec()
 
@@ -706,6 +714,7 @@ class Window3(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.move(int(sizeWindow.width()*3/4), 200)
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint |
                                   QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(
@@ -731,7 +740,8 @@ class Window3(QMainWindow):
             self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.table.resize(500, 700)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(423, self.tableHeight)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -880,7 +890,8 @@ class Window3(QMainWindow):
         except:
             warning = QMessageBox()
             warning.setWindowTitle("Предупреждение")
-            warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+            warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+            self.ui.actionbtnCheck.setCheckable(False)
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
 
@@ -921,6 +932,7 @@ class Window4(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.move(int(sizeWindow.width()*3/4), 200)
         self.table.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowTitleHint |
                                   QtCore.Qt.CustomizeWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint)
         self.table.ui.tableWidget.setRowCount(
@@ -947,7 +959,8 @@ class Window4(QMainWindow):
                 str(int(properties.tn[row])))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.table.resize(500, 700)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(423, self.tableHeight)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -1087,7 +1100,8 @@ class Window4(QMainWindow):
         except:
                 warning = QMessageBox()
                 warning.setWindowTitle("Предупреждение")
-                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                self.ui.actionbtnCheck.setCheckable(False)
                 warning.setDefaultButton(QMessageBox.Ok)
                 warning = warning.exec()
 
@@ -1177,6 +1191,7 @@ class Window5(QMainWindow):
         self.table = QtWidgets.QWidget()
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
+        self.table.move(int(sizeWindow.width()*3/4), 200)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
         self.table.ui.tableWidget.setColumnCount(2)
         self.table.ui.tableWidget.setHorizontalHeaderLabels(
@@ -1198,7 +1213,8 @@ class Window5(QMainWindow):
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(
                 row, self.headerItem)
-        self.table.resize(393, 700)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(298, self.tableHeight)
 
         self._connectAction()
 
@@ -1384,7 +1400,8 @@ class Window5(QMainWindow):
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
-            self.table.resize(500, 700)
+            self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+            self.table.resize(423, self.tableHeight)
 
             if properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 1)
@@ -1437,7 +1454,8 @@ class Window5(QMainWindow):
                 self.table.ui.tableWidget.setItem(row, 1, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
-            self.table.resize(393, 700)
+            self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+            self.table.resize(298, self.tableHeight)
 
             if properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 2)
@@ -1533,7 +1551,10 @@ class Window5(QMainWindow):
         dialogTask.exec()
 
     def backMainMenu(self):
+        # self.switchTeacherMode(False)
+        self.ui.actionHelp.setChecked(False)
         MainWindow.show()
+        self.table.close()
         self.close()
 
     def show(self):
@@ -1647,7 +1668,8 @@ class Window5(QMainWindow):
         except:
                 warning = QMessageBox()
                 warning.setWindowTitle("Предупреждение")
-                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                self.ui.actionbtnCheck.setCheckable(False)
                 warning.setDefaultButton(QMessageBox.Ok)
                 warning = warning.exec()
 
@@ -1762,7 +1784,8 @@ class Window6(QMainWindow):
                 str(int(properties.tn[row])))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
-        self.table.resize(700, 700)
+        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.table.resize(549, self.tableHeight)
 
         self._connectAction()
 
@@ -1851,6 +1874,7 @@ class Window6(QMainWindow):
 
     def backMainMenu(self):
         MainWindow.show()
+        self.table.close()
         self.close()
 
     def show(self):
@@ -2077,22 +2101,18 @@ class WindowMenu(QMainWindow):
         self.ui.btnReportSign.clicked.connect(lambda: self.openWinSigReport())
         # self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         self.ui.previewReport.clicked.connect(lambda: self.watchReport())
-        self.ui.btnPrint.clicked.connect(lambda: self.print_report())
+        self.ui.btnPrint.clicked.connect(lambda: self.printReport())
         self.ui.btnEditTaskVariant.clicked.connect(lambda: self.openWinEditTable())
 
     def openWinSigReport(self):
         try:
             self.winSigReport.exec()
-            self.update()
-            properties.update()
         except:
             pass
 
     def openWinEditTable(self):
         try:
             self.winEditTable.exec()
-            self.update()
-            properties.update()
         except:
             pass
 
@@ -2147,17 +2167,11 @@ class WindowMenu(QMainWindow):
         self.progressDialog.setValue(value)
 
     def watchReport(self):
-        report = 'text'
         try:
-            report = (
-                QtWidgets.QFileDialog.getOpenFileName(
-                    self, 'Выберите отчёт', bp.reports_path)[0]
-            )
-            report = os.path.abspath(report)
-            if report == "":
-                return
-
+            report, filter = QFileDialog.getOpenFileName(self, 'Открыть отчет', '', 'PDF (*.pdf)')
             print(f'[INFO] SELECTED FILE ----> {report}')
+            if not report:
+                return
 
             self.report_controller.whatch_report(report)
         except Exception as e:
@@ -2186,8 +2200,8 @@ class WindowMenu(QMainWindow):
         except:
             pass
 
-    def print_report(self):
-        filePath, filter = QFileDialog.getOpenFileName(self, 'Open file', '', 'PDF (*.pdf)')
+    def printReport(self):
+        filePath, filter = QFileDialog.getOpenFileName(self, 'Открыть отчет', '', 'PDF (*.pdf)')
         if not filePath:
             return
         self.report_controller.print_report(filePath)
@@ -2312,6 +2326,7 @@ class WindowMenu(QMainWindow):
             warning = QMessageBox()
             warning.setWindowTitle("Предупреждение")
             warning.setText("Для начала необходимо сформировать отчет.")
+            warning.setFont(QFont('Times', 16))
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             print('[WARN] NO REPORT ----> create report')

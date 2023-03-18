@@ -5,7 +5,7 @@ from PyQt5.QtGui import QPainter, QColor, QPolygonF, QPen, QFont, QImage
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QFileDialog
 
 import controller
-import checker
+from checker import Checker
 import properties
 
 # функция для вычисления точек полигона стрелки
@@ -226,7 +226,7 @@ class Display(QWidget):
         self.update()
         
     def checkEvent(self):
-        mistakes = checker.checkTask1(self.graph, self.graph.CorrectAdjacencyMatrix)
+        mistakes = Checker.checkTask1(self.graph, self.graph.CorrectAdjacencyMatrix)
         return mistakes
 
     def _drawQLineEdits(self):
@@ -416,7 +416,7 @@ class Display2(Display):
 
     # проверка для второго задания
     def checkEvent(self):
-        mistakes = checker.checkTask2(self.graph, self)
+        mistakes = Checker.checkTask2(self.graph, self)
         return mistakes
 
 
@@ -541,11 +541,11 @@ class Display3_4(Display):
         self.root.image.save('encrypted_data/'+strTemp)
 
     def checkEvent3(self):
-        mistakes = checker.checkTask3(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
+        mistakes = Checker.checkTask3(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
         return mistakes
 
     def checkEvent4(self):
-        mistakes = checker.checkTask4(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
+        mistakes = Checker.checkTask4(self.graph, self.graph.CorrectWeights, self.start_coordination_X, self.step)
         return mistakes
 
     def mousePressEvent(self, event):
@@ -800,13 +800,13 @@ class Display5(Display):
             return None
 
     def checkEvent5Part1(self, id) -> bool:
-        return checker.checkTask5Part1(self.graph, self.base_graph, id)
+        return Checker.checkTask5Part1(self.graph, self.base_graph, id)
 
     def checkEvent5Part2(self, id) -> bool:
-        return checker.checkTask5Part2(self.graph, self.base_graph, self.base_graph.CorrectWeights, self.start_coordination_X, self.step, id)
+        return Checker.checkTask5Part2(self.graph, self.base_graph, self.base_graph.CorrectWeights, self.start_coordination_X, self.step, id)
 
     def checkEvent5Part3(self, id) -> bool:
-        return checker.checkTask5Part3(self.base_graph, self.base_graph.SquadsPeopleToWork, self, id)
+        return Checker.checkTask5Part3(self.base_graph, self.base_graph.SquadsPeopleToWork, self, id)
 
 
 class Display6(Display5):
