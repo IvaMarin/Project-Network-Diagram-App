@@ -84,7 +84,7 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
             return
         else:
             self.mainMenu.surname = self.ui.lineEditSurname.text()  # сохраняем в класс WindowMenu фамилию
-            self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()  # сохраняем в класс WindowMenu группу
+            # self.mainMenu.numINGroup = self.ui.lineEditNumINGroup.text()  # сохраняем в класс WindowMenu группу
             self.mainMenu.numGroup = self.ui.lineEditGroup.text()  # сохраняем в класс WindowMenu группу
             # WindowMenu это класс окна Меню
 
@@ -102,7 +102,6 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
         listNumberVariant = self.mainMenu.variantController.getAllNumberOfVariant()
 
         if self.ui.lineEditSurname.text() == "" or\
-                self.ui.lineEditNumINGroup.text() == "" or\
                 self.ui.lineEditGroup.text() == "": # если существует незаполненная строка, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
@@ -112,15 +111,15 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
-        elif listNumberVariant.count(self.ui.lineEditNumINGroup.text()) == 0: # если не существует файла с указанным вариантом, выводим предупреждение и
-            # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
-            warning = QMessageBox()
-            warning.setWindowTitle("Предупреждение")
-            warning.setText("Введите корректный номер варианта.")
-            warning.setFont(QFont('Times', 16))
-            warning.setDefaultButton(QMessageBox.Ok)
-            warning = warning.exec()
-            return True
+        # elif listNumberVariant.count(self.ui.lineEditNumINGroup.text()) == 0: # если не существует файла с указанным вариантом, выводим предупреждение и
+        #     # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
+        #     warning = QMessageBox()
+        #     warning.setWindowTitle("Предупреждение")
+        #     warning.setText("Введите корректный номер варианта.")
+        #     warning.setFont(QFont('Times', 16))
+        #     warning.setDefaultButton(QMessageBox.Ok)
+        #     warning = warning.exec()
+        #     return True
         else: # иначе возвращаем False (проверки пройдены)
             return False
 
