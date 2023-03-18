@@ -2231,6 +2231,8 @@ class WindowMenu(QMainWindow):
         self.ui.actionPreviewReport.triggered.connect(lambda: self.watchReport())
         self.ui.actionPrint.triggered.connect(lambda: self.printReport())
         self.ui.actionEditTaskVariant.triggered.connect(lambda: self.openWinEditTable())
+    def openHelpWithProg(self):
+        self.helpWithProgram.ShowWindow()
     def openWinSigReport(self):
         try:
             self.winSigReport.exec()
