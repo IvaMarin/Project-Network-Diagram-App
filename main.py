@@ -696,11 +696,15 @@ class Window3(QMainWindow):
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
 
-        self.DisplayObj.setMinimumSize(
-            (properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
-        self.DisplayObj.setMinimumSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        numAxis = sizeWindow.width() // self.DisplayObj.step
 
-        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        if (properties.max_possible_time > numAxis):
+            numAxis = properties.max_possible_time + 3
+
+
+        self.DisplayObj.setMinimumSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
+
+        size = QSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
@@ -917,7 +921,16 @@ class Window4(QMainWindow):
         self.DisplayObj.setMinimumSize(
             (properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-        size = QSize((properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
+        numAxis = sizeWindow.width() // self.DisplayObj.step
+
+        if (properties.max_possible_time > numAxis):
+            numAxis = properties.max_possible_time + 3
+
+
+        self.DisplayObj.setMinimumSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
+
+        size = QSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
+
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
