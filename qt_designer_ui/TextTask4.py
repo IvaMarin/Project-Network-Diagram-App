@@ -15,11 +15,16 @@ class Ui_TextTask4(object):
     def setupUi(self, TextTask4):
         TextTask4.setObjectName("TextTask4")
         TextTask4.resize(1267, 395)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(16)
+        TextTask4.setFont(font)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask4)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask4)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
+        font.setPointSize(16)
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
@@ -30,7 +35,7 @@ class Ui_TextTask4(object):
     def retranslateUi(self, TextTask4):
         _translate = QtCore.QCoreApplication.translate
         TextTask4.setWindowTitle(_translate("TextTask4", "Задание 4"))
-        self.label.setText(_translate("TextTask4", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">Размещение сетевого графика на сетке времени в соответствии с поздними сроками наступления событий</span></p><p align=\"center\"><br/></p><p align=\"justify\"><span style=\" font-size:16pt;\">1. разместить сетевой график на сетке времени (временном поле)<br/>в соответствии с поздними сроками их наступления; </span></p><p align=\"justify\"><span style=\" font-size:16pt;\">2. расставить правильные продолжительности работ.</span></p><p align=\"justify\"><span style=\" font-size:16pt;\"><br/>Следует обратить внимание на то, что после расположения событий на временной сетке <br/>расстояния между некоторыми событиями могут быть больше, <br/>чем продолжительность работ. Это свидетельствует о том, что такие работы имеют <br/>резерв времени.</span></p></body></html>"))
+        self.label.setText(_translate("TextTask4", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">Размещение сетевого графика на сетке времени<br/>в соответствии с поздними сроками <br/>наступления событий</span></p><p align=\"justify\"><span style=\" font-size:16pt;\">1. разместить сетевой график на сетке времени (временном поле)<br/>в соответствии с поздними сроками их наступления; </span></p><p align=\"justify\"><span style=\" font-size:16pt;\">2. расставить правильные продолжительности работ.</span></p><p align=\"justify\"><span style=\" font-size:16pt;\">Следует обратить внимание на то, что после расположения событий на временной сетке <br/>расстояния между некоторыми событиями могут быть больше, <br/>чем продолжительность работ. Это свидетельствует о том, что такие работы имеют <br/>резерв времени.</span></p></body></html>"))
 
 
 if __name__ == "__main__":
