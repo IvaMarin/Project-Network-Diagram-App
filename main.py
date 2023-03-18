@@ -11,7 +11,6 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QRect, Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog
 from PyQt5.QtGui import QImage, QFont
-from PIL.ImageQt import ImageQt
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPainter
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
