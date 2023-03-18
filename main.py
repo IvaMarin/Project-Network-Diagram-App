@@ -331,7 +331,7 @@ class Window1(QMainWindow):
             else:
                 # print("Режим студента")
                 # graph_student = properties.get_graph_for_student(1)
-                if (properties.get_verification_passed_pretasks(2)):
+                if (Properties.getVerificationPassedPretasks(2)):
                     save_graph_for_student_1 = properties.get_graph_for_student(1)
                     self.DisplayObj.graph = save_graph_for_student_1
                 else:
@@ -648,7 +648,7 @@ class Window2(QMainWindow):
                             except ValueError:
                                 pass
 
-                if (properties.get_verification_passed_pretasks(3)):
+                if (Properties.getVerificationPassedPretasks(3)):
                     save_graph_for_student_1 = properties.get_graph_for_student(2)
                     self.DisplayObj.graph = save_graph_for_student_1
                 else:
@@ -868,7 +868,7 @@ class Window3(QMainWindow):
                 self.ui.actionbtnDottedConnectNode.setEnabled(False)
             else:
                 # graph_student = properties.get_graph_for_student(1)
-                if (properties.get_verification_passed_pretasks(4)):
+                if (Properties.getVerificationPassedPretasks(4)):
                     save_graph_for_student_1 = properties.get_graph_for_student(3)
                     self.DisplayObj.graph = save_graph_for_student_1
                 else:
@@ -1077,7 +1077,7 @@ class Window4(QMainWindow):
                 self.ui.actionbtnDottedConnectNode.setEnabled(False)
             else:
                 # graph_student = properties.get_graph_for_student(1)
-                if (properties.get_verification_passed_pretasks(5)):
+                if (Properties.getVerificationPassedPretasks(5)):
                     save_graph_for_student_1 = properties.get_graph_for_student(4)
                     self.DisplayObj.graph = save_graph_for_student_1
                 else:
@@ -1633,7 +1633,7 @@ class Window5(QMainWindow):
             else:
                 # graph_student = properties.get_graph_for_student(1)
                 for i in range(self.squadNum):
-                    if (properties.get_verification_passed_pretasks(6)):
+                    if (Properties.getVerificationPassedPretasks(6)):
                         save_graph_for_student_1 = properties.get_graph_for_student(5, i)
                         self.DisplayObj.graph = save_graph_for_student_1
                     else:
