@@ -306,6 +306,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
                 #self.creatTable.openFile(pathFileXlsx) #
                 self.creatTable.openNewVariant()
                 self.creatTable.showMaximized()
+                self.creatTable.colorTable()
                 self.creatTable.exec_()
                 
 
@@ -352,6 +353,7 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             
         #self.creatTable.openFile(self.fileName) # открываем указанный файл в окне для редактирования вариантов
         self.creatTable.showMaximized()
+        self.creatTable.colorTable()
         self.creatTable.exec_()
     
 
@@ -405,8 +407,6 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.winEditTable = root  # сохраняем нашего родителя
         #self.winEditTable = winEditTable()
 
-
-
         sizeWindow = QRect(QApplication.desktop().screenGeometry())  # смотрим размер экраны
         width = int(sizeWindow.width())  # выставляем ширину окна
         height = int(sizeWindow.height())  # выставляем длину окна
@@ -420,9 +420,21 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
 
         self.listNumPeopleInSquad = []
         self._connectAction()  # ф-ия связи с эл-тами окна
+        self.colorTable()
+
 
     # def show(self):
     #     self.showMaximized()
+    def colorTable(self):
+        for i in range(self.ui.tableTaskVar.rowCount()):
+            for j in range(self.ui.tableTaskVar.columnCount()-2):
+                if self.ui.tableTaskVar.item(i, j):
+                    self.ui.tableTaskVar.item(i, j).setBackground(QtGui.QColor(202,238,255,255))
+        
+        for i in range(self.ui.tableTaskVar.rowCount()):
+            for j in range(self.ui.tableTaskVar.columnCount()-2, self.ui.tableTaskVar.columnCount()):
+                if self.ui.tableTaskVar.item(i, j):
+                    self.ui.tableTaskVar.item(i, j).setBackground(QtGui.QColor(198,255,197, 255))
 
         
     def _connectAction(self):

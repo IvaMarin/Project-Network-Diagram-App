@@ -94,7 +94,7 @@ class Ui_MainMenu(object):
         self.tableVar.setHorizontalHeaderItem(5, item)
         self.tableVar.horizontalHeader().setVisible(True)
         self.tableVar.horizontalHeader().setCascadingSectionResizes(True)
-        self.tableVar.horizontalHeader().setDefaultSectionSize(245)
+        self.tableVar.horizontalHeader().setDefaultSectionSize(243)
         self.tableVar.horizontalHeader().setHighlightSections(True)
         self.tableVar.horizontalHeader().setMinimumSectionSize(70)
         self.tableVar.horizontalHeader().setSortIndicatorShown(False)
@@ -259,7 +259,9 @@ class Ui_MainMenu(object):
         item = self.tableVar.horizontalHeaderItem(0)
         item.setText(_translate("MainMenu", "Шифр работы"))
         item = self.tableVar.horizontalHeaderItem(1)
-        item.setText(_translate("MainMenu", "Номер отделения"))
+        item.setText(_translate("MainMenu", "Номер отделения\n"
+"выполняющего\n"
+"работу"))
         item = self.tableVar.horizontalHeaderItem(2)
         item.setText(_translate("MainMenu", "Число людей,\n"
 "выполняющих работы"))
@@ -271,7 +273,8 @@ class Ui_MainMenu(object):
 "отделения"))
         item = self.tableVar.horizontalHeaderItem(5)
         item.setText(_translate("MainMenu", "Количество\n"
-"людей"))
+"людей\n"
+"в отделении"))
         self.btnTask5.setText(_translate("MainMenu", "Задание 5"))
         self.btnPrint.setText(_translate("MainMenu", "Печать отчета"))
         self.btnTask6.setText(_translate("MainMenu", "Задание 6"))

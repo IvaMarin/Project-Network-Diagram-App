@@ -5,7 +5,7 @@ import time
 import re
 from pathlib import Path
 
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 
 from PyQt5.QtCore import QRect, Qt, QSize
@@ -1979,6 +1979,31 @@ class WindowMenu(QMainWindow):
             "mai_cam_password")
         self.report_was_make = False
         self.show()
+        self.colorTable()
+
+    def colorTable(self):
+        for i in range(self.ui.tableVar.rowCount()):
+            for j in range(self.ui.tableVar.columnCount()-2):
+                if self.ui.tableVar.item(i, j):
+                    self.ui.tableVar.item(i, j).setBackground(QtGui.QColor(202,238,255,255))
+        
+        for i in range(self.ui.tableVar.rowCount()):
+            for j in range(self.ui.tableVar.columnCount()-2, self.ui.tableVar.columnCount()):
+                if self.ui.tableVar.item(i, j):
+                    self.ui.tableVar.item(i, j).setBackground(QtGui.QColor(198,255,197, 255))
+
+
+        # self.ui.tableVar.item(1, 1).setBackground(QtGui.QColor(100,100,150))
+        # for list in tabelVar:
+        #     rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
+        #     self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
+        #     for item in list:
+        #         if countColumns >= 0:
+        #             # print(item, end=" ")
+        #             self.ui.tableVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
+        #         countColumns = countColumns + 1
+        #     countColumns = 0
+
 
     def getCorrectAdjacencyMatrix(self):
         arr = []

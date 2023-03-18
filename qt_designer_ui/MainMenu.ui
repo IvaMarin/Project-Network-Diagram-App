@@ -97,7 +97,7 @@
           <number>70</number>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>245</number>
+          <number>243</number>
          </attribute>
          <attribute name="horizontalHeaderHighlightSections">
           <bool>true</bool>
@@ -139,7 +139,9 @@
          </column>
          <column>
           <property name="text">
-           <string>Номер отделения</string>
+           <string>Номер отделения
+выполняющего
+работу</string>
           </property>
           <property name="font">
            <font>
@@ -194,7 +196,8 @@
          <column>
           <property name="text">
            <string>Количество
-людей</string>
+людей
+в отделении</string>
           </property>
           <property name="font">
            <font>
