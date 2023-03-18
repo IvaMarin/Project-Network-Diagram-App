@@ -6,7 +6,8 @@ import re
 from pathlib import Path
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-
+from tkinter import *
+from PIL import ImageTk, Image
 
 from PyQt5.QtCore import QRect, Qt, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog
@@ -1894,6 +1895,51 @@ class Window6(QMainWindow):
             self.table.hide()
 
 
+class HelpWithProgram():
+    def __init__(self):
+        pass
+
+    def ShowWindow(self):
+
+        # Создаем контейнер ткинтера
+        root = Tk()
+
+        # размер экрана
+        monitor_height = root.winfo_screenheight()
+        monitor_width = root.winfo_screenwidth()
+
+        # Положение и размер окна (тут только ширина и высота)
+        root.geometry(f"{monitor_width-20}x{monitor_height-20}")
+        root.config(bg="gray70")
+        root.title("Просмотр отчета")
+
+        # Добавим скролл
+        scrol_y = Scrollbar(root, orient=VERTICAL)
+        # Используем Text, чтобы добавлять изображения
+        pdf = Text(root, yscrollcommand=scrol_y.set, bg="gray70")
+        # упаковываем скрол направа
+        # fill растягивает по указанному параметру в свободное место
+        scrol_y.pack(side=RIGHT, fill=Y)
+        scrol_y.config(command=pdf.yview)
+        # Упаковываем наш пдф
+        pdf.pack(fill=BOTH, padx=round(monitor_width*0.1), expand=True)
+
+        # конвертируем страницы пдф в список изображений
+
+        # фотки пдф страниц
+        photos = []
+        # подгоняем под размер уаждцю фотку и собираем их в лист
+        for i in range(9):
+            img = Image.open('documentation/doc_' + str(i)+'.jpg')
+            img = img.resize((round(monitor_width*0.8), round((monitor_width*0.8))))
+            photos.append(ImageTk.PhotoImage(img))
+
+        for photo in photos:
+            pdf.image_create(END, image=photo)
+            # отступ между страницами
+            pdf.insert(END, '\n\n')
+        root.mainloop()
+
 # ////////////////////////////////////  КЛАСС ОКНА МЕНЮ  ///////////////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////////////////////////
 class WindowMenu(QMainWindow):
@@ -1957,6 +2003,8 @@ class WindowMenu(QMainWindow):
 
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
+
+        self.helpWithProgram = HelpWithProgram()
 
         self.testGen()
 
@@ -2107,12 +2155,17 @@ class WindowMenu(QMainWindow):
             lambda: self.activateTeacherMode())
         self.ui.btnSaveReportAs.clicked.connect(lambda: self.save_report_as())
 
+        self.ui.actionHelpWithProg.triggered.connect(lambda: self.openHelpWithProg())
+
         # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.btnReportSign.clicked.connect(lambda: self.openWinSigReport())
         # self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         self.ui.previewReport.clicked.connect(lambda: self.watchReport())
         self.ui.btnPrint.clicked.connect(lambda: self.printReport())
         self.ui.btnEditTaskVariant.clicked.connect(lambda: self.openWinEditTable())
+
+    def openHelpWithProg(self):
+        self.helpWithProgram.ShowWindow()
 
     def openWinSigReport(self):
         try:
