@@ -14,12 +14,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TextTask2(object):
     def setupUi(self, TextTask2):
         TextTask2.setObjectName("TextTask2")
-        TextTask2.resize(707, 374)
+        TextTask2.resize(716, 445)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(16)
+        TextTask2.setFont(font)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask2)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask2)
         font = QtGui.QFont()
-        font.setFamily("Liberation Serif")
+        font.setFamily("Times New Roman")
         font.setPointSize(16)
         self.label.setFont(font)
         self.label.setObjectName("label")
@@ -31,7 +35,7 @@ class Ui_TextTask2(object):
     def retranslateUi(self, TextTask2):
         _translate = QtCore.QCoreApplication.translate
         TextTask2.setWindowTitle(_translate("TextTask2", "Задание 2"))
-        self.label.setText(_translate("TextTask2", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">Расчет ранних и поздних сроков наступления событий,</span></p><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">нахождение критического пути</span><br/></p><p align=\"center\"><br/></p><p align=\"justify\">1. заполнить продолжительности работ;</p><p align=\"justify\">2. рассчитать для каждого события:</p><p align=\"justify\">- ранний срок наступления события;</p><p align=\"justify\">- поздний срок наступления события; </p><p align=\"justify\">3. найти и выделить критический путь (если их несколько, </p><p align=\"justify\">то выделить нужно все критические пути).</p></body></html>"))
+        self.label.setText(_translate("TextTask2", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">Расчет ранних и поздних сроков<br/>наступления событий,<br/>нахождение критического пути</span></p><p align=\"justify\">1. заполнить продолжительности работ;</p><p align=\"justify\">2. рассчитать для каждого события:</p><p align=\"justify\">- ранний срок наступления события;</p><p align=\"justify\">- поздний срок наступления события; </p><p align=\"justify\">3. найти и выделить критический путь (если их несколько, </p><p align=\"justify\">то выделить нужно все критические пути).</p></body></html>"))
 
 
 if __name__ == "__main__":
