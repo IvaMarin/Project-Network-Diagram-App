@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1558</width>
-    <height>926</height>
+    <height>923</height>
    </rect>
   </property>
   <property name="font">
@@ -25,6 +25,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#centralwidget{background-color: #d5fffe;}
+
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -109,7 +110,7 @@
           <bool>true</bool>
          </attribute>
          <attribute name="verticalHeaderVisible">
-          <bool>true</bool>
+          <bool>false</bool>
          </attribute>
          <attribute name="verticalHeaderCascadingSectionResizes">
           <bool>true</bool>
@@ -224,7 +225,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QGridLayout" name="gridLayout">
+      <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,8,5,8">
        <item row="5" column="2">
         <widget class="QPushButton" name="btnTask5">
          <property name="font">
@@ -238,54 +239,6 @@
          </property>
          <property name="text">
           <string>Задание 5</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3">
-        <widget class="QPushButton" name="btnPrint">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Печать отчета</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="2">
-        <widget class="QPushButton" name="btnTask6">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Задание 6</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QPushButton" name="btnTask2">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Задание 2</string>
          </property>
         </widget>
        </item>
@@ -305,8 +258,8 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="3">
-        <widget class="QPushButton" name="btnReportSign">
+       <item row="5" column="4">
+        <widget class="QPushButton" name="btnTeacherMode">
          <property name="font">
           <font>
            <family>Times New Roman</family>
@@ -317,12 +270,15 @@
           <string notr="true">background-color: #66e3ff;</string>
          </property>
          <property name="text">
-          <string>Изменить данные студента</string>
+          <string>Режим преподавателя</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="4" column="3">
-        <widget class="QPushButton" name="btnEditTaskVariant">
+       <item row="2" column="2">
+        <widget class="QPushButton" name="btnTask2">
          <property name="font">
           <font>
            <family>Times New Roman</family>
@@ -333,12 +289,12 @@
           <string notr="true">background-color: #66e3ff;</string>
          </property>
          <property name="text">
-          <string>Редактировать варианты</string>
+          <string>Задание 2</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="3">
-        <widget class="QPushButton" name="btnSaveReportAs">
+       <item row="6" column="2">
+        <widget class="QPushButton" name="btnTask6">
          <property name="font">
           <font>
            <family>Times New Roman</family>
@@ -349,7 +305,7 @@
           <string notr="true">background-color: #66e3ff;</string>
          </property>
          <property name="text">
-          <string>Сохранить отчет как</string>
+          <string>Задание 6</string>
          </property>
         </widget>
        </item>
@@ -369,25 +325,6 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="3">
-        <widget class="QPushButton" name="btnTeacherMode">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: #66e3ff;</string>
-         </property>
-         <property name="text">
-          <string>Режим преподавателя</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="2">
         <widget class="QPushButton" name="btnTask1">
          <property name="font">
@@ -404,8 +341,8 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="3">
-        <widget class="QPushButton" name="previewReport">
+       <item row="6" column="4">
+        <widget class="QPushButton" name="btnSaveReportAs">
          <property name="font">
           <font>
            <family>Times New Roman</family>
@@ -416,9 +353,22 @@
           <string notr="true">background-color: #66e3ff;</string>
          </property>
          <property name="text">
-          <string>Предпросмотр отчета</string>
+          <string>Сохранить отчет как</string>
          </property>
         </widget>
+       </item>
+       <item row="1" column="3">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -436,18 +386,28 @@
    </property>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>справка</string>
+     <string>Справка</string>
     </property>
     <addaction name="actionHelpWithProg"/>
     <addaction name="actionHelpWithTheory"/>
    </widget>
    <widget class="QMenu" name="menuAboutProgram">
     <property name="title">
-     <string>о программе</string>
+     <string>О программе</string>
     </property>
     <addaction name="actionVersion"/>
     <addaction name="actionDevelopers"/>
    </widget>
+   <widget class="QMenu" name="function">
+    <property name="title">
+     <string>Дополнительные функции</string>
+    </property>
+    <addaction name="actionEditTaskVariant"/>
+    <addaction name="actionPreviewReport"/>
+    <addaction name="actionPrint"/>
+    <addaction name="actionReportSign"/>
+   </widget>
+   <addaction name="function"/>
    <addaction name="menuHelp"/>
    <addaction name="menuAboutProgram"/>
   </widget>
@@ -475,27 +435,45 @@
   </action>
   <action name="actionVersion">
    <property name="text">
-    <string>версия</string>
+    <string>Версия</string>
    </property>
   </action>
   <action name="actionDevelopers">
    <property name="text">
-    <string>разработчики</string>
+    <string>Рразработчики</string>
    </property>
   </action>
   <action name="actionHelpWithProg">
    <property name="text">
-    <string>справка по работе с программой</string>
+    <string>Справка по работе с программой</string>
    </property>
   </action>
   <action name="actionHelpWithTheory">
    <property name="text">
-    <string>справка по теории</string>
+    <string>Справка по теории</string>
+   </property>
+  </action>
+  <action name="actionEditTaskVariant">
+   <property name="text">
+    <string>Редактировать варианты</string>
+   </property>
+  </action>
+  <action name="actionPreviewReport">
+   <property name="text">
+    <string>Предпросмотр отчета</string>
+   </property>
+  </action>
+  <action name="actionPrint">
+   <property name="text">
+    <string>Печать отчета</string>
+   </property>
+  </action>
+  <action name="actionReportSign">
+   <property name="text">
+    <string>Изменить данные студента</string>
    </property>
   </action>
  </widget>
- <resources>
-  <include location="resources/backGround.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

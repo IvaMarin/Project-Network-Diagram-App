@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>823</width>
-    <height>291</height>
+    <width>892</width>
+    <height>377</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>16</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Задание 1</string>
@@ -18,12 +24,12 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
-       <family>Liberation Serif</family>
+       <family>Times New Roman</family>
        <pointsize>16</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Построение сетевого графика в полигональной форме&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;В этом задании необходимо построить сетевой график в полигональной форме. &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Цифры в кружках обозначают номера событий.&lt;br/&gt;При такой форме изображения сетевого графика события располагаются произвольно,&lt;br/&gt;а работы изображаются в виде безмасштабных стрелок, &lt;br/&gt;т.е. стрелок, длина которых не зависит от продолжительности изображаемых ими работ.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Построение сетевого графика&lt;br/&gt;в полигональной форме&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;В этом задании необходимо построить сетевой график в полигональной форме. &lt;br/&gt;Цифры в кружках обозначают номера событий.&lt;br/&gt;При такой форме изображения сетевого графика события располагаются произвольно, &lt;br/&gt;а работы изображаются в виде безмасштабных стрелок, &lt;br/&gt;т.е. стрелок, длина которых не зависит от продолжительности изображаемых ими работ.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>

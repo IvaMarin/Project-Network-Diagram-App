@@ -14,12 +14,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TextTask1(object):
     def setupUi(self, TextTask1):
         TextTask1.setObjectName("TextTask1")
-        TextTask1.resize(823, 291)
+        TextTask1.resize(892, 377)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(16)
+        TextTask1.setFont(font)
         self.verticalLayout = QtWidgets.QVBoxLayout(TextTask1)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(TextTask1)
         font = QtGui.QFont()
-        font.setFamily("Liberation Serif")
+        font.setFamily("Times New Roman")
         font.setPointSize(16)
         self.label.setFont(font)
         self.label.setObjectName("label")
@@ -31,7 +35,7 @@ class Ui_TextTask1(object):
     def retranslateUi(self, TextTask1):
         _translate = QtCore.QCoreApplication.translate
         TextTask1.setWindowTitle(_translate("TextTask1", "Задание 1"))
-        self.label.setText(_translate("TextTask1", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">Построение сетевого графика в полигональной форме</span></p><p align=\"justify\">В этом задании необходимо построить сетевой график в полигональной форме. </p><p align=\"justify\">Цифры в кружках обозначают номера событий.<br/>При такой форме изображения сетевого графика события располагаются произвольно,<br/>а работы изображаются в виде безмасштабных стрелок, <br/>т.е. стрелок, длина которых не зависит от продолжительности изображаемых ими работ.</p></body></html>"))
+        self.label.setText(_translate("TextTask1", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt; font-weight:600;\">Построение сетевого графика<br/>в полигональной форме</span></p><p align=\"justify\">В этом задании необходимо построить сетевой график в полигональной форме. <br/>Цифры в кружках обозначают номера событий.<br/>При такой форме изображения сетевого графика события располагаются произвольно, <br/>а работы изображаются в виде безмасштабных стрелок, <br/>т.е. стрелок, длина которых не зависит от продолжительности изображаемых ими работ.</p></body></html>"))
 
 
 if __name__ == "__main__":
