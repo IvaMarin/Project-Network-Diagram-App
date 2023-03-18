@@ -1945,7 +1945,7 @@ class HelpWithProgram():
         # подгоняем под размер уаждцю фотку и собираем их в лист
         for i in range(9):
             img = Image.open('documentation/doc_' + str(i)+'.jpg')
-            img = img.resize((round(monitor_width*0.8), round((monitor_width*0.8))))
+            img = img.resize((round(0.8*monitor_width), round((1.8*monitor_height))))
             photos.append(ImageTk.PhotoImage(img))
 
         for photo in photos:
