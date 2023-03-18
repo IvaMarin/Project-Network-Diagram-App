@@ -10,10 +10,9 @@ from tkinter import *
 from PIL import ImageTk, Image
 
 from PyQt5.QtCore import QRect, Qt, QSize
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog, QGraphicsDropShadowEffect
 from PyQt5.QtGui import QImage, QFont
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.Qt import QGraphicsDropShadowEffect
 from PyQt5.QtGui import QPainter
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QPushButton
