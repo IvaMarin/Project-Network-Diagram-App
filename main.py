@@ -347,6 +347,7 @@ class Window1(QMainWindow):
                 self.ui.actionbtnRemoveNode.setEnabled(True)
         except:
                 warning = QMessageBox()
+                warning.setFont(QFont('Times', 16))
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
                 self.ui.actionbtnCheck.setCheckable(False)
@@ -411,6 +412,7 @@ class Window2(QMainWindow):
 
         # Создаём окно для ошибки заполнения таблицы
         self.msg = QMessageBox()
+        self.msg.setFont(QFont('Times', 16))
         self.msg.setWindowTitle("Предупреждение")
         self.msg.setText("Заполните все поля таблицы!")
         self.msg.setIcon(QMessageBox.Critical)
@@ -660,6 +662,7 @@ class Window2(QMainWindow):
                 self.ui.actionbtnCritPath.setEnabled(True)
         except:
                 warning = QMessageBox()
+                warning.setFont(QFont('Times', 16))
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
                 self.ui.actionbtnCheck.setCheckable(False)
@@ -884,6 +887,7 @@ class Window3(QMainWindow):
                 self.ui.actionbtnDottedConnectNode.setEnabled(True)
         except:
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
             self.ui.actionbtnCheck.setCheckable(False)
@@ -1103,6 +1107,7 @@ class Window4(QMainWindow):
                 self.ui.actionbtnDottedConnectNode.setEnabled(True)
         except:
                 warning = QMessageBox()
+                warning.setFont(QFont('Times', 16))
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
                 self.ui.actionbtnCheck.setCheckable(False)
@@ -1289,6 +1294,7 @@ class Window5(QMainWindow):
             self.widgetList[i].update()
         else:
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText(
                 f"Превышено максимальное число последовательностей работ для {numS}-го отделения!")
@@ -1666,6 +1672,7 @@ class Window5(QMainWindow):
                 self.ui.actionbtnMoveNode.setEnabled(True)
         except:
                 warning = QMessageBox()
+                warning.setFont(QFont('Times', 16))
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
                 self.ui.actionbtnCheck.setCheckable(False)
@@ -2235,8 +2242,8 @@ class WindowMenu(QMainWindow):
         properties.teacherMode = self.ui.btnTeacherMode.isChecked()
 
     def activateDeveloperMode(self):
-        self.surname = "Иванов Иван Иванович"  # данные о студенте проинициализированы
-        self.numGroup = "1"  # данные о студенте проинициализированы
+        self.surname = "ПРЕПОДАВАТЕЛЬ"  # данные о студенте проинициализированы
+        self.numGroup = "---"  # данные о студенте проинициализированы
         self.numINGroup = "0"  # данные о студенте проинициализированы
     
     def updateProgressDialog(self, value):
@@ -2400,9 +2407,9 @@ class WindowMenu(QMainWindow):
 
         else:
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText("Для начала необходимо сформировать отчет.")
-            warning.setFont(QFont('Times', 16))
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             print('[WARN] NO REPORT ----> create report')
@@ -2554,6 +2561,8 @@ def clear_data():
 
 def close_app(event):
     close = QMessageBox()
+    close.setFont(QFont('Times', 16))
+    close.setFont(QFont('Times', properties.commonFont))
     close.setWindowTitle("Закрыть приложение")
     close.setText("Вы уверены, что хотите закрыть приложение?")
     close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)

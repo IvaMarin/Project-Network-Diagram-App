@@ -57,7 +57,9 @@ class Properties():
         self.correctSquadsPeopleNumber = self.getCorrectSquadsPeopleNumber()
         self.max_sequences_amount = self.GetMaxSequencesAmount(self.number_of_squads) # максимальное число последовательностей по отделениям
         self.graph_for_task_3_4 = self.get_graph_from_radius() # граф для 3-4 задания
-        self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 задания
+        self.graphs_for_task_5 = self.get_graphs_for_task_5() # графы для 5 заданияt
+
+        self.commonFont = 16
 
     def update(self):
         self.variant = self.MainWindow.numINGroup
