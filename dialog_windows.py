@@ -120,9 +120,9 @@ class winSigReport(QtWidgets.QDialog): # окно изменения личны�
                 self.ui.lineEditGroup.text() == "": # если существует незаполненная строка, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText("Заполните все предложенные поля.")
-            warning.setFont(QFont('Times', 16))
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
@@ -186,9 +186,9 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
             event.accept() # то не выводим диалоговое окно подтверждения выхода из проги
         else: # иначе формируем окно подтверждения выхода из проги (т.е QMessageBox)
             close = QMessageBox()
+            close.setFont(QFont('Times', 16))
             close.setWindowTitle("Закрыть приложение")
             close.setText("Вы уверены, что хотите закрыть приложение?") #
-            close.setFont(QFont('Times', 16))
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel) #
             close = close.exec()
             if close == QMessageBox.Ok: # если нажали да
@@ -210,18 +210,18 @@ class winLogin(QtWidgets.QDialog):# Окно регистрации в прил�
                 self.ui.lineEditGroup.text() == "":# если существует незаполненная строка, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText("Заполните все предложенные поля.")
-            warning.setFont(QFont('Times', 16))
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
         elif listNumberVariant.count(self.ui.lineEditNumINGroup.text()) == 0:# если не существует файла с указанным вариантом, выводим предупреждение и
             # возврахаем True чтобы сработало условие в функции откуда вызывалась данная функция
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText("Введите корректный номер варианта.")
-            warning.setFont(QFont('Times', 16))
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             return True
@@ -345,9 +345,9 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
                 self.ui.comboBoxVariants.addItem(variant) # добавляем название файла в выпадающий список
             else:
                 warning = QMessageBox()
+                warning.setFont(QFont('Times', 16))
                 warning.setWindowTitle("Предупреждение")
                 warning.setText("Такой вариант уже существует.\nВведите другой номер варианта.")
-                warning.setFont(QFont('Times', 16))
                 warning.setDefaultButton(QMessageBox.Ok)
                 warning = warning.exec()
                 print('[WARN] NO REPORT ----> create report')
@@ -404,9 +404,9 @@ class winEditTable(QtWidgets.QDialog): # окно выбора файлов с �
             # # Распечатать сообщение об успешном завершении
             #     file.close()
             close = QMessageBox()
+            close.setFont(QFont('Times', 16))
             close.setWindowTitle("Удалить вариант")
             close.setText("Вы уверены, что хотите удалить вариант?")  #
-            close.setFont(QFont('Times', 16))
             close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
             close = close.exec()
             if close == QMessageBox.Ok:  # если нажали да
@@ -653,9 +653,9 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
 
     def closeEvent(self, event):
         close = QMessageBox()
+        close.setFont(QFont('Times', 16))
         close.setWindowTitle("Закрыть редактор")
         close.setText("Вы уверены, что хотите закрыть редактор?")  #
-        close.setFont(QFont('Times', 16))
         close.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)  #
         self.saveTable()
         close = close.exec()
