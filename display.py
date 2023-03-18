@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QFileDialog
 
 import controller
 from checker import Checker
-import properties
+from properties import Properties
 
 # функция для вычисления точек полигона стрелки
 def calculate_arrow_points(start_point, end_point, radius):
@@ -338,7 +338,7 @@ class Display2(Display):
                             painter.drawPolygon(triangle_source)
                             (x1, y1) = ((int)(self.graph.Points[i][0]), (int)(self.graph.Points[i][1]))
                             (x2, y2) = ((int)(self.graph.Points[j][0]), (int)(self.graph.Points[j][1]))
-                            if (properties.statusTask.verification_passed_tasks[2]):
+                            if (Properties.getVerificationPassedTasks(2)):
                                 x, y = Display.findCoordinatesAboveArrow(x1, y1, x2, y2)
                                 painter.drawText(int(x), int(y), f'{self.graph.PeopleWeights[i][j]}')
                             painter.drawLine(x1, y1, x2, y2)
@@ -393,6 +393,13 @@ class Display2(Display):
             if self.switch:
                 self._drawQLineEdits()
                 self.switch = False
+
+            # после корректного выполнения запрещаем модифицировать продолжительности
+            if Properties.getVerificationPassedTasks(2):
+                for i in range(self.QLineEdits.shape[0]):
+                    for j in range(self.QLineEdits.shape[1]):
+                        if (type(self.QLineEdits[i][j]) == QLineEdit):
+                            self.QLineEdits[i][j].hide()
 
             self.graph.PeopleWeights = self.GetNumberOfPeople()
 
@@ -659,7 +666,7 @@ class Display5(Display):
                 triangle_source = calculate_arrow_points((x1, y1), self.graph.Arrows[(p1, p2)], 0)
                 if triangle_source is not None:
                     painter.drawPolygon(triangle_source)
-                    if (properties.statusTask.verification_passed_tasks[5]):
+                    if (Properties.getVerificationPassedTasks(5)):
                         x, y = Display.findCoordinatesAboveArrow(x1, y1, x2, y2)
                         painter.drawText(int(x), int(y), f'{self.graph.PeopleWeights[(p1, p2)]}')
                     if (self.late_time == None):  # в зависимости от резерва
@@ -698,6 +705,11 @@ class Display5(Display):
                 else:
                     offset = [-(5*len(str(digit+1))*font_size/7.8 - 2.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
                 painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
+
+            # после корректного выполнения запрещаем модифицировать число людей
+            if (Properties.getVerificationPassedTasks(5)):
+                for qle in self.QLineEdits.values():
+                    qle.hide()
 
         self.graph_in.PeopleWeights = self.GetNumberOfPeople()
             

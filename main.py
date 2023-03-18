@@ -5,7 +5,7 @@ import time
 import re
 from pathlib import Path
 
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 
 from PyQt5.QtCore import QRect, Qt, QSize
@@ -55,7 +55,7 @@ from task_one_check_form import task1CheckForm
 from qt_designer_ui.task5CheckForm import task5CheckForm
 from task_five_add_sequences import task5AddSeq
 import graph_model
-import properties
+from properties import Properties
 from threaded_report_creation import ThreadedReportCreation
 from threaded_report_watch import ThreadedReportWatch
 
@@ -225,7 +225,6 @@ class Window1(QMainWindow):
                 # graph1 = properties.get_graph_for_teacher(1)
 
                 #print(self.DisplayObj.size().height)
-                statusTask.setVerificationPassedTask(1)
                 self.DisplayObj.save()
                 encrypt.addFileInZip('1.jpg')
                 MainWindow.ui.btnTask2.setEnabled(True)
@@ -332,7 +331,7 @@ class Window1(QMainWindow):
             else:
                 # print("Режим студента")
                 # graph_student = properties.get_graph_for_student(1)
-                if (statusTask.get_verification_passed_pretasks(2)):
+                if (properties.get_verification_passed_pretasks(2)):
                     save_graph_for_student_1 = properties.get_graph_for_student(1)
                     self.DisplayObj.graph = save_graph_for_student_1
                 else:
@@ -560,12 +559,6 @@ class Window2(QMainWindow):
                 if len(mistakes) == 0:
                     properties.setVerificationPassedTask(2)
 
-                    # после корректного выполнения запрещаем модифицировать продолжительности
-                    for i in range(len(self.DisplayObj.QLineEdits)):
-                        for j in range(len(self.DisplayObj.QLineEdits)):
-                            if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
-                                self.DisplayObj.QLineEdits[i][j].hide()
-
                     # если в режиме преподавателя, то записываем в ответ
                     if properties.teacherMode:
                         properties.save_graph_for_teacher(graph1, 2)
@@ -575,7 +568,6 @@ class Window2(QMainWindow):
                     save_graph_for_student_2 = properties.get_graph_for_student(
                         2)
                     self.DisplayObj.graph = save_graph_for_student_2
-                    statusTask.setVerificationPassedTask(2)
                     self.DisplayObj.save()
                     encrypt.addFileInZip('2.jpg')
                     MainWindow.ui.btnTask3.setEnabled(True)
@@ -656,7 +648,7 @@ class Window2(QMainWindow):
                             except ValueError:
                                 pass
 
-                if (statusTask.get_verification_passed_pretasks(3)):
+                if (properties.get_verification_passed_pretasks(3)):
                     save_graph_for_student_1 = properties.get_graph_for_student(2)
                     self.DisplayObj.graph = save_graph_for_student_1
                 else:
@@ -783,7 +775,6 @@ class Window3(QMainWindow):
                 save_graph_for_student_3 = properties.get_graph_for_student(3)
                 self.DisplayObj.graph = save_graph_for_student_3
 
-                statusTask.setVerificationPassedTask(3)
                 # properties.save_graph_for_teacher(graph1, 3) # сохраняем граф в файл
 
                 # save_graph_3 = properties.get_graph_for_teacher(3)
@@ -877,7 +868,7 @@ class Window3(QMainWindow):
                 self.ui.actionbtnDottedConnectNode.setEnabled(False)
             else:
                 # graph_student = properties.get_graph_for_student(1)
-                if (statusTask.get_verification_passed_pretasks(4)):
+                if (properties.get_verification_passed_pretasks(4)):
                     save_graph_for_student_1 = properties.get_graph_for_student(3)
                     self.DisplayObj.graph = save_graph_for_student_1
                 else:
@@ -993,7 +984,7 @@ class Window4(QMainWindow):
         mistakes = self.DisplayObj.checkEvent4()
         if type(mistakes) != QMessageBox:
             if len(mistakes) == 0:
-                statusTask.setVerificationPassedTask(4)
+                properties.setVerificationPassedTask(4)
 
                 if properties.teacherMode:
                     properties.save_graph_for_teacher(graph1, 4)
@@ -1086,7 +1077,7 @@ class Window4(QMainWindow):
                 self.ui.actionbtnDottedConnectNode.setEnabled(False)
             else:
                 # graph_student = properties.get_graph_for_student(1)
-                if (statusTask.get_verification_passed_pretasks(5)):
+                if (properties.get_verification_passed_pretasks(5)):
                     save_graph_for_student_1 = properties.get_graph_for_student(4)
                     self.DisplayObj.graph = save_graph_for_student_1
                 else:
@@ -1490,12 +1481,7 @@ class Window5(QMainWindow):
 
         if not show_message:
             if is_correct:
-                # после корректного выполнения запрещаем модифицировать число людей
-                for d in self.widgetList:
-                    for qle in d.QLineEdits.values():
-                        qle.hide()
-
-                statusTask.setVerificationPassedTask(5)
+                properties.setVerificationPassedTask(5)
 
                 self.ui.actionbtnInfo.setVisible(False)
                 self.ui.actionHelp.setVisible(False)
@@ -1647,7 +1633,7 @@ class Window5(QMainWindow):
             else:
                 # graph_student = properties.get_graph_for_student(1)
                 for i in range(self.squadNum):
-                    if (statusTask.get_verification_passed_pretasks(6)):
+                    if (properties.get_verification_passed_pretasks(6)):
                         save_graph_for_student_1 = properties.get_graph_for_student(5, i)
                         self.DisplayObj.graph = save_graph_for_student_1
                     else:
@@ -1957,15 +1943,15 @@ class WindowMenu(QMainWindow):
         self.ui.previewReport.setEnabled(False)
         self.ui.btnTask1.setEnabled(True)
         self.ui.btnTask2.setEnabled(
-            statusTask.get_verification_passed_tasks(1))
+            Properties.getVerificationPassedTasks(1))
         self.ui.btnTask3.setEnabled(
-            statusTask.get_verification_passed_tasks(2))
+            Properties.getVerificationPassedTasks(2))
         self.ui.btnTask4.setEnabled(
-            statusTask.get_verification_passed_tasks(3))
+            Properties.getVerificationPassedTasks(3))
         self.ui.btnTask5.setEnabled(
-            statusTask.get_verification_passed_tasks(4))
+            Properties.getVerificationPassedTasks(4))
         self.ui.btnTask6.setEnabled(
-            statusTask.get_verification_passed_tasks(5))
+            Properties.getVerificationPassedTasks(5))
 
         self._connectAction()
         # self.creatReport()
@@ -1979,6 +1965,31 @@ class WindowMenu(QMainWindow):
             "mai_cam_password")
         self.report_was_make = False
         self.show()
+        self.colorTable()
+
+    def colorTable(self):
+        for i in range(self.ui.tableVar.rowCount()):
+            for j in range(self.ui.tableVar.columnCount()-2):
+                if self.ui.tableVar.item(i, j):
+                    self.ui.tableVar.item(i, j).setBackground(QtGui.QColor(202,238,255,255))
+        
+        for i in range(self.ui.tableVar.rowCount()):
+            for j in range(self.ui.tableVar.columnCount()-2, self.ui.tableVar.columnCount()):
+                if self.ui.tableVar.item(i, j):
+                    self.ui.tableVar.item(i, j).setBackground(QtGui.QColor(198,255,197, 255))
+
+
+        # self.ui.tableVar.item(1, 1).setBackground(QtGui.QColor(100,100,150))
+        # for list in tabelVar:
+        #     rowPosition = self.ui.tableVar.rowCount()  # генерируем строку в таблице для записи в нее чиселок
+        #     self.ui.tableVar.insertRow(rowPosition)  # вставляем в таблицу "строку таблицы из файла"
+        #     for item in list:
+        #         if countColumns >= 0:
+        #             # print(item, end=" ")
+        #             self.ui.tableVar.setItem(rowPosition, countColumns, QtWidgets.QTableWidgetItem(item))  # заполняем "строку таблицы из файла", каждую ячейку
+        #         countColumns = countColumns + 1
+        #     countColumns = 0
+
 
     def getCorrectAdjacencyMatrix(self):
         arr = []
@@ -2142,15 +2153,15 @@ class WindowMenu(QMainWindow):
             self.ui.previewReport.setEnabled(False)
             self.ui.btnTask1.setEnabled(True)
             self.ui.btnTask2.setEnabled(
-                statusTask.get_verification_passed_tasks(1))
+                Properties.getVerificationPassedTasks(1))
             self.ui.btnTask3.setEnabled(
-                statusTask.get_verification_passed_tasks(2))
+                Properties.getVerificationPassedTasks(2))
             self.ui.btnTask4.setEnabled(
-                statusTask.get_verification_passed_tasks(3))
+                Properties.getVerificationPassedTasks(3))
             self.ui.btnTask5.setEnabled(
-                statusTask.get_verification_passed_tasks(4))
+                Properties.getVerificationPassedTasks(4))
             self.ui.btnTask6.setEnabled(
-                statusTask.get_verification_passed_tasks(5))
+                Properties.getVerificationPassedTasks(5))
             self.ui.btnTeacherMode.setChecked(False)
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(184, 255, 192,255)}")  # rgb(184, 255, 192)
@@ -2335,14 +2346,14 @@ class WindowMenu(QMainWindow):
         if not (self.ui.btnTeacherMode.isChecked()):
             self.ui.btnTask1.setEnabled(True)
             self.ui.btnTask2.setEnabled(
-                statusTask.get_verification_passed_tasks(1))
+                Properties.getVerificationPassedTasks(1))
             self.ui.btnTask3.setEnabled(
-                statusTask.get_verification_passed_tasks(2))
+                Properties.getVerificationPassedTasks(2))
             self.ui.btnTask4.setEnabled(
-                statusTask.get_verification_passed_tasks(3))
+                Properties.getVerificationPassedTasks(3))
             self.ui.btnTask5.setEnabled(
-                statusTask.get_verification_passed_tasks(4))
-            # self.ui.btnTask6.setEnabled(properties.get_verification_passed_tasks(5))
+                Properties.getVerificationPassedTasks(4))
+            # self.ui.btnTask6.setEnabled(properties.getVerificationPassedTasks(5))
 
         if numTask == "Задание 1":
             MainWindow1.show()
@@ -2493,7 +2504,7 @@ def close_app(event):
         event.ignore()
 
 def run(encrypt = None, app = None,
-        statusTask = None, MainWindow = None,
+        MainWindow = None,
         properties = None, squadNum = None,
         MainWindow1 = None, MainWindow2 = None, MainWindow3 = None,
         MainWindow4 = None, MainWindow5 = None, MainWindow6 = None):
@@ -2501,7 +2512,6 @@ def run(encrypt = None, app = None,
 
 # encrypt = None
 # app = None
-# statusTask = None
 # MainWindow = None
 # properties = None
 # squadNum = None
@@ -2516,9 +2526,8 @@ if __name__ == "__main__":
     clear_data()
     encrypt = encrypt_decrypt()
     app = QApplication(sys.argv)
-    statusTask = properties.statusTask()
     MainWindow = WindowMenu()
-    properties = properties.Properties(MainWindow)
+    properties = Properties(MainWindow)
 
     squadNum = maxSquadNum()
     MainWindow1 = Window1()
