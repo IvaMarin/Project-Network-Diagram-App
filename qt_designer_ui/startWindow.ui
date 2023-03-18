@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1327</width>
+    <width>1316</width>
     <height>844</height>
    </rect>
   </property>
@@ -30,22 +30,7 @@
    <string notr="true">
 #startWin{background-image: url(:/newPrefix/spaceBackground.png);}</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,3,3,0">
-   <property name="spacing">
-    <number>25</number>
-   </property>
-   <property name="leftMargin">
-    <number>20</number>
-   </property>
-   <property name="topMargin">
-    <number>5</number>
-   </property>
-   <property name="rightMargin">
-    <number>20</number>
-   </property>
-   <property name="bottomMargin">
-    <number>10</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="3,10,3,1">
    <item>
     <widget class="QLabel" name="labelWelcome">
      <property name="font">
@@ -74,19 +59,35 @@ p, li { white-space: pre-wrap; }
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="labelPicture">
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">image: url(:/newPrefix/logo_mca-min.png);
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="labelPicture">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">image: url(:/newPrefix/logo_mca-min.png);
 background-color: rgba(0, 0, 0, 0);
 </string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelPicture1">
+       <property name="styleSheet">
+        <string notr="true">image: url(:/newPrefix/logo_mac_mai-min.png);
+background-color: rgba(0, 0, 0, 0);
+</string>
+       </property>
+       <property name="text">
+        <string>рррррррррр</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout" columnstretch="2,14,2">

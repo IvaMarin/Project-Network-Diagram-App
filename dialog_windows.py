@@ -435,16 +435,16 @@ class creatTable(QtWidgets.QDialog): # окно с таблицей для не�
         self.ui.setupUi(self)  # инициализация ui окна (присвоение конкретных пар-ов)
         self.winEditTable = root  # сохраняем нашего родителя
 
-        for children in self.findChildren(QPushButton):
-            shadow = QGraphicsDropShadowEffect(blurRadius=3, xOffset=2, yOffset=2)
-            children.setGraphicsEffect(shadow)
+        # for children in self.findChildren(QPushButton):
+        #     shadow = QGraphicsDropShadowEffect(blurRadius=3, xOffset=2, yOffset=2)
+        #     children.setGraphicsEffect(shadow)
 
-        for children in self.findChildren(QLineEdit):
-            shadow = QGraphicsDropShadowEffect(blurRadius=3, xOffset=2, yOffset=2)
-            children.setGraphicsEffect(shadow)
-        #self.winEditTable = winEditTable()
-        shadow = QGraphicsDropShadowEffect(blurRadius=5, xOffset=2, yOffset=2)
-        self.ui.tableTaskVar.setGraphicsEffect(shadow)
+        # for children in self.findChildren(QLineEdit):
+        #     shadow = QGraphicsDropShadowEffect(blurRadius=3, xOffset=2, yOffset=2)
+        #     children.setGraphicsEffect(shadow)
+        # #self.winEditTable = winEditTable()
+        # shadow = QGraphicsDropShadowEffect(blurRadius=5, xOffset=2, yOffset=2)
+        # self.ui.tableTaskVar.setGraphicsEffect(shadow)
 
 
 
