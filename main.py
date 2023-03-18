@@ -2065,15 +2065,15 @@ class WindowMenu(QMainWindow):
         self.ui.actionPreviewReport.setEnabled(False)
         self.ui.btnTask1.setEnabled(True)
         self.ui.btnTask2.setEnabled(
-            statusTask.get_verification_passed_tasks(1))
+            properties.get_verification_passed_tasks(1))
         self.ui.btnTask3.setEnabled(
-            statusTask.get_verification_passed_tasks(2))
+            properties.statusTask.get_verification_passed_tasks(2))
         self.ui.btnTask4.setEnabled(
-            statusTask.get_verification_passed_tasks(3))
+            properties.statusTask.get_verification_passed_tasks(3))
         self.ui.btnTask5.setEnabled(
-            statusTask.get_verification_passed_tasks(4))
+            properties.statusTask.get_verification_passed_tasks(4))
         self.ui.btnTask6.setEnabled(
-            statusTask.get_verification_passed_tasks(5))
+            properties.statusTask.get_verification_passed_tasks(5))
         pass
 
     def colorTable(self):
