@@ -60,6 +60,7 @@ class ReportController():
                 self.service.add_text(
                     self.report, "Задание №" + str(i+1) + text, 40)
 
+            self.report.oversized_images = "DOWNSCALE"
             for i in range(len(list_pictures)-1):
                 if len(list_pictures[i]) == 1:
                     self.service.create_task_page(
@@ -68,7 +69,7 @@ class ReportController():
                 else:
                     for j in range(len(list_pictures[i])):
                         self.service.create_task_page(
-                            self.report, "ЗАДАНИЕ №" + str(i+1) + " (ОТДЕЛЕНИЕ " + str(j+1) + ")", list_pictures[i][j])
+                            self.report, "ЗАДАНИЕ №" + str(i+1) + " (ОТДЕЛЕНИЕ " + str(j+1) + ")", list_pictures[i][j], 'L')
 
             self.service.create_task_page(
                 self.report, "ГИСТОГРАММА", list_pictures[6][0], 'H')

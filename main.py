@@ -432,7 +432,7 @@ class Window2(QMainWindow):
         for row in range(MainWindow.ui.tableVar.rowCount()):
             self.item = QtWidgets.QTableWidgetItem(
                 MainWindow.ui.tableVar.item(row, 0).text())
-            print(self.item.sizeHint())
+            # print(self.item.sizeHint())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
             self.item = QtWidgets.QTableWidgetItem(
