@@ -29,7 +29,7 @@ class ReportService():
     def add_image(self, report, path_image):
 
         try:
-            report.image(path_image, 50, 60, h=130)
+            report.image(path_image, 35, 60, h=130)
         except:
             pass
 
