@@ -349,7 +349,8 @@ class Window1(QMainWindow):
         except:
                 warning = QMessageBox()
                 warning.setWindowTitle("Предупреждение")
-                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                self.ui.actionbtnCheck.setCheckable(False)
                 warning.setDefaultButton(QMessageBox.Ok)
                 warning = warning.exec()
 
@@ -668,7 +669,8 @@ class Window2(QMainWindow):
         except:
                 warning = QMessageBox()
                 warning.setWindowTitle("Предупреждение")
-                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                self.ui.actionbtnCheck.setCheckable(False)
                 warning.setDefaultButton(QMessageBox.Ok)
                 warning = warning.exec()
 
@@ -888,7 +890,8 @@ class Window3(QMainWindow):
         except:
             warning = QMessageBox()
             warning.setWindowTitle("Предупреждение")
-            warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+            warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+            self.ui.actionbtnCheck.setCheckable(False)
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
 
@@ -1097,7 +1100,8 @@ class Window4(QMainWindow):
         except:
                 warning = QMessageBox()
                 warning.setWindowTitle("Предупреждение")
-                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                self.ui.actionbtnCheck.setCheckable(False)
                 warning.setDefaultButton(QMessageBox.Ok)
                 warning = warning.exec()
 
@@ -1547,7 +1551,10 @@ class Window5(QMainWindow):
         dialogTask.exec()
 
     def backMainMenu(self):
+        # self.switchTeacherMode(False)
+        self.ui.actionHelp.setChecked(False)
         MainWindow.show()
+        self.table.close()
         self.close()
 
     def show(self):
@@ -1661,7 +1668,8 @@ class Window5(QMainWindow):
         except:
                 warning = QMessageBox()
                 warning.setWindowTitle("Предупреждение")
-                warning.setText("Отсутствует решение преподавателя!\nДля получение этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                warning.setText("Отсутствует решение преподавателя!\nДля получения этой функции преподаватель должен решить вариант в РЕЖИМЕ ПРЕПОДАВАТЕЛЯ.")
+                self.ui.actionbtnCheck.setCheckable(False)
                 warning.setDefaultButton(QMessageBox.Ok)
                 warning = warning.exec()
 
@@ -1866,6 +1874,7 @@ class Window6(QMainWindow):
 
     def backMainMenu(self):
         MainWindow.show()
+        self.table.close()
         self.close()
 
     def show(self):
@@ -2092,22 +2101,18 @@ class WindowMenu(QMainWindow):
         self.ui.btnReportSign.clicked.connect(lambda: self.openWinSigReport())
         # self.ui.btnGenVar.clicked.connect(lambda: self.testGen()) # по клику генерируем задание (заполняем таблицу)
         self.ui.previewReport.clicked.connect(lambda: self.watchReport())
-        self.ui.btnPrint.clicked.connect(lambda: self.print_report())
+        self.ui.btnPrint.clicked.connect(lambda: self.printReport())
         self.ui.btnEditTaskVariant.clicked.connect(lambda: self.openWinEditTable())
 
     def openWinSigReport(self):
         try:
             self.winSigReport.exec()
-            self.update()
-            properties.update()
         except:
             pass
 
     def openWinEditTable(self):
         try:
             self.winEditTable.exec()
-            self.update()
-            properties.update()
         except:
             pass
 
@@ -2195,7 +2200,7 @@ class WindowMenu(QMainWindow):
         except:
             pass
 
-    def print_report(self):
+    def printReport(self):
         filePath, filter = QFileDialog.getOpenFileName(self, 'Открыть отчет', '', 'PDF (*.pdf)')
         if not filePath:
             return
