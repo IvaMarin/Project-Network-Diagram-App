@@ -248,9 +248,9 @@ class Checker:
                                     Graph.Points[j][1] + distancing_radius >= Graph.Points[i][1] - distancing_radius and
                                     Graph.Points[j][1] - distancing_radius <= Graph.Points[i][1] + distancing_radius)):
                         warning = QMessageBox()
+                        warning.setFont(QFont('Times', 16))
                         warning.setWindowTitle("Предупреждение")
                         warning.setText("Некоторые вершины находятся слишком близко друг к другу!")
-                        warning.setFont(QFont('Times', 16))
                         warning.setIcon(QMessageBox.Warning)
                         warning.setStandardButtons(QMessageBox.Ok)
                         return warning
@@ -303,9 +303,9 @@ class Checker:
 
         if (old_mistakes):
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText("Связи пересекаются!")
-            warning.setFont(QFont('Times', 16))
             warning.setIcon(QMessageBox.Warning)
             warning.setStandardButtons(QMessageBox.Ok)
             return warning
@@ -340,9 +340,9 @@ class Checker:
                             return mistakes
                     except ValueError:
                         warning = QMessageBox()
+                        warning.setFont(QFont('Times', 16))
                         warning.setWindowTitle("Предупреждение")
                         warning.setText("Не введено значение продолжительности работы для одного или нескольких рёбер!")
-                        warning.setFont(QFont('Times', 16))
                         warning.setIcon(QMessageBox.Warning)
                         warning.setStandardButtons(QMessageBox.Ok)
                         return warning
@@ -423,9 +423,9 @@ class Checker:
 
         if (old_mistakes):
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText("Связи пересекаются!")
-            warning.setFont(QFont('Times', 16))
             warning.setIcon(QMessageBox.Warning)
             warning.setStandardButtons(QMessageBox.Ok)
             return warning
@@ -480,9 +480,9 @@ class Checker:
 
         if (old_mistakes):
             warning = QMessageBox()
+            warning.setFont(QFont('Times', 16))
             warning.setWindowTitle("Предупреждение")
             warning.setText("Связи пересекаются!")
-            warning.setFont(QFont('Times', 16))
             warning.setIcon(QMessageBox.Warning)
             warning.setStandardButtons(QMessageBox.Ok)
             return warning
@@ -670,9 +670,9 @@ class Checker:
                         return is_correct
                 except ValueError:
                     warning = QMessageBox()
+                    warning.setFont(QFont('Times', 16))
                     warning.setWindowTitle("Предупреждение")
                     warning.setText("Не введено значение числа людей, выполняющих работу, для одного или нескольких рёбер!")
-                    warning.setFont(QFont('Times', 16))
                     warning.setIcon(QMessageBox.Warning)
                     warning.setStandardButtons(QMessageBox.Ok)
                     return warning
