@@ -152,10 +152,10 @@ class ReportController():
             print(f'''[WARN] PRINT PDF ----> FALL
             ОШИБКА: {e}''')
 
-        # запоковка отчета
-        try:
-            self.service.pdf_encry(path)
-            print('[INFO] ENCRY PDF ----> OK')
-        except:
-            print(f'''[WARN] ENCRY PDF ----> FALL''')
+        # # запоковка отчета
+        # try:
+        #     self.service.pdf_encry(path)
+        #     print('[INFO] ENCRY PDF ----> OK')
+        # except:
+        #     print(f'''[WARN] ENCRY PDF ----> FALL''')
 

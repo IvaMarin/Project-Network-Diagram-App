@@ -1,17 +1,83 @@
-from processing_tables.dto import DTO
-import re
-import numpy as np 
-from processing_tables.variant_controller import VariantController
 import os
+import sys
+
+from PIL.ImageQt import ImageQt
+from PyQt5 import QtWidgets
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QPainter
+from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QPushButton
+import tempfile
+
+from pdf2image import convert_from_path
 
 
-def purge(dir, pattern):
-    for f in os.listdir(dir):
-        if re.search(pattern, f):
-            print(os.path.join(dir, f))
-            os.remove(os.path.join(dir, f))
+class PrintDemo(QMainWindow):
 
-purge('test_dir/1/', f'state_{0}')
+    def __init__(self):
+        QMainWindow.__init__(self)
+
+        self.setMinimumSize(QSize(192, 128))
+        self.setWindowTitle("Print Demo")
+
+        printButton = QPushButton('Print', self)
+        printButton.clicked.connect(self.onPrint)
+        printButton.resize(128, 32)
+        printButton.move(32, 48)
+
+    def onPrint(self):
+        self.printDialog()
+
+    def printDialog(self):
+        filePath, filter = QFileDialog.getOpenFileName(self, 'Open file', '', 'PDF (*.pdf)')
+        if not filePath:
+            return
+        file_extension = os.path.splitext(filePath)[1]
+
+        if file_extension == ".pdf":
+            printer = QPrinter(QPrinter.HighResolution)
+            dialog = QPrintDialog(printer, self)
+            if dialog.exec_() == QPrintDialog.Accepted:
+                with tempfile.TemporaryDirectory() as path:
+                    images = convert_from_path(filePath, dpi=300, output_folder=path)
+                    painter = QPainter()
+                    painter.begin(printer)
+                    for i, image in enumerate(images):
+                        if i > 0:
+                            printer.newPage()
+                        rect = painter.viewport()
+                        qtImage = ImageQt(image)
+                        qtImageScaled = qtImage.scaled(rect.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                        painter.drawImage(rect, qtImageScaled)
+                    painter.end()
+        else:
+            pass
+
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    mainWin = PrintDemo()
+    mainWin.show()
+    sys.exit(app.exec_())
+
+
+
+
+
+# from processing_tables.dto import DTO
+# import re
+# import numpy as np 
+# from processing_tables.variant_controller import VariantController
+# import os
+
+
+# def purge(dir, pattern):
+#     for f in os.listdir(dir):
+#         if re.search(pattern, f):
+#             print(os.path.join(dir, f))
+#             os.remove(os.path.join(dir, f))
+
+# purge('test_dir/1/', f'state_{0}')
 
 
 # pathToEncry = os.path.abspath(os.curdir) + '/report_answer'
