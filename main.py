@@ -5,6 +5,8 @@ import time
 import re
 from pathlib import Path
 
+
+from PIL.ImageQt import ImageQt
 from PyQt5 import QtWidgets, QtCore, QtGui
 from tkinter import *
 from PIL import ImageTk, Image
@@ -2308,7 +2310,27 @@ class WindowMenu(QMainWindow):
         filePath, filter = QFileDialog.getOpenFileName(self, 'Открыть отчет', '', 'PDF (*.pdf)')
         if not filePath:
             return
-        self.report_controller.print_report(filePath)
+        # self.report_controller.print_report(filePath)
+        file_extension = os.path.splitext(filePath)[1]
+
+        if file_extension == ".pdf":
+            printer = QPrinter(QPrinter.HighResolution)
+            dialog = QPrintDialog(printer, self)
+            if dialog.exec_() == QPrintDialog.Accepted:
+                with tempfile.TemporaryDirectory() as path:
+                    images = convert_from_path(filePath, dpi=300, output_folder=path)
+                    painter = QPainter()
+                    painter.begin(printer)
+                    for i, image in enumerate(images):
+                        if i > 0:
+                            printer.newPage()
+                        rect = painter.viewport()
+                        qtImage = ImageQt(image)
+                        qtImageScaled = qtImage.scaled(rect.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                        painter.drawImage(rect, qtImageScaled)
+                    painter.end()
+        else:
+            pass
         # from sys import platform
         # if platform == "linux" or platform == "linux2":
         #     # linux
