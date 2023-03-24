@@ -1,5 +1,13 @@
 # Controller составляющая MVC (Граф)
 
+def checkBounds(point, bounds, border=0):
+	if (point < border):
+		return border
+	elif(point > bounds-border):
+		return bounds-border
+	else:
+		return point
+
 # добавить вершину по нажатию; параметры: объект "граф", событие, кнопка
 def CAddPoint(graph, event, but):
 	# если нажата кнопка
@@ -48,10 +56,12 @@ def CDeleteConnection(graph, event, but, points):
 		graph.DeleteConnection(int(points[0]), int(points[1])) # удалить связь между вершинами
 
 # переместить вершину по нажатию; параметры: объект "граф", событие, кнопка
-def CMovePoint(graph, event, but, FixedPoint):
+def CMovePoint(graph, event, but, FixedPoint, width, height):
 	# если нажата кнопка
 	if event.buttons() == but:
-		graph.MovePoint(FixedPoint, event.pos().x(), event.pos().y()) # переместить вершину
+		# переместить вершину
+		graph.MovePoint(FixedPoint, checkBounds(event.pos().x(), width, graph.RadiusPoint), 
+		  							checkBounds(event.pos().y(), height, graph.RadiusPoint)) 
 
 # переместить пунктирную стрелку по нажатию; параметры: объект "граф", событие, кнопка
 def CMoveArrowPoint(graph, event, but, FixedArrowPoint):
@@ -69,7 +79,7 @@ def CMoveArrowPointGrid(graph, event, but, FixedArrowPoint, GridBegin, GridStep)
 		if event.pos().x() <= GridBegin+i*GridStep:
 			wasFinded = True  # найден промежуток
 	XonGrid = GridBegin
-	# если курсор в диапозоне одной лини
+	# если курсор в диапазоне одной лини
 	if abs(event.pos().x() >= GridBegin+(i-3/2)*GridStep) and abs(event.pos().x() < GridBegin+(i-1/2)*GridStep):
 		XonGrid = GridBegin+(i-1)*GridStep
 	elif abs(event.pos().x() >= GridBegin+(i-1/2)*GridStep) and abs(event.pos().x() < GridBegin+(i+3/2)*GridStep):
@@ -82,7 +92,7 @@ def CMoveArrowPointGrid(graph, event, but, FixedArrowPoint, GridBegin, GridStep)
 
 # переместить вершину по нажатию в сетке; параметры: объект "граф", событие, кнопка, начало сетки по х, шаг сетки по х, фиксированная координата по y
 # если FixedY == None, то не фикисировать по y
-def CMovePointGrid(graph, event, but, FixedPoint, GridBegin, GridStep, FixedY):
+def CMovePointGrid(graph, event, but, FixedPoint, GridBegin, GridStep, FixedY, width, height):
 	wasFinded = False # найден промежуток, в который попадает курсор
 	i = 0
 	while(not wasFinded):
@@ -97,10 +107,16 @@ def CMovePointGrid(graph, event, but, FixedPoint, GridBegin, GridStep, FixedY):
 		XonGrid = GridBegin+i*GridStep
 	if FixedY != None:
 		if event.buttons() == but:
-			graph.MovePoint(FixedPoint, XonGrid, FixedY) # переместить вершину
+			# переместить вершину
+			graph.MovePoint(FixedPoint, 
+		   					checkBounds(XonGrid, width, graph.RadiusPoint), 
+		   					checkBounds(FixedY, height, graph.RadiusPoint)) 
 		return
 	if event.buttons() == but:
-		graph.MovePoint(FixedPoint, XonGrid, event.pos().y()) # переместить вершину
+		# переместить вершину
+		graph.MovePoint(FixedPoint, 
+		  				checkBounds(XonGrid, width, graph.RadiusPoint), 
+		  				checkBounds(event.pos().y(), height, graph.RadiusPoint)) 
 
 # находится ли курсор на вершине;
 def CIsCursorOnPoint(graph, event, but):

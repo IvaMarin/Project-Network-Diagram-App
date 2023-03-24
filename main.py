@@ -12,10 +12,9 @@ from tkinter import *
 from PIL import ImageTk, Image
 
 from PyQt5.QtCore import QRect, Qt, QSize
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog, QGraphicsDropShadowEffect
 from PyQt5.QtGui import QImage, QFont
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.Qt import QGraphicsDropShadowEffect
 from PyQt5.QtGui import QPainter
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QPushButton
@@ -2083,7 +2082,7 @@ class WindowMenu(QMainWindow):
             Properties.getVerificationPassedTasks(4))
         self.ui.btnTask6.setEnabled(
             Properties.getVerificationPassedTasks(5))
-        pass
+        
 
     def colorTable(self):
         for i in range(self.ui.tableVar.rowCount()):
@@ -2234,6 +2233,8 @@ class WindowMenu(QMainWindow):
         self.ui.actionPreviewReport.triggered.connect(lambda: self.watchReport())
         self.ui.actionPrint.triggered.connect(lambda: self.printReport())
         self.ui.actionEditTaskVariant.triggered.connect(lambda: self.openWinEditTable())
+    def openHelpWithProg(self):
+        self.helpWithProgram.ShowWindow()
     def openWinSigReport(self):
         try:
             self.winSigReport.exec()

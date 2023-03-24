@@ -52,7 +52,6 @@
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
    <addaction name="actionHelp"/>
-   <addaction name="actionSolveTask"/>
    <addaction name="actionbtnHome"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -61,7 +60,7 @@
      <x>0</x>
      <y>0</y>
      <width>1603</width>
-     <height>36</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -154,7 +153,7 @@
     <string>btnMoveNode</string>
    </property>
    <property name="toolTip">
-    <string>Передвинуть элемент</string>
+    <string>Переместить вершину</string>
    </property>
    <property name="font">
     <font/>
@@ -187,7 +186,7 @@
     <string>btnHome</string>
    </property>
    <property name="toolTip">
-    <string>Перейти к выбору заданий / В меню</string>
+    <string>В главное окно</string>
    </property>
   </action>
   <action name="actionbtnZoomIn">
@@ -265,7 +264,7 @@
     <string>btnDottedConnectNode</string>
    </property>
    <property name="toolTip">
-    <string>Перемещение пунктирной стрелки</string>
+    <string>Расстановка продолжительности работ</string>
    </property>
   </action>
   <action name="actionHelp">
@@ -280,7 +279,7 @@
     <string>подсказка</string>
    </property>
    <property name="toolTip">
-    <string>подсказка (режим преподавателя)</string>
+    <string>Решение</string>
    </property>
   </action>
   <action name="actionHelpStud">
@@ -296,18 +295,6 @@
   <action name="actionViewTask">
    <property name="text">
     <string>Задание 3</string>
-   </property>
-  </action>
-  <action name="actionSolveTask">
-   <property name="icon">
-    <iconset>
-     <normaloff>resources/iconePack/document.png</normaloff>resources/iconePack/document.png</iconset>
-   </property>
-   <property name="text">
-    <string>SolveTask</string>
-   </property>
-   <property name="toolTip">
-    <string>решить задание (режим преподавателя)</string>
    </property>
   </action>
  </widget>

@@ -236,8 +236,8 @@ class Display(QWidget):
 
     def mouseMoveEvent(self, event):
         if (self.functionAble == "Переместить вершины"):
-            if (self._checkBounds(event, self.graph.RadiusPoint)):
-                controller.CMovePoint(self.graph, event, Qt.LeftButton, self.FixedPoint)
+            controller.CMovePoint(self.graph, event, Qt.LeftButton, self.FixedPoint, 
+                                  self.size().width(), self.size().height())
         self.update()
         
     def checkEvent(self):
@@ -618,9 +618,9 @@ class Display3_4(Display):
 
     def mouseMoveEvent(self, event):
         if (self.functionAble == "Переместить вершины"):
-            if (self._checkBounds(event, self.graph.RadiusPoint)):
-                controller.CMovePointGrid(self.graph, event, Qt.LeftButton,
-                                          self.FixedPoint, self.start_coordination_X, self.step, None)                               
+            controller.CMovePointGrid(self.graph, event, Qt.LeftButton,
+                                      self.FixedPoint, self.start_coordination_X, self.step, None, 
+                                      self.size().width(), self.size().height())                               
         elif (self.functionAble == "Добавить пунктирную связь"):
             controller.CMoveArrowPointGrid(
                 self.graph, event, Qt.LeftButton, self.FixedArrowPoint, self.start_coordination_X, self.step)
@@ -749,24 +749,24 @@ class Display5(Display):
 
     def mouseMoveEvent(self, event):
         if (self.functionAble == "Переместить вершины"):
-            if (self._checkBounds(event, self.graph.Radius)):
-                wasFinded = False
-                i = 0
-                while(not wasFinded):
-                    i += 1 
-                    if event.pos().x() <= self.start_coordination_X+i*self.step:
-                        wasFinded = True
+            wasFinded = False
+            i = 0
+            while(not wasFinded):
+                i += 1 
+                if event.pos().x() <= self.start_coordination_X+i*self.step:
+                    wasFinded = True
 
-                XonGrid = self.start_coordination_X
-                if (abs(event.pos().x() >= self.start_coordination_X+(i-3/2)*self.step) and 
-                    abs(event.pos().x() < self.start_coordination_X+(i-1/2)*self.step)):
-                        XonGrid = self.start_coordination_X+(i-1)*self.step
-                elif (abs(event.pos().x() >= self.start_coordination_X+(i-1/2)*self.step) and 
-                      abs(event.pos().x() < self.start_coordination_X+(i+3/2)*self.step)):
-                    XonGrid = self.start_coordination_X+i*self.step
-                
-                if event.buttons() == Qt.LeftButton and self.FixedPoint != None:
-                    self.graph.MoveAllPointsFixedY(self.FixedPoint, XonGrid) 
+            XonGrid = self.start_coordination_X
+            if (abs(event.pos().x() >= self.start_coordination_X+(i-3/2)*self.step) and 
+                abs(event.pos().x() < self.start_coordination_X+(i-1/2)*self.step)):
+                    XonGrid = self.start_coordination_X+(i-1)*self.step
+            elif (abs(event.pos().x() >= self.start_coordination_X+(i-1/2)*self.step) and 
+                    abs(event.pos().x() < self.start_coordination_X+(i+3/2)*self.step)):
+                XonGrid = self.start_coordination_X+i*self.step
+            
+            if event.buttons() == Qt.LeftButton and self.FixedPoint != None:
+                self.graph.MoveAllPointsFixedY(self.FixedPoint, 
+                                               controller.checkBounds(XonGrid, self.size().width(), self.graph.Radius)) 
         elif (self.functionAble == "Добавить пунктирную связь"):
             wasFinded = False 
             i = 0

@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_startWin(object):
     def setupUi(self, startWin):
         startWin.setObjectName("startWin")
-        startWin.resize(1327, 844)
+        startWin.resize(1316, 844)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(20)
@@ -26,8 +26,6 @@ class Ui_startWin(object):
         startWin.setStyleSheet("\n"
 "#startWin{background-image: url(:/newPrefix/spaceBackground.png);}")
         self.verticalLayout = QtWidgets.QVBoxLayout(startWin)
-        self.verticalLayout.setContentsMargins(20, 5, 20, 10)
-        self.verticalLayout.setSpacing(25)
         self.verticalLayout.setObjectName("verticalLayout")
         self.labelWelcome = QtWidgets.QLabel(startWin)
         font = QtGui.QFont()
@@ -39,6 +37,8 @@ class Ui_startWin(object):
         self.labelWelcome.setMidLineWidth(5)
         self.labelWelcome.setObjectName("labelWelcome")
         self.verticalLayout.addWidget(self.labelWelcome)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.labelPicture = QtWidgets.QLabel(startWin)
         self.labelPicture.setAutoFillBackground(False)
         self.labelPicture.setStyleSheet("image: url(:/newPrefix/logo_mca-min.png);\n"
@@ -46,7 +46,14 @@ class Ui_startWin(object):
 "")
         self.labelPicture.setText("")
         self.labelPicture.setObjectName("labelPicture")
-        self.verticalLayout.addWidget(self.labelPicture)
+        self.horizontalLayout.addWidget(self.labelPicture)
+        self.labelPicture1 = QtWidgets.QLabel(startWin)
+        self.labelPicture1.setStyleSheet("image: url(:/newPrefix/logo_mac_mai-min.png);\n"
+"background-color: rgba(0, 0, 0, 0);\n"
+"")
+        self.labelPicture1.setObjectName("labelPicture1")
+        self.horizontalLayout.addWidget(self.labelPicture1)
+        self.verticalLayout.addLayout(self.horizontalLayout)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setContentsMargins(10, 10, 10, 10)
         self.gridLayout.setObjectName("gridLayout")
@@ -145,9 +152,10 @@ class Ui_startWin(object):
         self.verticalLayout.addLayout(self.gridLayout)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem4)
-        self.verticalLayout.setStretch(0, 1)
-        self.verticalLayout.setStretch(1, 3)
+        self.verticalLayout.setStretch(0, 3)
+        self.verticalLayout.setStretch(1, 10)
         self.verticalLayout.setStretch(2, 3)
+        self.verticalLayout.setStretch(3, 1)
 
         self.retranslateUi(startWin)
         QtCore.QMetaObject.connectSlotsByName(startWin)
@@ -161,6 +169,7 @@ class Ui_startWin(object):
 "</style></head><body style=\" font-family:\'Times New Roman\'; font-size:20pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:22pt; font-weight:600; color:#e7e7e7;\">ПОСТРОЕНИЕ МЕТОДА СЕТЕВОГО ПЛАНИРОВАНИЯ И УПРАВЛЕНИЯ В </span></p>\n"
 "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:22pt; font-weight:600; color:#e7e7e7;\">ТЕХНОЛОГИЧЕСКИХ ПРОЦЕССАХ ЭКСПЛУАТАЦИИ КОСМИЧЕСКИХ СРЕДСТВ</span></p></body></html>"))
+        self.labelPicture1.setText(_translate("startWin", "рррррррррр"))
         self.labelGroup.setText(_translate("startWin", "<html><head/><body><p><span style=\" font-weight:600; color:#e7e7e7;\">ВЗВОД</span></p></body></html>"))
         self.labelSurname.setText(_translate("startWin", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -174,6 +183,7 @@ from qt_designer_ui.resources import backGround_rc
 from qt_designer_ui.resources import labelMAI_rc
 from qt_designer_ui.resources import labelVKAMoj_rc
 from qt_designer_ui.resources import spaceBackground_rc
+
 
 if __name__ == "__main__":
     import sys

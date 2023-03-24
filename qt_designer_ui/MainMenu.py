@@ -23,6 +23,7 @@ class Ui_MainMenu(object):
         icon.addPixmap(QtGui.QPixmap("resources/login_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainMenu.setWindowIcon(icon)
         MainMenu.setStyleSheet("#centralwidget{background-color: #d5fffe;}\n"
+"\n"
 "")
         self.centralwidget = QtWidgets.QWidget(MainMenu)
         self.centralwidget.setObjectName("centralwidget")
@@ -278,14 +279,13 @@ class Ui_MainMenu(object):
         self.actionOpenReport.setText(_translate("MainMenu", "открыть отчет"))
         self.actionactionSaveReportReport_3.setText(_translate("MainMenu", "сохранить отчет"))
         self.actionVersion.setText(_translate("MainMenu", "Версия"))
-        self.actionDevelopers.setText(_translate("MainMenu", "Рразработчики"))
+        self.actionDevelopers.setText(_translate("MainMenu", "Разработчики"))
         self.actionHelpWithProg.setText(_translate("MainMenu", "Справка по работе с программой"))
         self.actionHelpWithTheory.setText(_translate("MainMenu", "Справка по теории"))
         self.actionEditTaskVariant.setText(_translate("MainMenu", "Редактировать варианты"))
         self.actionPreviewReport.setText(_translate("MainMenu", "Предпросмотр отчета"))
         self.actionPrint.setText(_translate("MainMenu", "Печать отчета"))
         self.actionReportSign.setText(_translate("MainMenu", "Изменить данные студента"))
-# import backGround_rc
 
 
 if __name__ == "__main__":
