@@ -76,8 +76,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionbtnAddNode"/>
-   <addaction name="actionbtnRemoveNode"/>
+   <addaction name="actionbtnAddSeq"/>
+   <addaction name="actionbtnRemoveSeq"/>
    <addaction name="actionbtnConnectNode"/>
    <addaction name="actionbtnRemoveNodeConnection"/>
    <addaction name="actionbtnMoveNode"/>
@@ -141,7 +141,7 @@
     <string>Назад          Ctrl+Z</string>
    </property>
   </action>
-  <action name="actionbtnAddNode">
+  <action name="actionbtnAddSeq">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -159,7 +159,7 @@
     <string>Добавить последовательность</string>
    </property>
   </action>
-  <action name="actionbtnRemoveNode">
+  <action name="actionbtnRemoveSeq">
    <property name="checkable">
     <bool>true</bool>
    </property>
