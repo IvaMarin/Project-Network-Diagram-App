@@ -71,8 +71,8 @@
      <string>Справка</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="actionHelpStud"/>
-    <addaction name="actionHelpTeach"/>
+    <addaction name="actionHelpTask"/>
+    <addaction name="actionHelpProgram"/>
     <addaction name="actionViewTask"/>
    </widget>
    <addaction name="menuHelp"/>
@@ -278,7 +278,7 @@
   </action>
   <action name="actionHelpStud">
    <property name="text">
-    <string>студенту</string>
+    <string>Справка студенту</string>
    </property>
   </action>
   <action name="actionHelpTeach">
