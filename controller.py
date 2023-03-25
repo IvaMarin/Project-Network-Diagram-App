@@ -1,12 +1,6 @@
 # Controller составляющая MVC (Граф)
 
-def checkBounds(point, bounds, border=0):
-	if (point < border):
-		return border
-	elif(point > bounds-border):
-		return bounds-border
-	else:
-		return point
+from checker import Checker
 
 # добавить вершину по нажатию; параметры: объект "граф", событие, кнопка
 def CAddPoint(graph, event, but):
@@ -60,8 +54,8 @@ def CMovePoint(graph, event, but, FixedPoint, width, height):
 	# если нажата кнопка
 	if event.buttons() == but:
 		# переместить вершину
-		graph.MovePoint(FixedPoint, checkBounds(event.pos().x(), width, graph.RadiusPoint), 
-		  							checkBounds(event.pos().y(), height, graph.RadiusPoint)) 
+		graph.MovePoint(FixedPoint, Checker.checkBounds(event.pos().x(), width, graph.RadiusPoint), 
+		  							Checker.checkBounds(event.pos().y(), height, graph.RadiusPoint)) 
 
 # переместить пунктирную стрелку по нажатию; параметры: объект "граф", событие, кнопка
 def CMoveArrowPoint(graph, event, but, FixedArrowPoint):
@@ -109,14 +103,14 @@ def CMovePointGrid(graph, event, but, FixedPoint, GridBegin, GridStep, FixedY, w
 		if event.buttons() == but:
 			# переместить вершину
 			graph.MovePoint(FixedPoint, 
-		   					checkBounds(XonGrid, width, graph.RadiusPoint), 
-		   					checkBounds(FixedY, height, graph.RadiusPoint)) 
+		   					Checker.checkBounds(XonGrid, width, graph.RadiusPoint), 
+		   					Checker.checkBounds(FixedY, height, graph.RadiusPoint)) 
 		return
 	if event.buttons() == but:
 		# переместить вершину
 		graph.MovePoint(FixedPoint, 
-		  				checkBounds(XonGrid, width, graph.RadiusPoint), 
-		  				checkBounds(event.pos().y(), height, graph.RadiusPoint)) 
+		  				Checker.checkBounds(XonGrid, width, graph.RadiusPoint), 
+		  				Checker.checkBounds(event.pos().y(), height, graph.RadiusPoint)) 
 
 # находится ли курсор на вершине;
 def CIsCursorOnPoint(graph, event, but):
