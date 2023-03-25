@@ -37,7 +37,7 @@ from qt_designer_ui.MainMenu import Ui_MainMenu
 from qt_designer_ui.windowTask1 import Ui_MainWindow1
 from qt_designer_ui.windowTask3 import Ui_MainWindow3
 from qt_designer_ui.windowTask5 import Ui_MainWindow5
-from task_two_window import Ui_MainWindow2
+from qt_designer_ui.windowTask2 import Ui_MainWindow2
 from qt_designer_ui.tableTask1 import Ui_tableTask1
 from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
 from qt_designer_ui.windowTask6 import Ui_MainWindow6
