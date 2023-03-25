@@ -143,8 +143,8 @@ class Ui_MainWindow3(object):
         self.toolBar.addAction(self.actionHelp)
         self.toolBar.addAction(self.actionbtnHome)
         self.menuHelp.addSeparator()
-        self.menuHelp.addAction(self.actionHelpStud)
-        self.menuHelp.addAction(self.actionHelpTeach)
+        self.menuHelp.addAction(self.actionHelpTask)
+        self.menuHelp.addAction(self.actionHelpProgram)
         self.menuHelp.addAction(self.actionViewTask)
         self.menuBar.addAction(self.menuHelp.menuAction())
 
@@ -182,7 +182,7 @@ class Ui_MainWindow3(object):
         self.actionbtnDottedConnectNode.setToolTip(_translate("MainWindow3", "Расстановка продолжительности работ"))
         self.actionHelp.setText(_translate("MainWindow3", "подсказка"))
         self.actionHelp.setToolTip(_translate("MainWindow3", "Решение"))
-        self.actionHelpStud.setText(_translate("MainWindow3", "студенту"))
+        self.actionHelpStud.setText(_translate("MainWindow3", "Справка студенту"))
         self.actionHelpTeach.setText(_translate("MainWindow3", "преподавателю"))
         self.actionViewTask.setText(_translate("MainWindow3", "Задание 3"))
 
