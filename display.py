@@ -766,7 +766,7 @@ class Display5(Display):
             
             if event.buttons() == Qt.LeftButton and self.FixedPoint != None:
                 self.graph.MoveAllPointsFixedY(self.FixedPoint, 
-                                               controller.checkBounds(XonGrid, self.size().width(), self.graph.Radius)) 
+                                               Checker.checkBounds(XonGrid, self.size().width(), self.graph.Radius)) 
         elif (self.functionAble == "Добавить пунктирную связь"):
             wasFinded = False 
             i = 0
