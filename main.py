@@ -131,8 +131,9 @@ class Window1(QMainWindow):
                 MainWindow.ui.tableVar.item(row, 0).text())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(173, self.tableHeight)
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        # self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(211, self.tableHeight)
 
         self._connectAction()
 
@@ -443,8 +444,10 @@ class Window2(QMainWindow):
                 MainWindow.ui.tableVar.item(row, 3).text())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(298, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
 
         self._connectAction()
 
@@ -741,8 +744,10 @@ class Window3(QMainWindow):
             self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(423, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -969,8 +974,10 @@ class Window4(QMainWindow):
                 str(int(properties.tn[row])))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(423, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -1225,8 +1232,10 @@ class Window5(QMainWindow):
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(
                 row, self.headerItem)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(298, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
 
         self.ui.actionbtnAddSeq = QtWidgets.QAction(self)
         self.ui.actionbtnAddSeq.setCheckable(True)
@@ -1428,8 +1437,10 @@ class Window5(QMainWindow):
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
-            self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-            self.table.resize(423, self.tableHeight)
+            # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+            self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+            self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+            self.table.resize(self.tableWidth, self.tableHeight)
 
             if properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 1)
@@ -1482,8 +1493,10 @@ class Window5(QMainWindow):
                 self.table.ui.tableWidget.setItem(row, 1, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
-            self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-            self.table.resize(298, self.tableHeight)
+            # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+            self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+            self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+            self.table.resize(self.tableWidth, self.tableHeight)
 
             if properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 2)
@@ -1808,8 +1821,10 @@ class Window6(QMainWindow):
                 str(int(properties.tn[row])))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(549, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
 
         self._connectAction()
 
