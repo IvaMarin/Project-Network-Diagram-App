@@ -915,7 +915,7 @@ class Window4(QMainWindow):
 
         self.setWindowTitle("\"Задание №4 (Размещение сетевого графика сетке времени в соответствии с поздними сроками наступления событий)\"")
         _translate = QtCore.QCoreApplication.translate
-        self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
+        # self.ui.menuHelp.setTitle(_translate("MainWindow3", "Задание 4"))
         self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
@@ -1129,6 +1129,7 @@ class Window5(QMainWindow):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        _translate = QtCore.QCoreApplication.translate
 
         # Создаём компоновщик
         layout = QtWidgets.QVBoxLayout()
@@ -1227,10 +1228,25 @@ class Window5(QMainWindow):
         self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
         self.table.resize(298, self.tableHeight)
 
-        self._connectAction()
+        self.ui.actionbtnAddSeq = QtWidgets.QAction(self)
+        self.ui.actionbtnAddSeq.setCheckable(True)
+        self.ui.actionbtnAddSeq.setChecked(False)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("resources/iconePack/add-new.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ui.actionbtnAddSeq.setIcon(icon5)
+        self.ui.actionbtnAddSeq.setObjectName("actionbtnAddSeq")
+        self.ui.actionbtnRemoveSeq = QtWidgets.QAction(self)
+        self.ui.actionbtnRemoveSeq.setCheckable(True)
 
+        self.ui.toolBar.addAction(self.ui.actionbtnAddSeq)
+        self.ui.actionbtnAddSeq.setText(_translate("MainWindow5", "btnAddSeq"))
+        self.ui.actionbtnAddSeq.setToolTip(_translate("MainWindow5", "Добавить последовательность"))
+        
+
+        self._connectAction()
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
+
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
