@@ -140,13 +140,13 @@ class ReportController():
     def print_report(self, path):
         # распоковка отчета
         try:
-            self.service.pdf_decry(path)
+            self.decrypt(path)
             print('[INFO] DECRY PDF ----> OK')
         except:
             print(f'''[WARN] DECRY PDF ----> FALL''')
 
         try:
-            self.service.pdf_print(path)
+            self.encrypt(path)
             print('[INFO] PRINT PDF ----> OK')
         except Exception as e:
             print(f'''[WARN] PRINT PDF ----> FALL
