@@ -2311,26 +2311,35 @@ class WindowMenu(QMainWindow):
         if not filePath:
             return
         # self.report_controller.print_report(filePath)
+        self.report_controller.decrypt(filePath)
         file_extension = os.path.splitext(filePath)[1]
 
         if file_extension == ".pdf":
-            printer = QPrinter(QPrinter.HighResolution)
-            dialog = QPrintDialog(printer, self)
-            if dialog.exec_() == QPrintDialog.Accepted:
-                with tempfile.TemporaryDirectory() as path:
-                    images = convert_from_path(filePath, dpi=300, output_folder=path)
-                    painter = QPainter()
-                    painter.begin(printer)
-                    for i, image in enumerate(images):
-                        if i > 0:
-                            printer.newPage()
-                        rect = painter.viewport()
-                        qtImage = ImageQt(image)
-                        qtImageScaled = qtImage.scaled(rect.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                        painter.drawImage(rect, qtImageScaled)
-                    painter.end()
+            try:
+                printer = QPrinter(QPrinter.HighResolution)
+                dialog = QPrintDialog(printer, self)
+                if dialog.exec_() == QPrintDialog.Accepted:
+                    with tempfile.TemporaryDirectory() as path:
+                        images = convert_from_path(filePath, dpi=300, output_folder=path)
+                        painter = QPainter()
+                        painter.begin(printer)
+                        for i, image in enumerate(images):
+                            if i > 0:
+                                printer.newPage()
+                            rect = painter.viewport()
+                            qtImage = ImageQt(image)
+                            qtImageScaled = qtImage.scaled(rect.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                            painter.drawImage(rect, qtImageScaled)
+                        painter.end()
+            except Exception as e:
+                print (f"[WARN] проблемы с печатью отчета: {e}")
+
+            
         else:
             pass
+        self.report_controller.encrypt(filePath)
+
+        
         # from sys import platform
         # if platform == "linux" or platform == "linux2":
         #     # linux
@@ -2596,10 +2605,10 @@ def clear_data():
                 os.unlink(file_path)
             elif os.path.isdir(file_path):
                 shutil.rmtree(file_path)
-            tmpFile = open(folder + 'tmp.txt', 'w')
-            tmpFile.close()
         except Exception as e:
             print('[WARN] Failed to delete %s. Reason: %s' % (file_path, e))
+    tmpFile = open(folder + 'tmp.txt', 'wb')
+    tmpFile.close()
 
 
 def close_app(event):
@@ -2619,25 +2628,6 @@ def close_app(event):
         event.accept()
     else:
         event.ignore()
-
-def run(encrypt = None, app = None,
-        MainWindow = None,
-        properties = None, squadNum = None,
-        MainWindow1 = None, MainWindow2 = None, MainWindow3 = None,
-        MainWindow4 = None, MainWindow5 = None, MainWindow6 = None):
-    pass
-
-# encrypt = None
-# app = None
-# MainWindow = None
-# properties = None
-# squadNum = None
-# MainWindow1 = None
-# MainWindow2 = None
-# MainWindow3 = None
-# MainWindow4 = None
-# MainWindow5 = None
-# MainWindow6 = None
 
 if __name__ == "__main__":
     clear_data()
