@@ -1764,6 +1764,7 @@ class Window6(QMainWindow):
         self.scroll2.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll2.setWidgetResizable(True)
         self.scroll2.setWidget(self.widgetRight)
+        self.scroll2.setMinimumWidth(int(self.width/3))
 
         # слева отделения
         layout.addWidget(self.scroll1)
