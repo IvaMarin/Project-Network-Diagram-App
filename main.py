@@ -37,7 +37,7 @@ from qt_designer_ui.MainMenu import Ui_MainMenu
 from qt_designer_ui.windowTask1 import Ui_MainWindow1
 from qt_designer_ui.windowTask3 import Ui_MainWindow3
 from qt_designer_ui.windowTask5 import Ui_MainWindow5
-from task_two_window import Ui_MainWindow2
+from qt_designer_ui.windowTask2 import Ui_MainWindow2
 from qt_designer_ui.tableTask1 import Ui_tableTask1
 from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
 from qt_designer_ui.windowTask6 import Ui_MainWindow6
@@ -131,8 +131,9 @@ class Window1(QMainWindow):
                 MainWindow.ui.tableVar.item(row, 0).text())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(173, self.tableHeight)
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        # self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(211, self.tableHeight)
 
         self._connectAction()
 
@@ -443,8 +444,10 @@ class Window2(QMainWindow):
                 MainWindow.ui.tableVar.item(row, 3).text())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(298, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
 
         self._connectAction()
 
@@ -741,8 +744,10 @@ class Window3(QMainWindow):
             self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(423, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -969,8 +974,10 @@ class Window4(QMainWindow):
                 str(int(properties.tn[row])))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(423, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -1225,8 +1232,10 @@ class Window5(QMainWindow):
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(
                 row, self.headerItem)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(298, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
 
         # self.ui.actionbtnAddSeq = QtWidgets.QAction(self)
         # self.ui.actionbtnAddSeq.setCheckable(True)
@@ -1428,8 +1437,10 @@ class Window5(QMainWindow):
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
-            self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-            self.table.resize(423, self.tableHeight)
+            # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+            self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+            self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+            self.table.resize(self.tableWidth, self.tableHeight)
 
             if properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 1)
@@ -1482,8 +1493,10 @@ class Window5(QMainWindow):
                 self.table.ui.tableWidget.setItem(row, 1, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
-            self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-            self.table.resize(298, self.tableHeight)
+            # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+            self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+            self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+            self.table.resize(self.tableWidth, self.tableHeight)
 
             if properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 2)
@@ -1751,6 +1764,7 @@ class Window6(QMainWindow):
         self.scroll2.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll2.setWidgetResizable(True)
         self.scroll2.setWidget(self.widgetRight)
+        self.scroll2.setMinimumWidth(int(self.width/3))
 
         # слева отделения
         layout.addWidget(self.scroll1)
@@ -1808,8 +1822,10 @@ class Window6(QMainWindow):
                 str(int(properties.tn[row])))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(549, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
 
         self._connectAction()
 
@@ -2352,26 +2368,35 @@ class WindowMenu(QMainWindow):
         if not filePath:
             return
         # self.report_controller.print_report(filePath)
+        self.report_controller.decrypt(filePath)
         file_extension = os.path.splitext(filePath)[1]
 
         if file_extension == ".pdf":
-            printer = QPrinter(QPrinter.HighResolution)
-            dialog = QPrintDialog(printer, self)
-            if dialog.exec_() == QPrintDialog.Accepted:
-                with tempfile.TemporaryDirectory() as path:
-                    images = convert_from_path(filePath, dpi=300, output_folder=path)
-                    painter = QPainter()
-                    painter.begin(printer)
-                    for i, image in enumerate(images):
-                        if i > 0:
-                            printer.newPage()
-                        rect = painter.viewport()
-                        qtImage = ImageQt(image)
-                        qtImageScaled = qtImage.scaled(rect.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                        painter.drawImage(rect, qtImageScaled)
-                    painter.end()
+            try:
+                printer = QPrinter(QPrinter.HighResolution)
+                dialog = QPrintDialog(printer, self)
+                if dialog.exec_() == QPrintDialog.Accepted:
+                    with tempfile.TemporaryDirectory() as path:
+                        images = convert_from_path(filePath, dpi=300, output_folder=path)
+                        painter = QPainter()
+                        painter.begin(printer)
+                        for i, image in enumerate(images):
+                            if i > 0:
+                                printer.newPage()
+                            rect = painter.viewport()
+                            qtImage = ImageQt(image)
+                            qtImageScaled = qtImage.scaled(rect.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                            painter.drawImage(rect, qtImageScaled)
+                        painter.end()
+            except Exception as e:
+                print (f"[WARN] проблемы с печатью отчета: {e}")
+
+            
         else:
             pass
+        self.report_controller.encrypt(filePath)
+
+        
         # from sys import platform
         # if platform == "linux" or platform == "linux2":
         #     # linux
@@ -2637,10 +2662,10 @@ def clear_data():
                 os.unlink(file_path)
             elif os.path.isdir(file_path):
                 shutil.rmtree(file_path)
-            tmpFile = open(folder + 'tmp.txt', 'w')
-            tmpFile.close()
         except Exception as e:
             print('[WARN] Failed to delete %s. Reason: %s' % (file_path, e))
+    tmpFile = open(folder + 'tmp.txt', 'wb')
+    tmpFile.close()
 
 
 def close_app(event):
@@ -2660,25 +2685,6 @@ def close_app(event):
         event.accept()
     else:
         event.ignore()
-
-def run(encrypt = None, app = None,
-        MainWindow = None,
-        properties = None, squadNum = None,
-        MainWindow1 = None, MainWindow2 = None, MainWindow3 = None,
-        MainWindow4 = None, MainWindow5 = None, MainWindow6 = None):
-    pass
-
-# encrypt = None
-# app = None
-# MainWindow = None
-# properties = None
-# squadNum = None
-# MainWindow1 = None
-# MainWindow2 = None
-# MainWindow3 = None
-# MainWindow4 = None
-# MainWindow5 = None
-# MainWindow6 = None
 
 if __name__ == "__main__":
     clear_data()
