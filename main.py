@@ -2029,23 +2029,23 @@ class WindowMenu(QMainWindow):
         self.winEditTable = winEditTable(self)
         # self.creatTable = WinsDialog.creatTable(self) #
 
-        # self.ui.actionReportSign.setEnabled(False)
-        # # self.ui.btnGenVar.setEnabled(False)
-        # self.ui.actionEditTaskVariant.setEnabled(False)
-        # self.ui.actionPrint.setEnabled(False)
-        # self.ui.actionPreviewReport.setEnabled(False)
-        # self.ui.btnTask1.setEnabled(True)
-        # self.ui.btnTask2.setEnabled(
-        #     statusTask.get_verification_passed_tasks(1))
-        # self.ui.btnTask3.setEnabled(
-        #     statusTask.get_verification_passed_tasks(2))
-        # self.ui.btnTask4.setEnabled(
-        #     statusTask.get_verification_passed_tasks(3))
-        # self.ui.btnTask5.setEnabled(
-        #     statusTask.get_verification_passed_tasks(4))
-        # self.ui.btnTask6.setEnabled(
-        #     statusTask.get_verification_passed_tasks(5))
-        self.setFalseButton()
+        self.ui.actionReportSign.setEnabled(False)
+        # self.ui.btnGenVar.setEnabled(False)
+        self.ui.actionEditTaskVariant.setEnabled(False)
+        self.ui.actionPrint.setEnabled(False)
+        self.ui.actionPreviewReport.setEnabled(False)
+        self.ui.btnTask1.setEnabled(True)
+        self.ui.btnTask2.setEnabled(
+            Properties.getVerificationPassedTasks(1))
+        self.ui.btnTask3.setEnabled(
+            Properties.getVerificationPassedTasks(2))
+        self.ui.btnTask4.setEnabled(
+            Properties.getVerificationPassedTasks(3))
+        self.ui.btnTask5.setEnabled(
+            Properties.getVerificationPassedTasks(4))
+        self.ui.btnTask6.setEnabled(
+            Properties.getVerificationPassedTasks(5))
+        # self.setFalseButton()
 
         self._connectAction()
         # self.creatReport()
@@ -2068,36 +2068,36 @@ class WindowMenu(QMainWindow):
         # self.ui.btnTask1.setGraphicsEffect(shadow)
         
 
-    def setTrueButton(self):
-        self.ui.actionReportSign.setEnabled(True)
-        # self.ui.btnGenVar.setEnabled(True)
-        self.ui.actionEditTaskVariant.setEnabled(True)
-        self.ui.btnTask1.setEnabled(True)
-        self.ui.btnTask2.setEnabled(True)
-        self.ui.btnTask3.setEnabled(True)
-        self.ui.btnTask4.setEnabled(True)
-        self.ui.btnTask5.setEnabled(True)
-        self.ui.btnTask6.setEnabled(True)
-        self.ui.actionPrint.setEnabled(True)
-        self.ui.actionPreviewReport.setEnabled(True)
+    # def setTrueButton(self):
+    #     self.ui.actionReportSign.setEnabled(True)
+    #     # self.ui.btnGenVar.setEnabled(True)
+    #     self.ui.actionEditTaskVariant.setEnabled(True)
+    #     self.ui.btnTask1.setEnabled(True)
+    #     self.ui.btnTask2.setEnabled(True)
+    #     self.ui.btnTask3.setEnabled(True)
+    #     self.ui.btnTask4.setEnabled(True)
+    #     self.ui.btnTask5.setEnabled(True)
+    #     self.ui.btnTask6.setEnabled(True)
+    #     self.ui.actionPrint.setEnabled(True)
+    #     self.ui.actionPreviewReport.setEnabled(True)
 
-    def setFalseButton(self):
-        self.ui.actionReportSign.setEnabled(False)
-        # self.ui.btnGenVar.setEnabled(False)
-        self.ui.actionEditTaskVariant.setEnabled(False)
-        self.ui.actionPrint.setEnabled(False)
-        self.ui.actionPreviewReport.setEnabled(False)
-        self.ui.btnTask1.setEnabled(True)
-        self.ui.btnTask2.setEnabled(
-            Properties.getVerificationPassedTasks(1))
-        self.ui.btnTask3.setEnabled(
-            Properties.getVerificationPassedTasks(2))
-        self.ui.btnTask4.setEnabled(
-            Properties.getVerificationPassedTasks(3))
-        self.ui.btnTask5.setEnabled(
-            Properties.getVerificationPassedTasks(4))
-        self.ui.btnTask6.setEnabled(
-            Properties.getVerificationPassedTasks(5))
+    # def setFalseButton(self):
+    #     self.ui.actionReportSign.setEnabled(False)
+    #     # self.ui.btnGenVar.setEnabled(False)
+    #     self.ui.actionEditTaskVariant.setEnabled(False)
+    #     self.ui.actionPrint.setEnabled(False)
+    #     self.ui.actionPreviewReport.setEnabled(False)
+    #     self.ui.btnTask1.setEnabled(True)
+    #     self.ui.btnTask2.setEnabled(
+    #         Properties.getVerificationPassedTasks(1))
+    #     self.ui.btnTask3.setEnabled(
+    #         Properties.getVerificationPassedTasks(2))
+    #     self.ui.btnTask4.setEnabled(
+    #         Properties.getVerificationPassedTasks(3))
+    #     self.ui.btnTask5.setEnabled(
+    #         Properties.getVerificationPassedTasks(4))
+    #     self.ui.btnTask6.setEnabled(
+    #         Properties.getVerificationPassedTasks(5))
         
 
     def colorTable(self):
@@ -2266,13 +2266,38 @@ class WindowMenu(QMainWindow):
     def activateTeacherMode(self):
         if self.ui.btnTeacherMode.isChecked() and (encrypt.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
-            self.setTrueButton()
+            self.ui.actionReportSign.setEnabled(True)
+            # self.ui.btnGenVar.setEnabled(True)
+            self.ui.actionEditTaskVariant.setEnabled(True)
+            self.ui.btnTask1.setEnabled(True)
+            self.ui.btnTask2.setEnabled(True)
+            self.ui.btnTask3.setEnabled(True)
+            self.ui.btnTask4.setEnabled(True)
+            self.ui.btnTask5.setEnabled(True)
+            self.ui.btnTask6.setEnabled(True)
+            self.ui.actionPrint.setEnabled(True)
+            self.ui.actionPreviewReport.setEnabled(True)
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet(
                 "QStatusBar{background:rgba(255,0,0,255)}")
         else:
-            self.setFalseButton()
+            self.ui.actionReportSign.setEnabled(False)
+            # self.ui.btnGenVar.setEnabled(False)
+            self.ui.actionEditTaskVariant.setEnabled(False)
+            self.ui.actionPrint.setEnabled(False)
+            self.ui.actionPreviewReport.setEnabled(False)
+            self.ui.btnTask1.setEnabled(True)
+            self.ui.btnTask2.setEnabled(
+                Properties.getVerificationPassedTasks(1))
+            self.ui.btnTask3.setEnabled(
+                Properties.getVerificationPassedTasks(2))
+            self.ui.btnTask4.setEnabled(
+                Properties.getVerificationPassedTasks(3))
+            self.ui.btnTask5.setEnabled(
+                Properties.getVerificationPassedTasks(4))
+            self.ui.btnTask6.setEnabled(
+                Properties.getVerificationPassedTasks(5))
             self.ui.btnTeacherMode.setChecked(False)
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(184, 255, 192,255)}")  # rgb(184, 255, 192)
