@@ -33,7 +33,7 @@
      <x>0</x>
      <y>0</y>
      <width>1601</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -45,15 +45,9 @@
     </property>
     <addaction name="actionHelpTask"/>
     <addaction name="actionHelpProgram"/>
-   </widget>
-   <widget class="QMenu" name="menuTask5">
-    <property name="title">
-     <string>Задание 5</string>
-    </property>
     <addaction name="actionViewTask"/>
    </widget>
    <addaction name="menuHelp"/>
-   <addaction name="menuTask5"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="styleSheet">
@@ -82,8 +76,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionbtnAddNode"/>
-   <addaction name="actionbtnRemoveNode"/>
+   <addaction name="actionbtnAddSeq"/>
+   <addaction name="actionbtnRemoveSeq"/>
    <addaction name="actionbtnConnectNode"/>
    <addaction name="actionbtnRemoveNodeConnection"/>
    <addaction name="actionbtnMoveNode"/>
@@ -147,7 +141,7 @@
     <string>Назад          Ctrl+Z</string>
    </property>
   </action>
-  <action name="actionbtnAddNode">
+  <action name="actionbtnAddSeq">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -165,7 +159,7 @@
     <string>Добавить последовательность</string>
    </property>
   </action>
-  <action name="actionbtnRemoveNode">
+  <action name="actionbtnRemoveSeq">
    <property name="checkable">
     <bool>true</bool>
    </property>

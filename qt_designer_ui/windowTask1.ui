@@ -33,7 +33,7 @@
      <x>0</x>
      <y>0</y>
      <width>1669</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -45,15 +45,9 @@
     </property>
     <addaction name="actionHelpTask"/>
     <addaction name="actionHelpProgram"/>
-   </widget>
-   <widget class="QMenu" name="menuTask1">
-    <property name="title">
-     <string>Задание 1</string>
-    </property>
     <addaction name="actionViewTask"/>
    </widget>
    <addaction name="menuHelp"/>
-   <addaction name="menuTask1"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="styleSheet">

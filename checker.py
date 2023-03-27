@@ -26,6 +26,16 @@ class TaskThreeAndFourMistakes(Enum):
 
 
 class Checker:
+
+    @staticmethod
+    def checkBounds(point, bounds, border=0):
+        if (point < border):
+            return border
+        elif(point > bounds-border):
+            return bounds-border
+        else:
+            return point
+
     # функции для определения пересечения отрезков
     @staticmethod
     def _onSegment(p, q, r):

@@ -395,8 +395,25 @@
     <property name="title">
      <string>О программе</string>
     </property>
-    <addaction name="actionVersion"/>
-    <addaction name="actionDevelopers"/>
+    <widget class="QMenu" name="version">
+     <property name="title">
+      <string>Версия</string>
+     </property>
+     <addaction name="num_ver"/>
+    </widget>
+    <widget class="QMenu" name="menu">
+     <property name="title">
+      <string>Разработчики</string>
+     </property>
+     <addaction name="separator"/>
+     <addaction name="action_2"/>
+     <addaction name="action_3"/>
+     <addaction name="action_4"/>
+     <addaction name="action_5"/>
+     <addaction name="action_6"/>
+    </widget>
+    <addaction name="version"/>
+    <addaction name="menu"/>
    </widget>
    <widget class="QMenu" name="function">
     <property name="title">
@@ -433,16 +450,6 @@
     <string>сохранить отчет</string>
    </property>
   </action>
-  <action name="actionVersion">
-   <property name="text">
-    <string>Версия</string>
-   </property>
-  </action>
-  <action name="actionDevelopers">
-   <property name="text">
-    <string>Разработчики</string>
-   </property>
-  </action>
   <action name="actionHelpWithProg">
    <property name="text">
     <string>Справка по работе с программой</string>
@@ -471,6 +478,36 @@
   <action name="actionReportSign">
    <property name="text">
     <string>Изменить данные студента</string>
+   </property>
+  </action>
+  <action name="num_ver">
+   <property name="text">
+    <string>1.0</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>Иванов Ф. А.</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>Гаврилов В. К.</string>
+   </property>
+  </action>
+  <action name="action_4">
+   <property name="text">
+    <string>Доронин О. А.</string>
+   </property>
+  </action>
+  <action name="action_5">
+   <property name="text">
+    <string>Мариничев И. А.</string>
+   </property>
+  </action>
+  <action name="action_6">
+   <property name="text">
+    <string>Тимофеев А. В.</string>
    </property>
   </action>
  </widget>

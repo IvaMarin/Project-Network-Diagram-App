@@ -37,7 +37,7 @@ from qt_designer_ui.MainMenu import Ui_MainMenu
 from qt_designer_ui.windowTask1 import Ui_MainWindow1
 from qt_designer_ui.windowTask3 import Ui_MainWindow3
 from qt_designer_ui.windowTask5 import Ui_MainWindow5
-from task_two_window import Ui_MainWindow2
+from qt_designer_ui.windowTask2 import Ui_MainWindow2
 from qt_designer_ui.tableTask1 import Ui_tableTask1
 from qt_designer_ui.tableTask2 import Ui_tableTask2Widget
 from qt_designer_ui.windowTask6 import Ui_MainWindow6
@@ -131,8 +131,9 @@ class Window1(QMainWindow):
                 MainWindow.ui.tableVar.item(row, 0).text())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(173, self.tableHeight)
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        # self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(211, self.tableHeight)
 
         self._connectAction()
 
@@ -443,8 +444,10 @@ class Window2(QMainWindow):
                 MainWindow.ui.tableVar.item(row, 3).text())
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(298, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
 
         self._connectAction()
 
@@ -743,8 +746,10 @@ class Window3(QMainWindow):
             self.item = QtWidgets.QTableWidgetItem(str(properties.tp[row]))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(423, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -917,7 +922,7 @@ class Window4(QMainWindow):
 
         self.setWindowTitle("\"Задание №4 (Размещение сетевого графика сетке времени в соответствии с поздними сроками наступления событий)\"")
         _translate = QtCore.QCoreApplication.translate
-        self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
+        # self.ui.menuHelp.setTitle(_translate("MainWindow3", "Задание 4"))
         self.ui.actionViewTask.setText(_translate("MainWindow3", "Задание 4"))
         sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
@@ -970,8 +975,10 @@ class Window4(QMainWindow):
                 str(int(properties.tn[row])))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 0, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(423, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
         self._connectAction()
 
         quit = QAction("Quit", self)
@@ -1130,6 +1137,7 @@ class Window5(QMainWindow):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        _translate = QtCore.QCoreApplication.translate
 
         # Создаём компоновщик
         layout = QtWidgets.QVBoxLayout()
@@ -1238,13 +1246,30 @@ class Window5(QMainWindow):
             self.headerItem = QtWidgets.QTableWidgetItem(str(row))
             self.table.ui.tableWidget.setVerticalHeaderItem(
                 row, self.headerItem)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(298, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
+
+        # self.ui.actionbtnAddSeq = QtWidgets.QAction(self)
+        # self.ui.actionbtnAddSeq.setCheckable(True)
+        # self.ui.actionbtnAddSeq.setChecked(False)
+        # icon5 = QtGui.QIcon()
+        # icon5.addPixmap(QtGui.QPixmap("resources/iconePack/add-new.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        # self.ui.actionbtnAddSeq.setIcon(icon5)
+        # self.ui.actionbtnAddSeq.setObjectName("actionbtnAddSeq")
+        # self.ui.actionbtnRemoveSeq = QtWidgets.QAction(self)
+        # self.ui.actionbtnRemoveSeq.setCheckable(True)
+
+        # self.ui.toolBar.addAction(self.ui.actionbtnAddSeq)
+        # self.ui.actionbtnAddSeq.setText(_translate("MainWindow5", "btnAddSeq"))
+        # self.ui.actionbtnAddSeq.setToolTip(_translate("MainWindow5", "Добавить последовательность"))
+        
 
         self._connectAction()
-
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
+
 
     def closeEvent(self, event):
         if self.ui.actionbtnHome.isChecked():
@@ -1426,8 +1451,10 @@ class Window5(QMainWindow):
                 self.table.ui.tableWidget.setItem(row, 0, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
-            self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-            self.table.resize(423, self.tableHeight)
+            # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+            self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+            self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+            self.table.resize(self.tableWidth, self.tableHeight)
 
             if properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 1)
@@ -1480,8 +1507,10 @@ class Window5(QMainWindow):
                 self.table.ui.tableWidget.setItem(row, 1, self.item)
             for i in self.widgetList:
                 i.functionAble = ""
-            self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-            self.table.resize(298, self.tableHeight)
+            # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+            self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+            self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+            self.table.resize(self.tableWidth, self.tableHeight)
 
             if properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 2)
@@ -1762,6 +1791,7 @@ class Window6(QMainWindow):
         self.scroll2.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll2.setWidgetResizable(True)
         self.scroll2.setWidget(self.widgetRight)
+        self.scroll2.setMinimumWidth(int(self.width/3))
 
         # слева отделения
         layout.addWidget(self.scroll1)
@@ -1819,8 +1849,10 @@ class Window6(QMainWindow):
                 str(int(properties.tn[row])))
             self.item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.table.ui.tableWidget.setItem(row, 1, self.item)
-        self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
-        self.table.resize(549, self.tableHeight)
+        # self.tableHeight = 60 + MainWindow.ui.tableVar.rowCount()*37
+        self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
+        self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
+        self.table.resize(self.tableWidth, self.tableHeight)
 
         self._connectAction()
 
@@ -2040,23 +2072,23 @@ class WindowMenu(QMainWindow):
         self.winEditTable = winEditTable(self)
         # self.creatTable = WinsDialog.creatTable(self) #
 
-        # self.ui.actionReportSign.setEnabled(False)
-        # # self.ui.btnGenVar.setEnabled(False)
-        # self.ui.actionEditTaskVariant.setEnabled(False)
-        # self.ui.actionPrint.setEnabled(False)
-        # self.ui.actionPreviewReport.setEnabled(False)
-        # self.ui.btnTask1.setEnabled(True)
-        # self.ui.btnTask2.setEnabled(
-        #     statusTask.get_verification_passed_tasks(1))
-        # self.ui.btnTask3.setEnabled(
-        #     statusTask.get_verification_passed_tasks(2))
-        # self.ui.btnTask4.setEnabled(
-        #     statusTask.get_verification_passed_tasks(3))
-        # self.ui.btnTask5.setEnabled(
-        #     statusTask.get_verification_passed_tasks(4))
-        # self.ui.btnTask6.setEnabled(
-        #     statusTask.get_verification_passed_tasks(5))
-        self.setFalseButton()
+        self.ui.actionReportSign.setEnabled(False)
+        # self.ui.btnGenVar.setEnabled(False)
+        self.ui.actionEditTaskVariant.setEnabled(False)
+        self.ui.actionPrint.setEnabled(False)
+        self.ui.actionPreviewReport.setEnabled(False)
+        self.ui.btnTask1.setEnabled(True)
+        self.ui.btnTask2.setEnabled(
+            Properties.getVerificationPassedTasks(1))
+        self.ui.btnTask3.setEnabled(
+            Properties.getVerificationPassedTasks(2))
+        self.ui.btnTask4.setEnabled(
+            Properties.getVerificationPassedTasks(3))
+        self.ui.btnTask5.setEnabled(
+            Properties.getVerificationPassedTasks(4))
+        self.ui.btnTask6.setEnabled(
+            Properties.getVerificationPassedTasks(5))
+        # self.setFalseButton()
 
         self._connectAction()
         # self.creatReport()
@@ -2079,36 +2111,36 @@ class WindowMenu(QMainWindow):
         # self.ui.btnTask1.setGraphicsEffect(shadow)
         
 
-    def setTrueButton(self):
-        self.ui.actionReportSign.setEnabled(True)
-        # self.ui.btnGenVar.setEnabled(True)
-        self.ui.actionEditTaskVariant.setEnabled(True)
-        self.ui.btnTask1.setEnabled(True)
-        self.ui.btnTask2.setEnabled(True)
-        self.ui.btnTask3.setEnabled(True)
-        self.ui.btnTask4.setEnabled(True)
-        self.ui.btnTask5.setEnabled(True)
-        self.ui.btnTask6.setEnabled(True)
-        self.ui.actionPrint.setEnabled(True)
-        self.ui.actionPreviewReport.setEnabled(True)
+    # def setTrueButton(self):
+    #     self.ui.actionReportSign.setEnabled(True)
+    #     # self.ui.btnGenVar.setEnabled(True)
+    #     self.ui.actionEditTaskVariant.setEnabled(True)
+    #     self.ui.btnTask1.setEnabled(True)
+    #     self.ui.btnTask2.setEnabled(True)
+    #     self.ui.btnTask3.setEnabled(True)
+    #     self.ui.btnTask4.setEnabled(True)
+    #     self.ui.btnTask5.setEnabled(True)
+    #     self.ui.btnTask6.setEnabled(True)
+    #     self.ui.actionPrint.setEnabled(True)
+    #     self.ui.actionPreviewReport.setEnabled(True)
 
-    def setFalseButton(self):
-        self.ui.actionReportSign.setEnabled(False)
-        # self.ui.btnGenVar.setEnabled(False)
-        self.ui.actionEditTaskVariant.setEnabled(False)
-        self.ui.actionPrint.setEnabled(False)
-        self.ui.actionPreviewReport.setEnabled(False)
-        self.ui.btnTask1.setEnabled(True)
-        self.ui.btnTask2.setEnabled(
-            Properties.getVerificationPassedTasks(1))
-        self.ui.btnTask3.setEnabled(
-            Properties.getVerificationPassedTasks(2))
-        self.ui.btnTask4.setEnabled(
-            Properties.getVerificationPassedTasks(3))
-        self.ui.btnTask5.setEnabled(
-            Properties.getVerificationPassedTasks(4))
-        self.ui.btnTask6.setEnabled(
-            Properties.getVerificationPassedTasks(5))
+    # def setFalseButton(self):
+    #     self.ui.actionReportSign.setEnabled(False)
+    #     # self.ui.btnGenVar.setEnabled(False)
+    #     self.ui.actionEditTaskVariant.setEnabled(False)
+    #     self.ui.actionPrint.setEnabled(False)
+    #     self.ui.actionPreviewReport.setEnabled(False)
+    #     self.ui.btnTask1.setEnabled(True)
+    #     self.ui.btnTask2.setEnabled(
+    #         Properties.getVerificationPassedTasks(1))
+    #     self.ui.btnTask3.setEnabled(
+    #         Properties.getVerificationPassedTasks(2))
+    #     self.ui.btnTask4.setEnabled(
+    #         Properties.getVerificationPassedTasks(3))
+    #     self.ui.btnTask5.setEnabled(
+    #         Properties.getVerificationPassedTasks(4))
+    #     self.ui.btnTask6.setEnabled(
+    #         Properties.getVerificationPassedTasks(5))
         
 
     def colorTable(self):
@@ -2277,13 +2309,38 @@ class WindowMenu(QMainWindow):
     def activateTeacherMode(self):
         if self.ui.btnTeacherMode.isChecked() and (encrypt.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
-            self.setTrueButton()
+            self.ui.actionReportSign.setEnabled(True)
+            # self.ui.btnGenVar.setEnabled(True)
+            self.ui.actionEditTaskVariant.setEnabled(True)
+            self.ui.btnTask1.setEnabled(True)
+            self.ui.btnTask2.setEnabled(True)
+            self.ui.btnTask3.setEnabled(True)
+            self.ui.btnTask4.setEnabled(True)
+            self.ui.btnTask5.setEnabled(True)
+            self.ui.btnTask6.setEnabled(True)
+            self.ui.actionPrint.setEnabled(True)
+            self.ui.actionPreviewReport.setEnabled(True)
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet(
                 "QStatusBar{background:rgba(255,0,0,255)}")
         else:
-            self.setFalseButton()
+            self.ui.actionReportSign.setEnabled(False)
+            # self.ui.btnGenVar.setEnabled(False)
+            self.ui.actionEditTaskVariant.setEnabled(False)
+            self.ui.actionPrint.setEnabled(False)
+            self.ui.actionPreviewReport.setEnabled(False)
+            self.ui.btnTask1.setEnabled(True)
+            self.ui.btnTask2.setEnabled(
+                Properties.getVerificationPassedTasks(1))
+            self.ui.btnTask3.setEnabled(
+                Properties.getVerificationPassedTasks(2))
+            self.ui.btnTask4.setEnabled(
+                Properties.getVerificationPassedTasks(3))
+            self.ui.btnTask5.setEnabled(
+                Properties.getVerificationPassedTasks(4))
+            self.ui.btnTask6.setEnabled(
+                Properties.getVerificationPassedTasks(5))
             self.ui.btnTeacherMode.setChecked(False)
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(184, 255, 192,255)}")  # rgb(184, 255, 192)
