@@ -31,7 +31,7 @@ class Report(FPDF):
         # Move to the right
         self.cell(40)
         # Title
-        self.multi_cell(100, 10, "ВАРИАНТ №" + variant + "ФИО: " + fio + "\nВЗВОД: " + group, 0, 0, 'L')
+        self.multi_cell(100, 10, "ВАРИАНТ №" + variant + "ФИО: " + fio + "ВЗВОД: " + group, 0, 0, 'L')
         # Line break
         self.ln(10)
 

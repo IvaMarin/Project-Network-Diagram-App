@@ -53,14 +53,15 @@ def createGrid(size, step=50, vertical=True, horizontal=True, max_time = -1):
     sizeWindow = size
     lines = []
     sizeDesktop = QRect(QApplication.desktop().screenGeometry())
-    numAxis = sizeDesktop.width() // step
+    additionalAxes = 4 # 1 нулевая ось + 3 дополнительных
+    numAxis = sizeDesktop.width() // step + 1
 
     if vertical:
         if (max_time == -1):
-            numAxis = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
+            numAxis = (sizeWindow.width() - x0) // step + 1 # количество вертикальных линий
         else:
-            if (max_time > numAxis):
-                numAxis = max_time
+            if (max_time + additionalAxes >= numAxis):
+                numAxis = max_time + additionalAxes
 
         for i in range(numAxis):
             lines.append(QLineF(x0, 0, x0, sizeWindow.height()))
@@ -82,15 +83,16 @@ def createGaps(size, step=50, sizeNumber = 40, yNumber = 50, max_time = -1):
     lines = []
     sizeNumber = sizeNumber / 2
     sizeDesktop = QRect(QApplication.desktop().screenGeometry())
-    numAxis = sizeDesktop.width() // step
+    additionalAxes = 4 # 1 нулевая ось + 3 дополнительных
+    numAxis = sizeDesktop.width() // step + 1
 
     x0 = x0 + step
 
     if (max_time == -1):
         numAxis = (sizeWindow.width() - x0) // step + 1  # количество вертикальных линий
     else:
-        if (max_time > numAxis):
-                numAxis = max_time +1 + 3
+        if (max_time + additionalAxes >= numAxis):
+                numAxis = max_time + additionalAxes
 
 
     for i in range(numAxis - 1):

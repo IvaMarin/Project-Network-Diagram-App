@@ -701,15 +701,17 @@ class Window3(QMainWindow):
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
 
-        numAxis = sizeWindow.width() // self.DisplayObj.step
+        numAxis = sizeWindow.width() // self.DisplayObj.step + 1
+        additionalAxes = 4 # 1 нулевая ось + 3 дополнительных
 
-        if (properties.max_possible_time > numAxis):
-            numAxis = properties.max_possible_time + 3
+        if ((properties.max_possible_time + additionalAxes) >= numAxis):
+            numAxis = properties.max_possible_time + additionalAxes
+        
 
 
-        self.DisplayObj.setMinimumSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
+        self.DisplayObj.setMinimumSize(numAxis * self.DisplayObj.step - 30, sizeWindow.height())
 
-        size = QSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
+        size = QSize(numAxis * self.DisplayObj.step - 30, sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
         self.table = QtWidgets.QWidget()
@@ -924,18 +926,17 @@ class Window4(QMainWindow):
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
         self.setCentralWidget(self.scroll)
-        self.DisplayObj.setMinimumSize(
-            (properties.max_possible_time + 3) * self.DisplayObj.step + 50, sizeWindow.height())
 
-        numAxis = sizeWindow.width() // self.DisplayObj.step
+        numAxis = sizeWindow.width() // self.DisplayObj.step + 1
+        additionalAxes = 4 # 1 нулевая ось + 3 дополнительных
 
-        if (properties.max_possible_time > numAxis):
-            numAxis = properties.max_possible_time + 3
+        if ((properties.max_possible_time + additionalAxes) >= numAxis):
+            numAxis = properties.max_possible_time + additionalAxes
 
 
-        self.DisplayObj.setMinimumSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
+        self.DisplayObj.setMinimumSize(numAxis * self.DisplayObj.step - 30, sizeWindow.height())
 
-        size = QSize(numAxis * self.DisplayObj.step + 50, sizeWindow.height())
+        size = QSize(numAxis * self.DisplayObj.step - 30, sizeWindow.height())
 
         self.image = QImage(size, QImage.Format_RGB32)
 
@@ -1135,17 +1136,31 @@ class Window5(QMainWindow):
 
         self.widgetList = []
         self.squadWidgetList = []
+        self.images = []
 
         self.i = 0
 
         self.squadNum = squadNum
+
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
         for i in range(squadNum):
             self.i = i
             self.widget1 = display.Display5(
                 self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal=False, base_graph=graph1)
             self.widgetList.append(self.widget1)
-            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (properties.max_sequences_amount+1) * 100) #properties.max_possible_time + 3) * self.DisplayObj.step + 50
+            self.widgetList[i].setMinimumSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (properties.max_sequences_amount+1) * 100) 
+            
+            numAxis = sizeWindow.width() // self.widgetList[i].step + 1
+            additionalAxes = 4 # 1 нулевая ось + 3 дополнительных
+
+            if ((properties.max_possible_time + additionalAxes) >= numAxis):
+                numAxis = properties.max_possible_time + additionalAxes
+
+
+            self.widgetList[i].setMinimumSize(numAxis * self.widgetList[i].step - 30, (properties.max_sequences_amount+1) * 100)
+
+
             scroll = QtWidgets.QScrollArea()
             scroll.setWidget(self.widgetList[i])
             scroll.setMinimumSize(500, 500)
@@ -1164,10 +1179,9 @@ class Window5(QMainWindow):
             hWidget.setLayout(hLayout)
             layout.addWidget(hWidget)
 
-        self.images = []
-        for i in range(squadNum):
-            size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (
-                properties.max_sequences_amount + 2) * properties.step_gridY + 10)
+            # size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (
+            #     properties.max_sequences_amount + 2) * properties.step_gridY + 10)
+            size = QSize(numAxis * self.widgetList[i].step - 30, (properties.max_sequences_amount + 2) * properties.step_gridY + 10)
             self.images.append(QImage(size, QImage.Format_RGB32))
 
         # Задаём компоновку виджету
@@ -1698,12 +1712,26 @@ class Window6(QMainWindow):
         self.firstShow = True
 
         self.widgetList = []
+        self.images = []
+
         for i in range(squadNum):
             self.i = i
             self.widgetList.append(display.Display6(
                 self, graph5_ort[i], properties.step_grid, properties.max_possible_time, horizontal=False, base_graph=graph1))
             self.widgetList[i].setMinimumSize(
                 (properties.max_possible_time + 3) * self.widgetList[i].step + 50, (properties.max_sequences_amount+1) * 100)
+            
+
+            numAxis = sizeWindow.width() // self.widgetList[i].step + 1
+            additionalAxes = 4 # 1 нулевая ось + 3 дополнительных
+
+            if ((properties.max_possible_time + additionalAxes) >= numAxis):
+                numAxis = properties.max_possible_time + additionalAxes
+
+
+            self.widgetList[i].setMinimumSize(numAxis * self.widgetList[i].step - 30, (properties.max_sequences_amount+1) * 100)
+
+            
             scroll = QtWidgets.QScrollArea()
             scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -1711,10 +1739,9 @@ class Window6(QMainWindow):
             scroll.setMinimumSize(500, 500)
             layoutLeft.addWidget(scroll)
 
-        self.images = []
-        for i in range(squadNum):
-            size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (
-                properties.max_sequences_amount + 2) * properties.step_gridY + 10)
+            # size = QSize((properties.max_possible_time + 3) * self.widgetList[i].step + 50, (
+            #     properties.max_sequences_amount + 2) * properties.step_gridY + 10)
+            size = QSize(numAxis * self.widgetList[i].step - 30, (properties.max_sequences_amount + 2) * properties.step_gridY + 10)
             self.images.append(QImage(size, QImage.Format_RGB32))
 
         widgetLeft = QWidget()
