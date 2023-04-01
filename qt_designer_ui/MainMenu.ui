@@ -389,6 +389,7 @@
      <string>Справка</string>
     </property>
     <addaction name="actionHelpWithProg"/>
+    <addaction name="actionHelpWithProgTeach"/>
     <addaction name="actionHelpWithTheory"/>
    </widget>
    <widget class="QMenu" name="menuAboutProgram">
@@ -452,7 +453,7 @@
   </action>
   <action name="actionHelpWithProg">
    <property name="text">
-    <string>Справка по работе с программой</string>
+    <string>Справка по работе с программой для студента</string>
    </property>
   </action>
   <action name="actionHelpWithTheory">
@@ -508,6 +509,11 @@
   <action name="action_6">
    <property name="text">
     <string>Тимофеев А. В.</string>
+   </property>
+  </action>
+  <action name="actionHelpWithProgTeach">
+   <property name="text">
+    <string>Справка по работе с программой для преподавателя</string>
    </property>
   </action>
  </widget>
