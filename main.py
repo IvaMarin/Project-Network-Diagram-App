@@ -2309,6 +2309,7 @@ class WindowMenu(QMainWindow):
     def activateTeacherMode(self):
         if self.ui.btnTeacherMode.isChecked() and (encrypt.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
+            self.ui.btnTeacherMode.setText("Режим студента")
             self.ui.actionReportSign.setEnabled(True)
             # self.ui.btnGenVar.setEnabled(True)
             self.ui.actionEditTaskVariant.setEnabled(True)
@@ -2325,6 +2326,7 @@ class WindowMenu(QMainWindow):
             self.ui.statusbar.setStyleSheet(
                 "QStatusBar{background:rgba(255,0,0,255)}")
         else:
+            self.ui.btnTeacherMode.setText("Режим преподавателя")
             self.ui.actionReportSign.setEnabled(False)
             # self.ui.btnGenVar.setEnabled(False)
             self.ui.actionEditTaskVariant.setEnabled(False)
