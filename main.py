@@ -1978,8 +1978,10 @@ class Window6(QMainWindow):
 
 
 class HelpWithProgram():
-    def __init__(self, path):
+    def __init__(self, path, correct_x, correct_y):
         self.path = path
+        self.correct_x = correct_x
+        self.correct_y = correct_y
 
     def ShowWindow(self):
 
@@ -2013,7 +2015,7 @@ class HelpWithProgram():
         # подгоняем под размер уаждцю фотку и собираем их в лист
         for i in range(len(os.listdir(path=self.path))):
             img = Image.open(self.path + 'doc_' + str(i)+'.jpg')
-            img = img.resize((round(0.8*monitor_width), round((1.8*monitor_height))))
+            img = img.resize((round(self.correct_x*monitor_width), round((self.correct_y*monitor_height))))
             photos.append(ImageTk.PhotoImage(img))
 
         for photo in photos:
@@ -2097,7 +2099,8 @@ class WindowMenu(QMainWindow):
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
 
-        self.helpWithProgram = HelpWithProgram('resources/documentation/student/')
+        self.helpWithProgram = HelpWithProgram('resources/documentation/student/', 0.8, 1.8)
+        self.helpWithProgramTheory = HelpWithProgram('resources/documentation/Theory/', 0.8, 2)
 
         self.testGen()
 
@@ -2286,6 +2289,8 @@ class WindowMenu(QMainWindow):
         self.ui.btnSaveReportAs.clicked.connect(lambda: self.save_report_as())
 
         self.ui.actionHelpWithProg.triggered.connect(lambda: self.openHelpWithProg())
+        self.ui.actionHelpWithTheory.triggered.connect(lambda: self.openHelpWithTheory())
+
 
         # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
         self.ui.actionReportSign.triggered.connect(lambda: self.openWinSigReport())
@@ -2295,6 +2300,8 @@ class WindowMenu(QMainWindow):
         self.ui.actionEditTaskVariant.triggered.connect(lambda: self.openWinEditTable())
     def openHelpWithProg(self):
         self.helpWithProgram.ShowWindow()
+    def openHelpWithTheory(self):
+        self.helpWithProgramTheory.ShowWindow()
     def openWinSigReport(self):
         try:
             self.winSigReport.exec()
