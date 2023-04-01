@@ -2101,6 +2101,7 @@ class WindowMenu(QMainWindow):
 
         self.helpWithProgram = HelpWithProgram('resources/documentation/student/', 0.8, 1.8)
         self.helpWithProgramTheory = HelpWithProgram('resources/documentation/Theory/', 0.8, 2)
+        self.helpWithProgramTeach = HelpWithProgram('resources/documentation/Teacher/', 1, 1)
 
         self.testGen()
 
@@ -2290,6 +2291,7 @@ class WindowMenu(QMainWindow):
 
         self.ui.actionHelpWithProg.triggered.connect(lambda: self.openHelpWithProg())
         self.ui.actionHelpWithTheory.triggered.connect(lambda: self.openHelpWithTheory())
+        self.ui.actionHelpWithProgTeach.triggered.connect(lambda: self.openHelpWithProgTeach())
 
 
         # по клику вызываем диалоговое окно для подписти отчета и передаем управление ему
@@ -2302,6 +2304,8 @@ class WindowMenu(QMainWindow):
         self.helpWithProgram.ShowWindow()
     def openHelpWithTheory(self):
         self.helpWithProgramTheory.ShowWindow()
+    def openHelpWithProgTeach(self):
+        self.helpWithProgramTeach.ShowWindow()
     def openWinSigReport(self):
         try:
             self.winSigReport.exec()
