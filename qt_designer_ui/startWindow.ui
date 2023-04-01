@@ -217,7 +217,7 @@ p, li { white-space: pre-wrap; }
        <property name="font">
         <font>
          <family>Times New Roman</family>
-         <pointsize>20</pointsize>
+         <pointsize>18</pointsize>
          <weight>50</weight>
          <bold>false</bold>
          <underline>false</underline>
@@ -250,7 +250,7 @@ background-color: rgb(46, 101, 158);</string>
        <property name="font">
         <font>
          <family>Times New Roman</family>
-         <pointsize>16</pointsize>
+         <pointsize>18</pointsize>
         </font>
        </property>
        <property name="styleSheet">

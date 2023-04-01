@@ -114,7 +114,7 @@ class Ui_startWin(object):
         self.btnSignLab.setEnabled(True)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(20)
+        font.setPointSize(18)
         font.setBold(False)
         font.setUnderline(False)
         font.setWeight(50)
@@ -131,7 +131,7 @@ class Ui_startWin(object):
         self.btnDeveloperMode = QtWidgets.QPushButton(startWin)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(16)
+        font.setPointSize(18)
         self.btnDeveloperMode.setFont(font)
         self.btnDeveloperMode.setStyleSheet("color: rgb(234, 234, 234);\n"
 "background-color: rgb(46, 101, 158);")
