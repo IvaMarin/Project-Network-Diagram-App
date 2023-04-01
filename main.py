@@ -118,7 +118,7 @@ class Window1(QMainWindow):
         size = QSize(sizeWindow.width(), sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
-        self.table = QtWidgets.QWidget()
+        self.table = QtWidgets.QWidget(self)
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
         self.table.move(int(sizeWindow.width()*3/4), 200)
@@ -421,7 +421,7 @@ class Window2(QMainWindow):
         self.msg.setIcon(QMessageBox.Critical)
         self.msg.setStandardButtons(QMessageBox.Ok)
 
-        self.table = QtWidgets.QWidget()
+        self.table = QtWidgets.QWidget(self)
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
         self.table.move(int(sizeWindow.width()*3/4), 200)
@@ -717,7 +717,7 @@ class Window3(QMainWindow):
         size = QSize(numAxis * self.DisplayObj.step - 30, sizeWindow.height())
         self.image = QImage(size, QImage.Format_RGB32)
 
-        self.table = QtWidgets.QWidget()
+        self.table = QtWidgets.QWidget(self)
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
         self.table.move(int(sizeWindow.width()*3/4), 200)
@@ -945,7 +945,7 @@ class Window4(QMainWindow):
 
         self.image = QImage(size, QImage.Format_RGB32)
 
-        self.table = QtWidgets.QWidget()
+        self.table = QtWidgets.QWidget(self)
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
         self.table.move(int(sizeWindow.width()*3/4), 200)
@@ -1221,7 +1221,7 @@ class Window5(QMainWindow):
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
-        self.table = QtWidgets.QWidget()
+        self.table = QtWidgets.QWidget(self)
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
         self.table.move(int(sizeWindow.width()*3/4), 200)
@@ -1815,7 +1815,7 @@ class Window6(QMainWindow):
 
         self.move(int(sizeWindow.width() / 10), int(sizeWindow.height() / 10))
 
-        self.table = QtWidgets.QWidget()
+        self.table = QtWidgets.QWidget(self)
         self.table.ui = Ui_tableTask1()
         self.table.ui.setupUi(self.table)
         self.table.ui.tableWidget.horizontalHeader().setVisible(True)
