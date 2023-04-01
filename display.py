@@ -1,8 +1,8 @@
 import numpy as np
 
-from PyQt5.QtCore import Qt, QRect, QPointF, QLineF, QSize
-from PyQt5.QtGui import QPainter, QColor, QPolygonF, QPen, QFont, QImage
-from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QFileDialog
+from PyQt5.QtCore import Qt, QRect, QPointF, QLineF, QRegExp
+from PyQt5.QtGui import QPainter, QColor, QPolygonF, QPen, QFont, QImage, QRegExpValidator
+from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit
 
 import controller
 from checker import Checker
@@ -269,10 +269,9 @@ class Display(QWidget):
                     
                     self.QLineEdits[i][j].move(int(x), int(y))
                     self.QLineEdits[i][j].resize(50,50)
-
-                    self.QLineEdits[i][j].setStyleSheet("border :2px solid black;")
+                    self.QLineEdits[i][j].setMaxLength(3)
+                    self.QLineEdits[i][j].setValidator(QRegExpValidator(QRegExp("[0-9][0-9][0-9]")))
                     
-                    self.QLineEdits[i][j].setInputMask("00")
                     self.QLineEdits[i][j].show()
 
     def GetNumberOfPeople(self):
@@ -810,10 +809,8 @@ class Display5(Display):
             
             self.QLineEdits[(p1, p2)].move(int(x), int(y))
             self.QLineEdits[(p1, p2)].resize(50,50)
-
-            self.QLineEdits[(p1, p2)].setStyleSheet("border :2px solid black;")
-            
-            self.QLineEdits[(p1, p2)].setInputMask("00")
+            self.QLineEdits[(p1, p2)].setMaxLength(3)
+            self.QLineEdits[(p1, p2)].setValidator(QRegExpValidator(QRegExp("[0-9][0-9][0-9]")))
             self.QLineEdits[(p1, p2)].show()
 
     def GetNumberOfPeople(self):
