@@ -1861,6 +1861,7 @@ class Window6(QMainWindow):
 
         self.msg = QMessageBox()
         self.msg.setWindowTitle("Предупреждение")
+        self.ui.actionHelp.setCheckable(True)
         self.msg.setText(
             "В этом задании нет автоматической проверки. Нажимая кнопку проверить вы фиксируете свой текущий результат в отчёте.")
         self.msg.setIcon(QMessageBox.Information)
@@ -1977,8 +1978,8 @@ class Window6(QMainWindow):
 
 
 class HelpWithProgram():
-    def __init__(self):
-        pass
+    def __init__(self, path):
+        self.path = path
 
     def ShowWindow(self):
 
@@ -2010,8 +2011,8 @@ class HelpWithProgram():
         # фотки пдф страниц
         photos = []
         # подгоняем под размер уаждцю фотку и собираем их в лист
-        for i in range(9):
-            img = Image.open('documentation/doc_' + str(i)+'.jpg')
+        for i in range(len(os.listdir(path=self.path))):
+            img = Image.open(self.path + 'doc_' + str(i)+'.jpg')
             img = img.resize((round(0.8*monitor_width), round((1.8*monitor_height))))
             photos.append(ImageTk.PhotoImage(img))
 
@@ -2096,7 +2097,7 @@ class WindowMenu(QMainWindow):
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
 
-        self.helpWithProgram = HelpWithProgram()
+        self.helpWithProgram = HelpWithProgram('resources/documentation/student/')
 
         self.testGen()
 
