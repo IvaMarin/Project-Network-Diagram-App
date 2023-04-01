@@ -16,9 +16,10 @@ basedir = os.path.dirname(__file__) # путь до данного файла
 
 
 class Properties():
-    # static field
+    # static fields
     verificationPassedTasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
-
+    teacherMode = False
+    teacherHelpMode = False
     def __init__(self, MainWindow):
         # self.start_time = time.time_ns() # время начала работы программы в наносекундах
         # self.end_time = None # время завершения последнего задания в наносекундах
@@ -26,7 +27,7 @@ class Properties():
 
         # свойства, использующиеся в разных заданиях
         self.variant = MainWindow.numINGroup
-        self.teacherMode = False
+        
         self.key_path = "" # путь до ключа преподавателя 
         self.enter_teacher_mode = [False, False, False, False, False, False]
 
@@ -63,7 +64,7 @@ class Properties():
 
     def update(self):
         self.variant = self.MainWindow.numINGroup
-        self.teacherMode = False
+        Properties.teacherMode = False
         Properties.verificationPassedTasks = {1: False, 2: False, 3: False, 4: False, 5: False} # массив пройденных заданий
         self.key_path = "" # путь до ключа преподавателя 
         self.enter_teacher_mode = [False, False, False, False, False, False]
@@ -154,6 +155,10 @@ class Properties():
     @staticmethod
     def setVerificationPassedTask(number):
         Properties.verificationPassedTasks[number] = True
+
+    @staticmethod
+    def setVerificationNotPassedTask(number):
+        Properties.verificationPassedTasks[number] = False
 
     @staticmethod
     def setVerificationPassedTaskAll(arg):

@@ -3,7 +3,6 @@ import os
 import numpy as np
 import time
 import re
-from pathlib import Path
 
 
 from PIL.ImageQt import ImageQt
@@ -12,7 +11,7 @@ from tkinter import *
 from PIL import ImageTk, Image
 
 from PyQt5.QtCore import QRect, Qt, QSize
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QLineEdit, QProgressDialog, QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox, QAction, QDialog, QProgressDialog, QGraphicsDropShadowEffect
 from PyQt5.QtGui import QImage, QFont
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPainter
@@ -23,12 +22,10 @@ from pdf2image import convert_from_path
 
 
 ### Для обработки .xlsx файлов ##############
-import openpyxl
 from PIL import Image
 from encrypt_decrypt import encrypt_decrypt
 
 ### Для обработки .pdf файлов ###############
-import basedir_paths as bp
 from report import report_controller
 
 ############# Кастомные файлы для проги ######################
@@ -81,14 +78,6 @@ def maxSquadNum():
 
     return maxSquadNum
 
-
-def image_to_jpg(image_path):
-    path = Path(image_path)
-    if path.suffix not in {'.jpg', '.png', '.jfif', '.exif', '.gif', '.tiff', '.bmp'}:
-        jpg_image_path = f'{path.parent / path.stem}_result.jpg'
-        Image.open(image_path).convert('RGB').save(jpg_image_path)
-        return jpg_image_path
-    return image_path
 
 # ////////////////////////////////  КЛАСС ОКНА ПЕРВОГО ЗАДАНИЯ  ////////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -215,7 +204,7 @@ class Window1(QMainWindow):
             if len(mistakes) == 0:
                 properties.setVerificationPassedTask(1)
 
-                if properties.teacherMode:
+                if Properties.teacherMode:
                     properties.save_graph_for_teacher(graph1, 1)
 
                 properties.save_graph_for_student(
@@ -274,7 +263,7 @@ class Window1(QMainWindow):
             self.table.hide()
 
     def show(self):
-        if properties.teacherMode:
+        if Properties.teacherMode:
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet(
@@ -288,7 +277,7 @@ class Window1(QMainWindow):
 
         self.DisplayObj.functionAble = ""
         # выставляем кнопке помощи значение режима преподавателя T/F
-        self.ui.actionHelp.setEnabled(properties.teacherMode)
+        self.ui.actionHelp.setEnabled(Properties.teacherMode)
         self.showMaximized()
 
         # показать информацию по заданию
@@ -463,7 +452,7 @@ class Window2(QMainWindow):
             close_app(event)
 
     def show(self):
-        if properties.teacherMode:
+        if Properties.teacherMode:
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet(
@@ -478,7 +467,7 @@ class Window2(QMainWindow):
 
         self.showMaximized()
         # выставляем кнопке помощи значение режима преподавателя T/F
-        self.ui.actionHelp.setEnabled(properties.teacherMode)
+        self.ui.actionHelp.setEnabled(Properties.teacherMode)
 
         if self.firstShow:
             self.cnt = len(graph1.CorrectAdjacencyMatrix)
@@ -567,7 +556,7 @@ class Window2(QMainWindow):
                     properties.setVerificationPassedTask(2)
 
                     # если в режиме преподавателя, то записываем в ответ
-                    if properties.teacherMode:
+                    if Properties.teacherMode:
                         properties.save_graph_for_teacher(graph1, 2)
 
                     properties.save_graph_for_student(
@@ -587,7 +576,6 @@ class Window2(QMainWindow):
                 mistakes.exec()
 
     def backMainMenu(self):
-        self.switchTeacherMode(False)
         self.ui.actionHelp.setChecked(False)
         MainWindow.show()
         self.table.close()
@@ -627,34 +615,19 @@ class Window2(QMainWindow):
     def switchTeacherMode(self, flag):
         try:
             if (flag):
-                # properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
-                n = len(self.DisplayObj.QLineEdits)
-                for i in range(n):
-                    for j in range(n):
-                        if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
-                            try:
-                                self.DisplayObj.QLineEdits[i][j].setVisible(False)
-                            except ValueError:
-                                pass
+                Properties.teacherHelpMode = True
+                Properties.setVerificationPassedTask(2)
 
-                graph = properties.get_graph_for_teacher(
-                    2)  # берем граф из сохранения
+                graph = properties.get_graph_for_teacher(2)  # берем граф из сохранения
                 self.DisplayObj.graph = graph
                 self.DisplayObj.update()
 
                 self.ui.actionbtnCheck.setEnabled(False)
                 self.ui.actionbtnCritPath.setEnabled(False)
             else:
-                # graph_student = properties.get_graph_for_student(1)
-                n = len(self.DisplayObj.QLineEdits)
-                for i in range(n):
-                    for j in range(n):
-                        if (type(self.DisplayObj.QLineEdits[i][j]) == QLineEdit):
-                            try:
-                                self.DisplayObj.QLineEdits[i][j].setVisible(True)
-                            except ValueError:
-                                pass
-
+                Properties.teacherHelpMode = False
+                Properties.setVerificationNotPassedTask(2)
+                
                 if (Properties.getVerificationPassedPretasks(3)):
                     save_graph_for_student_1 = properties.get_graph_for_student(2)
                     self.DisplayObj.graph = save_graph_for_student_1
@@ -783,7 +756,7 @@ class Window3(QMainWindow):
 
                 properties.setVerificationPassedTask(3)
 
-                if properties.teacherMode:
+                if Properties.teacherMode:
                     properties.save_graph_for_teacher(graph1, 3)
 
                 properties.save_graph_for_student(
@@ -831,7 +804,7 @@ class Window3(QMainWindow):
         self.close()
 
     def show(self):
-        if properties.teacherMode:
+        if Properties.teacherMode:
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet(
@@ -844,7 +817,7 @@ class Window3(QMainWindow):
                 "QStatusBar{background:rgba(184, 255, 192,255)}")
         self.DisplayObj.functionAble = ""
         # выставляем кнопке помощи значение режима преподавателя T/F
-        self.ui.actionHelp.setEnabled(properties.teacherMode)
+        self.ui.actionHelp.setEnabled(Properties.teacherMode)
         self.showMaximized()
 
         # показать информацию по заданию
@@ -1013,7 +986,7 @@ class Window4(QMainWindow):
             if len(mistakes) == 0:
                 properties.setVerificationPassedTask(4)
 
-                if properties.teacherMode:
+                if Properties.teacherMode:
                     properties.save_graph_for_teacher(graph1, 4)
 
                 properties.save_graph_for_student(
@@ -1056,7 +1029,7 @@ class Window4(QMainWindow):
         self.close()
 
     def show(self):
-        if properties.teacherMode:
+        if Properties.teacherMode:
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet(
@@ -1066,7 +1039,7 @@ class Window4(QMainWindow):
             self.ui.menuBar.setStyleSheet("QMenuBar{background:rgba(184, 255, 192,255)}")  #rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet("QStatusBar{background:rgba(184, 255, 192,255)}")
         self.DisplayObj.functionAble = ""
-        self.ui.actionHelp.setEnabled(properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
+        self.ui.actionHelp.setEnabled(Properties.teacherMode) # выставляем кнопке помощи значение режима преподавателя T/F
         self.showMaximized()
 
         # показать информацию по заданию
@@ -1456,7 +1429,7 @@ class Window5(QMainWindow):
             self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
             self.table.resize(self.tableWidth, self.tableHeight)
 
-            if properties.teacherMode:
+            if Properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 1)
 
             properties.save_graph_for_student(
@@ -1485,7 +1458,7 @@ class Window5(QMainWindow):
 
         if is_correct:
             for d in self.widgetList:
-                if d.switch == True:
+                if d.switch == True and not Properties.teacherHelpMode:
                     d._drawQLineEdits()
                     d.switch = False
 
@@ -1512,7 +1485,7 @@ class Window5(QMainWindow):
             self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
             self.table.resize(self.tableWidth, self.tableHeight)
 
-            if properties.teacherMode:
+            if Properties.teacherMode:
                 properties.save_graph_for_teacher(graph5_ort, 5, 2)
 
             properties.save_graph_for_student(
@@ -1563,7 +1536,7 @@ class Window5(QMainWindow):
                 for i in self.widgetList:
                     i.functionAble = ""
 
-                if properties.teacherMode:
+                if Properties.teacherMode:
                     properties.save_graph_for_teacher(graph5_ort, 5, 3)
 
                 properties.save_graph_for_student(
@@ -1601,14 +1574,13 @@ class Window5(QMainWindow):
         dialogTask.exec()
 
     def backMainMenu(self):
-        # self.switchTeacherMode(False)
         self.ui.actionHelp.setChecked(False)
         MainWindow.show()
         self.table.close()
         self.close()
 
     def show(self):
-        if properties.teacherMode:
+        if Properties.teacherMode:
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet(
@@ -1623,7 +1595,7 @@ class Window5(QMainWindow):
             i.functionable = ""
         self.showMaximized()
         # выставляем кнопке помощи значение режима преподавателя T/F
-        self.ui.actionHelp.setEnabled(properties.teacherMode)
+        self.ui.actionHelp.setEnabled(Properties.teacherMode)
 
         # показать информацию по заданию
         self.openTextTask()
@@ -1675,6 +1647,9 @@ class Window5(QMainWindow):
     def switchTeacherMode(self, flag, subtask):
         try:
             if (flag):
+                if (subtask == 3):
+                    Properties.setVerificationPassedTask(5)
+                Properties.teacherHelpMode = True
                 # properties.save_graph_for_student(graph1, 1) # сохраняем граф в файл
                 tmp_graphs = properties.get_graph_for_teacher(
                     5, subtask)  # берем граф из сохранения
@@ -1695,6 +1670,12 @@ class Window5(QMainWindow):
                 self.ui.actionbtnCheck.setEnabled(False)
                 self.ui.actionbtnMoveNode.setEnabled(False)
             else:
+                if (subtask == 3):
+                    for d in self.widgetList:
+                        for qle in d.QLineEdits.values():
+                            qle.setVisible(True)
+                Properties.setVerificationNotPassedTask(5)
+                Properties.teacherHelpMode = False
                 # graph_student = properties.get_graph_for_student(1)
                 for i in range(self.squadNum):
                     if (Properties.getVerificationPassedPretasks(6)):
@@ -1946,7 +1927,7 @@ class Window6(QMainWindow):
         self.close()
 
     def show(self):
-        if properties.teacherMode:
+        if Properties.teacherMode:
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet(
@@ -1960,7 +1941,7 @@ class Window6(QMainWindow):
         for i in range(squadNum):
             self.widgetList[i].functionable = ""
         # выставляем кнопке помощи значение режима преподавателя T/F
-        self.ui.actionHelp.setEnabled(properties.teacherMode)
+        self.ui.actionHelp.setEnabled(Properties.teacherMode)
         self.showMaximized()
 
         # показать информацию по заданию
@@ -2360,7 +2341,7 @@ class WindowMenu(QMainWindow):
                 "QMenuBar{background:rgba(184, 255, 192,255)}")  # rgb(184, 255, 192)
             self.ui.statusbar.setStyleSheet(
                 "QStatusBar{background:rgba(184, 255, 192,255)}")
-        properties.teacherMode = self.ui.btnTeacherMode.isChecked()
+        Properties.teacherMode = self.ui.btnTeacherMode.isChecked()
 
     def activateDeveloperMode(self):
         self.surname = "ПРЕПОДАВАТЕЛЬ"  # данные о студенте проинициализированы

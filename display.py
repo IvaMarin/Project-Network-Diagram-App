@@ -276,16 +276,16 @@ class Display(QWidget):
 
     def GetNumberOfPeople(self):
         if not(self.QLineEdits is None):
-            self.PeopleWeights = np.zeros_like(self.QLineEdits, dtype=int)
+            self.graph.PeopleWeights = np.zeros_like(self.QLineEdits, dtype=int)
             n = len(self.QLineEdits)
             for i in range(n):
                 for j in range(n):
                     if (type(self.QLineEdits[i][j]) == QLineEdit):
                         try:
-                            self.PeopleWeights[i][j] = int(self.QLineEdits[i][j].text())
+                            self.graph.PeopleWeights[i][j] = int(self.QLineEdits[i][j].text())
                         except ValueError:
                             pass
-            return self.PeopleWeights
+            return self.graph.PeopleWeights
         else:
             return None
 
@@ -406,18 +406,19 @@ class Display2(Display):
                     x_off = -(5*len(str(R))*font_size/7.8 - 2.5)   # по оси x определим смещение по длине строки
                     painter.drawText(int(x+x_off), int(y+line_off+0.5*y_off), f'{R}')
             
-            if self.switch:
+            if self.switch and not Properties.teacherHelpMode:
                 self._drawQLineEdits()
                 self.switch = False
 
             # после корректного выполнения запрещаем модифицировать продолжительности
-            if Properties.getVerificationPassedTasks(2):
+            if Properties.getVerificationPassedTasks(2) and not Properties.teacherHelpMode:
                 for i in range(self.QLineEdits.shape[0]):
                     for j in range(self.QLineEdits.shape[1]):
                         if (type(self.QLineEdits[i][j]) == QLineEdit):
                             self.QLineEdits[i][j].hide()
 
-            self.graph.PeopleWeights = self.GetNumberOfPeople()
+            if not Properties.getVerificationPassedTasks(2):
+                self.graph.PeopleWeights = self.GetNumberOfPeople()
 
         self.update()
     def save(self):
@@ -723,11 +724,12 @@ class Display5(Display):
                 painter.drawText(int(x + offset[0]), int(y + offset[1]), f'{digit}')
 
             # после корректного выполнения запрещаем модифицировать число людей
-            if (Properties.getVerificationPassedTasks(5)):
+            if Properties.getVerificationPassedTasks(5):
                 for qle in self.QLineEdits.values():
                     qle.hide()
 
-        self.graph_in.PeopleWeights = self.GetNumberOfPeople()
+        if not Properties.getVerificationPassedTasks(5):
+            self.graph_in.PeopleWeights = self.GetNumberOfPeople()
             
     def mousePressEvent(self, event):
         # нажатие на ЛКМ
@@ -815,13 +817,13 @@ class Display5(Display):
 
     def GetNumberOfPeople(self):
         if not(self.QLineEdits is None):
-            self.PeopleWeights = dict()
+            self.graph_in.PeopleWeights = dict()
             for k, v in self.QLineEdits.items():
                 try:
-                    self.PeopleWeights[k] = int(v.text())
+                    self.graph_in.PeopleWeights[k] = int(v.text())
                 except ValueError:
                     pass
-            return self.PeopleWeights
+            return self.graph_in.PeopleWeights
         else:
             return None
 
