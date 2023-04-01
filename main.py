@@ -1978,8 +1978,8 @@ class Window6(QMainWindow):
 
 
 class HelpWithProgram():
-    def __init__(self):
-        pass
+    def __init__(self, path):
+        self.path = path
 
     def ShowWindow(self):
 
@@ -2011,8 +2011,8 @@ class HelpWithProgram():
         # фотки пдф страниц
         photos = []
         # подгоняем под размер уаждцю фотку и собираем их в лист
-        for i in range(9):
-            img = Image.open('documentation/doc_' + str(i)+'.jpg')
+        for i in range(len(os.listdir(path=self.path))):
+            img = Image.open(self.path + 'doc_' + str(i)+'.jpg')
             img = img.resize((round(0.8*monitor_width), round((1.8*monitor_height))))
             photos.append(ImageTk.PhotoImage(img))
 
@@ -2097,7 +2097,7 @@ class WindowMenu(QMainWindow):
         quit = QAction("Quit", self)
         quit.triggered.connect(self.closeEvent)
 
-        self.helpWithProgram = HelpWithProgram()
+        self.helpWithProgram = HelpWithProgram('resources/documentation/student/')
 
         self.testGen()
 
@@ -2310,6 +2310,7 @@ class WindowMenu(QMainWindow):
     def activateTeacherMode(self):
         if self.ui.btnTeacherMode.isChecked() and (encrypt.enter_key()):
             # print("РЕЖИМ ПРЕПОДАВАТЕЛЯ")
+            self.ui.btnTeacherMode.setText("Режим студента")
             self.ui.actionReportSign.setEnabled(True)
             # self.ui.btnGenVar.setEnabled(True)
             self.ui.actionEditTaskVariant.setEnabled(True)
@@ -2326,6 +2327,7 @@ class WindowMenu(QMainWindow):
             self.ui.statusbar.setStyleSheet(
                 "QStatusBar{background:rgba(255,0,0,255)}")
         else:
+            self.ui.btnTeacherMode.setText("Режим преподавателя")
             self.ui.actionReportSign.setEnabled(False)
             # self.ui.btnGenVar.setEnabled(False)
             self.ui.actionEditTaskVariant.setEnabled(False)
