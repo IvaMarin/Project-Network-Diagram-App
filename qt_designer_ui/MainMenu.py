@@ -239,10 +239,10 @@ class Ui_MainMenu(object):
         self.action_5.setObjectName("action_5")
         self.action_6 = QtWidgets.QAction(MainMenu)
         self.action_6.setObjectName("action_6")
-        self.action = QtWidgets.QAction(MainMenu)
-        self.action.setObjectName("action")
+        self.actionHelpWithProgTeach = QtWidgets.QAction(MainMenu)
+        self.actionHelpWithProgTeach.setObjectName("actionHelpWithProgTeach")
         self.menuHelp.addAction(self.actionHelpWithProg)
-        self.menuHelp.addAction(self.action)
+        self.menuHelp.addAction(self.actionHelpWithProgTeach)
         self.menuHelp.addAction(self.actionHelpWithTheory)
         self.version.addAction(self.num_ver)
         self.menu.addSeparator()
@@ -314,7 +314,7 @@ class Ui_MainMenu(object):
         self.action_4.setText(_translate("MainMenu", "Доронин О. А."))
         self.action_5.setText(_translate("MainMenu", "Мариничев И. А."))
         self.action_6.setText(_translate("MainMenu", "Тимофеев А. В."))
-        self.action.setText(_translate("MainMenu", "Справка по работе с программой для преподавателя"))
+        self.actionHelpWithProgTeach.setText(_translate("MainMenu", "Справка по работе с программой для преподавателя"))
 
 
 if __name__ == "__main__":
