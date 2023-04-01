@@ -124,6 +124,7 @@ class Ui_MainWindow3(object):
         self.actionbtnDottedConnectNode.setIcon(icon12)
         self.actionbtnDottedConnectNode.setObjectName("actionbtnDottedConnectNode")
         self.actionHelp = QtWidgets.QAction(MainWindow3)
+        self.actionHelp.setCheckable(True)
         self.actionHelp.setEnabled(False)
         icon13 = QtGui.QIcon()
         icon13.addPixmap(QtGui.QPixmap("resources/iconePack/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
