@@ -1861,6 +1861,7 @@ class Window6(QMainWindow):
 
         self.msg = QMessageBox()
         self.msg.setWindowTitle("Предупреждение")
+        self.ui.actionHelp.setCheckable(True)
         self.msg.setText(
             "В этом задании нет автоматической проверки. Нажимая кнопку проверить вы фиксируете свой текущий результат в отчёте.")
         self.msg.setIcon(QMessageBox.Information)
