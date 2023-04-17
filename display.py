@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 from PyQt5.QtCore import Qt, QRect, QPointF, QLineF, QRegExp
 from PyQt5.QtGui import QPainter, QColor, QPolygonF, QPen, QFont, QImage, QRegExpValidator
@@ -106,7 +107,7 @@ def createGaps(size, step=50, sizeNumber = 40, yNumber = 50, max_time = -1):
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
     FixedArrowPoint = [-1, -1] # фиксированная стрелка
-    def __init__(self, root, graph_in, step = 50, max_time = -1, horizontal = True, late_time = None, base_graph = None, switch = True):
+    def __init__(self, root, graph_in, step = 50, max_time = -1, verticle=False, horizontal = False, late_time = None, base_graph = None, switch = True):
         super().__init__(root)
         self.root = root
         self.functionAble = ""
@@ -118,6 +119,7 @@ class Display(QWidget):
         self.graph = graph_in
         self.late_time = late_time # поле определяющее как мы изображаем пунктирную стрелку, True - в поздних, False - в ранних, None - в зависимости от резерва времени
         self.horizontal = horizontal
+        self.verticle = verticle
         if (base_graph == None):
             self.base_graph = self.graph
         else:
@@ -126,19 +128,29 @@ class Display(QWidget):
         self.graph_in = graph_in
         self.switch = switch
         self.illumination = -1  # подсветка кружков
+        self.numberOfTop = 0
+        self.warringIllumination = {} # для подсветки близких вершин
 
         self.max_time = max_time
         self.QLineEdits = None
 
     def paintEvent(self, event):
+        for i in range(len(self.graph.Points)):
+                if (not np.isnan(self.graph.Points[i][0])):
+                    self.warringIllumination[i] = 0
+
         self.root.image.fill(Qt.white)
         if self.horizontal:
-
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
 
-        else:
+        if self.verticle:
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
-        self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
+            self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
+        else:
+            self.lines = []
+            self.whiteLines = []
+
+
 
         for el in [self, self.root.image]:
             painter = QPainter(el)
@@ -171,15 +183,58 @@ class Display(QWidget):
                                             (int)(self.graph.Points[j][1]))
 
             # отрисовка вершин и цифр
+            # подсветка близкорасположенных вершин
+            for i in range(len(self.graph.Points)):
+                for j in range(i + 1, len(self.graph.Points)):
+
+                    if (not np.isnan(self.graph.Points[i][0]) and not np.isnan(self.graph.Points[j][0])):
+                        if (i == j):
+                            continue
+
+                        else:
+                            try:
+                                dist = math.hypot((int)(self.graph.Points[j][0]) - (int)(self.graph.Points[i][0]), (int)(self.graph.Points[j][1]) - (int)(self.graph.Points[i][1]))
+                            except:
+                                print (i," - ", j)
+
+                            if (abs(dist) <= self.step * 4):
+                                self.warringIllumination[i] = self.warringIllumination[i] + 1
+                                self.warringIllumination[j] = self.warringIllumination[j] + 1
+
+            print(self.warringIllumination)
+
             painter.setPen(QPen(QColor("black"), 2.5))
             
             for i in range(len(self.graph.Points)):
                 # если вершина существует
                 if (not np.isnan(self.graph.Points[i][0])):
+                    # if (i != self.illumination):
+                    #     painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+                    # else:
+                    #     painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
+
+                    # if (self.warringIllumination[i] == 0):
+                    #     if (i == self.illumination):
+                    #         painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа беюза
+                    #     else:
+                    #         painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа    
+                    # else:
+                    #     if (i == self.illumination):
+                    #         painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа беюза
+                    #     else:
+                    #         painter.setBrush(QColor(255, 0, 0, 255))# обеспечиваем закрашивание вершин графа ошибка 
+
                     if (i != self.illumination):
-                        painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
+                        if (self.warringIllumination[i] == 0):
+                            painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа 
+                        else:
+                            painter.setBrush(QColor(255, 0, 0, 255))# обеспечиваем закрашивание вершин графа ошибка 
                     else:
-                        painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа
+                        painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа беюза
+
+                        
+                        
+                        
 
                     painter.drawEllipse(int(self.graph.Points[i][0]-self.graph.RadiusPoint), int(self.graph.Points[i][1]-self.graph.RadiusPoint), 
                                         2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
@@ -187,7 +242,7 @@ class Display(QWidget):
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                     else:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3.5 - 5), 5*font_size/8] # определим смещение по длине строки номера вершины               
-                    painter.drawText(int(self.graph.Points[i][0] + offset[0]), int(self.graph.Points[i][1] + offset[1]), f'{i}')
+                    painter.drawText(int(self.graph.Points[i][0] + offset[0]), int(self.graph.Points[i][1] + offset[1]), f'{i}')     
     
     def save(self):
         self.root.image.save('encrypted_data/1.jpg')
@@ -220,9 +275,15 @@ class Display(QWidget):
                 self.illumination = -1 
     
         elif (self.functionAble == "Удалить вершину"):
-            controller.CDeletePoint(self.graph, event, Qt.LeftButton)
+            index = controller.CDeletePoint(self.graph, event, Qt.LeftButton)
+            print("DELL   ", index)
             self.illumination = -1
 
+            # try:
+            # self.warringIllumination.pop(index, None)   
+            # except:
+            #     pass
+            
         elif (self.functionAble == "Переместить вершины"):
             self.FixedPoint = controller.CIsCursorOnPoint(self.graph, event, Qt.LeftButton)
             self.illumination = -1
@@ -311,11 +372,15 @@ class Display2(Display):
     
     def paintEvent(self, event):
         self.root.image.fill(Qt.white)
+
         if self.horizontal:
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
-        else:
+        if self.verticle:
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
-        self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
+            self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
+        else:
+            self.lines = []
+            self.whiteLines = []
 
         for el in [self, self.root.image]:
             painter = QPainter(el)

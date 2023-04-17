@@ -35,7 +35,10 @@ def CAddPointGrid(graph, event, but, GridBegin, GridStep, FixedY):
 def CDeletePoint(graph, event, but):
 	# если нажата кнопка
 	if event.button() == but:
-		graph.DeletePoint(graph.IsCursorOnPoint(event.pos().x(), event.pos().y())) # удалить вершину
+		index = graph.IsCursorOnPoint(event.pos().x(), event.pos().y())
+		graph.DeletePoint(index) # удалить вершину
+
+	return index
 
 # связать вершины по нажатию; параметры: объект "граф", событие, кнопка, выделенные точки
 def CAddConnection(graph, event, but, points):
