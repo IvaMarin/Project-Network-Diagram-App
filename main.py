@@ -2390,7 +2390,12 @@ class WindowMenu(QMainWindow):
         if not filePath:
             return
         # self.report_controller.print_report(filePath)
-        self.report_controller.decrypt(filePath)
+
+        try:
+            self.report_controller.decrypt(filePath)
+        except:
+            pass
+
         file_extension = os.path.splitext(filePath)[1]
 
         if file_extension == ".pdf":
@@ -2416,7 +2421,11 @@ class WindowMenu(QMainWindow):
             
         else:
             pass
-        self.report_controller.encrypt(filePath)
+        
+        try:
+            self.report_controller.encrypt(filePath)
+        except:
+            pass
 
         
         # from sys import platform
@@ -2544,6 +2553,18 @@ class WindowMenu(QMainWindow):
             warning.setDefaultButton(QMessageBox.Ok)
             warning = warning.exec()
             print('[WARN] NO REPORT ----> create report')
+
+    def decryptReport(self):
+        filePath, filter = QFileDialog.getOpenFileName(self, 'Открыть отчет', '', 'PDF (*.pdf)')
+        if not filePath:
+            return
+        self.report_controller.decrypt(filePath)
+
+    def encryptReport(self):
+        filePath, filter = QFileDialog.getOpenFileName(self, 'Открыть отчет', '', 'PDF (*.pdf)')
+        if not filePath:
+            return
+        self.report_controller.encrypt(filePath)
 
     def openTask(self, numTask):
         if not (self.ui.btnTeacherMode.isChecked()):
