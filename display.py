@@ -107,6 +107,7 @@ def createGaps(size, step=50, sizeNumber = 40, yNumber = 50, max_time = -1):
 class Display(QWidget):
     FixedPoint = -1 # фиксированная вершина
     FixedArrowPoint = [-1, -1] # фиксированная стрелка
+    isOnCriticalPath = None
     def __init__(self, root, graph_in, step = 50, max_time = -1, verticle=False, horizontal = False, late_time = None, base_graph = None, switch = True):
         super().__init__(root)
         self.root = root
@@ -401,6 +402,7 @@ class Display2(Display):
             # отрисовка стрелок
             scaler = 3 # параметр увеличения вершин относительно первого задания
             radius = self.graph.RadiusPoint * scaler
+            Display.isOnCriticalPath = np.zeros(len(self.graph.Points), dtype=bool)
             for i in range(len(self.graph.AdjacencyMatrix)):
                 for j in range(len(self.graph.AdjacencyMatrix)):
                     # если существует связь
@@ -409,6 +411,8 @@ class Display2(Display):
                         (not np.isnan(self.graph.Points[j][0]))):
                         # выбор цвета в зависимости от выбора критического пути
                         if (self.graph.AdjacencyMatrix[i][j] == 2):
+                            Display.isOnCriticalPath[i] = True
+                            Display.isOnCriticalPath[j] = True
                             painter.setBrush(QColor("red"))
                             painter.setPen(QColor("red"))
                         elif (self.graph.AdjacencyMatrix[i][j] == 1):
@@ -425,9 +429,12 @@ class Display2(Display):
                             painter.drawLine(x1, y1, x2, y2)
 
             # отрисовка вершин и цифр
-            painter.setPen(QPen(QColor("black"), 2.5))
-            #painter.setBrush(QColor("white")) # обеспечиваем закрашивание вершин графа
             for i in range(len(self.graph.Points)):
+                if (Display.isOnCriticalPath[i]):
+                    painter.setPen(QPen(QColor("red"), 2.5))
+                else:
+                    painter.setPen(QPen(QColor("black"), 2.5))
+
                 if (i != self.illumination):
                     painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
                 else:
@@ -582,29 +589,24 @@ class Display3_4(Display):
                                 pen.setBrush(QColor("black"))
                                 pen.setColor(QColor("balck"))
                             painter.setPen(pen)
-                            if (self.late_time == True):  # в поздних сроках
-                                pen.setStyle(Qt.PenStyle.DashLine)
-                                painter.setPen(pen)
-                                painter.drawLine(QPointF(self.graph.Points[i][0], self.graph.Points[i][1]), triangle_source[1])
-                                pen.setStyle(Qt.PenStyle.SolidLine)
-                                painter.setPen(pen)
-                                painter.drawLine(triangle_source[1], QPointF(self.graph.Points[j][0], self.graph.Points[j][1]))
-                            else:  # в ранних сроках
-                                pen.setStyle(Qt.PenStyle.SolidLine)
-                                painter.setPen(pen)
-                                painter.drawLine(QPointF(self.graph.Points[i][0], self.graph.Points[i][1]), triangle_source[1])
-                                pen.setStyle(Qt.PenStyle.DashLine)
-                                painter.setPen(pen)
-                                painter.drawLine(triangle_source[1], QPointF(self.graph.Points[j][0], self.graph.Points[j][1]))
-                                pen.setStyle(Qt.PenStyle.SolidLine)
-                                painter.setPen(pen)
+
+                            pen.setStyle(Qt.PenStyle.SolidLine)
+                            painter.setPen(pen)
+                            painter.drawLine(QPointF(self.graph.Points[i][0], self.graph.Points[i][1]), triangle_source[1])
+                            pen.setStyle(Qt.PenStyle.DashLine)
+                            painter.setPen(pen)
+                            painter.drawLine(triangle_source[1], QPointF(self.graph.Points[j][0], self.graph.Points[j][1]))
+                            pen.setStyle(Qt.PenStyle.SolidLine)
+                            painter.setPen(pen)
 
             # отрисовка вершин и цифр
-            painter.setPen(QPen(QColor("black"), 2.5))
-
             for i in range(len(self.graph.Points)):
                 # если вершина существует
                 if (not np.isnan(self.graph.Points[i][0])):
+                    if (Display.isOnCriticalPath is not None and Display.isOnCriticalPath[i]):
+                        painter.setPen(QPen(QColor("red"), 2.5))
+                    else:
+                        painter.setPen(QPen(QColor("black"), 2.5))
 
                     if (i != self.illumination):
                         painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
@@ -751,34 +753,20 @@ class Display5(Display):
                     if (Properties.getVerificationPassedTasks(5)):
                         x, y = Display.findCoordinatesAboveArrow(x1, y1, x2, y2)
                         painter.drawText(int(x), int(y), f'{self.graph.PeopleWeights[(p1, p2)]}')
-                    if (self.late_time == None):  # в зависимости от резерва
-                        if (len(self.base_graph.R) > p1[0]) and (self.base_graph.R[p1[0]] > 0):
-                            painter.setPen(Qt.PenStyle.SolidLine)
-                            painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                            painter.setPen(Qt.PenStyle.DashLine)
-                            painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                            painter.setPen(Qt.PenStyle.SolidLine)
-                        else:
-                            painter.setPen(Qt.PenStyle.DashLine)
-                            painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                            painter.setPen(Qt.PenStyle.SolidLine)
-                            painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                    elif (self.late_time == True):  # в поздних сроках
-                        painter.setPen(Qt.PenStyle.DashLine)
-                        painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                        painter.setPen(Qt.PenStyle.SolidLine)
-                        painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                    else:  # в ранних сроках
-                        painter.setPen(Qt.PenStyle.SolidLine)
-                        painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                        painter.setPen(Qt.PenStyle.DashLine)
-                        painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                        painter.setPen(Qt.PenStyle.SolidLine)
+
+                    painter.setPen(Qt.PenStyle.SolidLine)
+                    painter.drawLine(QPointF(x1, y1), triangle_source[1])
+                    painter.setPen(Qt.PenStyle.DashLine)
+                    painter.drawLine(triangle_source[1], QPointF(x2, y2))
+                    painter.setPen(Qt.PenStyle.SolidLine)
 
             # отрисовка вершин и цифр
-            painter.setPen(QPen(QColor("black"), 2.5))
-
             for (digit, id), (x, y) in self.graph.Points.items(): 
+                if (Display.isOnCriticalPath is not None and Display.isOnCriticalPath[digit]):
+                    painter.setPen(QPen(QColor("red"), 2.5))
+                else:
+                    painter.setPen(QPen(QColor("black"), 2.5))
+
                 painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
                 painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
                                     int(2*self.graph.Radius), int(2*self.graph.Radius))
@@ -982,11 +970,12 @@ class Display6(Display5):
                         painter.setPen(Qt.PenStyle.SolidLine)
 
             # отрисовка вершин и цифр
-            painter.setPen(QPen(QColor("black"), 2.5))
-            # отрисовка вершин и цифр
-            painter.setPen(QPen(QColor("black"), 2.5))
-
             for (digit, id), (x, y) in self.graph.Points.items(): 
+                if (Display.isOnCriticalPath is not None and Display.isOnCriticalPath[digit]):
+                    painter.setPen(QPen(QColor("red"), 2.5))
+                else:
+                    painter.setPen(QPen(QColor("black"), 2.5))
+                
                 painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
                 painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
                                     int(2*self.graph.Radius), int(2*self.graph.Radius))
