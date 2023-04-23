@@ -42,6 +42,12 @@
    </attribute>
    <addaction name="actionbtnMoveNode"/>
    <addaction name="actionbtnDottedConnectNode"/>
+   <addaction name="actionbtnHist1"/>
+   <addaction name="actionbtnHist2"/>
+   <addaction name="actionHist3"/>
+   <addaction name="actionbtnGeneralHist"/>
+   <addaction name="actionbtnZoomIn"/>
+   <addaction name="actionbtnZoomOut"/>
    <addaction name="separator"/>
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
@@ -59,7 +65,7 @@
      <x>0</x>
      <y>0</y>
      <width>1611</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -140,7 +146,7 @@
     <string>btnHome</string>
    </property>
    <property name="toolTip">
-    <string>В главное окно</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;В главное окно&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnZoomIn">
@@ -158,7 +164,7 @@
     <string>btnZoomIn</string>
    </property>
    <property name="toolTip">
-    <string>Увеличить изображение</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Увеличить изображение&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="autoRepeat">
     <bool>true</bool>
@@ -173,7 +179,7 @@
     <string>btnZoomOut</string>
    </property>
    <property name="toolTip">
-    <string>Уменьшить изображение</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Уменьшить изображение&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionHelpTask">
@@ -200,7 +206,7 @@
     <string>btnCheck</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Проверить задание&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Проверить задание&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnInfo">
@@ -212,7 +218,7 @@
     <string>btnInfo</string>
    </property>
    <property name="toolTip">
-    <string>Материалы</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Материалы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnDottedConnectNode">
@@ -230,7 +236,7 @@
     <string>btnDottedConnectNode</string>
    </property>
    <property name="toolTip">
-    <string>Расстановка продолжительности работ</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Расстановка продолжительности работ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnMoveNode">
@@ -245,7 +251,7 @@
     <string>btnMoveNode</string>
    </property>
    <property name="toolTip">
-    <string>Переместить вершину</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Переместить вершину&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="font">
     <font/>
@@ -269,7 +275,7 @@
     <string>подсказка</string>
    </property>
    <property name="toolTip">
-    <string>Решение</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Решение&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionHelpStud">
@@ -285,6 +291,54 @@
   <action name="actionViewTask">
    <property name="text">
     <string>Задание 6</string>
+   </property>
+  </action>
+  <action name="actionbtnGeneralHist">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/4.png</normaloff>resources/iconePack/4.png</iconset>
+   </property>
+   <property name="text">
+    <string>General Hist</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Общая гистограмма&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionbtnHist1">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/1.png</normaloff>resources/iconePack/1.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hist1</string>
+   </property>
+   <property name="toolTip">
+    <string>Гистограмма первого подразделения</string>
+   </property>
+  </action>
+  <action name="actionbtnHist2">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/2.png</normaloff>resources/iconePack/2.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hist</string>
+   </property>
+   <property name="toolTip">
+    <string>Гистограмма  второго подразделения</string>
+   </property>
+  </action>
+  <action name="actionHist3">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/3.png</normaloff>resources/iconePack/3.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hist3</string>
+   </property>
+   <property name="toolTip">
+    <string>Гистограмма третьего подразделения</string>
    </property>
   </action>
  </widget>
