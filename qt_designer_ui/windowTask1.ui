@@ -10,18 +10,8 @@
     <height>1253</height>
    </rect>
   </property>
-  <property name="font">
-   <font>
-    <family>Times New Roman</family>
-    <pointsize>20</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>Задание 1</string>
-  </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>resources/login_icon.png</normaloff>resources/login_icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -33,7 +23,7 @@
      <x>0</x>
      <y>0</y>
      <width>1669</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -45,9 +35,15 @@
     </property>
     <addaction name="actionHelpTask"/>
     <addaction name="actionHelpProgram"/>
+   </widget>
+   <widget class="QMenu" name="menuTask1">
+    <property name="title">
+     <string>Задание 1</string>
+    </property>
     <addaction name="actionViewTask"/>
    </widget>
    <addaction name="menuHelp"/>
+   <addaction name="menuTask1"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="styleSheet">
@@ -80,11 +76,14 @@
    <addaction name="actionbtnRemoveNode"/>
    <addaction name="actionbtnConnectNode"/>
    <addaction name="actionbtnRemoveNodeConnection"/>
+   <addaction name="actionbtnZoomIn"/>
+   <addaction name="actionbtnZoomOut"/>
    <addaction name="actionbtnMoveNode"/>
    <addaction name="separator"/>
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
    <addaction name="actionHelp"/>
+   <addaction name="actionSolveTask"/>
    <addaction name="actionbtnHome"/>
   </widget>
   <action name="actionNewFile">
@@ -155,7 +154,7 @@
     <string>btnAddNode</string>
    </property>
    <property name="toolTip">
-    <string>Добавить вершину</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Добавить узел&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnRemoveNode">
@@ -170,7 +169,7 @@
     <string>btnRemoveNode</string>
    </property>
    <property name="toolTip">
-    <string>Удалить вершину</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Удаление узла и связей&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnMoveNode">
@@ -191,7 +190,7 @@
     <string>btnMoveNode</string>
    </property>
    <property name="toolTip">
-    <string>Переместить вершину</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Передвинуть элемент&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="font">
     <font/>
@@ -212,7 +211,7 @@
     <string>btnConnectNode</string>
    </property>
    <property name="toolTip">
-    <string>Соединить вершины</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Соединить узлы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnInfo">
@@ -224,7 +223,7 @@
     <string>btnInfo</string>
    </property>
    <property name="toolTip">
-    <string>Материалы</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Материалы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnHome">
@@ -239,7 +238,7 @@
     <string>btnHome</string>
    </property>
    <property name="toolTip">
-    <string>В главное меню</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Перейти к выбору заданий / В меню&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnRemoveNodeConnection">
@@ -254,7 +253,7 @@
     <string>btnRemoveNodeСonnection</string>
    </property>
    <property name="toolTip">
-    <string>Удалить связь</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Удаление связей&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnZoomIn">
@@ -272,7 +271,7 @@
     <string>btnZoomIn</string>
    </property>
    <property name="toolTip">
-    <string>Увеличить изображение</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Увеличить изображение&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="autoRepeat">
     <bool>true</bool>
@@ -287,7 +286,7 @@
     <string>btnZoomOut</string>
    </property>
    <property name="toolTip">
-    <string>Уменьшить изображение</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Уменьшить изображение&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionHelpTask">
@@ -314,13 +313,10 @@
     <string>btnCheck</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Проверить задание&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Проверить задание&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionHelp">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -332,12 +328,24 @@
     <string>подсказка</string>
    </property>
    <property name="toolTip">
-    <string>Решение</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Подсказка (режим преподавателя)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionViewTask">
    <property name="text">
     <string>Задание 1</string>
+   </property>
+  </action>
+  <action name="actionSolveTask">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/document.png</normaloff>resources/iconePack/document.png</iconset>
+   </property>
+   <property name="text">
+    <string>SolveTask</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Решить задание (режим преподавателя)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
  </widget>
