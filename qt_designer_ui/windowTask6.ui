@@ -53,10 +53,9 @@
    <addaction name="actionbtnZoomIn"/>
    <addaction name="actionbtnZoomOut"/>
    <addaction name="separator"/>
-   <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
-   <addaction name="actionHelp"/>
    <addaction name="actionbtnHome"/>
+   <addaction name="actionbtnCheck"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="styleSheet">
@@ -150,7 +149,7 @@
     <string>btnHome</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;В главное окно&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;В главное меню&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnZoomIn">
@@ -204,7 +203,7 @@
   <action name="actionbtnCheck">
    <property name="icon">
     <iconset>
-     <normaloff>resources/iconePack/check-mark.png</normaloff>resources/iconePack/check-mark.png</iconset>
+     <normaloff>resources/iconePack/logout.png</normaloff>resources/iconePack/logout.png</iconset>
    </property>
    <property name="text">
     <string>btnCheck</string>
