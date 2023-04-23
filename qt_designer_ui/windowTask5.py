@@ -155,6 +155,11 @@ class Ui_MainWindow5(object):
         self.actionHelp.setObjectName("actionHelp")
         self.actionViewTask = QtWidgets.QAction(MainWindow5)
         self.actionViewTask.setObjectName("actionViewTask")
+        self.actionbtnZoom100 = QtWidgets.QAction(MainWindow5)
+        icon18 = QtGui.QIcon()
+        icon18.addPixmap(QtGui.QPixmap("resources/iconePack/zoom-100.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionbtnZoom100.setIcon(icon18)
+        self.actionbtnZoom100.setObjectName("actionbtnZoom100")
         self.menuHelp.addAction(self.actionHelpTask)
         self.menuHelp.addAction(self.actionHelpProgram)
         self.menuHelp.addAction(self.actionViewTask)
@@ -165,6 +170,7 @@ class Ui_MainWindow5(object):
         self.toolBar.addAction(self.actionbtnRemoveNodeConnection)
         self.toolBar.addAction(self.actionbtnMoveNode)
         self.toolBar.addAction(self.actionbtnDottedConnectNode)
+        self.toolBar.addAction(self.actionbtnZoom100)
         self.toolBar.addAction(self.actionbtnZoomIn)
         self.toolBar.addAction(self.actionbtnZoomOut)
         self.toolBar.addSeparator()
@@ -216,6 +222,8 @@ class Ui_MainWindow5(object):
         self.actionHelp.setText(_translate("MainWindow5", "подсказка"))
         self.actionHelp.setToolTip(_translate("MainWindow5", "<html><head/><body><p><span style=\" font-size:14pt;\">Решение</span></p></body></html>"))
         self.actionViewTask.setText(_translate("MainWindow5", "Задание 5"))
+        self.actionbtnZoom100.setText(_translate("MainWindow5", "btnZoom100"))
+        self.actionbtnZoom100.setToolTip(_translate("MainWindow5", "Масштабирование к 100%"))
 
 
 if __name__ == "__main__":

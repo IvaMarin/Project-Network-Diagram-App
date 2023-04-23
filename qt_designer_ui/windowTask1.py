@@ -149,6 +149,11 @@ class Ui_MainWindow1(object):
         icon16.addPixmap(QtGui.QPixmap("resources/iconePack/document.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionSolveTask.setIcon(icon16)
         self.actionSolveTask.setObjectName("actionSolveTask")
+        self.actionbtnZoom100 = QtWidgets.QAction(MainWindow1)
+        icon17 = QtGui.QIcon()
+        icon17.addPixmap(QtGui.QPixmap("resources/iconePack/zoom-100.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionbtnZoom100.setIcon(icon17)
+        self.actionbtnZoom100.setObjectName("actionbtnZoom100")
         self.menuHelp.addAction(self.actionHelpTask)
         self.menuHelp.addAction(self.actionHelpProgram)
         self.menuTask1.addAction(self.actionViewTask)
@@ -158,6 +163,7 @@ class Ui_MainWindow1(object):
         self.toolBar.addAction(self.actionbtnRemoveNode)
         self.toolBar.addAction(self.actionbtnConnectNode)
         self.toolBar.addAction(self.actionbtnRemoveNodeConnection)
+        self.toolBar.addAction(self.actionbtnZoom100)
         self.toolBar.addAction(self.actionbtnZoomIn)
         self.toolBar.addAction(self.actionbtnZoomOut)
         self.toolBar.addAction(self.actionbtnMoveNode)
@@ -212,6 +218,8 @@ class Ui_MainWindow1(object):
         self.actionViewTask.setText(_translate("MainWindow1", "Задание 1"))
         self.actionSolveTask.setText(_translate("MainWindow1", "SolveTask"))
         self.actionSolveTask.setToolTip(_translate("MainWindow1", "<html><head/><body><p><span style=\" font-size:14pt;\">Решить задание (режим преподавателя)</span></p></body></html>"))
+        self.actionbtnZoom100.setText(_translate("MainWindow1", "btnZoom100"))
+        self.actionbtnZoom100.setToolTip(_translate("MainWindow1", "Масштабирование к 100%"))
 
 
 if __name__ == "__main__":

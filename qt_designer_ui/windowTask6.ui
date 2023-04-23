@@ -49,6 +49,7 @@
    <addaction name="actionbtnHist2"/>
    <addaction name="actionHist3"/>
    <addaction name="actionbtnGeneralHist"/>
+   <addaction name="actionbtnZoom100"/>
    <addaction name="actionbtnZoomIn"/>
    <addaction name="actionbtnZoomOut"/>
    <addaction name="separator"/>
@@ -354,6 +355,18 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Гистограмма третьего подразделения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionbtnZoom100">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/zoom-100.png</normaloff>resources/iconePack/zoom-100.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnZoom100</string>
+   </property>
+   <property name="toolTip">
+    <string>Масштабирование к 100%</string>
    </property>
   </action>
  </widget>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1603</width>
-    <height>1253</height>
+    <height>1212</height>
    </rect>
   </property>
   <property name="font">
@@ -48,6 +48,7 @@
    </attribute>
    <addaction name="actionbtnMoveNode"/>
    <addaction name="actionbtnDottedConnectNode"/>
+   <addaction name="actionbtnZoom100"/>
    <addaction name="actionbtnZoomIn"/>
    <addaction name="actionbtnZoomOut"/>
    <addaction name="separator"/>
@@ -294,6 +295,18 @@
   <action name="actionViewTask">
    <property name="text">
     <string>Задание 3</string>
+   </property>
+  </action>
+  <action name="actionbtnZoom100">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/zoom-100.png</normaloff>resources/iconePack/zoom-100.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnZoom100</string>
+   </property>
+   <property name="toolTip">
+    <string>Масштабирование к 100%</string>
    </property>
   </action>
  </widget>
