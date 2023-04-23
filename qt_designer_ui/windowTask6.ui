@@ -34,6 +34,9 @@
      <height>42</height>
     </size>
    </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
    <attribute name="toolBarArea">
     <enum>LeftToolBarArea</enum>
    </attribute>
@@ -294,6 +297,9 @@
    </property>
   </action>
   <action name="actionbtnGeneralHist">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/iconePack/4.png</normaloff>resources/iconePack/4.png</iconset>
@@ -306,6 +312,9 @@
    </property>
   </action>
   <action name="actionbtnHist1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/iconePack/1.png</normaloff>resources/iconePack/1.png</iconset>
@@ -314,10 +323,13 @@
     <string>Hist1</string>
    </property>
    <property name="toolTip">
-    <string>Гистограмма первого подразделения</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Гистограмма первого подразделения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnHist2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/iconePack/2.png</normaloff>resources/iconePack/2.png</iconset>
@@ -326,10 +338,13 @@
     <string>Hist</string>
    </property>
    <property name="toolTip">
-    <string>Гистограмма  второго подразделения</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Гистограмма  второго подразделения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionHist3">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/iconePack/3.png</normaloff>resources/iconePack/3.png</iconset>
@@ -338,7 +353,7 @@
     <string>Hist3</string>
    </property>
    <property name="toolTip">
-    <string>Гистограмма третьего подразделения</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Гистограмма третьего подразделения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
  </widget>
