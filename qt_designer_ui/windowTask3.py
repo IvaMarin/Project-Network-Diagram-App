@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow3(object):
     def setupUi(self, MainWindow3):
         MainWindow3.setObjectName("MainWindow3")
-        MainWindow3.resize(1603, 1253)
+        MainWindow3.resize(1603, 1212)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(20)
@@ -133,8 +133,14 @@ class Ui_MainWindow3(object):
         self.actionHelpTeach.setObjectName("actionHelpTeach")
         self.actionViewTask = QtWidgets.QAction(MainWindow3)
         self.actionViewTask.setObjectName("actionViewTask")
+        self.actionbtnZoom100 = QtWidgets.QAction(MainWindow3)
+        icon14 = QtGui.QIcon()
+        icon14.addPixmap(QtGui.QPixmap("resources/iconePack/zoom-100.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionbtnZoom100.setIcon(icon14)
+        self.actionbtnZoom100.setObjectName("actionbtnZoom100")
         self.toolBar.addAction(self.actionbtnMoveNode)
         self.toolBar.addAction(self.actionbtnDottedConnectNode)
+        self.toolBar.addAction(self.actionbtnZoom100)
         self.toolBar.addAction(self.actionbtnZoomIn)
         self.toolBar.addAction(self.actionbtnZoomOut)
         self.toolBar.addSeparator()
@@ -185,6 +191,8 @@ class Ui_MainWindow3(object):
         self.actionHelpStud.setText(_translate("MainWindow3", "Справка студенту"))
         self.actionHelpTeach.setText(_translate("MainWindow3", "преподавателю"))
         self.actionViewTask.setText(_translate("MainWindow3", "Задание 3"))
+        self.actionbtnZoom100.setText(_translate("MainWindow3", "btnZoom100"))
+        self.actionbtnZoom100.setToolTip(_translate("MainWindow3", "Масштабирование к 100%"))
 
 
 if __name__ == "__main__":

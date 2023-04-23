@@ -153,12 +153,18 @@ class Ui_MainWindow6(object):
         icon17.addPixmap(QtGui.QPixmap("resources/iconePack/3.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionHist3.setIcon(icon17)
         self.actionHist3.setObjectName("actionHist3")
+        self.actionbtnZoom100 = QtWidgets.QAction(MainWindow6)
+        icon18 = QtGui.QIcon()
+        icon18.addPixmap(QtGui.QPixmap("resources/iconePack/zoom-100.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionbtnZoom100.setIcon(icon18)
+        self.actionbtnZoom100.setObjectName("actionbtnZoom100")
         self.toolBar.addAction(self.actionbtnMoveNode)
         self.toolBar.addAction(self.actionbtnDottedConnectNode)
         self.toolBar.addAction(self.actionbtnHist1)
         self.toolBar.addAction(self.actionbtnHist2)
         self.toolBar.addAction(self.actionHist3)
         self.toolBar.addAction(self.actionbtnGeneralHist)
+        self.toolBar.addAction(self.actionbtnZoom100)
         self.toolBar.addAction(self.actionbtnZoomIn)
         self.toolBar.addAction(self.actionbtnZoomOut)
         self.toolBar.addSeparator()
@@ -216,6 +222,8 @@ class Ui_MainWindow6(object):
         self.actionbtnHist2.setToolTip(_translate("MainWindow6", "<html><head/><body><p><span style=\" font-size:14pt;\">Гистограмма  второго подразделения</span></p></body></html>"))
         self.actionHist3.setText(_translate("MainWindow6", "Hist3"))
         self.actionHist3.setToolTip(_translate("MainWindow6", "<html><head/><body><p><span style=\" font-size:14pt;\">Гистограмма третьего подразделения</span></p></body></html>"))
+        self.actionbtnZoom100.setText(_translate("MainWindow6", "btnZoom100"))
+        self.actionbtnZoom100.setToolTip(_translate("MainWindow6", "Масштабирование к 100%"))
 
 
 if __name__ == "__main__":
