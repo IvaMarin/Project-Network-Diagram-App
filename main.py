@@ -69,6 +69,7 @@ graph5 = []  # графы по количеству отделений
 graph5_ort = []
 
 
+
 def maxSquadNum():
     maxSquadNum = 0
     for row in range(MainWindow.ui.tableVar.rowCount()):
@@ -123,6 +124,10 @@ class Window1(QMainWindow):
         self.tableHeight = 72 + MainWindow.ui.tableVar.rowCount()*self.table.ui.tableWidget.rowHeight(0)
         # self.tableWidth = 61 + self.table.ui.tableWidget.columnCount()*self.table.ui.tableWidget.columnWidth(0)
         self.table.resize(211, self.tableHeight)
+
+        # self.scaler = 0
+        # self.radius = 30
+        # self.parametrScaler = self.radius # на столько будет увеличиваться или уменьшаться радиус
 
         self._connectAction()
 
@@ -197,6 +202,8 @@ class Window1(QMainWindow):
 
     def sizeGet(self):
         return self.size()
+    
+
 
     def taskCheck(self):
         mistakes = self.DisplayObj.checkEvent()
@@ -261,6 +268,15 @@ class Window1(QMainWindow):
             self.table.show()
         else:
             self.table.hide()
+    
+    def zoomIn(self):
+        self.DisplayObj.zoomIn()
+        self.DisplayObj.update()
+
+    def zoomOut(self):
+        self.DisplayObj.zoomOut()
+        self.DisplayObj.update()
+
 
     def show(self):
         if Properties.teacherMode:
@@ -671,7 +687,7 @@ class Window3(QMainWindow):
 
         # self.ui.menuTask3.setTitle(_translate("MainWindow3", "Задание 4"))
 
-        self.DisplayObj = display.Display3_4(self, graph1, 100, properties.max_possible_time, horizontal = False, late_time=False, switch=False)
+        self.DisplayObj = display.Display3_4(self, graph1, 100, properties.max_possible_time, verticle = True, horizontal = False, late_time=False, switch=False)
 
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.DisplayObj)
@@ -683,8 +699,6 @@ class Window3(QMainWindow):
         if ((properties.max_possible_time + additionalAxes) >= numAxis):
             numAxis = properties.max_possible_time + additionalAxes
         
-
-
         self.DisplayObj.setMinimumSize(numAxis * self.DisplayObj.step - 30, sizeWindow.height())
 
         size = QSize(numAxis * self.DisplayObj.step - 30, sizeWindow.height())
@@ -877,10 +891,21 @@ class Window3(QMainWindow):
             warning = warning.exec()
 
     def help(self):
-        if self.table.isHidden():
-            self.table.show()
-        else:
-            self.table.hide()
+        # if self.table.isHidden():
+        #     self.table.show()
+        # else:
+        #     self.table.hide()
+        self.zoomIn()
+
+    def zoomIn(self):
+        self.DisplayObj.zoomIn()
+        sizeWindow = QRect(QApplication.desktop().screenGeometry())
+        # self.DisplayObj.setMinimumSize(len(self.DisplayObj.lines) * self.DisplayObj.step - 30, sizeWindow.height())
+        self.DisplayObj.update()
+
+    def zoomOut(self):
+        self.DisplayObj.zoomOut()
+        self.DisplayObj.update()
 
 
 # ////////////////////////////////  КЛАСС ОКНА ЧЕТВЁРТОГО ЗАДАНИЯ  /////////////////////////////////

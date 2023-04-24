@@ -48,7 +48,7 @@ def calculate_arrow_points(start_point, end_point, radius):
         return None
 
 # создание сетки 
-def createGrid(size, step=50, vertical=True, horizontal=True, max_time = -1):
+def createGrid(size, step=50, vertical=True, horizontal=True, max_time = -1, radius = 30):
     x0=0
     y0=0
     sizeWindow = size
@@ -63,6 +63,7 @@ def createGrid(size, step=50, vertical=True, horizontal=True, max_time = -1):
         else:
             if (max_time + additionalAxes >= numAxis):
                 numAxis = max_time + additionalAxes
+        
 
         for i in range(numAxis):
             lines.append(QLineF(x0, 0, x0, sizeWindow.height()))
@@ -115,8 +116,8 @@ class Display(QWidget):
         self.colorGrid = QColor(0, 0, 255, 90)
         self.start_coordination_X = 0
         self.start_coordination_Y = 0
-        self.step = step
         self.graph = graph_in
+        self.step = step
         self.late_time = late_time # поле определяющее как мы изображаем пунктирную стрелку, True - в поздних, False - в ранних, None - в зависимости от резерва времени
         self.horizontal = horizontal
         self.verticle = verticle
@@ -131,8 +132,14 @@ class Display(QWidget):
         self.numberOfTop = 0
         self.warringIllumination = {} # для подсветки близких вершин
 
+        self.scaler = 0
+        self.radius = 30
+        self.parametrScaler = self.radius // 2 # на столько будет увеличиваться или уменьшаться радиус
+
         self.max_time = max_time
         self.QLineEdits = None
+
+        self.sizeWidth = 800
 
     def paintEvent(self, event):
         for i in range(len(self.graph.Points)):
@@ -140,6 +147,7 @@ class Display(QWidget):
                     self.warringIllumination[i] = 0
 
         self.root.image.fill(Qt.white)
+
         if self.horizontal:
             self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
 
@@ -306,6 +314,43 @@ class Display(QWidget):
     def checkEvent(self):
         mistakes = Checker.checkTask1(self.graph, self.graph.CorrectAdjacencyMatrix)
         return mistakes
+    
+    def zoomIn(self):
+        if (self.scaler >= 0):
+            self.scaler = self.scaler + 1
+            self.graph.RadiusPoint = self.graph.RadiusPoint + self.parametrScaler
+
+            self.step = self.step + self.parametrScaler * 2
+
+            if self.horizontal:
+                self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
+
+            if self.verticle:
+                self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
+                self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
+                
+                self.sizeWidth = (len(self.lines) + 2) * self.step - self.graph.RadiusPoint
+                print(self.sizeWidth, "       sizeWidth")
+                print(len(self.lines), " len(self.lines)")
+                sizeWindow = QRect(QApplication.desktop().screenGeometry())
+                self.setMinimumSize(self.sizeWidth, sizeWindow.height())
+                # self.setFixedSize(self.sizeWidth, sizeWindow.height())
+            else:
+                self.lines = []
+                self.whiteLines = [] 
+            
+
+    def zoomOut(self):
+        
+        if (self.scaler > 0):
+            self.scaler = self.scaler - 1
+            self.graph.RadiusPoint = self.graph.RadiusPoint - self.parametrScaler
+
+            self.step = self.step - self.parametrScaler*2
+
+    def zoomInNormal(self):
+        if (self.scaler > 0):
+            self.graph.RadiusPoint = self.graph.RadiusPoint - self.scaler * self.parametrScaler
 
     def _drawQLineEdits(self):
         self.QLineEdits = np.zeros_like(self.graph.AdjacencyMatrix, dtype=QLineEdit)
@@ -524,6 +569,7 @@ class Display3_4(Display):
         else:
             self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
         self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
+
         for el in [self, self.root.image]:
             painter = QPainter(el)
             painter.setRenderHint(painter.Antialiasing) # убирает пикселизацию
