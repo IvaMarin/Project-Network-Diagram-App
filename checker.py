@@ -525,7 +525,7 @@ class Checker:
         if (points_on_correct_axes):
             for i in range(len(CorrectAdjacencyMatrix)):
                 for j in range(len(CorrectAdjacencyMatrix)):
-                    if ((CorrectAdjacencyMatrix[i][j] == 1) and (Graph.ArrowPointsTimeLate[i][j] != Graph.PointsTimeLate[j] - CorrectWeights[i][j])):
+                    if ((CorrectAdjacencyMatrix[i][j] == 1) and (Graph.ArrowPointsTimeLate[i][j] != Graph.PointsTimeLate[i] + CorrectWeights[i][j])):
                         mistakes.append(
                             TaskThreeAndFourMistakes.ARROWS_ON_WRONG_TIME_POSITIONS.value)
                         return mistakes
@@ -644,16 +644,10 @@ class Checker:
         # Промежутки времени у работ
         for i in range(len(CorrectAdjacencyMatrix)):
             for j in range(len(CorrectAdjacencyMatrix)):
-                if (CorrectAdjacencyMatrix[i][j] == 1):
-                    # ранние сроки
-                    if (len(BaseGraph.R) > i) and (BaseGraph.R[i] > 0):
-                        if Graph.ArrowPointsTime[i][j] != (Graph.PointsTimeEarly[i] + CorrectWeights[i][j]):
-                            is_correct = False
-                            return is_correct
-                    else:  # поздние сроки
-                        if Graph.ArrowPointsTime[i][j] != (Graph.PointsTimeEarly[j] - CorrectWeights[i][j]):
-                            is_correct = False
-                            return is_correct
+                if ((CorrectAdjacencyMatrix[i][j] == 1) and 
+                    (Graph.ArrowPointsTime[i][j] != (Graph.PointsTimeEarly[i] + CorrectWeights[i][j]))):
+                    is_correct = False
+                    return is_correct
 
         return is_correct
 

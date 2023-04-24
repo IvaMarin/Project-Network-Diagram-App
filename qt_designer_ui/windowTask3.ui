@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1603</width>
-    <height>1253</height>
+    <height>1212</height>
    </rect>
   </property>
   <property name="font">
@@ -48,6 +48,9 @@
    </attribute>
    <addaction name="actionbtnMoveNode"/>
    <addaction name="actionbtnDottedConnectNode"/>
+   <addaction name="actionbtnZoom100"/>
+   <addaction name="actionbtnZoomIn"/>
+   <addaction name="actionbtnZoomOut"/>
    <addaction name="separator"/>
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
@@ -60,7 +63,7 @@
      <x>0</x>
      <y>0</y>
      <width>1603</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -147,7 +150,7 @@
     <string>btnMoveNode</string>
    </property>
    <property name="toolTip">
-    <string>Переместить вершину</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Переместить вершину&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="font">
     <font/>
@@ -165,7 +168,7 @@
     <string>btnInfo</string>
    </property>
    <property name="toolTip">
-    <string>Материалы</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Материалы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnHome">
@@ -180,7 +183,7 @@
     <string>btnHome</string>
    </property>
    <property name="toolTip">
-    <string>В главное окно</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;В главное окно&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnZoomIn">
@@ -198,7 +201,7 @@
     <string>btnZoomIn</string>
    </property>
    <property name="toolTip">
-    <string>Увеличить изображение</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Увеличить изображение&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="autoRepeat">
     <bool>true</bool>
@@ -213,7 +216,7 @@
     <string>btnZoomOut</string>
    </property>
    <property name="toolTip">
-    <string>Уменьшить изображение</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Уменьшить изображение&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionHelpTask">
@@ -240,7 +243,7 @@
     <string>btnCheck</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Проверить задание&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Проверить задание&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionbtnDottedConnectNode">
@@ -258,7 +261,7 @@
     <string>btnDottedConnectNode</string>
    </property>
    <property name="toolTip">
-    <string>Расстановка продолжительности работ</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Расстановка продолжительности работ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionHelp">
@@ -276,7 +279,7 @@
     <string>подсказка</string>
    </property>
    <property name="toolTip">
-    <string>Решение</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Решение&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionHelpStud">
@@ -292,6 +295,18 @@
   <action name="actionViewTask">
    <property name="text">
     <string>Задание 3</string>
+   </property>
+  </action>
+  <action name="actionbtnZoom100">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/iconePack/zoom-100.png</normaloff>resources/iconePack/zoom-100.png</iconset>
+   </property>
+   <property name="text">
+    <string>btnZoom100</string>
+   </property>
+   <property name="toolTip">
+    <string>Масштабирование к 100%</string>
    </property>
   </action>
  </widget>

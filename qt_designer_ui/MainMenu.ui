@@ -381,7 +381,7 @@
      <x>0</x>
      <y>0</y>
      <width>1558</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -408,10 +408,10 @@
      </property>
      <addaction name="separator"/>
      <addaction name="action_2"/>
-     <addaction name="action_3"/>
+     <addaction name="action_6"/>
      <addaction name="action_4"/>
      <addaction name="action_5"/>
-     <addaction name="action_6"/>
+     <addaction name="action_3"/>
     </widget>
     <addaction name="version"/>
     <addaction name="menu"/>
@@ -421,6 +421,7 @@
      <string>Дополнительные функции</string>
     </property>
     <addaction name="actionEditTaskVariant"/>
+    <addaction name="actioDecryptRep"/>
     <addaction name="actionPreviewReport"/>
     <addaction name="actionPrint"/>
     <addaction name="actionReportSign"/>
@@ -514,6 +515,11 @@
   <action name="actionHelpWithProgTeach">
    <property name="text">
     <string>Справка по работе с программой для преподавателя</string>
+   </property>
+  </action>
+  <action name="actioDecryptRep">
+   <property name="text">
+    <string>Расшифровать отчет</string>
    </property>
   </action>
  </widget>
