@@ -55,7 +55,7 @@ def createGrid(size, step=50, vertical=True, horizontal=True, max_time = -1, rad
     lines = []
     sizeDesktop = QRect(QApplication.desktop().screenGeometry())
     additionalAxes = 4 # 1 нулевая ось + 3 дополнительных
-    numAxis = sizeDesktop.width() // step + 1
+    numAxis = int(sizeDesktop.width() // step + 1)
 
     if vertical:
         if (max_time == -1):
@@ -86,7 +86,7 @@ def createGaps(size, step=50, sizeNumber = 40, yNumber = 50, max_time = -1):
     sizeNumber = sizeNumber / 2
     sizeDesktop = QRect(QApplication.desktop().screenGeometry())
     additionalAxes = 4 # 1 нулевая ось + 3 дополнительных
-    numAxis = sizeDesktop.width() // step + 1
+    numAxis = int(sizeDesktop.width() // step + 1)
 
     x0 = x0 + step
 
@@ -135,17 +135,22 @@ class Display(QWidget):
 
         self.scaler = 0
         self.radius = 30
-        self.parametrScaler = self.radius // 2 # на столько будет увеличиваться или уменьшаться радиус
+        self.parametrScaler = 0.25 # на столько  столько будет увеличиваться или уменьшаться радиус
+
+        self.coordinatesZoomX = []
+        self.coordinatesZoomY = []
 
         self.max_time = max_time
         self.QLineEdits = None
 
         self.sizeWidth = 800
+        self.sizeWindow = QRect(QApplication.desktop().screenGeometry())
 
     def paintEvent(self, event):
         for i in range(len(self.graph.Points)):
                 if (not np.isnan(self.graph.Points[i][0])):
                     self.warringIllumination[i] = 0
+        
 
         self.root.image.fill(Qt.white)
 
@@ -204,13 +209,14 @@ class Display(QWidget):
                             try:
                                 dist = math.hypot((int)(self.graph.Points[j][0]) - (int)(self.graph.Points[i][0]), (int)(self.graph.Points[j][1]) - (int)(self.graph.Points[i][1]))
                             except:
-                                print (i," - ", j)
+                                # print (i," - ", j)
+                                pass
 
-                            if (abs(dist) <= self.step * 4):
+                            if (abs(dist) <= self.graph.RadiusPoint * 4):
                                 self.warringIllumination[i] = self.warringIllumination[i] + 1
                                 self.warringIllumination[j] = self.warringIllumination[j] + 1
 
-            print(self.warringIllumination)
+            # print(self.warringIllumination)
 
             painter.setPen(QPen(QColor("black"), 2.5))
             
@@ -239,12 +245,8 @@ class Display(QWidget):
                         else:
                             painter.setBrush(QColor(255, 0, 0, 255))# обеспечиваем закрашивание вершин графа ошибка 
                     else:
-                        painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа беюза
-
+                        painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа беюза     
                         
-                        
-                        
-
                     painter.drawEllipse(int(self.graph.Points[i][0]-self.graph.RadiusPoint), int(self.graph.Points[i][1]-self.graph.RadiusPoint), 
                                         2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
                     if len(str(i+1)) < 2:
@@ -315,43 +317,171 @@ class Display(QWidget):
     def checkEvent(self):
         mistakes = Checker.checkTask1(self.graph, self.graph.CorrectAdjacencyMatrix)
         return mistakes
+
+
+
+    # блок работы с увеличением
+    def initCoordinatesZoom(self):
+        for i in range(len(self.graph.Points)):
+            self.coordinatesZoomX.append(0)
+            self.coordinatesZoomY.append(0)
+
+        for i in range(1, len(self.graph.Points)):
+                if (not np.isnan(self.graph.Points[i][0])):
+                    self.coordinatesZoomX[i] = (self.graph.Points[i][0] - self.graph.Points[i - 1][0]) / (1 + self.scaler * self.parametrScaler)
+                    self.coordinatesZoomY[i] = (self.graph.Points[i][1] - self.graph.Points[i - 1][1]) / (1 + self.scaler * self.parametrScaler)
+    
+    def setParametrScaler(self):
+        # if (self.scaler > 0):
+        self.parametrScaler = 0.10
+        # else:
+        #     self.parametrScaler = 0.1
+
     
     def zoomIn(self):
-        if (self.scaler >= 0):
-            self.scaler = self.scaler + 1
-            self.graph.RadiusPoint = self.graph.RadiusPoint + self.parametrScaler
+        if (self.scaler < 6):
+            self.zoomInFunction()
 
-            self.step = self.step + self.parametrScaler * 2
+    def zoomInFunction(self):
+        print (self.graph.Points[1])
 
-            if self.horizontal:
-                self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
+        self.initCoordinatesZoom()
 
-            if self.verticle:
-                self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
-                self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
-                
-                self.sizeWidth = (len(self.lines) + 2) * self.step - self.graph.RadiusPoint
-                print(self.sizeWidth, "       sizeWidth")
-                print(len(self.lines), " len(self.lines)")
-                sizeWindow = QRect(QApplication.desktop().screenGeometry())
-                self.setMinimumSize(self.sizeWidth, sizeWindow.height())
-                # self.setFixedSize(self.sizeWidth, sizeWindow.height())
-            else:
-                self.lines = []
-                self.whiteLines = [] 
+        # востанавливаем начальную точку отсчета
+        self.graph.Points[0][0] = self.graph.Points[0][0] / (1 + self.scaler * self.parametrScaler)
+        self.graph.Points[0][1] = self.graph.Points[0][1] / (1 + self.scaler * self.parametrScaler)
+
+        self.scaler = self.scaler + 1
+        self.setParametrScaler()
+
+        
+        # self.graph.RadiusPoint = self.graph.RadiusPoint + self.parametrScaler
+        # увеличение радиуса
+        self.graph.RadiusPoint = self.radius * (1 + self.scaler * self.parametrScaler)
+
+        # увеличение размеров окна 
+        sizeHeight = self.sizeWindow.height() * (1 + self.scaler * self.parametrScaler)
+        sizeWidth = self.sizeWindow.width() * (1 + self.scaler * self.parametrScaler)
+        self.setFixedSize(sizeWidth, sizeHeight)
+
+        # считаем отклонение для точки отсчета
+        self.graph.Points[0][0] = self.graph.Points[0][0] * (1 + self.scaler * self.parametrScaler)
+        self.graph.Points[0][1] = self.graph.Points[0][1] * (1 + self.scaler * self.parametrScaler)
+
+        # ббход графа по возрастанию и расчет точек графа опираясь на местоположение начальной точки расчета
+        for i in range(1, len(self.graph.Points)):
+            if (not np.isnan(self.graph.Points[i][0])):
+                self.graph.Points[i][0] = self.graph.Points[i - 1][0] + self.coordinatesZoomX[i] * (1 + self.scaler * self.parametrScaler)
+                self.graph.Points[i][1] = self.graph.Points[i - 1][1] + self.coordinatesZoomY[i] * (1 + self.scaler * self.parametrScaler)
+
+        self.step = self.step + (1 + self.parametrScaler * self.scaler)
+
+        if self.horizontal:
+            self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
+
+        if self.verticle:
+            self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
+            self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
             
+            # self.sizeWidth = (len(self.lines) + 2) * self.step - self.graph.RadiusPoint
+            # print(self.sizeWidth, "       sizeWidth")
+            # print(len(self.lines), " len(self.lines)")
+            # sizeWindow = QRect(QApplication.desktop().screenGeometry())
+            # self.setMinimumSize(self.sizeWidth, sizeWindow.height())
+            # self.setFixedSize(self.sizeWidth, sizeWindow.height())
+
+            # for i in range(len(self.graph.Points)):
+            #     self.graph.Points[i][0] += self.parametrScaler
+        else:
+            self.lines = []
+            self.whiteLines = [] 
+
 
     def zoomOut(self):
-        
-        if (self.scaler > 0):
-            self.scaler = self.scaler - 1
-            self.graph.RadiusPoint = self.graph.RadiusPoint - self.parametrScaler
+        if (self.scaler > -6):
+            self.zoomOutFunction() 
 
-            self.step = self.step - self.parametrScaler*2
+    def zoomOutFunction(self):
+
+        self.initCoordinatesZoom()
+
+        # востанавливаем начальную точку отсчета
+        self.graph.Points[0][0] = self.graph.Points[0][0] / (1 + (self.scaler) * self.parametrScaler)
+        self.graph.Points[0][1] = self.graph.Points[0][1] / (1 + (self.scaler) * self.parametrScaler)
+
+        self.scaler = self.scaler - 1
+        self.setParametrScaler()
+        
+        
+        # self.graph.RadiusPoint = self.graph.RadiusPoint + self.parametrScaler
+        self.graph.RadiusPoint = self.radius * (1 + self.scaler * self.parametrScaler)
+
+        sizeHeight = self.sizeWindow.height() * (1 + self.scaler * self.parametrScaler)
+        sizeWidth = self.sizeWindow.width() * (1 + self.scaler * self.parametrScaler)
+        self.setFixedSize(sizeWidth, sizeHeight)
+
+        # # востанавливаем начальную точку отсчета
+        # self.graph.Points[0][0] = self.graph.Points[0][0] / (1 + (self.scaler) * self.parametrScaler)
+        # self.graph.Points[0][1] = self.graph.Points[0][1] / (1 + (self.scaler) * self.parametrScaler)
+
+        # считаем отклонение для точки отсчета
+        self.graph.Points[0][0] = self.graph.Points[0][0] * (1 + (self.scaler) * self.parametrScaler)
+        self.graph.Points[0][1] = self.graph.Points[0][1] * (1 + (self.scaler) * self.parametrScaler)
+
+        # ббход графа по возрастанию и расчет точек графа опираясь на местоположение начальной точки расчета
+        for i in range(1, len(self.graph.Points)):
+            if (not np.isnan(self.graph.Points[i][0])):
+                self.graph.Points[i][0] = self.graph.Points[i - 1][0] + self.coordinatesZoomX[i] * (1 + self.scaler * self.parametrScaler)
+                self.graph.Points[i][1] = self.graph.Points[i - 1][1] + self.coordinatesZoomY[i] * (1 + self.scaler * self.parametrScaler)
+
+        self.step = self.step + self.parametrScaler * 2
+
+        if self.horizontal:
+            self.lines = createGrid(self.size(), self.step, True, True, self.max_time)
+
+        if self.verticle:
+            self.lines = createGrid(self.size(), self.step, True, False, self.max_time)
+            self.whiteLines = createGaps(self.size(), self.step, max_time=self.max_time)
+            
+            self.sizeWidth = (len(self.lines) + 2) * self.step - self.graph.RadiusPoint
+            # print(self.sizeWidth, "       sizeWidth")
+            # print(len(self.lines), " len(self.lines)")
+            sizeWindow = QRect(QApplication.desktop().screenGeometry())
+            self.setMinimumSize(self.sizeWidth, sizeWindow.height())
+            # self.setFixedSize(self.sizeWidth, sizeWindow.height())
+
+            for i in range(len(self.graph.Points)):
+                self.graph.Points[i][0] += self.parametrScaler
+        else:
+            self.lines = []
+            self.whiteLines = [] 
+
+ 
 
     def zoomInNormal(self):
-        if (self.scaler > 0):
-            self.graph.RadiusPoint = self.graph.RadiusPoint - self.scaler * self.parametrScaler
+
+        self.initCoordinatesZoom()
+
+        self.graph.RadiusPoint = self.radius 
+
+        sizeHeight = self.sizeWindow.height() 
+        sizeWidth = self.sizeWindow.width()
+        self.setFixedSize(sizeWidth, sizeHeight)
+
+        # востанавливаем начальную точку отсчета
+        self.graph.Points[0][0] = self.graph.Points[0][0] / (1 + (self.scaler) * self.parametrScaler)
+        self.graph.Points[0][1] = self.graph.Points[0][1] / (1 + (self.scaler) * self.parametrScaler)
+
+        print (self.graph.Points[1])
+
+        # ббход графа по возрастанию и расчет точек графа опираясь на местоположение начальной точки расчета
+        self.scaler = 0
+        for i in range(1, len(self.graph.Points)):
+            if (not np.isnan(self.graph.Points[i][0])):
+                self.graph.Points[i][0] = self.graph.Points[i - 1][0] + self.coordinatesZoomX[i]
+                self.graph.Points[i][1] = self.graph.Points[i - 1][1] + self.coordinatesZoomY[i]
+        
+
 
     def _drawQLineEdits(self):
         self.QLineEdits = np.zeros_like(self.graph.AdjacencyMatrix, dtype=QLineEdit)
@@ -806,13 +936,16 @@ class Display5(Display):
                     painter.drawLine(triangle_source[1], QPointF(x2, y2))
                     painter.setPen(Qt.PenStyle.SolidLine)
 
+
+
             # отрисовка вершин и цифр
             for (digit, id), (x, y) in self.graph.Points.items(): 
-                if (Display.isOnCriticalPath is not None and Display.isOnCriticalPath[digit]):
-                    painter.setPen(QPen(QColor("red"), 2.5))
-                else:
-                    painter.setPen(QPen(QColor("black"), 2.5))
+                # if (Display.isOnCriticalPath is not None and Display.isOnCriticalPath[digit]):
+                #     painter.setPen(QPen(QColor("red"), 2.5))
+                # else:
+                #     painter.setPen(QPen(QColor("black"), 2.5))
 
+                painter.setPen(QPen(QColor("black"), 2.5))
                 painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
                 painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
                                     int(2*self.graph.Radius), int(2*self.graph.Radius))
@@ -982,6 +1115,39 @@ class Display6(Display5):
             font_size = 12
 
             # отрисовка стрелок
+            # for p1, p2 in self.graph.AdjacencyList.items():
+            #     (x1, y1) = self.graph.Points[p1]
+            #     (x2, y2) = self.graph.Points[p2]
+            #     triangle_source = calculate_arrow_points((x1, y1), self.graph.Arrows[(p1, p2)], 0)
+            #     if triangle_source is not None:
+            #         painter.drawPolygon(triangle_source)
+            #         x, y = Display.findCoordinatesAboveArrow(x1, y1, x2, y2)
+            #         painter.drawText(int(x), int(y), f'{self.graph.PeopleWeights[(p1, p2)]}')
+
+            #         if (self.late_time == None):  # в зависимости от резерва
+            #             if (len(self.base_graph.R) > i) and (self.base_graph.R[i] > 0):
+            #                 painter.setPen(Qt.PenStyle.SolidLine)
+            #                 painter.drawLine(QPointF(x1, y1), triangle_source[1])
+            #                 painter.setPen(Qt.PenStyle.DashLine)
+            #                 painter.drawLine(triangle_source[1], QPointF(x2, y2))
+            #                 painter.setPen(Qt.PenStyle.SolidLine)
+            #             else:
+            #                 painter.setPen(Qt.PenStyle.DashLine)
+            #                 painter.drawLine(QPointF(x1, y1), triangle_source[1])
+            #                 painter.setPen(Qt.PenStyle.SolidLine)
+            #                 painter.drawLine(triangle_source[1], QPointF(x2, y2))
+            #         elif (self.late_time == True):  # в поздних сроках
+            #             painter.setPen(Qt.PenStyle.DashLine)
+            #             painter.drawLine(QPointF(x1, y1), triangle_source[1])
+            #             painter.setPen(Qt.PenStyle.SolidLine)
+            #             painter.drawLine(triangle_source[1], QPointF(x2, y2))
+            #         else:  # в ранних сроках
+            #             painter.setPen(Qt.PenStyle.SolidLine)
+            #             painter.drawLine(QPointF(x1, y1), triangle_source[1])
+            #             painter.setPen(Qt.PenStyle.DashLine)
+            #             painter.drawLine(triangle_source[1], QPointF(x2, y2))
+            #             painter.setPen(Qt.PenStyle.SolidLine)
+
             for p1, p2 in self.graph.AdjacencyList.items():
                 (x1, y1) = self.graph.Points[p1]
                 (x2, y2) = self.graph.Points[p2]
@@ -989,39 +1155,24 @@ class Display6(Display5):
                 if triangle_source is not None:
                     painter.drawPolygon(triangle_source)
                     x, y = Display.findCoordinatesAboveArrow(x1, y1, x2, y2)
-                    painter.drawText(int(x), int(y), f'{self.graph.PeopleWeights[(p1, p2)]}')
+                    painter.drawText(int(x) - 20, int(y), f'{self.graph.PeopleWeights[(p1, p2)]}')
 
-                    if (self.late_time == None):  # в зависимости от резерва
-                        if (len(self.base_graph.R) > i) and (self.base_graph.R[i] > 0):
-                            painter.setPen(Qt.PenStyle.SolidLine)
-                            painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                            painter.setPen(Qt.PenStyle.DashLine)
-                            painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                            painter.setPen(Qt.PenStyle.SolidLine)
-                        else:
-                            painter.setPen(Qt.PenStyle.DashLine)
-                            painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                            painter.setPen(Qt.PenStyle.SolidLine)
-                            painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                    elif (self.late_time == True):  # в поздних сроках
-                        painter.setPen(Qt.PenStyle.DashLine)
-                        painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                        painter.setPen(Qt.PenStyle.SolidLine)
-                        painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                    else:  # в ранних сроках
-                        painter.setPen(Qt.PenStyle.SolidLine)
-                        painter.drawLine(QPointF(x1, y1), triangle_source[1])
-                        painter.setPen(Qt.PenStyle.DashLine)
-                        painter.drawLine(triangle_source[1], QPointF(x2, y2))
-                        painter.setPen(Qt.PenStyle.SolidLine)
+                    painter.setPen(Qt.PenStyle.SolidLine)
+                    painter.drawLine(QPointF(x1, y1), triangle_source[1])
+                    painter.setPen(Qt.PenStyle.DashLine)
+                    painter.drawLine(triangle_source[1], QPointF(x2, y2))
+                    painter.setPen(Qt.PenStyle.SolidLine)
 
             # отрисовка вершин и цифр
             for (digit, id), (x, y) in self.graph.Points.items(): 
-                if (Display.isOnCriticalPath is not None and Display.isOnCriticalPath[digit]):
-                    painter.setPen(QPen(QColor("red"), 2.5))
-                else:
-                    painter.setPen(QPen(QColor("black"), 2.5))
-                
+                # на второй релиз
+                # if (Display.isOnCriticalPath is not None and Display.isOnCriticalPath[digit]):
+                #     painter.setPen(QPen(QColor("red"), 2.5))
+                # else:
+                #     painter.setPen(QPen(QColor("black"), 2.5))
+
+                painter.setPen(QPen(QColor("black"), 2.5))
+
                 painter.setBrush(QColor("white"))# обеспечиваем закрашивание вершин графа
                 painter.drawEllipse(int(x-self.graph.Radius), int(y-self.graph.Radius), 
                                     int(2*self.graph.Radius), int(2*self.graph.Radius))
@@ -1103,18 +1254,23 @@ class DrawHist(QWidget):
                 if AdjacencyList is not None:
                     for (p1, p2), w in AdjacencyList.items():
                         (x1, y1) = self.graph[p].Points[p1]
+
                         (x2, y2) = self.graph[p].Points[p2]
+
                         (ax,ay) = ArrowsList[p1,p2]
+
                         for k in range(len(intervals)):
                             if k*self.stepAlg >= x1 and x2 >= (k+1)*self.stepAlg:
-                                if ax <= k*self.stepAlg or ax == 140+(k-1)*self.stepAlg:
+                                if ax > k*self.stepAlg or ax == 140+(k-1)*self.stepAlg:
                                     intervals[k-1] += w
+            
             y0 = y0 -self.step
             painter.setPen(QPen(QColor("red"), 3))
             lines = []
             for i in range(len(intervals)-1):
                 lines.append(QLineF(x0+self.step*(i+1), y0-intervals[i]*self.step, x0 + self.step*(i+2), y0-intervals[i]*self.step))
             painter.drawLines(lines)
+            print("LINES ", lines)
 
             linesVert = []
             for i in range(1,len(intervals)):
