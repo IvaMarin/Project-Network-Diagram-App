@@ -421,10 +421,14 @@
      <string>Дополнительные функции</string>
     </property>
     <addaction name="actionEditTaskVariant"/>
+    <addaction name="actionImportDB"/>
+    <addaction name="actionExportDB"/>
+    <addaction name="separator"/>
+    <addaction name="actionReportSign"/>
+    <addaction name="separator"/>
     <addaction name="actioDecryptRep"/>
     <addaction name="actionPreviewReport"/>
     <addaction name="actionPrint"/>
-    <addaction name="actionReportSign"/>
    </widget>
    <addaction name="function"/>
    <addaction name="menuHelp"/>
@@ -520,6 +524,16 @@
   <action name="actioDecryptRep">
    <property name="text">
     <string>Расшифровать отчет</string>
+   </property>
+  </action>
+  <action name="actionImportDB">
+   <property name="text">
+    <string>Импорт вариантов заданий</string>
+   </property>
+  </action>
+  <action name="actionExportDB">
+   <property name="text">
+    <string>Экспорт вариантов заданий</string>
    </property>
   </action>
  </widget>

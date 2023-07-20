@@ -48,6 +48,7 @@
    </attribute>
    <addaction name="actionbtnMoveNode"/>
    <addaction name="actionbtnDottedConnectNode"/>
+   <addaction name="separator"/>
    <addaction name="actionbtnZoom100"/>
    <addaction name="actionbtnZoomIn"/>
    <addaction name="actionbtnZoomOut"/>

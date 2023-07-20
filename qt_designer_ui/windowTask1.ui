@@ -76,10 +76,11 @@
    <addaction name="actionbtnRemoveNode"/>
    <addaction name="actionbtnConnectNode"/>
    <addaction name="actionbtnRemoveNodeConnection"/>
+   <addaction name="actionbtnMoveNode"/>
+   <addaction name="separator"/>
    <addaction name="actionbtnZoom100"/>
    <addaction name="actionbtnZoomIn"/>
    <addaction name="actionbtnZoomOut"/>
-   <addaction name="actionbtnMoveNode"/>
    <addaction name="separator"/>
    <addaction name="actionbtnCheck"/>
    <addaction name="actionbtnInfo"/>
