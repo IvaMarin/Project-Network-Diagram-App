@@ -170,6 +170,7 @@ class Ui_MainWindow5(object):
         self.toolBar.addAction(self.actionbtnRemoveNodeConnection)
         self.toolBar.addAction(self.actionbtnMoveNode)
         self.toolBar.addAction(self.actionbtnDottedConnectNode)
+        self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionbtnZoom100)
         self.toolBar.addAction(self.actionbtnZoomIn)
         self.toolBar.addAction(self.actionbtnZoomOut)

@@ -140,6 +140,7 @@ class Ui_MainWindow3(object):
         self.actionbtnZoom100.setObjectName("actionbtnZoom100")
         self.toolBar.addAction(self.actionbtnMoveNode)
         self.toolBar.addAction(self.actionbtnDottedConnectNode)
+        self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionbtnZoom100)
         self.toolBar.addAction(self.actionbtnZoomIn)
         self.toolBar.addAction(self.actionbtnZoomOut)
