@@ -426,7 +426,7 @@
     <addaction name="separator"/>
     <addaction name="actionReportSign"/>
     <addaction name="separator"/>
-    <addaction name="actioDecryptRep"/>
+    <addaction name="actionDecryptRep"/>
     <addaction name="actionPreviewReport"/>
     <addaction name="actionPrint"/>
    </widget>
@@ -521,7 +521,7 @@
     <string>Справка по работе с программой для преподавателя</string>
    </property>
   </action>
-  <action name="actioDecryptRep">
+  <action name="actionDecryptRep">
    <property name="text">
     <string>Расшифровать отчет</string>
    </property>

@@ -2110,7 +2110,9 @@ class WindowMenu(QMainWindow):
         self.ui.actionEditTaskVariant.setEnabled(False)
         self.ui.actionPrint.setEnabled(False)
         self.ui.actionPreviewReport.setEnabled(False)
-        self.ui.actioDecryptRep.setEnabled(False)
+        self.ui.actionDecryptRep.setEnabled(False)
+        self.ui.actionImportDB.setEnabled(False)
+        self.ui.actionExportDB.setEnabled(False)
         self.ui.btnTask1.setEnabled(True)
         self.ui.btnTask2.setEnabled(
             Properties.getVerificationPassedTasks(1))
@@ -2364,7 +2366,9 @@ class WindowMenu(QMainWindow):
             self.ui.btnTask6.setEnabled(True)
             self.ui.actionPrint.setEnabled(True)
             self.ui.actionPreviewReport.setEnabled(True)
-            self.ui.actioDecryptRep.setEnabled(True)
+            self.ui.actionDecryptRep.setEnabled(True)
+            self.ui.actionImportDB.setEnabled(True)
+            self.ui.actionExportDB.setEnabled(True)
             self.ui.menuBar.setStyleSheet(
                 "QMenuBar{background:rgba(255,0,0,255)}")
             self.ui.statusbar.setStyleSheet(
@@ -2376,7 +2380,9 @@ class WindowMenu(QMainWindow):
             self.ui.actionEditTaskVariant.setEnabled(False)
             self.ui.actionPrint.setEnabled(False)
             self.ui.actionPreviewReport.setEnabled(False)
-            self.ui.actioDecryptRep.setEnabled(False)
+            self.ui.actionDecryptRep.setEnabled(False)
+            self.ui.actionImportDB.setEnabled(False)
+            self.ui.actionExportDB.setEnabled(False)
             self.ui.btnTask1.setEnabled(True)
             self.ui.btnTask2.setEnabled(
                 Properties.getVerificationPassedTasks(1))
