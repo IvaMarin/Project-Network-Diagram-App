@@ -49,6 +49,7 @@
    <addaction name="actionbtnHist2"/>
    <addaction name="actionHist3"/>
    <addaction name="actionbtnGeneralHist"/>
+   <addaction name="separator"/>
    <addaction name="actionbtnZoom100"/>
    <addaction name="actionbtnZoomIn"/>
    <addaction name="actionbtnZoomOut"/>
