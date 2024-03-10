@@ -248,7 +248,7 @@ class Display(QWidget):
                         painter.setBrush(QColor(127, 255, 212, 255))# обеспечиваем закрашивание вершин графа беюза     
                         
                     painter.drawEllipse(int(self.graph.Points[i][0]-self.graph.RadiusPoint), int(self.graph.Points[i][1]-self.graph.RadiusPoint), 
-                                        2*self.graph.RadiusPoint, 2*self.graph.RadiusPoint)
+                                        int(2*self.graph.RadiusPoint), int(2*self.graph.RadiusPoint))
                     if len(str(i+1)) < 2:
                         offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
                     else:
@@ -318,8 +318,6 @@ class Display(QWidget):
         mistakes = Checker.checkTask1(self.graph, self.graph.CorrectAdjacencyMatrix)
         return mistakes
 
-
-
     # блок работы с увеличением
     def initCoordinatesZoom(self):
         for i in range(len(self.graph.Points)):
@@ -362,7 +360,7 @@ class Display(QWidget):
         # увеличение размеров окна 
         sizeHeight = self.sizeWindow.height() * (1 + self.scaler * self.parametrScaler)
         sizeWidth = self.sizeWindow.width() * (1 + self.scaler * self.parametrScaler)
-        self.setFixedSize(sizeWidth, sizeHeight)
+        self.setFixedSize(int(sizeWidth), int(sizeHeight))
 
         # считаем отклонение для точки отсчета
         self.graph.Points[0][0] = self.graph.Points[0][0] * (1 + self.scaler * self.parametrScaler)
@@ -418,7 +416,7 @@ class Display(QWidget):
 
         sizeHeight = self.sizeWindow.height() * (1 + self.scaler * self.parametrScaler)
         sizeWidth = self.sizeWindow.width() * (1 + self.scaler * self.parametrScaler)
-        self.setFixedSize(sizeWidth, sizeHeight)
+        self.setFixedSize(int(sizeWidth), int(sizeHeight))
 
         # # востанавливаем начальную точку отсчета
         # self.graph.Points[0][0] = self.graph.Points[0][0] / (1 + (self.scaler) * self.parametrScaler)
@@ -447,7 +445,7 @@ class Display(QWidget):
             # print(self.sizeWidth, "       sizeWidth")
             # print(len(self.lines), " len(self.lines)")
             sizeWindow = QRect(QApplication.desktop().screenGeometry())
-            self.setMinimumSize(self.sizeWidth, sizeWindow.height())
+            self.setMinimumSize(int(self.sizeWidth), sizeWindow.height())
             # self.setFixedSize(self.sizeWidth, sizeWindow.height())
 
             for i in range(len(self.graph.Points)):

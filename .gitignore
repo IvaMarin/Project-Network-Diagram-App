@@ -1,11 +1,14 @@
 /__pycache__
 /first_launch/__pycache__
 /qt_designer_ui/__pycache__
+/qt_designer_ui/resources/__pycache__
 /report/__pycache__
 /resources/__pycache__
+/processing_tables/__pycache__
 /.vs
 /.idea
 /venv
+/.venv
 /encrypted_key/teacher_token.txt
 /teacher_directory/teacher_token.txt
 /answer_of_student/**/*.pickle
