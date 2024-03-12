@@ -1211,7 +1211,7 @@ class DrawHist(QWidget):
             x0 = self.step
             sizeWindow = QRect(QApplication.desktop().screenGeometry())
             number_vertical_lines = (self.size().width() - x0) // self.step + 1  # количество вертикальных линий
-            y0 = 42*self.step
+            y0 = number_vertical_lines*self.step
             for i in range(number_vertical_lines):
                 if len(str(i+1)) < 2:
                     offset = [-(5*len(str(i+1))*font_size/7.8 - 3), 5*font_size/8] # определим смещение по длине строки номера вершины
@@ -1222,7 +1222,7 @@ class DrawHist(QWidget):
             # отрисовка нумерации осей сетки
             #x0 = 0
             sizeWindow = QRect(QApplication.desktop().screenGeometry())
-            #number_vertical_lines = (self.size().height() - y0) // self.step + 1  # количество вертикальных линий
+            number_vertical_lines = (self.size().height() - y0) # self.step + 1  # количество вертикальных линий
             #y0 = sizeWindow.height()-195
             for i in range(number_vertical_lines):
                 if len(str(i+1)) < 2:

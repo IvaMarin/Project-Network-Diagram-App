@@ -86,7 +86,6 @@ class ReportController():
             # if is_show:
             #     self.service.pdf_show(save_time_path)
             self.encrypt(save_time_path)
-        self.show_current(loading)
 
     def show_current(self, loading):
 
